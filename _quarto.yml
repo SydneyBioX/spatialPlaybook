@@ -7,9 +7,13 @@ book:
   date: "11/11/2024"
   chapters:
     - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
+    - 01-overview.qmd
+    - 02-processing.qmd
+    - 03-quality_control.qmd
+    - 04-cell_annotation.qmd
+    - 05-condition_analysis.qmd
+    - 06-survival_analysis.qmd
+    - 07-classification.qmd
 
 bibliography: references.bib
 

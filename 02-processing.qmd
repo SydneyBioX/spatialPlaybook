@@ -1,0 +1,13 @@
+# Processing
+
+Steps:
+
+1.    Format of images (TIFFs)
+2.    How to read in data (cytomapper)
+3.    How to segment data (simpleSeg)
+4.    How to segment data (BIDCell?)
+
+
+```{r}
+1 + 1
+```

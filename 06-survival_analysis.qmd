@@ -1,0 +1,13 @@
+# Survival Analysis
+
+Steps: 
+
+1. Association between survival and cell proportion (spicyR::colTest)
+2. Association between survival and localisation (spicyR) 
+3. Association between survival and region proportions (lisaClust) 
+4. Association between survival and Kontextual features (Kontextual) 
+5. Association between survival and cell-cell interactions (SpatioMark)
+
+```{r}
+1 + 1
+```

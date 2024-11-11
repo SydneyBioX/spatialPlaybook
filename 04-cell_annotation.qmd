@@ -1,0 +1,13 @@
+# Cell Annotation
+
+Steps: 
+
+1. Rationale behind clustering vs annotation 
+2. How to cluster cells (FuseSOM) 
+3. How to annotate clusters (pheatmap)
+4. How to annotate cells (scClassify)
+5. How to select a reference dataset (scClassify)
+
+```{r}
+1 + 1
+```

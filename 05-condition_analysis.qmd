@@ -1,0 +1,13 @@
+# Differential Analysis
+
+Steps: 
+
+1.    Differential proportions of cells (spicyR::getProp)
+2.    Differential localisation of cells (spicyR)
+3.    Differential region proportions (lisaClust)
+4.    Differential localisation of cells with respect to a parent (Kontextual)
+5.    Differential cell-cell interactions (SpatioMark)
+
+```{r}
+1 + 1
+```

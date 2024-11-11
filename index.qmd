@@ -1,8 +1,6 @@
-# Preface {.unnumbered}
+# spicyWorkBook {.unnumbered}
 
-This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Introduction of workflow, motivation for workflow, and authors.
 
 ```{r}
 1 + 1
