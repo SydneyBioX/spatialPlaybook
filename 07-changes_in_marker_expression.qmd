@@ -7,3 +7,4 @@ Steps:
 ```{r}
 1 + 1
 ```
+how do you see us doing multiple analyses in parallel? Just have them as separate subheadings? have them on separate pages?

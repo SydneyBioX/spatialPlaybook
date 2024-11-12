@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -209,7 +209,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#lisaclust" id="toc-lisaclust" class="nav-link active" data-scroll-target="#lisaclust"><span class="header-section-number">6.1</span> lisaClust</a></li>
+  <li><a href="#why-look-at-cellular-niches" id="toc-why-look-at-cellular-niches" class="nav-link" data-scroll-target="#why-look-at-cellular-niches"><span class="header-section-number">6.2</span> Why look at cellular niches?</a>
+  <ul class="collapse">
+  <li><a href="#create-single-cell-experiment-object" id="toc-create-single-cell-experiment-object" class="nav-link" data-scroll-target="#create-single-cell-experiment-object"><span class="header-section-number">6.2.1</span> Create Single Cell Experiment object</a></li>
+  <li><a href="#running-lisaclust" id="toc-running-lisaclust" class="nav-link" data-scroll-target="#running-lisaclust"><span class="header-section-number">6.2.2</span> Running lisaCLust</a></li>
+  <li><a href="#plot-identified-regions" id="toc-plot-identified-regions" class="nav-link" data-scroll-target="#plot-identified-regions"><span class="header-section-number">6.2.3</span> Plot identified regions</a></li>
+  <li><a href="#using-other-clustering-methods." id="toc-using-other-clustering-methods." class="nav-link" data-scroll-target="#using-other-clustering-methods."><span class="header-section-number">6.2.4</span> Using other clustering methods.</a></li>
+  <li><a href="#generate-lisa-curves" id="toc-generate-lisa-curves" class="nav-link" data-scroll-target="#generate-lisa-curves"><span class="header-section-number">6.2.5</span> Generate LISA curves</a></li>
+  <li><a href="#perform-some-clustering" id="toc-perform-some-clustering" class="nav-link" data-scroll-target="#perform-some-clustering"><span class="header-section-number">6.2.6</span> Perform some clustering</a></li>
+  <li><a href="#case-study-keren" id="toc-case-study-keren" class="nav-link" data-scroll-target="#case-study-keren"><span class="header-section-number">6.2.7</span> Case study: Keren</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -242,13 +258,270 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Association between survival and cell-cell interactions (SpatioMark)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load required packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lisaClust)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spicyR)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleCellExperiment)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SpatialDatasets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="lisaclust" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="lisaclust"><span class="header-section-number">6.1</span> lisaClust</h2>
+<p>Clustering local indicators of spatial association (LISA) functions is a methodology for identifying consistent spatial organisation of multiple cell-types in an unsupervised way. This can be used to enable the characterization of interactions between multiple cell-types simultaneously and can complement traditional pairwise analysis. In our implementation our LISA curves are a localised summary of an L-function from a Poisson point process model. Our framework <code>lisaClust</code> can be used to provide a high-level summary of cell-type colocalization in high-parameter spatial cytometry data, facilitating the identification of distinct tissue compartments or identification of complex cellular microenvironments.</p>
+</section>
+<section id="why-look-at-cellular-niches" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="why-look-at-cellular-niches"><span class="header-section-number">6.2</span> Why look at cellular niches?</h2>
+<p>To illustrate our <code>lisaClust</code> framework, we consider a very simple toy example where two cell-types are completely separated spatially. We simulate data for two different images.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">51773</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">c</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">200</span>), <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">2</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">3</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">3</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">2</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">runif</span>(<span class="dv">200</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>), <span class="dv">4</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">c</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">200</span>), <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">2</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">3</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">200</span>), <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">1</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">2</span>, <span class="fu">runif</span>(<span class="dv">200</span>) <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>), <span class="dv">4</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>cellType <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">paste</span>(<span class="st">"c"</span>, <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="fu">rep</span>(<span class="dv">200</span>, <span class="dv">2</span>)), <span class="dv">4</span>), <span class="at">sep =</span> <span class="st">""</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>imageID <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"s1"</span>, <span class="st">"s2"</span>), <span class="fu">c</span>(<span class="dv">800</span>, <span class="dv">800</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y, cellType, imageID)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cells, <span class="fu">aes</span>(x, y, <span class="at">colour =</span> cellType)) <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>imageID) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-cellular_niches_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="create-single-cell-experiment-object" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="create-single-cell-experiment-object"><span class="header-section-number">6.2.1</span> Create Single Cell Experiment object</h3>
+<p>First we store our data in a <code>SingleCellExperiment</code> object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SCE <span class="ot">&lt;-</span> <span class="fu">SingleCellExperiment</span>(<span class="at">colData =</span> cells)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>SCE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>class: SingleCellExperiment 
+dim: 0 1600 
+metadata(0):
+assays(0):
+rownames: NULL
+rowData names(0):
+colnames: NULL
+colData names(4): x y cellType imageID
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):</code></pre>
+</div>
+</div>
+</section>
+<section id="running-lisaclust" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="running-lisaclust"><span class="header-section-number">6.2.2</span> Running lisaCLust</h3>
+<p>We can then use the convenience function <code>lisaClust</code> to simultaneously calculate local indicators of spatial association (LISA) functions and perform k-means clustering. The number of clusters can be specified with the <code>k =</code> parameter. In the example below, we’ve chosen <code>k = 2</code>, resulting in a total of 2 clusters. The cell type column can be specified using the <code>cellType =</code> argument. By default, <code>lisaClust</code> uses the column named <code>cellType</code>.</p>
+<p>The clusters identified by <code>lisaClust</code> are stored in <code>colData</code> of the <code>SingleCellExperiment</code> object as a new column called <code>regions</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SCE <span class="ot">&lt;-</span> <span class="fu">lisaClust</span>(SCE, <span class="at">k =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Generating local L-curves.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(SCE) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 6 rows and 5 columns
+          x         y cellType     imageID      region
+  &lt;numeric&gt; &lt;numeric&gt; &lt;factor&gt; &lt;character&gt; &lt;character&gt;
+1     36.72     38.58       c1          s1    region_2
+2     61.38     41.29       c1          s1    region_2
+3     33.59     80.98       c1          s1    region_2
+4     50.17     64.91       c1          s1    region_2
+5     82.93     35.60       c1          s1    region_2
+6     83.13      2.69       c1          s1    region_2</code></pre>
+</div>
+</div>
+</section>
+<section id="plot-identified-regions" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="plot-identified-regions"><span class="header-section-number">6.2.3</span> Plot identified regions</h3>
+<p><code>lisaClust</code> also provides the convenient <code>hatchingPlot</code> function to visualise the different regions that have been demarcated by the clustering. <code>hatchingPlot</code> outputs a <code>ggplot</code> object where the regions are marked by different hatching patterns. In a real biological dataset, this allows us to plot both regions and cell-types on the same visualization.</p>
+<p>In the example below, we can visualise our stimulated data where our 2 cell types have been separated neatly into 2 distinct regions based on which cell type each region is dominated by. <code>region_2</code> is dominated by the red cell type <code>c1</code>, and <code>region_1</code> is dominated by the blue cell type <code>c2</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hatchingPlot</span>(SCE, <span class="at">useImages =</span> <span class="fu">c</span>(<span class="st">"s1"</span>, <span class="st">"s2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Concave windows are temperamental. Try choosing values of window.length &gt; and &lt; 1 if you have problems.
+Concave windows are temperamental. Try choosing values of window.length &gt; and &lt; 1 if you have problems.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-cellular_niches_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="using-other-clustering-methods." class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="using-other-clustering-methods."><span class="header-section-number">6.2.4</span> Using other clustering methods.</h3>
+<p>While the <code>lisaClust</code> function is convenient, we have not implemented an exhaustive suite of clustering methods as it is very easy to do this yourself. There are just two simple steps.</p>
+</section>
+<section id="generate-lisa-curves" class="level3" data-number="6.2.5">
+<h3 data-number="6.2.5" class="anchored" data-anchor-id="generate-lisa-curves"><span class="header-section-number">6.2.5</span> Generate LISA curves</h3>
+<p>We can calculate local indicators of spatial association (LISA) functions using the <code>lisa</code> function. Here the LISA curves are a localised summary of an L-function from a Poisson point process model. The radii that will be calculated over can be set with <code>Rs</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lisaCurves <span class="ot">&lt;-</span> <span class="fu">lisa</span>(SCE, <span class="at">Rs =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Generating local L-curves.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lisaCurves)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          20_c1     20_c2     50_c1     50_c2    100_c1     100_c2
+cell_1 5.556700 -2.764143 15.631209 -6.910357 11.733097  -9.198914
+cell_2 4.833149 -2.764143 13.940407 -6.910357  9.532662  -8.543440
+cell_3 5.918476 -2.764143  9.008588 -6.910357  9.157887  -7.813862
+cell_4 4.109597 -2.764143 11.907928 -6.910357  8.404425  -8.140036
+cell_5 3.024270 -2.764143 10.159278 -6.910357  9.006286  -8.283564
+cell_6 7.986742 -2.764143  8.675070 -6.910357 12.859615 -13.820714</code></pre>
+</div>
+</div>
+</section>
+<section id="perform-some-clustering" class="level3" data-number="6.2.6">
+<h3 data-number="6.2.6" class="anchored" data-anchor-id="perform-some-clustering"><span class="header-section-number">6.2.6</span> Perform some clustering</h3>
+<p>The LISA curves can then be used to cluster the cells. Here we use k-means clustering. However, other clustering methods like SOM could also be used. We can store these cell clusters or cell “regions” in our <code>SingleCellExperiment</code> object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom clustering algorithm</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>kM <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(lisaCurves, <span class="dv">2</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Storing clusters into colData</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(SCE)<span class="sc">$</span>custom_region <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"region"</span>, kM<span class="sc">$</span>cluster, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(SCE) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 6 rows and 6 columns
+          x         y cellType     imageID      region custom_region
+  &lt;numeric&gt; &lt;numeric&gt; &lt;factor&gt; &lt;character&gt; &lt;character&gt;   &lt;character&gt;
+1     36.72     38.58       c1          s1    region_2      region_2
+2     61.38     41.29       c1          s1    region_2      region_2
+3     33.59     80.98       c1          s1    region_2      region_2
+4     50.17     64.91       c1          s1    region_2      region_2
+5     82.93     35.60       c1          s1    region_2      region_2
+6     83.13      2.69       c1          s1    region_2      region_2</code></pre>
+</div>
+</div>
+</section>
+<section id="case-study-keren" class="level3" data-number="6.2.7">
+<h3 data-number="6.2.7" class="anchored" data-anchor-id="case-study-keren"><span class="header-section-number">6.2.7</span> Case study: Keren</h3>
+<p>We will start by reading in the data from the <code>SpatialDatasets</code> package as a <code>SingleCellExperiment</code> object. Here the data is in a format consistent with that outputted by CellProfiler.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> SpatialDatasets<span class="sc">::</span><span class="fu">spe_Keren_2018</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cannot connect to ExperimentHub server, using 'localHub=TRUE' instead</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: download failed
+  web resource path: 'https://experimenthub.bioconductor.org/metadata/experimenthub.sqlite3'
+  local file path: '/enna/users/ststaff/alexq/.cache/R/ExperimentHub/file25c67b67b45560'
+  reason: Internal Server Error (HTTP 500).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: bfcdownload() failed
+  rid: BFC1
+  file: 'https://experimenthub.bioconductor.org/metadata/experimenthub.sqlite3'
+  reason: download failed</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Could not check database for updates.
+  Database source currently unreachable.
+  This should only be a temporary interruption. 
+  Using previously cached version.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>see ?SpatialDatasets and browseVignettes('SpatialDatasets') for documentation</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>loading from cache</code></pre>
+</div>
+</div>
+<section id="generate-lisa-curves-1" class="level4" data-number="6.2.7.1">
+<h4 data-number="6.2.7.1" class="anchored" data-anchor-id="generate-lisa-curves-1"><span class="header-section-number">6.2.7.1</span> Generate LISA curves</h4>
+<p>This data includes annotation of the cell-types of each cell. Hence, we can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the <code>lisaClust</code> function, remembering to specify the <code>imageID</code>, <code>cellType</code>, and <code>spatialCoords</code> columns in <code>colData</code>. For the purpose of demonstration, we will be using only images 5 and 6 of the <code>kerenSPE</code> dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> kerenSPE[,kerenSPE<span class="sc">$</span>imageID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"5"</span>, <span class="st">"6"</span>)]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> <span class="fu">lisaClust</span>(kerenSPE,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">5</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Generating local L-curves.</code></pre>
+</div>
+</div>
+<p>These regions are stored in <code>colData</code> and can be extracted.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(kerenSPE)[, <span class="fu">c</span>(<span class="st">"imageID"</span>, <span class="st">"region"</span>)] <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 20 rows and 2 columns
+          imageID      region
+      &lt;character&gt; &lt;character&gt;
+21154           5    region_4
+21155           5    region_4
+21156           5    region_4
+21157           5    region_3
+21158           5    region_3
+...           ...         ...
+21169           5    region_3
+21170           5    region_3
+21171           5    region_1
+21172           5    region_3
+21173           5    region_1</code></pre>
+</div>
+</div>
+</section>
+<section id="examine-cell-type-enrichment" class="level4" data-number="6.2.7.2">
+<h4 data-number="6.2.7.2" class="anchored" data-anchor-id="examine-cell-type-enrichment"><span class="header-section-number">6.2.7.2</span> Examine cell type enrichment</h4>
+<p><code>lisaClust</code> also provides a convenient function, <code>regionMap</code>, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.</p>
+<p>Here, we clearly see that healthy epithelial and mesenchymal tissue are highly concentrated in region 1, immune cells are concentrated in regions 2 and 4, whilst tumour cells are concentrated in region 3.</p>
+<p>We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter <code>k =</code> in the <code>lisaClust()</code> function. For the purposes of demonstration, let’s take a look at the <code>hatchingPlot</code> of these regions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regionMap</span>(kerenSPE,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"bubble"</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-cellular_niches_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-identified-regions-1" class="level4" data-number="6.2.7.3">
+<h4 data-number="6.2.7.3" class="anchored" data-anchor-id="plot-identified-regions-1"><span class="header-section-number">6.2.7.3</span> Plot identified regions</h4>
+<p>Finally, we can use <code>hatchingPlot</code> to construct a <code>ggplot</code> object where the regions are marked by different hatching patterns. This allows us to visualize the 5 regions and 17 cell-types simultaneously.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hatchingPlot</span>(kerenSPE, <span class="at">nbp =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Concave windows are temperamental. Try choosing values of window.length &gt; and &lt; 1 if you have problems.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in split.default(x = seq_len(nrow(x)), f = f, drop = drop, ...): data
+length is not a multiple of split variable
+Warning in split.default(x = seq_len(nrow(x)), f = f, drop = drop, ...): data
+length is not a multiple of split variable</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-cellular_niches_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
 </div>
 </div>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

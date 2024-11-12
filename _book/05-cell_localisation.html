@@ -103,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -152,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -209,7 +238,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#spicyr" id="toc-spicyr" class="nav-link active" data-scroll-target="#spicyr"><span class="header-section-number">5.1</span> spicyR</a>
+  <ul class="collapse">
+  <li><a href="#linear-modelling" id="toc-linear-modelling" class="nav-link" data-scroll-target="#linear-modelling"><span class="header-section-number">5.1.1</span> Linear modelling</a></li>
+  </ul></li>
+  <li><a href="#test-for-change-in-localisation-for-a-specific-pair-of-cells" id="toc-test-for-change-in-localisation-for-a-specific-pair-of-cells" class="nav-link" data-scroll-target="#test-for-change-in-localisation-for-a-specific-pair-of-cells"><span class="header-section-number">5.2</span> Test for change in localisation for a specific pair of cells</a></li>
+  <li><a href="#test-for-change-in-localisation-for-all-pairwise-cell-combinations" id="toc-test-for-change-in-localisation-for-all-pairwise-cell-combinations" class="nav-link" data-scroll-target="#test-for-change-in-localisation-for-all-pairwise-cell-combinations"><span class="header-section-number">5.3</span> Test for change in localisation for all pairwise cell combinations</a>
+  <ul class="collapse">
+  <li><a href="#linear-modelling-for-custom-metrics" id="toc-linear-modelling-for-custom-metrics" class="nav-link" data-scroll-target="#linear-modelling-for-custom-metrics"><span class="header-section-number">5.3.1</span> Linear modelling for custom metrics</a></li>
+  <li><a href="#performing-survival-analysis" id="toc-performing-survival-analysis" class="nav-link" data-scroll-target="#performing-survival-analysis"><span class="header-section-number">5.3.2</span> Performing survival analysis</a></li>
+  <li><a href="#accounting-for-tissue-inhomogeneity" id="toc-accounting-for-tissue-inhomogeneity" class="nav-link" data-scroll-target="#accounting-for-tissue-inhomogeneity"><span class="header-section-number">5.3.3</span> Accounting for tissue inhomogeneity</a></li>
+  <li><a href="#mixed-effects-modelling" id="toc-mixed-effects-modelling" class="nav-link" data-scroll-target="#mixed-effects-modelling"><span class="header-section-number">5.3.4</span> Mixed effects modelling</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -242,13 +288,350 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Differential cell-cell interactions (SpatioMark)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load required packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spicyR)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SpatialExperiment)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SpatialDatasets)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(imcRtools)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="spicyr" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="spicyr"><span class="header-section-number">5.1</span> spicyR</h2>
+<p>This guide provides step-by-step instructions on how to apply a linear model to multiple segmented and labelled images to assess how the localisation of different cell types changes across different disease conditions.</p>
+<p>We use the <span class="citation" data-cites="keren2018">(<a href="09-references.html#ref-keren2018" role="doc-biblioref"><strong>keren2018?</strong></a>)</span> breast cancer dataset to compare the spatial distribution of immune cells in individuals with different levels of tumour infiltration (cold and compartmentalised).</p>
+<p>The data is stored as a <code>SpatialExperiment</code> object and contains single-cell spatial data from 41 images.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> SpatialDatasets<span class="sc">::</span><span class="fu">spe_Keren_2018</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The cell types in this dataset includes 11 immune cell types (double negative CD3 T cells, CD4 T cells, B cells, monocytes, macrophages, CD8 T cells, neutrophils, natural killer cells, dendritic cells, regulatory T cells), 2 structural cell types (endothelial, mesenchymal), 2 tumour cell types (keratin+ tumour, tumour) and one unidentified category.</p>
+<section id="linear-modelling" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="linear-modelling"><span class="header-section-number">5.1.1</span> Linear modelling</h3>
+<p>To investigate changes in localisation between two different cell types, we measure the level of localisation between two cell types by modelling with the L-function. The L-function is a variance-stabilised K-function given by the equation</p>
+<p><span class="math display">\[
+\widehat{L_{ij}} (r) = \sqrt{\frac{\widehat{K_{ij}}(r)}{\pi}}
+\]</span></p>
+<p>with <span class="math inline">\(\widehat{K_{ij}}\)</span> defined as</p>
+<p><span class="math display">\[
+\widehat{K_{ij}} (r) = \frac{|W|}{n_i n_j} \sum_{n_i} \sum_{n_j} 1 \{d_{ij} \leq r \} e_{ij} (r)
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{K_{ij}}\)</span> summarises the degree of co-localisation of cell type <span class="math inline">\(j\)</span> with cell type <span class="math inline">\(i\)</span>, <span class="math inline">\(n_i\)</span> and <span class="math inline">\(n_j\)</span> are the number of cells of type <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, <span class="math inline">\(|W|\)</span> is the image area, <span class="math inline">\(d_{ij}\)</span> is the distance between two cells and <span class="math inline">\(e_{ij} (r)\)</span> is an edge correcting factor.</p>
+<p>Specifically, the mean difference between the experimental function and the theoretical function is used as a measure for the level of localisation, defined as</p>
+<p><span class="math display">\[
+u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experimental}} (r') - \widehat L_{ij, \text{Poisson}} (r')
+\]</span></p>
+<p>where <span class="math inline">\(u\)</span> is the sum is taken over a discrete range of <span class="math inline">\(r\)</span> between <span class="math inline">\(r_{\text{min}}\)</span> and <span class="math inline">\(r_{\text{max}}\)</span>. Differences of the statistic <span class="math inline">\(u\)</span> between two conditions is modelled using a weighted linear model.</p>
+</section>
+</section>
+<section id="test-for-change-in-localisation-for-a-specific-pair-of-cells" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="test-for-change-in-localisation-for-a-specific-pair-of-cells"><span class="header-section-number">5.2</span> Test for change in localisation for a specific pair of cells</h2>
+<p>Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the <code>spicy()</code> function, where we specify the <code>condition</code> parameter.</p>
+<p>In this example, we want to see whether or not neutrophils (<code>to</code>) tend to be found around CD8 T cells (<code>from</code>) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our <code>condition</code> factor. <code>spicy</code> will choose the first level of the factor as the base condition and the second level as the comparison condition. <code>spicy</code> will also naturally coerce the <code>condition</code> column into a factor if it is not already a factor. The column containing cell type annotations can be specified using the <code>cellTypeCol</code> argument. By default, <code>spicy</code> uses the column named <code>cellType</code> in the <code>SpatialExperiment</code> object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>spicyTestPair <span class="ot">&lt;-</span> <span class="fu">spicy</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  kerenSPE,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="st">"tumour_type"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="st">"CD8_T_cell"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="st">"Neutrophils"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">topPairs</span>(spicyTestPair)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>                        intercept coefficient      p.value   adj.pvalue
+CD8_T_cell__Neutrophils  -109.081    112.0185 2.166646e-05 2.166646e-05
+                              from          to
+CD8_T_cell__Neutrophils CD8_T_cell Neutrophils</code></pre>
 </div>
+</div>
+<p>We obtain a <code>spicy</code> object which details the results of the modelling performed. The <code>topPairs()</code> function can be used to obtain the associated coefficients and p-value.</p>
+<p>As the <code>coefficient</code> in <code>spicyTestPair</code> is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.</p>
+</section>
+<section id="test-for-change-in-localisation-for-all-pairwise-cell-combinations" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="test-for-change-in-localisation-for-all-pairwise-cell-combinations"><span class="header-section-number">5.3</span> Test for change in localisation for all pairwise cell combinations</h2>
+<p>We can perform what we did above for all pairwise combinations of cell types by excluding the <code>from</code> and <code>to</code> parameters in <code>spicy()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>spicyTest <span class="ot">&lt;-</span> <span class="fu">spicy</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  kerenSPE,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="st">"tumour_type"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">topPairs</span>(spicyTest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            intercept coefficient      p.value   adj.pvalue
+Macrophages__dn_T_CD3       56.446064   -50.08474 1.080273e-07 3.035568e-05
+dn_T_CD3__Macrophages       54.987151   -48.38664 2.194018e-07 3.082595e-05
+Macrophages__DC_or_Mono     73.239404   -59.90361 5.224660e-06 4.893765e-04
+DC_or_Mono__Macrophages     71.777087   -58.46833 7.431172e-06 5.220399e-04
+dn_T_CD3__dn_T_CD3         -63.786032   100.61010 2.878804e-05 1.208706e-03
+Neutrophils__dn_T_CD3      -63.141840    69.64356 2.891872e-05 1.208706e-03
+dn_T_CD3__Neutrophils      -63.133725    70.15508 3.011012e-05 1.208706e-03
+DC__Macrophages             96.893239   -92.55112 1.801300e-04 5.758129e-03
+Macrophages__DC             96.896215   -93.25194 1.844241e-04 5.758129e-03
+CD4_T_cell__Keratin_Tumour  -4.845037   -22.14995 2.834659e-04 7.409016e-03
+                                  from             to
+Macrophages__dn_T_CD3      Macrophages       dn_T_CD3
+dn_T_CD3__Macrophages         dn_T_CD3    Macrophages
+Macrophages__DC_or_Mono    Macrophages     DC_or_Mono
+DC_or_Mono__Macrophages     DC_or_Mono    Macrophages
+dn_T_CD3__dn_T_CD3            dn_T_CD3       dn_T_CD3
+Neutrophils__dn_T_CD3      Neutrophils       dn_T_CD3
+dn_T_CD3__Neutrophils         dn_T_CD3    Neutrophils
+DC__Macrophages                     DC    Macrophages
+Macrophages__DC            Macrophages             DC
+CD4_T_cell__Keratin_Tumour  CD4_T_cell Keratin_Tumour</code></pre>
+</div>
+</div>
+<p>Again, we obtain a <code>spicy</code> object which outlines the result of the linear models performed for each pairwise combination of cell types.</p>
+<p>We can also examine the L-function metrics of individual images by using the convenient <code>bind()</code> function on our <code>spicyTest</code> results object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind</span>(spicyTest)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  imageID         condition Keratin_Tumour__Keratin_Tumour
+1       1             mixed                      -2.300602
+2       2             mixed                      -1.989699
+3       3 compartmentalised                      11.373530
+4       4 compartmentalised                      33.931133
+5       5 compartmentalised                      17.922818
+  dn_T_CD3__Keratin_Tumour B_cell__Keratin_Tumour
+1                -5.298543             -20.827279
+2               -16.020022               3.025815
+3               -21.857447             -24.962913
+4               -36.438476             -40.470221
+5               -20.816783             -38.138076</code></pre>
+</div>
+</div>
+<p>The results can be represented as a bubble plot using the <code>signifPlot()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signifPlot</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  spicyTest,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">marksToPlot =</span> <span class="fu">c</span>(<span class="st">"Macrophages"</span>, <span class="st">"DC_or_Mono"</span>, <span class="st">"dn_T_CD3"</span>, <span class="st">"Neutrophils"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"CD8_T_cell"</span>, <span class="st">"Keratin_Tumour"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-cell_localisation_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, we can observe that the most significant relationships occur between macrophages and double negative CD3 T cells, suggesting that the two cell types are far more dispersed in compartmentalised tumours compared to cold tumours.</p>
+<p>To examine a specific cell type-cell type relationship in more detail, we can use <code>spicyBoxplot()</code> and specify either <code>from = "Macrophages"</code> and <code>to = "dn_T_CD3"</code> or <code>rank = 1</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spicyBoxPlot</span>(<span class="at">results =</span> spicyTest, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>             <span class="co"># from = "Macrophages",</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>             <span class="co"># to = "dn_T_CD3"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">rank =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-cell_localisation_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="linear-modelling-for-custom-metrics" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="linear-modelling-for-custom-metrics"><span class="header-section-number">5.3.1</span> Linear modelling for custom metrics</h3>
+<p><code>spicyR</code> can also be applied to custom distance or abundance metrics. A kNN interactions graph can be generated with the function <code>buildSpatialGraph</code> from the <code>imcRtools</code> package. This generates a <code>colPairs</code> object inside of the <code>SpatialExperiment</code> object.</p>
+<p><code>spicyR</code> provides the function <code>convPairs</code> for converting a <code>colPairs</code> object into an abundance matrix by calculating the average number of nearby cells types for every cell type for a given <code>k</code>. For example, if there exists on average 5 neutrophils for every macrophage in image 1, the column <code>Neutrophil__Macrophage</code> would have a value of 5 for image 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> imcRtools<span class="sc">::</span><span class="fu">buildSpatialGraph</span>(kerenSPE, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">img_id =</span> <span class="st">"imageID"</span>, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">type =</span> <span class="st">"knn"</span>, <span class="at">k =</span> <span class="dv">20</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>'sample_id's are duplicated across 'SpatialExperiment' objects to cbind; appending sample indices.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The returned object is ordered by the 'imageID' entry.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pairAbundances <span class="ot">&lt;-</span> <span class="fu">convPairs</span>(kerenSPE,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">colPair =</span> <span class="st">"knn_interaction_graph"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pairAbundances[<span class="st">"B_cell__B_cell"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   B_cell__B_cell
+1      12.7349608
+10      0.2777778
+11      0.0000000
+12      1.3333333
+13      1.2200957
+14      0.0000000</code></pre>
+</div>
+</div>
+<p>The custom distance or abundance metrics can then be included in the analysis with the <code>alternateResult</code> parameter. The <code>Statial</code> package contains other custom distance metrics which can be used with <code>spicy</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>spicyTestColPairs <span class="ot">&lt;-</span> <span class="fu">spicy</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  kerenSPE,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="st">"tumour_type"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternateResult =</span> pairAbundances,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="cn">FALSE</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">topPairs</span>(spicyTestColPairs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           intercept coefficient     p.value adj.pvalue
+CD8_T_cell__Neutrophils  0.833333333  -0.7592968 0.002645466  0.3291833
+B_cell__Tumour           0.001937984   0.2602822 0.004872664  0.3291833
+Other_Immune__NK         0.012698413   0.2612881 0.005673068  0.3291833
+Unidentified__CD8_T_cell 0.106626794   0.6387339 0.005906526  0.3291833
+dn_T_CD3__NK             0.004242424   0.2148797 0.006317829  0.3291833
+CD4_T_cell__Neutrophils  0.036213602   0.2947696 0.007902670  0.3291833
+Tregs__CD4_T_cell        0.128876212   0.5726201 0.010207087  0.3291833
+Endothelial__DC          0.008771930   0.3008523 0.011189533  0.3291833
+Tumour__Neutrophils      0.021638939   0.2529045 0.011388850  0.3291833
+Mesenchymal__Neutrophils 0.004504505   0.2494301 0.012761315  0.3291833
+                                 from          to
+CD8_T_cell__Neutrophils    CD8_T_cell Neutrophils
+B_cell__Tumour                 B_cell      Tumour
+Other_Immune__NK         Other_Immune          NK
+Unidentified__CD8_T_cell Unidentified  CD8_T_cell
+dn_T_CD3__NK                 dn_T_CD3          NK
+CD4_T_cell__Neutrophils    CD4_T_cell Neutrophils
+Tregs__CD4_T_cell               Tregs  CD4_T_cell
+Endothelial__DC           Endothelial          DC
+Tumour__Neutrophils            Tumour Neutrophils
+Mesenchymal__Neutrophils  Mesenchymal Neutrophils</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">signifPlot</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  spicyTestColPairs,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">marksToPlot =</span> <span class="fu">c</span>(<span class="st">"Macrophages"</span>, <span class="st">"dn_T_CD3"</span>, <span class="st">"CD4_T_cell"</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"B_cell"</span>, <span class="st">"DC_or_Mono"</span>, <span class="st">"Neutrophils"</span>, <span class="st">"CD8_T_cell"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-cell_localisation_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="performing-survival-analysis" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="performing-survival-analysis"><span class="header-section-number">5.3.2</span> Performing survival analysis</h3>
+<p><code>spicy</code> can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. <code>spicy</code> requires the <code>SingleCellExperiment</code> object being used to contain a column called <code>survival</code> as a <code>Surv</code> object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kerenSPE<span class="sc">$</span>event <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> kerenSPE<span class="sc">$</span>Censored</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>kerenSPE<span class="sc">$</span>survival <span class="ot">=</span> <span class="fu">Surv</span>(kerenSPE<span class="sc">$</span><span class="st">`</span><span class="at">Survival_days_capped*</span><span class="st">`</span>, kerenSPE<span class="sc">$</span>event)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then perform survival analysis using the <code>spicy</code> function by specifying <code>condition = "survival"</code>. We can then access the corresponding coefficients and p-values by accessing the <code>survivalResults</code> slot in the <code>spicy</code> results object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running survival analysis</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>spicySurvival <span class="ot">=</span> <span class="fu">spicy</span>(kerenSPE,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">condition =</span> <span class="st">"survival"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># top 10 significant pairs</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(spicySurvival<span class="sc">$</span>survivalResults, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   test                       coef se.coef    p.value
+   &lt;chr&gt;                     &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+ 1 Other_Immune__Tregs     0.0236  0.00866 0.00000893
+ 2 CD4_T_cell__Tregs       0.0177  0.00685 0.0000124 
+ 3 Tregs__Other_Immune     0.0237  0.00873 0.0000126 
+ 4 Tregs__CD4_T_cell       0.0171  0.00676 0.0000285 
+ 5 CD8_T_cell__CD8_T_cell  0.00605 0.00272 0.000332  
+ 6 Tumour__CD8_T_cell     -0.0305  0.0114  0.000617  
+ 7 CD8_T_cell__Tumour     -0.0305  0.0116  0.000721  
+ 8 CD4_T_cell__dn_T_CD3    0.00845 0.00353 0.000794  
+ 9 dn_T_CD3__CD4_T_cell    0.00840 0.00353 0.000937  
+10 DC__Other_Immune       -0.0289  0.0123  0.00103   </code></pre>
+</div>
+</div>
+</section>
+<section id="accounting-for-tissue-inhomogeneity" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="accounting-for-tissue-inhomogeneity"><span class="header-section-number">5.3.3</span> Accounting for tissue inhomogeneity</h3>
+<p>The <code>spicy</code> function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the <code>sigma =</code> parameter within the spicy function. By default, <code>sigma</code> is set to <code>NULL</code>, and <code>spicy</code> assumes a homogeneous tissue structure.</p>
+<p>For example, when we examine the L-function for <code>Keratin_Tumour__Neutrophils</code> when <code>sigma = NULL</code> and <code>Rs = 100</code>, the value is positive, indicating attraction between the two cell types.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter SPE object to obtain image 24 data</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>kerenSubset <span class="ot">=</span> kerenSPE[, <span class="fu">colData</span>(kerenSPE)<span class="sc">$</span>imageID <span class="sc">==</span> <span class="st">"24"</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>pairwiseAssoc <span class="ot">=</span> <span class="fu">getPairwise</span>(kerenSubset, </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sigma =</span> <span class="cn">NULL</span>, </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Rs =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>pairwiseAssoc[[<span class="st">"Keratin_Tumour__Neutrophils"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.88892</code></pre>
+</div>
+</div>
+<p>When we specify <code>sigma = 20</code> and re-calculate the L-function, it indicates that there is no relationship between <code>Keratin_Tumour</code> and <code>Neutrophils</code>, i.e., there is no major attraction or dispersion, as it now takes into account tissue inhomogeneity.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pairwiseAssoc <span class="ot">=</span> <span class="fu">getPairwise</span>(kerenSubset, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sigma =</span> <span class="dv">20</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">Rs =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>pairwiseAssoc[[<span class="st">"Keratin_Tumour__Neutrophils"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9024836</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain colData for image 24</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>cData <span class="ot">=</span> <span class="fu">colData</span>(kerenSPE) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">filter</span>(imageID <span class="sc">==</span> <span class="st">"24"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain cells present in image 24</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">=</span> <span class="fu">spatialCoords</span>(kerenSPE) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>coords<span class="sc">$</span>cellID <span class="ot">=</span> <span class="fu">rownames</span>(coords)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">=</span> coords <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(cellID <span class="sc">%in%</span> cData<span class="sc">$</span>CellID)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>cData<span class="sc">$</span>X <span class="ot">=</span> coords<span class="sc">$</span>x</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>cData<span class="sc">$</span>Y <span class="ot">=</span> coords<span class="sc">$</span>y</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>cData <span class="ot">=</span> cData <span class="sc">|&gt;</span> </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">cellTypeNew =</span> <span class="fu">ifelse</span>(cellType <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Keratin_Tumour"</span>, <span class="st">"Neutrophils"</span>), </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                                     cellType, <span class="st">"Other"</span>))</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a> pal <span class="ot">=</span> <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"#d6b11c"</span>, <span class="st">"#850f07"</span>), </span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>                <span class="fu">c</span>(<span class="st">"Keratin_Tumour"</span>, <span class="st">"Neutrophils"</span>))</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_density_2d</span>(<span class="at">data =</span> cData, <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">fill =</span> <span class="fu">after_stat</span>(density)), </span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geom =</span> <span class="st">"raster"</span>, </span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>                    <span class="at">contour =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> cData <span class="sc">|&gt;</span> <span class="fu">filter</span>(cellType <span class="sc">!=</span> <span class="st">"Other"</span>),</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y, <span class="at">colour =</span> cellTypeNew), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> pal) <span class="sc">+</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"Blues"</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"image ID: 24"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05-cell_localisation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the top of the image.</p>
+</section>
+<section id="mixed-effects-modelling" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="mixed-effects-modelling"><span class="header-section-number">5.3.4</span> Mixed effects modelling</h3>
+<p><code>spicyR</code> supports mixed effects modelling when multiple images are obtained for each subject. In this case, <code>subject</code> is treated as a random effect and <code>condition</code> is treated as a fixed effect. To perform mixed effects modelling, we can specify the <code>subject</code> parameter in the <code>spicy</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>spicyMixedTest <span class="ot">&lt;-</span> <span class="fu">spicy</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  diabetesData,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="st">"stage"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="st">"case"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
