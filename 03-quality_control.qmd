@@ -5,6 +5,7 @@ Steps:
 1.    How to qc segmentation (simpleSeg/cellSPA?)
 2.    How to qc image batch-effect (simpleSeg::normalizeCells)
 3.    How to qc patient batch-effect (simpleSeg::normalizeCells)
+4.    How to qc batch effects (scMerge)
 
 ```{r}
 1 + 1

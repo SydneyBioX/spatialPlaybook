@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>spicyWorkBook - 1&nbsp; Overview</title>
+<title>spicyWorkBook - 1&nbsp; Spatial analysis applied to different technologies</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -76,11 +42,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -103,41 +69,73 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/USydLogo.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">spicyWorkBook</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">spicyWorkBook</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -149,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-overview.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -172,20 +170,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-condition_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Differential Analysis</span></span></a>
+  <a href="./05-cell_localisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-survival_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></a>
+  <a href="./06-cellular_niches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cellular niches</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></a>
+  <a href="./07-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Marker expression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
@@ -194,14 +204,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#mibitof" id="toc-mibitof" class="nav-link active" data-scroll-target="#mibitof"><span class="header-section-number">1.1</span> MIBITOF</a>
+  <ul class="collapse">
+  <li><a href="#triple-negative-breast-cancer---keren_2018" id="toc-triple-negative-breast-cancer---keren_2018" class="nav-link" data-scroll-target="#triple-negative-breast-cancer---keren_2018"><span class="header-section-number">1.1.1</span> Triple Negative Breast Cancer - Keren_2018</a></li>
+  <li><a href="#ductal-carcinoma-in-situ---risom_2022" id="toc-ductal-carcinoma-in-situ---risom_2022" class="nav-link" data-scroll-target="#ductal-carcinoma-in-situ---risom_2022"><span class="header-section-number">1.1.2</span> Ductal carcinoma in situ - Risom_2022</a></li>
+  </ul></li>
+  <li><a href="#seqfish" id="toc-seqfish" class="nav-link" data-scroll-target="#seqfish"><span class="header-section-number">1.2</span> seqFISH</a>
+  <ul class="collapse">
+  <li><a href="#mouse-organogenesis---lohoff_2022" id="toc-mouse-organogenesis---lohoff_2022" class="nav-link" data-scroll-target="#mouse-organogenesis---lohoff_2022"><span class="header-section-number">1.2.1</span> Mouse organogenesis - Lohoff_2022</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></h1>
 </div>
 
 
@@ -218,15 +242,110 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>To include: - Overview of datasets - Overview of motivations behind datasets, e.g.&nbsp;survival, metastasis, etc. - Overview of packages - Overview of which packages can be applied to which datasets - Hyperlinking?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<p>This page contains examples of how to different types of analysis. We have sorted these by technology, however we recommend focusing more on the questions that can be asked, rather than the technologies that were use to address them.</p>
+<style>
+table {
+  font-size: 9pt;
+  padding: 1px;
+}
+</style>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Disease</th>
+<th style="text-align: center;">Technology</th>
+<th style="text-align: center;">Title</th>
+<th style="text-align: center;">Segmentation</th>
+<th style="text-align: center;">Alignment</th>
+<th style="text-align: center;">Clustering</th>
+<th style="text-align: center;">Localisation</th>
+<th style="text-align: center;">Microenvironments</th>
+<th style="text-align: center;">Patient Classification</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Breast cancer</td>
+<td style="text-align: center;">MIBITOF</td>
+<td style="text-align: center;">Keren_2018</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Breast cancer</td>
+<td style="text-align: center;">MIBITOF</td>
+<td style="text-align: center;">Risom_2022</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Mouse organogenesis</td>
+<td style="text-align: center;">seqFISH</td>
+<td style="text-align: center;">Lohoff_2022</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<style>
+citation {
+  font-size: 9pt;
+  font-style: italic;
+}
+</style>
+<section id="mibitof" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="mibitof"><span class="header-section-number">1.1</span> MIBITOF</h2>
+<p>MIBI-TOF (multiplexed ion beam imaging by time of flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets we have seen image approximately 40 labeled antibodies and image fields of about <span class="math inline">\(1mm^2\)</span> at resolutions down to <span class="math inline">\(260nm\)</span></p>
+<section id="triple-negative-breast-cancer---keren_2018" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="triple-negative-breast-cancer---keren_2018"><span class="header-section-number">1.1.1</span> <a href="datasets/Keren_2018/Keren_2018.qmd">Triple Negative Breast Cancer - Keren_2018</a></h3>
+<p>A MIBI-TOF dataset profiling tissue from triple-negative breast cancer patients is used to illustrate the functionality of our <a href="https://www.bioconductor.org/packages/release/bioc/html/Statial.html">Statial</a> package. That is, identifying changes in cell state that are related to spatial localisation of cells. This dataset simultaneously quantifies <em>in situ</em> expression of 36 proteins in 41 patients.</p>
+<p><citation> Keren et al.&nbsp;(2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. (<a href="https://doi.org/10.1016/j.cell.2018.08.039">DOI</a>) </citation></p>
+</section>
+<section id="ductal-carcinoma-in-situ---risom_2022" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="ductal-carcinoma-in-situ---risom_2022"><span class="header-section-number">1.1.2</span> <a href="https://sydneybiox.github.io/spicyWorkflow/articles/spicyWorkflow.html">Ductal carcinoma in situ - Risom_2022</a></h3>
+<p>A MIBI-TOF data profiling the spatial landscape of ductal carcinoma in situ (DCIS), which is a pre-invasive lesion that is thought to be a precursor to invasive breast cancer (IBC). This is currently the primary dataset used for illustration of our <a href="https://bioconductor.org/packages/release/workflows/html/spicyWorkflow.html">spicyWorkflow on Bioconductor</a>. The key conclusion of this manuscript (amongst others) is that spatial information about cells can be used to predict disease progression in patients. We use a bunch of our packages to make a similar conclusion and cover topics such as cell segmentation, data normalisation, various tests of proportion and spatial localisation, microenvironment estimation and patient prediction.</p>
+<p><citation> Risom et al.&nbsp;(2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 (<a href="https://doi.org/10.1016/j.cell.2021.12.023">DOI</a>) </citation></p>
+</section>
+</section>
+<section id="seqfish" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="seqfish"><span class="header-section-number">1.2</span> seqFISH</h2>
+<p><a href="https://spatial.caltech.edu/seqfish">SeqFISH</a> (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities, such as imaging the transcriptome and proteins</p>
+<section id="mouse-organogenesis---lohoff_2022" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="mouse-organogenesis---lohoff_2022"><span class="header-section-number">1.2.1</span> <a href="datasets/Lohoff_2022/Lohoff_2022.qmd">Mouse organogenesis - Lohoff_2022</a></h3>
+<p>We use our package <a href="https://www.bioconductor.org/packages/release/bioc/html/scHOT.html">scHOT</a> to analyse <a href="https://www.nature.com/articles/s41587-021-01006-2">Lohoff et al’s</a> study of early mouse organogenesis that was performed using a seqFISH. This analysis was adapted from a workshop that Shila and Ellis deliver as an introduction to spatial data analysis and in addition to scHOT, covers basic manipulation and visualisation of <code>SpatialExperiment</code> objects.</p>
+<p><citation> Lohoff et al.&nbsp;(2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74–85 (<a href="https://doi.org/10.1038/s41587-021-01006-2">DOI</a>). </citation></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

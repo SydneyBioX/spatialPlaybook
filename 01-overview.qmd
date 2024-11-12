@@ -1,13 +1,51 @@
 # Overview
 
-To include:
+This page contains examples of how to different types of analysis. We have sorted these by technology, however we recommend focusing more on the questions that can be asked, rather than the technologies that were use to address them.
 
--   Overview of datasets
--   Overview of motivations behind datasets, e.g. survival, metastasis, etc.
--   Overview of packages
--   Overview of which packages can be applied to which datasets
--   Hyperlinking?
-
-```{r}
-1 + 1
+```{=html}
+<style>
+table {
+  font-size: 9pt;
+  padding: 1px;
+}
+</style>
 ```
+|       Disease       | Technology |    Title    | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |     |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+|    Breast cancer    |  MIBITOF   | Keren_2018  |              |           |            |      X       |         X         |           X            |     |
+|    Breast cancer    |  MIBITOF   | Risom_2022  |      X       |     X     |     X      |      X       |         X         |           X            |     |
+| Mouse organogenesis |  seqFISH   | Lohoff_2022 |              |     X     |            |      X       |                   |                        |     |
+
+```{=html}
+<style>
+citation {
+  font-size: 9pt;
+  font-style: italic;
+}
+</style>
+```
+## MIBITOF
+
+MIBI-TOF (multiplexed ion beam imaging by time of flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets we have seen image approximately 40 labeled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$
+
+### [Triple Negative Breast Cancer - Keren_2018](datasets/Keren_2018/Keren_2018.qmd)
+
+A MIBI-TOF dataset profiling tissue from triple-negative breast cancer patients is used to illustrate the functionality of our [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package. That is, identifying changes in cell state that are related to spatial localisation of cells. This dataset simultaneously quantifies *in situ* expression of 36 proteins in 41 patients.
+
+<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
+
+### [Ductal carcinoma in situ - Risom_2022](https://sydneybiox.github.io/spicyWorkflow/articles/spicyWorkflow.html)
+
+A MIBI-TOF data profiling the spatial landscape of ductal carcinoma in situ (DCIS), which is a pre-invasive lesion that is thought to be a precursor to invasive breast cancer (IBC). This is currently the primary dataset used for illustration of our [spicyWorkflow on Bioconductor](https://bioconductor.org/packages/release/workflows/html/spicyWorkflow.html). The key conclusion of this manuscript (amongst others) is that spatial information about cells can be used to predict disease progression in patients. We use a bunch of our packages to make a similar conclusion and cover topics such as cell segmentation, data normalisation, various tests of proportion and spatial localisation, microenvironment estimation and patient prediction.
+
+<citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
+
+## seqFISH
+
+[SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities, such as imaging the transcriptome and proteins
+
+### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd)
+
+We use our package [scHOT](https://www.bioconductor.org/packages/release/bioc/html/scHOT.html) to analyse [Lohoff et al's](https://www.nature.com/articles/s41587-021-01006-2) study of early mouse organogenesis that was performed using a seqFISH. This analysis was adapted from a workshop that Shila and Ellis deliver as an introduction to spatial data analysis and in addition to scHOT, covers basic manipulation and visualisation of `SpatialExperiment` objects.
+
+<citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>

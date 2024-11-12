@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Norah Jones">
+<meta name="author" content="Alex Qin">
 <meta name="dcterms.date" content="2024-11-11">
 
 <title>spicyWorkBook</title>
@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -77,11 +43,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -105,12 +71,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/USydLogo.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">spicyWorkBook</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -119,26 +101,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">spicyWorkBook</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">spicyWorkBook</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -150,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-overview.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -173,20 +142,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-condition_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Differential Analysis</span></span></a>
+  <a href="./05-cell_localisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-survival_analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></a>
+  <a href="./06-cellular_niches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cellular niches</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survival Analysis</span></span></a>
+  <a href="./07-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Marker expression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
@@ -199,7 +180,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spicyworkbook" id="toc-spicyworkbook" class="nav-link active" data-scroll-target="#spicyworkbook">spicyWorkBook</a></li>
+  <li><a href="#spicyworkbook" id="toc-spicyworkbook" class="nav-link active" data-scroll-target="#spicyworkbook">spicyWorkBook</a>
+  <ul class="collapse">
+  <li><a href="#welcome" id="toc-welcome" class="nav-link" data-scroll-target="#welcome">Welcome!</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a>
+  <ul class="collapse">
+  <li><a href="#moleculeexperiment" id="toc-moleculeexperiment" class="nav-link" data-scroll-target="#moleculeexperiment">MoleculeExperiment</a></li>
+  <li><a href="#simpleseg" id="toc-simpleseg" class="nav-link" data-scroll-target="#simpleseg">simpleSeg</a></li>
+  <li><a href="#scmerge" id="toc-scmerge" class="nav-link" data-scroll-target="#scmerge">scMerge</a></li>
+  <li><a href="#fusesom" id="toc-fusesom" class="nav-link" data-scroll-target="#fusesom">FuseSOM</a></li>
+  <li><a href="#treekor" id="toc-treekor" class="nav-link" data-scroll-target="#treekor">treekoR</a></li>
+  <li><a href="#scfeatures" id="toc-scfeatures" class="nav-link" data-scroll-target="#scfeatures">scFeatures</a></li>
+  <li><a href="#schot" id="toc-schot" class="nav-link" data-scroll-target="#schot">scHOT</a></li>
+  <li><a href="#spicyr" id="toc-spicyr" class="nav-link" data-scroll-target="#spicyr">spicyR</a></li>
+  <li><a href="#statial" id="toc-statial" class="nav-link" data-scroll-target="#statial">Statial</a></li>
+  <li><a href="#lisaclust" id="toc-lisaclust" class="nav-link" data-scroll-target="#lisaclust">lisaClust</a></li>
+  <li><a href="#classifyr" id="toc-classifyr" class="nav-link" data-scroll-target="#classifyr">ClassifyR</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -218,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Norah Jones </p>
+             <p>Alex Qin </p>
           </div>
   </div>
     
@@ -239,15 +237,146 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="spicyworkbook" class="level1 unnumbered">
 <h1 class="unnumbered">spicyWorkBook</h1>
-<p>Introduction of workflow, motivation for workflow, and authors.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<section id="welcome" class="level2">
+<h2 class="anchored" data-anchor-id="welcome">Welcome!</h2>
+<p><img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"></p>
+<p>Recent advances in highly multiplexed cell imaging technologies such as <em>PhenoCycler, IMC, CosMx, Xenium, and MERFISH (and many more)</em> have fundamentally revolutionized our ability to observe complex cellular relationships in tissue. Where previous immunohistochemistry protocols only allowed the visualization of cells that could be characterized by two or three surface proteins, cutting-edge technologies characterize cells with upwards of 50 proteins or 1000s of RNA in situ. These technologies enable precise classification of cell sub-types and provide an unprecedented depiction of cellular heterogeneity in a tissue environment. These technical developments have necessitated the development of a variety of new analytical approaches that are required to harness these new imaging technologies. On this website we will demonstrate how packages in <a href="https://sydneybiox.github.io/scdney/">scdney</a> can be used to provide new insights into complex biological systems and diseases.</p>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
 
 
+<link rel="stylesheet" href="css/hexagons.css">
+
+<div id="importedContent"></div>
+    <script>
+        fetch('https://raw.githubusercontent.com/SydneyBioX/packageHeader/main/spatialHeader.html')
+            .then(response => response.text())
+            .then(htmlContent => {
+                const importedContentDiv = document.getElementById('importedContent');
+                importedContentDiv.innerHTML = htmlContent;
+            })
+            .catch(error => {
+                console.error('Error fetching content:', error);
+            });
+    </script>
+
+<style>
+citation {
+  font-size: 9pt;
+}
+</style>
+<section id="moleculeexperiment" class="level3">
+<h3 class="anchored" data-anchor-id="moleculeexperiment">MoleculeExperiment</h3>
+<p><a href="https://sydneybiox.github.io/MoleculeExperiment/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>MoleculeExperiment contains functions to create and work with objects from the new MoleculeExperiment class. We introduce this class for analysing molecule-based spatial transcriptomics data (e.g., Xenium by 10X, Cosmx SMI by Nanostring, and Merscope by Vizgen). This allows researchers to analyse spatial transcriptomics data at the molecule level, and to have standardised data formats accross vendors.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Peters Couto B, Robertson N, Patrick E, Ghazanfar S (2024). <em>MoleculeExperiment: Prioritising a molecule-level storage of Spatial Transcriptomics Data</em>. R package version 1.6.0.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="simpleseg" class="level3">
+<h3 class="anchored" data-anchor-id="simpleseg">simpleSeg</h3>
+<p><a href="http://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/simpleSeg/SimpleSeg_Hex_standard.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>Image segmentation is the process of identifying the borders of individual objects (in this case cells) within an image. This allows for the features of cells such as marker expression and morphology to be extracted, stored and analysed. simpleSeg provides functionality for user friendly, watershed based segmentation on multiplexed cellular images in R based on the intensity of user specified protein marker channels. simpleSeg can also be used for the normalization of single cell data obtained from multiple images.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Canete N, Nicholls A, Patrick E (2024). <em>simpleSeg: A package to perform simple cell segmentation</em>. R package version 1.8.0.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="scmerge" class="level3">
+<h3 class="anchored" data-anchor-id="scmerge">scMerge</h3>
+<p><a href="https://sydneybiox.github.io/scMerge/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scMerge/scMerge.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>Like all gene expression data, single-cell data suffers from batch effects and other unwanted variations that makes accurate biological interpretations difficult. The scMerge method leverages factor analysis, stably expressed genes (SEGs) and (pseudo-) replicates to remove unwanted variations and merge multiple single-cell data. This package contains all the necessary functions in the scMerge pipeline, including the identification of SEGs, replication-identification methods, and merging of single-cell data.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Lin Y, Ghazanfar S, Wang K, Gagnon-Bartsch J, Lo K, Su X, Han Z, Ormerod J, Speed T, Yang P, Yang J (2019). “scMerge leverages factor analysis, stable expression, and pseudoreplication to merge multiple single-cell RNA-seq datasets.” <em>Proceedings of the National Academy of Sciences</em>. <a href="https://doi.org/10.1073/pnas.1820006116">doi:10.1073/pnas.1820006116</a>.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="fusesom" class="level3">
+<h3 class="anchored" data-anchor-id="fusesom">FuseSOM</h3>
+<p><a href="http://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/FuseSOM/fuseSOM_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>A correlation-based multiview self-organizing map for the characterization of cell types in highly multiplexed in situ imaging cytometry assays (<code>FuseSOM</code>) is a tool for unsupervised clustering. <code>FuseSOM</code> is robust and achieves high accuracy by combining a <code>Self Organizing Map</code> architecture and a <code>Multiview</code> integration of correlation based metrics. This allows FuseSOM to cluster highly multiplexed in situ imaging cytometry assays.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>&lt;0-length citation&gt;</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="treekor" class="level3">
+<h3 class="anchored" data-anchor-id="treekor">treekoR</h3>
+<p><a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/treekoR/treekoR.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>treekoR is a novel framework that aims to utilise the hierarchical nature of single cell cytometry data to find robust and interpretable associations between cell subsets and patient clinical end points. These associations are aimed to recapitulate the nested proportions prevalent in workflows inovlving manual gating, which are often overlooked in workflows using automatic clustering to identify cell populations. We developed treekoR to: Derive a hierarchical tree structure of cell clusters; quantify a cell types as a proportion relative to all cells in a sample (%total), and, as the proportion relative to a parent population (%parent); perform significance testing using the calculated proportions; and provide an interactive html visualisation to help highlight key results.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Chan A (2024). <em>treekoR: Cytometry Cluster Hierarchy and Cellular-to-phenotype Associations</em>. R package version 1.14.0.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="scfeatures" class="level3">
+<h3 class="anchored" data-anchor-id="scfeatures">scFeatures</h3>
+<p><a href="http://www.bioconductor.org/packages/release/bioc/html/scFeatures.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scFeatures/sticker_version2.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>scFeatures constructs multi-view representations of single-cell and spatial data. scFeatures is a tool that generates multi-view representations of single-cell and spatial data through the construction of a total of 17 feature types. These features can then be used for a variety of analyses using other software in Biocondutor.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Cao,Y., Lin,Y., Patrick,E., Yang,P., Yang,J.Y.H. &amp; (2022). “scFeatures: multi-view representations of single-cell and spatial data for disease outcome prediction.” <em>Bioinformatics</em>, <b>38</b>(20), 4745-4753. ISSN 1367-4803, <a href="https://doi.org/10.1093/bioinformatics/btac590">doi:10.1093/bioinformatics/btac590</a>.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="schot" class="level3">
+<h3 class="anchored" data-anchor-id="schot">scHOT</h3>
+<p><a href="https://bioconductor.org/packages/release/bioc/html/scHOT.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scHOT/scHOT_hex.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>Single cell Higher Order Testing (scHOT) is an R package that facilitates testing changes in higher order structure of gene expression along either a developmental trajectory or across space. scHOT is general and modular in nature, can be run in multiple data contexts such as along a continuous trajectory, between discrete groups, and over spatial orientations; as well as accommodate any higher order measurement such as variability or correlation. scHOT meaningfully adds to first order effect testing, such as differential expression, and provides a framework for interrogating higher order interactions from single cell data.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Ghazanfar S, Lin Y (2024). <em>scHOT: single-cell higher order testing</em>. R package version 1.18.0.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="spicyr" class="level3">
+<h3 class="anchored" data-anchor-id="spicyr">spicyR</h3>
+<p><a href="https://ellispatrick.github.io/spicyR/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/spicyR/spicyR_standard.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>The spicyR package provides a framework for performing inference on changes in spatial relationships between pairs of cell types for cell-resolution spatial omics technologies. spicyR consists of three primary steps: (i) summarizing the degree of spatial localization between pairs of cell types for each image; (ii) modelling the variability in localization summary statistics as a function of cell counts and (iii) testing for changes in spatial localizations associated with a response variable.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Canete N, Iyengar S, Ormerod J, Baharlou H, Harman A, Patrick E (2022). “spicyR: spatial analysis of in situ cytometry data in R.” <em>Bioinformatics</em>, <b>38</b>(11), 3099–3105. <a href="https://doi.org/10.1093/bioinformatics/btac268">doi:10.1093/bioinformatics/btac268</a>.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="statial" class="level3">
+<h3 class="anchored" data-anchor-id="statial">Statial</h3>
+<p><a href="https://sydneybiox.github.io/Statial/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/Statial/statial.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>Statial is a suite of functions for identifying changes in cell state. The functionality provided by Statial provides robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition to this Statial uncovers changes in marker expression associated with varying levels of localisation. These features can be used to explore how the structure and function of different cell types may be altered by the agents they are surrounded with.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Ameen F, Robertson N, Lin D, Ghazanfar S, Patrick E (2024). “Kontextual: Reframing analysis of spatial omics data reveals consistent cell relationships across images.” <em>bioRxiv</em>. <a href="https://doi.org/10.1101/2024.09.03.611109">doi:10.1101/2024.09.03.611109</a>.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="lisaclust" class="level3">
+<h3 class="anchored" data-anchor-id="lisaclust">lisaClust</h3>
+<p><a href="https://ellispatrick.github.io/lisaClust/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/lisaClust/lisaClust_sticker_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>lisaClust provides a series of functions to identify and visualise regions of tissue where spatial associations between cell-types is similar. This package can be used to provide a high-level summary of cell-type colocalization in multiplexed imaging data that has been segmented at a single-cell resolution.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Patrick E, Canete N (2024). <em>lisaClust: lisaClust: Clustering of Local Indicators of Spatial Association</em>. R package version 1.14.4.
+</p>
+</font><p><font size="-1"></font></p>
+</section>
+<section id="classifyr" class="level3">
+<h3 class="anchored" data-anchor-id="classifyr">ClassifyR</h3>
+<p><a href="https://sydneybiox.github.io/ClassifyR/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/ClassifyR/classifyR.png?raw=true" align="right" style="height: 100px; border: 0px"></a></p>
+<p>The software formalises a framework for classification and survival model evaluation in R. There are four stages; Data transformation, feature selection, model training, and prediction. The requirements of variable types and variable order are fixed, but specialised variables for functions can also be provided. The framework is wrapped in a driver loop that reproducibly carries out a number of cross-validation schemes. Functions for differential mean, differential variability, and differential distribution are included. Additional functions may be developed by the user, by creating an interface to the framework.</p>
+<p><font size="-1"></font></p><font size="-1">
+<p>
+Strbenac D, Mann GJ, Ormerod JT, Yang JYH (2015). “ClassifyR: an R package for performance assessment of classification with applications to transcriptomics.” <em>Bioinformatics</em>, <b>31</b>(11), 1851-1853.
+</p>
+</font><p><font size="-1"></font></p>
+
+
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -664,8 +793,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-overview.html" class="pagination-link" aria-label="Overview">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Overview</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./01-overview.html" class="pagination-link" aria-label="Spatial analysis applied to different technologies">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Spatial analysis applied to different technologies</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

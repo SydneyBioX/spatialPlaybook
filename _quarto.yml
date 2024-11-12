@@ -3,7 +3,7 @@ project:
 
 book:
   title: "spicyWorkBook"
-  author: "Norah Jones"
+  author: "Alex Qin"
   date: "11/11/2024"
   chapters:
     - index.qmd
@@ -11,15 +11,21 @@ book:
     - 02-processing.qmd
     - 03-quality_control.qmd
     - 04-cell_annotation.qmd
-    - 05-condition_analysis.qmd
-    - 06-survival_analysis.qmd
-    - 07-classification.qmd
+    - 05-cell_localisation.qmd
+    - 06-cellular_niches.qmd
+    - 07-changes_in_marker_expression.qmd 
+    - 08-classification.qmd
+    - 09-references.qmd
+  navbar:
+    logo: images/USydLogo.svg
 
 bibliography: references.bib
 
 format:
   html:
-    theme: cosmo
+    theme: [cosmo, styles.scss]
+    css: styles.css
+    toc: true
   pdf:
     documentclass: scrreprt
 

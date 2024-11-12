@@ -6,8 +6,48 @@ Steps:
 2.    How to read in data (cytomapper)
 3.    How to segment data (simpleSeg)
 4.    How to segment data (BIDCell?)
+5.    How to read in spot-based data (MoleculeExperiment)
 
+# Make a wrapper function for cytomapper load images
 
 ```{r}
-1 + 1
+library(cytomapper)
+library(ggplot2)
 ```
+
+```{r set parameters}
+use_mc <- TRUE
+
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
+BPPARAM <- simpleSeg:::generateBPParam(nCores)
+
+theme_set(theme_classic())
+```
+
+```{r load images}
+pathToImages <- SpatialDatasets::Ferguson_Images()
+tmp <- tempfile()
+unzip(pathToImages, exdir = tmp)
+
+# Store images in a CytoImageList on_disk as h5 files to save memory.
+images <- cytomapper::loadImages(
+  tmp,
+  single_channel = TRUE,
+  on_disk = TRUE,
+  h5FilesPath = HDF5Array::getHDF5DumpDir(),
+  BPPARAM = BPPARAM
+)
+
+mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
+```
+
+# Make a wrapper function for cleaning names/images?
+
+```{r}
+
+```
+
