@@ -29,6 +29,11 @@ BPPARAM <- simpleSeg:::generateBPParam(nCores)
 theme_set(theme_classic())
 ```
 
+Once the spicyWorkflow package is installed, these images will be located within the `spicyWorkflow` folder where the `spicyWorkflow` package is installed, under `inst/extdata/images`. 
+Here we use `loadImages()` from the `cytomapper` package to load all the tiff images into a `CytoImageList` object and store the images as h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
+
+We will also assign the metadata columns of the `CytoImageList` object using the `mcols()` function.
+
 ```{r 02-loadImages}
 pathToImages <- SpatialDatasets::Ferguson_Images()
 tmp <- tempfile()
@@ -45,7 +50,9 @@ images <- cytomapper::loadImages(
 
 mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 ```
+As we're reading the image channels directly from the names of the TIFF image, often these channel names will need to be cleaned for ease of downstream processing. 
 
+The channel names can be accessed from the `CytoImageList` object using the `channelNames()` function.
 
 ```{r}
 cn <- channelNames(images) # Read in channel names
@@ -57,7 +64,7 @@ head(cn)
 
 channelNames(images) <- cn # Reassign channel names
 ```
-
+Similarly, the image names will be taken from the folder name containing the individual TIFF images for each channel. These will often also need to be cleaned. 
 ```{r}
 head(names(images))
 
@@ -125,7 +132,7 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-If you wish to visualise multiple markers instead of just the HH3 marker and see how the segmentation mask performs, this can also be done. Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the `discSize` of our dilation.
+If you wish to visualise multiple markers instead of just the HH3 marker and see how the segmentation mask performs, this can also be done. Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the `discSize` or other parameters of `simpleSeg`.
 
 ```{r}
 plotPixels(image = images["F3"], 
@@ -144,16 +151,52 @@ plotPixels(image = images["F3"],
            ))
 ```
 
+In particular, the `cellBody` and `watershed` parameters can strongly influence the way cells are segmented using `simpleSeg()`. We've provided further details on how the user may specify cell body identification and watershedding in the tables below.
+
+Method | Description
+----|:----:|:----:
+<span style="font-family: 'Courier New', monospace;">"distance"</span> |  <span style="font-family: 'Courier New', monospace;">Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.</span>
+<span style="font-family: 'Courier New', monospace;">"intensity"</span> |  <span style="font-family: 'Courier New', monospace;">Performs watershedding using the intensity of the nuclei marker.</span>
+<span style="font-family: 'Courier New', monospace;">"combine"</span> | <span style="font-family: 'Courier New', monospace;">Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.</span>
 
 
+Method | Description
+----|:----:|:----:
+<span style="font-family: 'Courier New', monospace;">"dilation"</span> |  <span style="font-family: 'Courier New', monospace;">Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the `discDize` argument.</span>
+<span style="font-family: 'Courier New', monospace;">"discModel"</span> | <span style="font-family: 'Courier New', monospace;">Uses all the markers to predict the presence of dilated 'discs' around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.</span>
+<span style="font-family: 'Courier New', monospace;">"marker"</span> | <span style="font-family: 'Courier New', monospace;">The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using `cellBody = "marker name"/"index"`</span>
+<span style="font-family: 'Courier New', monospace;">"None"</span> |  <span style="font-family: 'Courier New', monospace;">The nuclei mask is returned directly.</span>
 
 
+## BIDCell
 
 
+## Visual comparison of segmentations
+plotPixels can plot multiple images <-- use this to visualise multiple images at once after you have BIDCell ready.
 
 
+## Summarise cell features
 
+In order to characterise the phenotypes of each of the segmented cells, `measureObjects()` from `cytomapper` will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, the `measureObjects()` function will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns. 
 
+However, you can also specify `measureObjects()` to return a `SpatialExperiment` object by specifying `return_as = "spe"`. As a `SpatialExperiment` object, the spatial location of each cell is stored in the `spatialCoords` slot, as `m.cx` and `m.cy`, which simplifies plotting. In this demonstration, we will return a `SpatialExperiment` object.
+
+```{r}
+# Summarise the expression of each marker in each cell
+cells <- cytomapper::measureObjects(masks,
+                                    images,
+                                    img_id = "imageID",
+                                    return_as = "spe",
+                                    BPPARAM = BPPARAM)
+
+spatialCoordsNames(cells) <- c("x", "y")
+```
+
+## sessionInfo
+
+```{r}
+sessionInfo()
+```
 
 
 

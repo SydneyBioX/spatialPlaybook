@@ -1,4 +1,4 @@
-# spicyWorkBook {.unnumbered}
+# Overview {.unnumbered}
 
 ## Welcome! 
 <img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
@@ -345,3 +345,83 @@ cat(gsub("\n", " ", utils::packageDescription("ClassifyR", fields = "Description
 print(myCitation("ClassifyR"), style = "html")
 ```
 </font> 
+
+This page contains examples of how to different types of analysis. We have sorted these by technology, however we recommend focusing more on the questions that can be asked, rather than the technologies that were use to address them.
+
+```{=html}
+<style>
+table {
+  font-size: 9pt;
+  padding: 1px;
+}
+</style>
+```
+|       Disease       | Technology |    Title    | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |     |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+|    Breast cancer    |  MIBITOF   | Keren_2018  |              |           |            |      X       |         X         |           X            |     |
+|    Breast cancer    |  MIBITOF   | Risom_2022  |      X       |     X     |     X      |      X       |         X         |           X            |     |
+| Mouse organogenesis |  seqFISH   | Lohoff_2022 |              |     X     |            |      X       |                   |                        |     |
+
+```{=html}
+<style>
+citation {
+  font-size: 9pt;
+  font-style: italic;
+}
+</style>
+```
+
+## Datasets
+
+Through the course of this spicyWorkBook, we'll be taking advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on bioconductor. We'll be demonstrating several questions that could be answered or explored for each of these datasets, dependent on the available information.
+
+### Spatial Proteomics - MIBITOF
+
+MIBI-TOF (multiplexed ion beam imaging by time of flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets we have seen image approximately 40 labeled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$
+
+#### [Triple Negative Breast Cancer - Keren_2018](datasets/Keren_2018/Keren_2018.qmd)
+
+A MIBI-TOF dataset profiling tissue from triple-negative breast cancer patients is used to illustrate the functionality of our [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package. That is, identifying changes in cell state that are related to spatial localisation of cells. This dataset simultaneously quantifies *in situ* expression of 36 proteins in 41 patients.
+
+<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
+
+#### [Ductal carcinoma in situ - Risom_2022](https://sydneybiox.github.io/spicyWorkflow/articles/spicyWorkflow.html)
+
+A MIBI-TOF data profiling the spatial landscape of ductal carcinoma in situ (DCIS), which is a pre-invasive lesion that is thought to be a precursor to invasive breast cancer (IBC). This is currently the primary dataset used for illustration of our [spicyWorkflow on Bioconductor](https://bioconductor.org/packages/release/workflows/html/spicyWorkflow.html). The key conclusion of this manuscript (amongst others) is that spatial information about cells can be used to predict disease progression in patients. We use a bunch of our packages to make a similar conclusion and cover topics such as cell segmentation, data normalisation, various tests of proportion and spatial localisation, microenvironment estimation and patient prediction.
+
+<citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
+
+### Spatial Proteomics - CODEX
+
+CODEX (Co-detection by indexing) is a highly multiplexed tissue imaging technique using DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. The datasets using this technology can visualise up to 60 labelled antibodies at subcellular resolution.
+
+#### Colorectal cancer - Schurch_2020
+
+A CODEX dataset  which aimed to characterise the immune tumour microenvironment in advanced-stage colorectal cancer. The dataset consists of 35 advanced colorectal cancer patients, with 4 images per patient for a total of 140 images. Each image is marked with a 56-antibody panel to characterise a total of 24 distinct tumour and immune cell populations. Overall, the dataset contains 240,000 cells along with clinical information including patient tumour grade, tumour type, and patient survival.
+
+<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
+
+### Spatial Proteomics - IMC 
+
+IMC (Imaging Mass Cytometry) is an instrument that combines laser ablation with mass cytometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets produced by IMC can image approximately 30–40 labeled antibodies, covering tissue areas of around $1mm^2$ with a resolution down to 1 micron.
+
+#### Breast cancer - Ali_2020
+
+Also known as the METABRIC dataset, this IMC datasets consists of 456 Primary invasive breast carcinoma patients for which their are 548 samples. Out of these 548 samples, 518 have both clinical and IMC data available. The dataset contained several clinical variables, including: Age, Chemotherapy Indicator (CT), Radiotherapy Indicator (RT), Hormone Treatment Indicator (HT), Estrogen Receptor Status(ER)) and 4 other gene indicators (MKI67, EGFR, PGR, and ERBB2). Tissue
+samples were acquired using a Hyperion Imaging Mass Cytometer (Fluidigm).
+The IMC images used a 37-antibody panel to identify a total of 22 distinct cell types.
+
+#### Head and neck squamous cell carcinoma - Ferguson_2020
+
+A IMC dataset profiling the spatial landscape of head and neck cutaneous squamous cell carcinomas (HNcSCC), the second most common type of skin cancer. The majority of HNcSCC can be treated with surgery and good local control, but a subset of large tumours infiltrate subcutaneous tissue and are considered high risk for local recurrence and metastases. The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our spicy workflow to reach a similar conclusion. The dataset contains a total of 31 patients, including 9 non-progressors and 22 progressors. A 36-antibody panel was used to identify a total of 19 distinct cell types.
+
+### Spatial Transcriptomics - seqFISH
+
+[SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities, such as imaging the transcriptome and proteins
+
+#### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd)
+
+We use our package [scHOT](https://www.bioconductor.org/packages/release/bioc/html/scHOT.html) to analyse [Lohoff et al's](https://www.nature.com/articles/s41587-021-01006-2) study of early mouse organogenesis that was performed using a seqFISH. This analysis was adapted from a workshop that Shila and Ellis deliver as an introduction to spatial data analysis and in addition to scHOT, covers basic manipulation and visualisation of `SpatialExperiment` objects.
+
+<citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>
+

@@ -10,13 +10,15 @@ Steps:
 
 ## Which package should I use? Clustering vs Annotation
 
-Clustering is...
+Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. However, the method by which this is done can differ from study to study. Here, we provide two packages capable of either cell type clustering (`FuseSOM`) or cell type annotation (`scClassify`). 
 
-## FuseSOM
+Clustering is an unsupervised method of labelling cells. This means that an algorithm separates out clusters of cells based purely off their marker expression, and the subsequent labeling of these clusters must be done with some biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm then uses that reference dataset to determine the identity of each of your cell types, thereby labelling your cells in the process. There are advantages and disadvantages to both, and the choice of one or the other will be discussed in this chapter. First we'll walk through how to run both of these packages, and then we'll discuss how to choose between `FuseSOM` and `scClassify`
+
+## FuseSOM: Cell clustering
 
 A correlation based multiview self organizing map for the characterization of cell types (`FuseSOM`) is a tool for unsupervised clustering. `FuseSOM` is robust and achieves high accuracy by combining a `Self Organizing Map` architecture and a `Multiview` integration of correlation based metrics to cluster highly multiplexed in situ imaging cytometry assays. The `FuseSOM` pipeline has been streamlined and accepts currently used data structures including `SingleCellExperiment` and `SpatialExperiment` objects as well as `DataFrames`.
 
-## `FuseSOM` Matrix Input
+### `FuseSOM` Matrix Input
 
 If you have a matrix containing expression data that was QCed and normalised by some other tool, the next step is to run the `FuseSOM` algorithm.This can be done by calling the `runFuseSOM()` function which takes in the matrix of interest where the columns are markers and the rows are observations, the makers of interest (if this is not provided, it is assumed that all columns are markers), and the number of clusters.
 
@@ -65,7 +67,7 @@ risomHeat <- FuseSOM::markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = risomRes$clusters, clusterMarkers = TRUE)
 ```
 
-## Using `FuseSOM` to estimate the number of clusters
+### Using `FuseSOM` to estimate the number of clusters
 `FuseSOM` also provides functionality for estimating the number of clusters in a dataset using three classes of methods including:
 
 1.  Discriminant based method.
@@ -109,7 +111,7 @@ pSil
 ```
 From the plots, we see that the `Jump` statistics almost perfectly capture the number of clusters. The `Gap` method is a close second with $15$ clusters. All the other methods significantly underestimates the number of clusters.
 
-## `FuseSOM` Sinlge Cell Epxeriment object as input.
+### `FuseSOM` Single Cell Epxeriment object as input.
 
 The `FuseSOM` algorithm is also equipped to take in a `SingleCellExperiment` object as input. The results of the pipeline will be written to either the metada or the colData fields. See below.
 
@@ -145,7 +147,7 @@ risomHeatsce <- markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = clusters, clusterMarkers = TRUE)
 ```
 
-## Using `FuseSOM` to estimate the number of clusters for single cell experiment objects
+### Using `FuseSOM` to estimate the number of clusters for single cell experiment objects
 Just like before, we can estimate the number of clusters 
 ```{r}
 # lets estimate the number of clusters using all the methods
@@ -179,4 +181,36 @@ pSil <- optiPlot(risomRessce, method = 'silhouette')
 pSil
 
 ```
+
 Again, we see that the `Jump` statistics almost perfectly capture the number of clusters. The `Gap` method is a close second with $15$ clusters. All the other methods significantly underestimates the number of clusters.
+
+## scClassify: Cell annotation
+
+
+## Choosing between clustering and annotation
+
+## sessionInfo
+
+```{r}
+sessionInfo()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
