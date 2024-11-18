@@ -10,7 +10,7 @@ Steps:
 
 ## Reading in images
 
-```{r 02-library, message=FALSE}
+```{r 02-library, message=FALSE,warning=FALSE}
 library(cytomapper)
 library(ggplot2)
 library(simpleSeg)

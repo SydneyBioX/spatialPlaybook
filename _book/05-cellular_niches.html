@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="lisaclust" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="lisaclust"><span class="header-section-number">5.2</span> lisaClust</h2>
 <p>Clustering local indicators of spatial association (LISA) functions is a methodology for identifying consistent spatial organisation of multiple cell-types in an unsupervised way. This can be used to enable the characterization of interactions between multiple cell-types simultaneously and can complement traditional pairwise analysis. In our implementation our LISA curves are a localised summary of an L-function from a Poisson point process model. Our framework <code>lisaClust</code> can be used to provide a high-level summary of cell-type colocalization in high-parameter spatial cytometry data, facilitating the identification of distinct tissue compartments or identification of complex cellular microenvironments.</p>
-<p><img src="lisaClust_fig1.jpg" align="center" style="height: 200px; border: 0px"></p>
+<p><img src="lisaClust_fig1.jpg" align="center" style="height: 300px; border: 0px"></p>
 <section id="how-lisaclust-works" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="how-lisaclust-works"><span class="header-section-number">5.2.1</span> How lisaClust works</h3>
 <p>The workflow that lisaClust uses to identify regions of tissue with similar localisation patterns of cells contains multiple key steps. First, cells are treated as objects and assigned coordinates in an x-y space. Second, distances between all cells are calculated and then, by modeling the cells as a multi-type Poisson point process, the distances are used to calculate local indicators of spatial association (LISA). These LISA curves summarize the spatial association between each cell and a specific cell type over a range of radii, r. The LISA curves are calculated for each cell and cell type and then clustered to assign a region label for each cell.</p>
@@ -303,13 +303,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 21154           5    region_3
 21155           5    region_3
 21156           5    region_3
-21157           5    region_1
-21158           5    region_1
+21157           5    region_2
+21158           5    region_2
 ...           ...         ...
-21169           5    region_1
-21170           5    region_1
+21169           5    region_2
+21170           5    region_2
 21171           5    region_4
-21172           5    region_1
+21172           5    region_2
 21173           5    region_4</code></pre>
 </div>
 </div>
@@ -405,12 +405,12 @@ loaded via a namespace (and not attached):
  [13] memoise_2.0.1               minqa_1.2.8                
  [15] spatstat.explore_3.3-3      rstatix_0.7.2              
  [17] htmltools_0.5.8.1           S4Arrays_1.6.0             
- [19] curl_6.0.0                  broom_1.0.7                
+ [19] curl_6.0.1                  broom_1.0.7                
  [21] SparseArray_1.6.0           Formula_1.2-5              
  [23] htmlwidgets_1.6.4           plyr_1.8.9                 
  [25] cachem_1.1.0                mime_0.12                  
  [27] lifecycle_1.0.4             pkgconfig_2.0.3            
- [29] Matrix_1.7-0                R6_2.5.1                   
+ [29] Matrix_1.7-1                R6_2.5.1                   
  [31] fastmap_1.2.0               GenomeInfoDbData_1.2.13    
  [33] digest_0.6.37               numDeriv_2016.8-1.1        
  [35] colorspace_2.1-1            AnnotationDbi_1.68.0       
@@ -429,7 +429,7 @@ loaded via a namespace (and not attached):
  [61] rappdirs_0.3.3              DelayedArray_0.32.0        
  [63] rjson_0.2.23                tools_4.4.1                
  [65] goftest_1.2-3               glue_1.8.0                 
- [67] nlme_3.1-165                grid_4.4.1                 
+ [67] nlme_3.1-166                grid_4.4.1                 
  [69] ClassifyR_3.10.0            reshape2_1.4.4             
  [71] generics_0.1.3              gtable_0.3.6               
  [73] spatstat.data_3.1-2         class_7.3-22               
@@ -446,7 +446,7 @@ loaded via a namespace (and not attached):
  [95] xfun_0.49                   pheatmap_1.0.12            
  [97] fftwtools_0.9-11            scam_1.2-17                
  [99] stringi_1.8.4               UCSC.utils_1.2.0           
-[101] yaml_2.3.10                 boot_1.3-30                
+[101] yaml_2.3.10                 boot_1.3-31                
 [103] evaluate_1.0.1              codetools_0.2-20           
 [105] tibble_3.2.1                BiocManager_1.30.25        
 [107] cli_3.6.3                   munsell_0.5.1              

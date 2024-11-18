@@ -1,6 +1,6 @@
 # Marker expression
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # Loading required packages
 library(Statial)
 library(spicyR)
@@ -13,13 +13,17 @@ library(ggsurvfit)
 library(survival)
 library(tibble)
 library(treekoR)
+devtools::load_all("~/Statial")
 
 theme_set(theme_classic())
-nCores <- 1
+nCores <- 8
 ```
 
 ```{r, include = FALSE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
+
+# Removing patients without survival data.
+
 kerenSPE <- lisaClust(kerenSPE,
   k = 5
 )
@@ -44,10 +48,7 @@ survData <- kerenSPE |>
 kerenSurv <- survData$survival
 names(kerenSurv) <- survData$imageID
 
-kerenSurv
-
-kerenSPE$event = 1 - kerenSPE$Censored
-kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
+kerenSurv <- kerenSurv[!is.na(kerenSurv)]
 ```
 
 `Statial` provides functionality to identify the average marker expression of a given cell type in a given region, using the `getMarkerMeans` function. Similar to the analysis above, these features can also be used for survival analysis.
@@ -182,8 +183,8 @@ p <- plotStateChanges(
   cells = kerenSPE,
   type = "distances",
   image = "35",
-  from = "CD4_Cell",
-  to = "B",
+  from = "CD4_T_cell",
+  to = "B_cell",
   marker = "CD20",
   size = 1,
   shape = 19,
@@ -276,14 +277,14 @@ For our state changes results, `Keratin_Tumour__CD4_Cell__Keratin6` is the most 
 
 ```{r, fig.width=5, fig.height=4}
 # Selecting the most significant relationship
-survRelationship <- stateMat[["Keratin_Tumour__CD4_Cell__Keratin6"]]
+survRelationship <- stateMat[["Keratin_Tumour__Mono_or_Neu__Pan.Keratin"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression in close cells", "Lower expression in close cells")
 
 # Plotting Kaplan-Meier curve
 survfit2(kerenSurv ~ survRelationship) |>
   ggsurvfit() +
   add_pvalue() +
-  ggtitle("Keratin_Tumour__CD4_Cell__Keratin6")
+  ggtitle("Keratin_Tumour__Mono_or_Neu__Pan.Keratin")
 ```
 
 ## scFeatures: Moran's I

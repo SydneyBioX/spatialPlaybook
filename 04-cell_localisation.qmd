@@ -268,6 +268,11 @@ spicyMixedTest <- spicy(
 
 ## Kontextual: Context aware cell localisation
 
+```{r, include = FALSE}
+kerenSPE <- SpatialDatasets::spe_Keren_2018()
+```
+
+
 `Kontextual` is a method for performing inference on cell localisation which explicitly defines the contexts in which spatial relationships between cells can be identified and interpreted. These contexts may represent landmarks, spatial domains, or groups of functionally similar cells which are consistent across regions. By modelling spatial relationships between cells relative to these contexts, `Kontextual` produces robust spatial quantifications that are not confounded by biases such as the choice of region to image and the tissue structure present in the images.
 
 In this example we demonstrate how cell type hierarchies can be used as a means to derive appropriate "contexts" for the evaluation of cell localisation. We then demonstrate the types of conclusions which `Kontextual` enables.
@@ -348,7 +353,7 @@ kerenSPE |>
   filter(imageID == "6") |>
   filter(cellTypeNew %in% c("Immune", "Tumour", "p53_Tumour")) |>
   arrange(cellTypeNew) |>
-  ggplot(aes(x = x.1, y = y, color = cellTypeNew)) +
+  ggplot(aes(x = x, y = y, color = cellTypeNew)) +
   geom_point(size = 1) +
   scale_colour_manual(values = c("Immune" = "#505050", "p53_Tumour" = "#64BC46", "Tumour" = "#D6D6D6")) +
   guides(colour = guide_legend(title = "Cell types", override.aes = list(size = 3)))
@@ -447,6 +452,9 @@ Finally, both the `SingleCellExperiment` object and the Kontextual matrix are pa
 *Note:* You can specify additional covariates and include a subject id for mixed effects survival modelling, see \code{\link[spicyR]{spicy} for more information.
 
 ```{r}
+kerenSPE$event = 1 - kerenSPE$Censored
+kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
+
 # Running survival analysis
 survivalResults = spicy(cells = kerenSPE,
                         alternateResult = kontextMat,

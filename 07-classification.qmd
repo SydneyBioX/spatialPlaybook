@@ -8,6 +8,21 @@ Steps:
 4.  Easy and Hard to classify patients (samplesMetricMap)
 5.  Maximising accuracy during classification (parameter tuning for crossValidate)
 
+## Why classify?
+
+When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
+
+Regardless of the end goal, classification is an important end-point for any biological dataset, as it provides us information on:
+
+1.    Important features
+2.    Predictability of the full dataset, or a subset of the dataset
+
+`ClassifyR` simplifies the process of classification, and provides quick and simple ways to analyse datasets and determine how well biological datasets can be classified into disease states using particular feature generation techniques. In this chapter, we will provide a guide on how to use `ClassifyR` on biological datasets, and typical workflows for classification.
+
+## Cross validation
+Cross validation is an essential part of any classification process, and is necessary to robustly determine how well your model has performed. `ClassifyR` makes this extremely easy to implement with the `crossValidate` function. 
+
 ```{r}
-1 + 1
+
 ```
+

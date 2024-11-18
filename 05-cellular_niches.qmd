@@ -32,7 +32,7 @@ high-parameter spatial cytometry data, facilitating the identification
 of distinct tissue compartments or identification of complex cellular
 microenvironments.
 
-<img src="lisaClust_fig1.jpg" align="center" style="height: 200px; border: 0px"/>
+<img src="lisaClust_fig1.jpg" align="center" style="height: 300px; border: 0px"/>
 
 ### How lisaClust works
 

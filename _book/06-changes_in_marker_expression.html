@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>spicyPlayBook - 6&nbsp; Marker expression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-classification.html" rel="next">
+<link href="./05-cellular_niches.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/USydLogo.svg" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">spicyPlayBook</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-changes_in_marker_expression.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Marker expression</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Processing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-quality_control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-cell_annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cell Annotation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-cell_localisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial domains</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Marker expression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-case_study1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#statial-marker-means" id="toc-statial-marker-means" class="nav-link active" data-scroll-target="#statial-marker-means"><span class="header-section-number">6.1</span> Statial: Marker means</a></li>
+  <li><a href="#spatiomark-identifying-continuous-changes-in-cell-state" id="toc-spatiomark-identifying-continuous-changes-in-cell-state" class="nav-link" data-scroll-target="#spatiomark-identifying-continuous-changes-in-cell-state"><span class="header-section-number">6.2</span> SpatioMark: Identifying continuous changes in cell state</a>
+  <ul class="collapse">
+  <li><a href="#continuous-cell-state-changes-within-a-single-image" id="toc-continuous-cell-state-changes-within-a-single-image" class="nav-link" data-scroll-target="#continuous-cell-state-changes-within-a-single-image"><span class="header-section-number">6.2.1</span> Continuous cell state changes within a single image</a></li>
+  <li><a href="#continuous-cell-state-changes-across-all-images" id="toc-continuous-cell-state-changes-across-all-images" class="nav-link" data-scroll-target="#continuous-cell-state-changes-across-all-images"><span class="header-section-number">6.2.2</span> Continuous cell state changes across all images</a></li>
+  <li><a href="#contamination-lateral-marker-spill-over" id="toc-contamination-lateral-marker-spill-over" class="nav-link" data-scroll-target="#contamination-lateral-marker-spill-over"><span class="header-section-number">6.2.3</span> Contamination (Lateral marker spill over)</a></li>
+  <li><a href="#associate-continuous-state-changes-with-survival-outcomes" id="toc-associate-continuous-state-changes-with-survival-outcomes" class="nav-link" data-scroll-target="#associate-continuous-state-changes-with-survival-outcomes"><span class="header-section-number">6.2.4</span> Associate continuous state changes with survival outcomes</a></li>
+  </ul></li>
+  <li><a href="#scfeatures-morans-i" id="toc-scfeatures-morans-i" class="nav-link" data-scroll-target="#scfeatures-morans-i"><span class="header-section-number">6.3</span> scFeatures: Moran’s I</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">6.4</span> sessionInfo</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Marker expression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading required packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Statial)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spicyR)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ClassifyR)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lisaClust)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleCellExperiment)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsurvfit)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(treekoR)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">load_all</span>(<span class="st">"~/Statial"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>())</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>nCores <span class="ot">&lt;-</span> <span class="dv">8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="statial-marker-means" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="statial-marker-means"><span class="header-section-number">6.1</span> Statial: Marker means</h2>
+<p>One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: “How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?”, you’ll want to look at the marker mean of macrophages within specifically the tumour domain.</p>
+<p><code>Statial</code> provides functionality to identify the average marker expression of a given cell type in a given region, using the <code>getMarkerMeans</code> function. Similar to the analysis above, these features can also be used for survival analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cellTypeRegionMeans <span class="ot">&lt;-</span> <span class="fu">getMarkerMeans</span>(kerenSPE,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">imageID =</span> <span class="st">"imageID"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cellType =</span> <span class="st">"cellType"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> <span class="st">"region"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>survivalResults <span class="ot">&lt;-</span> <span class="fu">colTest</span>(cellTypeRegionMeans[<span class="fu">names</span>(kerenSurv), ], kerenSurv, <span class="at">type =</span> <span class="st">"survival"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survivalResults)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                    coef se.coef    pval adjPval
+B7H3__CD4_T_cell__region_1         270.0   76.00 0.00038    0.43
+CD163__CD4_T_cell__region_1         67.0   19.00 0.00038    0.43
+FoxP3__CD4_T_cell__region_1         25.0    7.20 0.00052    0.43
+Si__Unidentified__region_2          -3.1    0.89 0.00053    0.43
+CD56__CD4_T_cell__region_1          28.0    8.10 0.00067    0.43
+Keratin6__Keratin_Tumour__region_3   1.6    0.47 0.00073    0.43
+                                                              cluster
+B7H3__CD4_T_cell__region_1                 B7H3__CD4_T_cell__region_1
+CD163__CD4_T_cell__region_1               CD163__CD4_T_cell__region_1
+FoxP3__CD4_T_cell__region_1               FoxP3__CD4_T_cell__region_1
+Si__Unidentified__region_2                 Si__Unidentified__region_2
+CD56__CD4_T_cell__region_1                 CD56__CD4_T_cell__region_1
+Keratin6__Keratin_Tumour__region_3 Keratin6__Keratin_Tumour__region_3</code></pre>
+</div>
+</div>
+</section>
+<section id="spatiomark-identifying-continuous-changes-in-cell-state" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="spatiomark-identifying-continuous-changes-in-cell-state"><span class="header-section-number">6.2</span> SpatioMark: Identifying continuous changes in cell state</h2>
+<p>Changes in cell states can be analytically framed as the change in abundance of a gene or protein within a particular cell type. We can use marker expression to identify and quantify evidence of cell interactions that catalyse cell state changes. This approach measures how protein markers in a cell change with spatial proximity and abundance to other cell types. The methods utilised here will thereby provide a framework to explore how the dynamic behaviour of cells are altered by the agents they are surrounded by.</p>
+<section id="continuous-cell-state-changes-within-a-single-image" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="continuous-cell-state-changes-within-a-single-image"><span class="header-section-number">6.2.1</span> Continuous cell state changes within a single image</h3>
+<p>The first step in analysing these changes is to calculate the spatial proximity (<code>getDistances</code>) and abundance (<code>getAbundances</code>) of each cell to every cell type. These values will then be stored in the <code>reducedDims</code> slot of the <code>SingleCellExperiment</code> object under the names <code>distances</code> and <code>abundances</code> respectively.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> <span class="fu">getDistances</span>(kerenSPE,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">maxDist =</span> <span class="dv">200</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCores =</span> <span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> <span class="fu">getAbundances</span>(kerenSPE,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> <span class="dv">200</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCores =</span> <span class="dv">1</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, let’s examine the same effect observed earlier with Kontextual - the localisation between p53-positive keratin/tumour cells and macrophages in the context of total keratin/tumour cells for image 6 of the Keren et al.&nbsp;dataset.</p>
+<p>Statial provides two main functions to assess this relationship - <code>calcStateChanges</code> and <code>plotStateChanges</code>. We can use <code>calcStateChanges</code> to examine the relationship between 2 cell types for 1 marker in a specific image. In this case, we’re examining the relationship between keratin/tumour cells (<code>from = Keratin_Tumour</code>) and macrophages (<code>to = "Macrophages"</code>) for the marker p53 (<code>marker = "p53"</code>) in <code>image = "6"</code>. We can appreciate that the <code>fdr</code> statistic for this relationship is significant, with a negative tvalue, indicating that the expression of p53 in keratin/tumour cells decreases as distance from macrophages increases.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stateChanges <span class="ot">&lt;-</span> <span class="fu">calcStateChanges</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"distances"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">image =</span> <span class="st">"6"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="st">"Keratin_Tumour"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="st">"Macrophages"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="st">"p53"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCores =</span> <span class="dv">1</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>stateChanges</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  imageID primaryCellType otherCellType marker         coef      tval
+1       6  Keratin_Tumour   Macrophages    p53 -0.001402178 -7.010113
+          pval          fdr
+1 2.868257e-12 2.868257e-12</code></pre>
+</div>
+</div>
+<p>Statial also provides a convenient function for visualising this interaction - <code>plotStateChanges</code>. Here, again we can specify <code>image = 6</code> and our main cell types of interest, keratin/tumour cells and macrophages, and our marker p53, in the same format as <code>calcStateChanges</code>.</p>
+<p>Through this analysis, we can observe that keratin/tumour cells closer to a group of macrophages tend to have higher expression of p53, as observed in the first graph. This relationship is quantified with the second graph, showing an overall decrease of p53 expression in keratin/tumour cells as distance to macrophages increase.</p>
+<p>These results allow us to essentially arrive at the same result as Kontextual, which calculated a localisation between p53+ keratin/tumour cells and macrophages in the wider context of keratin/tumour cells.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plotStateChanges</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"distances"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">image =</span> <span class="st">"6"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="st">"Keratin_Tumour"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="st">"Macrophages"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="st">"p53"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">19</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">interactive =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotModelFit =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"lm"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$image</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$scatter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="continuous-cell-state-changes-across-all-images" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="continuous-cell-state-changes-across-all-images"><span class="header-section-number">6.2.2</span> Continuous cell state changes across all images</h3>
+<p>Beyond looking at single cell-to-cell interactions for a single image, we can also look at all interactions across all images. The <code>calcStateChanges</code> function provided by Statial can be expanded for this exact purpose - by not specifying cell types, a marker, or an image, <code>calcStateChanges</code> will examine the most significant correlations between distance and marker expression across the entire dataset. Here, we’ve filtered out the most significant interactions to only include those found within image 6 of the Keren et al.&nbsp;dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stateChanges <span class="ot">&lt;-</span> <span class="fu">calcStateChanges</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"distances"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCores =</span> <span class="dv">1</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">minCells =</span> <span class="dv">100</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>stateChanges <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(imageID <span class="sc">==</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   imageID primaryCellType otherCellType       marker         coef      tval
+1        6  Keratin_Tumour  Unidentified           Na  0.004218419  25.03039
+2        6  Keratin_Tumour   Macrophages  HLA_Class_1 -0.003823497 -24.69629
+3        6  Keratin_Tumour    CD4_T_cell  HLA_Class_1 -0.003582774 -23.87797
+4        6  Keratin_Tumour  Unidentified Beta.catenin  0.005893120  23.41953
+5        6  Keratin_Tumour    CD8_T_cell  HLA_Class_1 -0.003154544 -23.13804
+6        6  Keratin_Tumour    DC_or_Mono  HLA_Class_1 -0.003353834 -22.98944
+7        6  Keratin_Tumour      dn_T_CD3  HLA_Class_1 -0.003123446 -22.63197
+8        6  Keratin_Tumour        Tumour  HLA_Class_1  0.003684079  21.94265
+9        6  Keratin_Tumour    CD4_T_cell           Fe -0.003457338 -21.43550
+10       6  Keratin_Tumour    CD4_T_cell   phospho.S6 -0.002892457 -20.50767
+            pval           fdr
+1  6.971648e-127 3.382534e-123
+2  7.814253e-124 3.430271e-120
+3  1.745242e-116 5.362839e-113
+4  1.917245e-112 5.523165e-109
+5  5.444541e-110 1.434014e-106
+6  1.053130e-108 2.696743e-105
+7  1.237988e-105 2.889213e-102
+8  8.188258e-100  1.640945e-96
+9   1.287478e-95  2.260688e-92
+10  3.928912e-88  5.748996e-85</code></pre>
+</div>
+</div>
+<p>In image 6, the majority of the top 10 most significant interactions occur between keratin/tumour cells and an immune population, and many of these interactions appear to involve the HLA class I ligand.</p>
+<p>We can examine some of these interactions further with the <code>plotStateChanges</code> function. Taking a closer examination of the relationship between macrophages and keratin/tumour HLA class I expression, the plot below shows us a clear visual correlation - as macrophage density increases, keratin/tumour cells increase their expression HLA class I.</p>
+<p>Biologically, HLA Class I is a ligand which exists on all nucleated cells, tasked with presenting internal cell antigens for recognition by the immune system, marking aberrant cells for destruction by either CD8+ T cells or NK cells.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plotStateChanges</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"distances"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">image =</span> <span class="st">"6"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="st">"Keratin_Tumour"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="st">"Macrophages"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="st">"HLA_Class_1"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">19</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">interactive =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotModelFit =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"lm"</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$image</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$scatter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1359 rows containing non-finite outside the scale range
+(`stat_smooth()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1359 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, let’s take a look at the top 10 most significant results across all images.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>stateChanges <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       imageID primaryCellType otherCellType     marker         coef
+69468       37     Endothelial        Tumour       Lag3 -0.001621517
+153135      11     Neutrophils            NK       CD56 -0.059936866
+16402       35      CD4_T_cell        B_cell       CD20 -0.029185750
+16498       35      CD4_T_cell    DC_or_Mono       CD20  0.019125946
+4891        35          B_cell    DC_or_Mono phospho.S6  0.005282065
+16507       35      CD4_T_cell    DC_or_Mono phospho.S6  0.004033218
+4885        35          B_cell    DC_or_Mono     HLA.DR  0.011120703
+5043        35          B_cell  Other_Immune          P  0.011182182
+16354       35      CD4_T_cell      dn_T_CD3       CD20  0.016349492
+4888        35          B_cell    DC_or_Mono     H3K9ac  0.005096632
+                tval          pval           fdr
+69468  -4.916884e+14  0.000000e+00  0.000000e+00
+153135 -2.172437e+15  0.000000e+00  0.000000e+00
+16402  -4.057355e+01 7.019343e-282 4.313854e-277
+16498   4.053436e+01 1.891267e-281 8.717324e-277
+4891    4.041385e+01 5.306590e-278 1.956752e-273
+16507   3.472882e+01 4.519947e-219 1.388904e-214
+4885    3.415344e+01 8.401034e-212 2.212712e-207
+5043    3.414375e+01 1.056403e-211 2.434613e-207
+16354   3.391901e+01 1.219488e-210 2.498188e-206
+4888    3.399856e+01 3.266533e-210 6.022506e-206</code></pre>
+</div>
+</div>
+<p>Immediately, we can appreciate that a couple of these interactions are not biologically plausible. One of the most significant interactions occurs between B cells and CD4 T cells in image 35, where CD4 T cells are found to increase in CD20 expression when in close proximity to B cells. Biologically, CD20 is a highly specific ligand for B cells, and under healthy circumstances are usually not expressed in T cells.</p>
+<p>Could this potentially be an artefact of <code>calcStateChanges</code>? We can examine the image through the <code>plotStateChanges</code> function, where we indeed observe a strong increase in CD20 expression in T cells nearby B cell populations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plotStateChanges</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"distances"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">image =</span> <span class="st">"35"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="st">"CD4_T_cell"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="st">"B_cell"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="st">"CD20"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">19</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">interactive =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotModelFit =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"lm"</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$image</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$scatter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 26 rows containing missing values or values outside the scale range
+(`geom_smooth()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>So why are T cells expressing CD20? This brings us to a key problem of cell segmentation - contamination.</p>
+</section>
+<section id="contamination-lateral-marker-spill-over" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="contamination-lateral-marker-spill-over"><span class="header-section-number">6.2.3</span> Contamination (Lateral marker spill over)</h3>
+<p>Contamination, or lateral marker spill over is an issue that results in a cell’s marker expressions being wrongly attributed to another adjacent cell. This issue arises from incorrect segmentation where components of one cell are wrongly determined as belonging to another cell. Alternatively, this issue can arise when antibodies used to tag and measure marker expressions don’t latch on properly to a cell of interest, thereby resulting in residual markers being wrongly assigned as belonging to a cell near the intended target cell. It is important that we either correct or account for this incorrect attribution of markers in our modelling process. This is critical in understanding whether significant cell-cell interactions detected are an artefact of technical measurement errors driven by spill over or are real biological changes that represent a shift in a cell’s state.</p>
+<p>To circumvent this problem, Statial provides a function that predicts the probability that a cell is any particular cell type - <code>calcContamination</code>. <code>calcContamination</code> returns a dataframe of probabilities demarcating the chance of a cell being any particular cell type. This dataframe is stored under <code>contaminations</code> in the <code>reducedDim</code> slot of the <code>SingleCellExperiment</code> object. It also provides the <code>rfMainCellProb</code> column, which provides the probability that a cell is indeed the cell type it has been designated. E.g. For a cell designated as CD8, rfMainCellProb could give a 80% chance that the cell is indeed CD8, due to contamination.</p>
+<p>We can then introduce these probabilities as covariates into our linear model by setting <code>contamination = TRUE</code> as a parameter in our <code>calcStateChanges</code> function. However, this is not a perfect solution for the issue of contamination. As we can see, despite factoring in contamination into our linear model, the correlation between B cell density and CD20 expression in CD4 T cells remains one of the most significant interactions in our model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> <span class="fu">calcContamination</span>(kerenSPE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Growing trees.. Progress: 29%. Estimated remaining time: 1 minute, 18 seconds.
+Growing trees.. Progress: 58%. Estimated remaining time: 46 seconds.
+Growing trees.. Progress: 86%. Estimated remaining time: 15 seconds.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>stateChangesCorrected <span class="ot">&lt;-</span> <span class="fu">calcStateChanges</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"distances"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCores =</span> <span class="dv">1</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">minCells =</span> <span class="dv">100</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">contamination =</span> <span class="cn">TRUE</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>stateChangesCorrected <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       imageID primaryCellType otherCellType      marker         coef
+69468       37     Endothelial        Tumour        Lag3 -0.001621517
+153135      11     Neutrophils            NK        CD56 -0.059936866
+16402       35      CD4_T_cell        B_cell        CD20 -0.024571950
+16498       35      CD4_T_cell    DC_or_Mono        CD20  0.015772466
+4891        35          B_cell    DC_or_Mono  phospho.S6  0.004288926
+16354       35      CD4_T_cell      dn_T_CD3        CD20  0.013457619
+16507       35      CD4_T_cell    DC_or_Mono  phospho.S6  0.003590359
+16357       35      CD4_T_cell      dn_T_CD3      HLA.DR  0.010261320
+89188        3  Keratin_Tumour            DC          Ca -0.013731753
+3697        28          B_cell            NK          Na -0.004464320
+82222       20  Keratin_Tumour        Tumour HLA_Class_1  0.002947118
+4741        35          B_cell      dn_T_CD3      HLA.DR  0.008930978
+4885        35          B_cell    DC_or_Mono      HLA.DR  0.008690646
+16491       35      CD4_T_cell    DC_or_Mono      CSF.1R  0.008649541
+82985       21  Keratin_Tumour            DC Pan.Keratin -0.005909002
+82177       20  Keratin_Tumour        Tumour          Na  0.002561655
+99073        6  Keratin_Tumour  Unidentified          Na  0.004182679
+16363       35      CD4_T_cell      dn_T_CD3  phospho.S6  0.002922091
+5083        35          B_cell  Other_Immune  phospho.S6  0.004576803
+83998       23  Keratin_Tumour  Unidentified HLA_Class_1  0.002986654
+                tval          pval           fdr
+69468  -2.673408e+14  0.000000e+00  0.000000e+00
+153135 -2.188475e+15  0.000000e+00  0.000000e+00
+16402  -3.460066e+01 1.589694e-217 9.769731e-213
+16498   3.310944e+01 4.106486e-202 1.892782e-197
+4891    2.991128e+01 3.031132e-169 1.117700e-164
+16354   2.935138e+01 1.235526e-164 3.796565e-160
+16507   2.928929e+01 4.925555e-164 1.297321e-159
+16357   2.886492e+01 6.026653e-160 1.388917e-155
+89188  -2.905981e+01 9.849625e-158 2.017750e-153
+3697   -2.901927e+01 1.925888e-157 3.550760e-153
+82222   2.585291e+01 1.174098e-134 1.967896e-130
+4741    2.614278e+01 5.543870e-134 8.517695e-130
+4885    2.516607e+01 2.778189e-125 3.940114e-121
+16491   2.503381e+01 1.412595e-124 1.860287e-120
+82985  -2.446219e+01 1.641735e-124 2.017912e-120
+82177   2.455804e+01 1.054547e-122 1.215168e-118
+99073   2.449776e+01 5.455305e-122 5.916439e-118
+16363   2.465580e+01 2.994339e-121 3.067035e-117
+5083    2.463231e+01 1.298678e-120 1.260197e-116
+83998   2.425599e+01 3.349010e-120 3.087285e-116</code></pre>
+</div>
+</div>
+<p>However, this does not mean factoring in contamination into our linear model was ineffective.</p>
+<p>Whilst our correction attempts do not rectify every relationship which arises due to contamination, we show that a significant portion of these relationships are rectified. We can show this by plotting a ROC curve of true positives against false positives. In general, cell type specific markers such as CD4, CD8, and CD20 should not change in cells they are not specific to. Therefore, relationships detected to be significant involving these cell type markers are likely false positives and will be treated as such for the purposes of evaluation. Meanwhile, cell state markers are predominantly likely to be true positives.</p>
+<p>Plotting the relationship between false positives and true positives, we’d expect the contamination correction to be greatest in the relationships with the top 100 lowest p values, where we indeed see more true positives than false positives with contamination correction.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>cellTypeMarkers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CD3"</span>, <span class="st">"CD4"</span>, <span class="st">"CD8"</span>, <span class="st">"CD56"</span>, <span class="st">"CD11c"</span>, <span class="st">"CD68"</span>, <span class="st">"CD45"</span>, <span class="st">"CD20"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(values) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"Corrected"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">TP =</span> <span class="fu">cumsum</span>(stateChanges<span class="sc">$</span>marker <span class="sc">%in%</span> cellTypeMarkers), <span class="at">FP =</span> <span class="fu">cumsum</span>(<span class="sc">!</span>stateChanges<span class="sc">$</span>marker <span class="sc">%in%</span> cellTypeMarkers), <span class="at">type =</span> <span class="st">"None"</span>),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">TP =</span> <span class="fu">cumsum</span>(stateChangesCorrected<span class="sc">$</span>marker <span class="sc">%in%</span> cellTypeMarkers), <span class="at">FP =</span> <span class="fu">cumsum</span>(<span class="sc">!</span>stateChangesCorrected<span class="sc">$</span>marker <span class="sc">%in%</span> cellTypeMarkers), <span class="at">type =</span> <span class="st">"Corrected"</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> TP, <span class="at">y =</span> FP, <span class="at">colour =</span> type)) <span class="sc">+</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cell state marker"</span>, <span class="at">x =</span> <span class="st">"Cell type marker"</span>) <span class="sc">+</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, we zoom in on the ROC curve where the top 100 lowest p values occur, where we indeed see more true positives than false positives with contamination correction.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> TP, <span class="at">y =</span> FP, <span class="at">colour =</span> type)) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1000</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cell state marker"</span>, <span class="at">x =</span> <span class="st">"Cell type marker"</span>) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 371470 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="associate-continuous-state-changes-with-survival-outcomes" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="associate-continuous-state-changes-with-survival-outcomes"><span class="header-section-number">6.2.4</span> Associate continuous state changes with survival outcomes</h3>
+<p>Similiar to <code>Kontextual</code>, we can run a similar survival analysis using our state changes results. Here, <code>prepMatrix</code> extracts the coefficients, or the <code>coef</code> column of <code>stateChanges</code> by default. To use the t values instead, specify <code>column = "tval"</code> in the <code>prepMatrix</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preparing features for Statial</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>stateMat <span class="ot">&lt;-</span> <span class="fu">prepMatrix</span>(stateChanges)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensuring rownames of stateMat match up with rownames of the survival vector</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>stateMat <span class="ot">&lt;-</span> stateMat[<span class="fu">names</span>(kerenSurv), ]</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove some very small values</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>stateMat <span class="ot">&lt;-</span> stateMat[, <span class="fu">colMeans</span>(<span class="fu">abs</span>(stateMat) <span class="sc">&gt;</span> <span class="fl">0.0001</span>) <span class="sc">&gt;</span> .<span class="dv">8</span>]</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>survivalResults <span class="ot">&lt;-</span> <span class="fu">colTest</span>(stateMat, kerenSurv, <span class="at">type =</span> <span class="st">"survival"</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survivalResults)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                         coef se.coef   pval adjPval
+Keratin_Tumour__Mono_or_Neu__Pan.Keratin -280      89 0.0018    0.63
+Macrophages__Keratin_Tumour__HLA_Class_1  220      75 0.0034    0.63
+Keratin_Tumour__CD8_T_cell__Keratin6     -220      77 0.0036    0.63
+Macrophages__Other_Immune__HLA_Class_1   -480     170 0.0057    0.75
+Keratin_Tumour__Mesenchymal__dsDNA       -810     310 0.0094    0.80
+Keratin_Tumour__Unidentified__H3K27me3    490     190 0.0100    0.80
+                                                                          cluster
+Keratin_Tumour__Mono_or_Neu__Pan.Keratin Keratin_Tumour__Mono_or_Neu__Pan.Keratin
+Macrophages__Keratin_Tumour__HLA_Class_1 Macrophages__Keratin_Tumour__HLA_Class_1
+Keratin_Tumour__CD8_T_cell__Keratin6         Keratin_Tumour__CD8_T_cell__Keratin6
+Macrophages__Other_Immune__HLA_Class_1     Macrophages__Other_Immune__HLA_Class_1
+Keratin_Tumour__Mesenchymal__dsDNA             Keratin_Tumour__Mesenchymal__dsDNA
+Keratin_Tumour__Unidentified__H3K27me3     Keratin_Tumour__Unidentified__H3K27me3</code></pre>
+</div>
+</div>
+<p>For our state changes results, <code>Keratin_Tumour__CD4_Cell__Keratin6</code> is the most significant pairwise relationship which contributes to patient survival. That is, the relationship between HLA class I expression in keratin/tumour cells and their spatial proximity to mesenchymal cells. As there is a negative coeffcient associated with this relationship, which tells us that higher HLA class I expression in keratin/tumour cells nearby mesenchymal cell populations lead to poorer survival outcomes for patients.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the most significant relationship</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>survRelationship <span class="ot">&lt;-</span> stateMat[[<span class="st">"Keratin_Tumour__Mono_or_Neu__Pan.Keratin"</span>]]</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>survRelationship <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(survRelationship <span class="sc">&gt;</span> <span class="fu">median</span>(survRelationship), <span class="st">"Higher expression in close cells"</span>, <span class="st">"Lower expression in close cells"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting Kaplan-Meier curve</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">survfit2</span>(kerenSurv <span class="sc">~</span> survRelationship) <span class="sc">|&gt;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsurvfit</span>() <span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_pvalue</span>() <span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Keratin_Tumour__Mono_or_Neu__Pan.Keratin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-changes_in_marker_expression_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="scfeatures-morans-i" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="scfeatures-morans-i"><span class="header-section-number">6.3</span> scFeatures: Moran’s I</h2>
+</section>
+<section id="sessioninfo" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sessioninfo"><span class="header-section-number">6.4</span> sessionInfo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: x86_64-pc-linux-gnu
+Running under: Debian GNU/Linux 12 (bookworm)
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.21.so;  LAPACK version 3.11.0
+
+locale:
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+
+time zone: Australia/Sydney
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] SpatialDatasets_1.4.0       SpatialExperiment_1.16.0   
+ [3] ExperimentHub_2.14.0        AnnotationHub_3.14.0       
+ [5] BiocFileCache_2.14.0        dbplyr_2.5.0               
+ [7] Statial_1.7.4               testthat_3.2.1.1           
+ [9] treekoR_1.14.0              tibble_3.2.1               
+[11] ggsurvfit_1.1.0             ggplot2_3.5.1              
+[13] SingleCellExperiment_1.28.1 dplyr_1.1.4                
+[15] lisaClust_1.14.4            ClassifyR_3.10.0           
+[17] survival_3.7-0              BiocParallel_1.40.0        
+[19] MultiAssayExperiment_1.32.0 SummarizedExperiment_1.36.0
+[21] Biobase_2.66.0              GenomicRanges_1.58.0       
+[23] GenomeInfoDb_1.42.0         IRanges_2.40.0             
+[25] MatrixGenerics_1.18.0       matrixStats_1.4.1          
+[27] S4Vectors_0.44.0            BiocGenerics_0.52.0        
+[29] generics_0.1.3              spicyR_1.18.0              
+
+loaded via a namespace (and not attached):
+  [1] fs_1.6.5                    spatstat.sparse_3.1-0      
+  [3] devtools_2.4.5              httr_1.4.7                 
+  [5] hopach_2.66.0               RColorBrewer_1.1-3         
+  [7] doParallel_1.0.17           numDeriv_2016.8-1.1        
+  [9] profvis_0.4.0               tools_4.4.1                
+ [11] backports_1.5.0             utf8_1.2.4                 
+ [13] R6_2.5.1                    lazyeval_0.2.2             
+ [15] mgcv_1.9-1                  GetoptLong_1.0.5           
+ [17] urlchecker_1.0.1            withr_3.0.2                
+ [19] coxme_2.2-22                cli_3.6.3                  
+ [21] spatstat.explore_3.3-3      sandwich_3.1-1             
+ [23] labeling_0.4.3              mvtnorm_1.3-2              
+ [25] spatstat.data_3.1-2         systemfonts_1.1.0          
+ [27] yulab.utils_0.1.8           ggupset_0.4.0              
+ [29] colorRamps_2.3.4            sessioninfo_1.2.2          
+ [31] limma_3.62.1                RSQLite_2.3.7              
+ [33] flowCore_2.18.0             rstudioapi_0.17.1          
+ [35] gridGraphics_0.5-1          shape_1.4.6.1              
+ [37] spatstat.random_3.3-2       car_3.1-3                  
+ [39] scam_1.2-17                 Matrix_1.7-1               
+ [41] RProtoBufLib_2.18.0         fansi_1.0.6                
+ [43] abind_1.4-8                 lifecycle_1.0.4            
+ [45] yaml_2.3.10                 multcomp_1.4-26            
+ [47] edgeR_4.4.0                 carData_3.0-5              
+ [49] SparseArray_1.6.0           Rtsne_0.17                 
+ [51] blob_1.2.4                  grid_4.4.1                 
+ [53] promises_1.3.0              crayon_1.5.3               
+ [55] bdsmatrix_1.3-7             miniUI_0.1.1.1             
+ [57] lattice_0.22-6              KEGGREST_1.46.0            
+ [59] magick_2.8.5                pillar_1.9.0               
+ [61] knitr_1.49                  ComplexHeatmap_2.22.0      
+ [63] rjson_0.2.23                boot_1.3-31                
+ [65] codetools_0.2-20            glue_1.8.0                 
+ [67] ggiraph_0.8.10              ggfun_0.1.7                
+ [69] spatstat.univar_3.1-1       data.table_1.16.2          
+ [71] remotes_2.5.0               vctrs_0.6.5                
+ [73] png_0.1-8                   treeio_1.30.0              
+ [75] gtable_0.3.6                cachem_1.1.0               
+ [77] xfun_0.49                   S4Arrays_1.6.0             
+ [79] mime_0.12                   ConsensusClusterPlus_1.70.0
+ [81] pheatmap_1.0.12             iterators_1.0.14           
+ [83] cytolib_2.18.0              statmod_1.5.0              
+ [85] ellipsis_0.3.2              TH.data_1.1-2              
+ [87] nlme_3.1-166                usethis_3.0.0              
+ [89] ggtree_3.14.0               bit64_4.5.2                
+ [91] filelock_1.0.3              rprojroot_2.0.4            
+ [93] DBI_1.2.3                   colorspace_2.1-1           
+ [95] tidyselect_1.2.1            curl_6.0.1                 
+ [97] bit_4.5.0                   compiler_4.4.1             
+ [99] diffcyt_1.26.0              desc_1.4.3                 
+[101] DelayedArray_0.32.0         plotly_4.10.4              
+[103] scales_1.3.0                rappdirs_0.3.3             
+[105] stringr_1.5.1               digest_0.6.37              
+[107] goftest_1.2-3               fftwtools_0.9-11           
+[109] spatstat.utils_3.1-1        minqa_1.2.8                
+[111] rmarkdown_2.29              XVector_0.46.0             
+[113] htmltools_0.5.8.1           pkgconfig_2.0.3            
+[115] lme4_1.1-35.5               fastmap_1.2.0              
+[117] rlang_1.1.4                 GlobalOptions_0.1.2        
+[119] htmlwidgets_1.6.4           ggthemes_5.1.0             
+[121] UCSC.utils_1.2.0            shiny_1.9.1                
+[123] ggh4x_0.2.8                 farver_2.1.2               
+[125] zoo_1.8-12                  jsonlite_1.8.9             
+[127] magrittr_2.0.3              Formula_1.2-5              
+[129] GenomeInfoDbData_1.2.13     ggplotify_0.1.2            
+[131] patchwork_1.3.0             munsell_0.5.1              
+[133] Rcpp_1.0.13-1               ape_5.8                    
+[135] ggnewscale_0.5.0            stringi_1.8.4              
+[137] brio_1.1.5                  zlibbioc_1.52.0            
+[139] MASS_7.3-61                 plyr_1.8.9                 
+[141] pkgbuild_1.4.5              parallel_4.4.1             
+[143] deldir_2.0-4                Biostrings_2.74.0          
+[145] splines_4.4.1               tensor_1.5                 
+[147] circlize_0.4.16             locfit_1.5-9.10            
+[149] igraph_2.1.1                ggpubr_0.6.0               
+[151] uuid_1.2-1                  ranger_0.17.0              
+[153] spatstat.geom_3.3-3         ggsignif_0.6.4             
+[155] reshape2_1.4.4              pkgload_1.4.0              
+[157] BiocVersion_3.20.0          XML_3.99-0.17              
+[159] evaluate_1.0.1              BiocManager_1.30.25        
+[161] nloptr_2.1.1                foreach_1.5.2              
+[163] tweenr_2.0.3                httpuv_1.6.15              
+[165] tidyr_1.3.1                 purrr_1.0.2                
+[167] polyclip_1.10-7             clue_0.3-66                
+[169] ggforce_0.4.2               broom_1.0.7                
+[171] xtable_1.8-4                tidytree_0.4.6             
+[173] rstatix_0.7.2               later_1.3.2                
+[175] viridisLite_0.4.2           class_7.3-22               
+[177] lmerTest_3.1-3              aplot_0.2.3                
+[179] AnnotationDbi_1.68.0        memoise_2.0.1              
+[181] FlowSOM_2.14.0              cluster_2.1.6              
+[183] concaveman_1.1.0           </code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05-cellular_niches.html" class="pagination-link" aria-label="Spatial domains">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial domains</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-classification.html" class="pagination-link" aria-label="Classification">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -724,7 +724,7 @@ $parent_2
 <span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(imageID <span class="sc">==</span> <span class="st">"6"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cellTypeNew <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Immune"</span>, <span class="st">"Tumour"</span>, <span class="st">"p53_Tumour"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(cellTypeNew) <span class="sc">|&gt;</span></span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x<span class="fl">.1</span>, <span class="at">y =</span> y, <span class="at">color =</span> cellTypeNew)) <span class="sc">+</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> cellTypeNew)) <span class="sc">+</span></span>
 <span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Immune"</span> <span class="ot">=</span> <span class="st">"#505050"</span>, <span class="st">"p53_Tumour"</span> <span class="ot">=</span> <span class="st">"#64BC46"</span>, <span class="st">"Tumour"</span> <span class="ot">=</span> <span class="st">"#D6D6D6"</span>)) <span class="sc">+</span></span>
 <span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">"Cell types"</span>, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -857,13 +857,16 @@ $parent_2
 <p>Finally, both the <code>SingleCellExperiment</code> object and the Kontextual matrix are passed into the <code>spicy</code> function, with <code>condition = "survival"</code>. The resulting coefficients and p values can be obtained by accessing the <code>survivalResults</code> name.</p>
 <p><em>Note:</em> You can specify additional covariates and include a subject id for mixed effects survival modelling, see \code{ for more information.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Running survival analysis</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>survivalResults <span class="ot">=</span> <span class="fu">spicy</span>(<span class="at">cells =</span> kerenSPE,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">alternateResult =</span> kontextMat,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">condition =</span> <span class="st">"survival"</span>,</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">weights =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survivalResults<span class="sc">$</span>survivalResults, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>kerenSPE<span class="sc">$</span>event <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> kerenSPE<span class="sc">$</span>Censored</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>kerenSPE<span class="sc">$</span>survival <span class="ot">=</span> <span class="fu">Surv</span>(kerenSPE<span class="sc">$</span><span class="st">`</span><span class="at">Survival_days_capped*</span><span class="st">`</span>, kerenSPE<span class="sc">$</span>event)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Running survival analysis</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>survivalResults <span class="ot">=</span> <span class="fu">spicy</span>(<span class="at">cells =</span> kerenSPE,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">alternateResult =</span> kontextMat,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">condition =</span> <span class="st">"survival"</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">weights =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survivalResults<span class="sc">$</span>survivalResults, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 4
    test                                    coef se.coef     p.value
@@ -886,7 +889,7 @@ $parent_2
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-cell_localisation_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04-cell_localisation_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -931,7 +934,7 @@ $parent_2
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="04-cell_localisation_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="04-cell_localisation_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
@@ -1002,7 +1005,7 @@ loaded via a namespace (and not attached):
  [39] rhdf5filters_1.18.0         rhdf5_2.50.0               
  [41] rstudioapi_0.17.1           UCSC.utils_1.2.0           
  [43] units_0.8-5                 generics_0.1.3             
- [45] concaveman_1.1.0            curl_6.0.0                 
+ [45] concaveman_1.1.0            curl_6.0.1                 
  [47] zlibbioc_1.52.0             ggraph_2.2.1               
  [49] polyclip_1.10-7             GenomeInfoDbData_1.2.13    
  [51] SparseArray_1.6.0           fftwtools_0.9-11           
@@ -1017,7 +1020,7 @@ loaded via a namespace (and not attached):
  [69] XML_3.99-0.17               scuttle_1.16.0             
  [71] ggupset_0.4.0               class_7.3-22               
  [73] svgPanZoom_0.3.4            pillar_1.9.0               
- [75] nlme_3.1-165                iterators_1.0.14           
+ [75] nlme_3.1-166                iterators_1.0.14           
  [77] EBImage_4.48.0              compiler_4.4.1             
  [79] beachmat_2.22.0             stringi_1.8.4              
  [81] sf_1.0-19                   tensor_1.5                 
@@ -1033,11 +1036,11 @@ loaded via a namespace (and not attached):
 [101] MultiAssayExperiment_1.32.0 splines_4.4.1              
 [103] circlize_0.4.16             Rcpp_1.0.13-1              
 [105] knitr_1.49                  blob_1.2.4                 
-[107] utf8_1.2.4                  clue_0.3-65                
+[107] utf8_1.2.4                  clue_0.3-66                
 [109] BiocVersion_3.20.0          lme4_1.1-35.5              
 [111] fs_1.6.5                    nnls_1.6                   
 [113] ggplotify_0.1.2             ggsignif_0.6.4             
-[115] Matrix_1.7-0                scam_1.2-17                
+[115] Matrix_1.7-1                scam_1.2-17                
 [117] statmod_1.5.0               tzdb_0.4.0                 
 [119] svglite_2.1.3               tweenr_2.0.3               
 [121] pkgconfig_2.0.3             pheatmap_1.0.12            
@@ -1071,7 +1074,7 @@ loaded via a namespace (and not attached):
 [177] XVector_0.46.0              RCurl_1.98-1.16            
 [179] treeio_1.30.0               classInt_0.4-10            
 [181] coxme_2.2-22                jpeg_0.1-10                
-[183] gridExtra_2.3               boot_1.3-30                
+[183] gridExtra_2.3               boot_1.3-31                
 [185] igraph_2.1.1                R6_2.5.1                   
 [187] tidyr_1.3.1                 ggiraph_0.8.10             
 [189] labeling_0.4.3              ggh4x_0.2.8                
