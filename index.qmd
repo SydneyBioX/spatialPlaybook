@@ -1,11 +1,10 @@
 # Overview {.unnumbered}
 
-## Welcome! 
+## Welcome!
+
 <img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
 
-
 Recent advances in highly multiplexed cell imaging technologies such as *PhenoCycler, IMC, CosMx, Xenium, and MERFISH (and many more)* have fundamentally revolutionized our ability to observe complex cellular relationships in tissue. Where previous immunohistochemistry protocols only allowed the visualization of cells that could be characterized by two or three surface proteins, cutting-edge technologies characterize cells with upwards of 50 proteins or 1000s of RNA in situ. These technologies enable precise classification of cell sub-types and provide an unprecedented depiction of cellular heterogeneity in a tissue environment. These technical developments have necessitated the development of a variety of new analytical approaches that are required to harness these new imaging technologies. On this website we will demonstrate how packages in [scdney](https://sydneybiox.github.io/scdney/) can be used to provide new insights into complex biological systems and diseases.
-
 
 ## Packages
 
@@ -26,7 +25,6 @@ Recent advances in highly multiplexed cell imaging technologies such as *PhenoCy
                 console.error('Error fetching content:', error);
             });
     </script>
-
 ```
 
 ```{r echo=FALSE}
@@ -193,71 +191,77 @@ citation {
 cat(gsub("\n", " ", utils::packageDescription("MoleculeExperiment", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("MoleculeExperiment"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### simpleSeg
 
 <a href="http://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/simpleSeg/SimpleSeg_Hex_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("simpleSeg", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("simpleSeg"), style = "html")
 ```
+
 </font>
 
 ### scMerge
 
 <a href="https://sydneybiox.github.io/scMerge/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scMerge/scMerge.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("scMerge", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("scMerge"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### FuseSOM
 
 <a href="http://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/FuseSOM/fuseSOM_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("FuseSOM", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("FuseSOM"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### treekoR
 
 <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/treekoR/treekoR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("treekoR", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("treekoR"), style = "html", url = "")
 ```
-</font> 
+
+</font>
 
 ### scFeatures
 
@@ -267,11 +271,13 @@ print(myCitation("treekoR"), style = "html", url = "")
 cat(gsub("\n", " ", utils::packageDescription("scFeatures", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("scFeatures"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### scHOT
 
@@ -281,11 +287,13 @@ print(myCitation("scFeatures"), style = "html")
 cat(gsub("\n", " ", utils::packageDescription("scHOT", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("scHOT"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### spicyR
 
@@ -295,58 +303,63 @@ print(myCitation("scHOT"), style = "html")
 cat(gsub("\n", " ", utils::packageDescription("spicyR", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("spicyR"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### Statial
 
 <a href="https://sydneybiox.github.io/Statial/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/Statial/statial.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("Statial", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("Statial"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### lisaClust
 
 <a href="https://ellispatrick.github.io/lisaClust/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/lisaClust/lisaClust_sticker_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("lisaClust", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("lisaClust"), style = "html")
 ```
-</font> 
+
+</font>
 
 ### ClassifyR
 
 <a href="https://sydneybiox.github.io/ClassifyR/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/ClassifyR/classifyR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("ClassifyR", fields = "Description")))
 ```
 
-<font size=-1> 
+<font size=-1>
+
 ```{r, results = 'asis', echo = FALSE}
 print(myCitation("ClassifyR"), style = "html")
 ```
-</font> 
 
-This page contains examples of how to different types of analysis. We have sorted these by technology, however we recommend focusing more on the questions that can be asked, rather than the technologies that were use to address them.
+</font>
+
+This guide presents a comprehensive workflow for analysing spatial omics data, featuring examples sorted by different technologies as described below. The workflow covers cell segmentation, data normalisation, various tests of proportion and spatial localisation, microenvironment estimation and patient prediction. We encourage focusing on the biological questions these methods can address rather than the specific technologies used.
 
 ```{=html}
 <style>
@@ -356,11 +369,12 @@ table {
 }
 </style>
 ```
-|       Disease       | Technology |    Title    | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |     |
+
+| Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
-|    Breast cancer    |  MIBITOF   | Keren_2018  |              |           |            |      X       |         X         |           X            |     |
-|    Breast cancer    |  MIBITOF   | Risom_2022  |      X       |     X     |     X      |      X       |         X         |           X            |     |
-| Mouse organogenesis |  seqFISH   | Lohoff_2022 |              |     X     |            |      X       |                   |                        |     |
+| Breast cancer | MIBI-TOF | Keren_2018 |  |  |  | X | X | X |  |
+| Breast cancer | MIBI-TOF | Risom_2022 | X | X | X | X | X | X |  |
+| Mouse organogenesis | seqFISH | Lohoff_2022 |  | X |  | X |  |  |  |
 
 ```{=html}
 <style>
@@ -373,55 +387,56 @@ citation {
 
 ## Datasets
 
-Through the course of this spicyWorkBook, we'll be taking advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on bioconductor. We'll be demonstrating several questions that could be answered or explored for each of these datasets, dependent on the available information.
+Through the course of this spicyWorkBook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
 
 ### Spatial Proteomics - MIBITOF
 
-MIBI-TOF (multiplexed ion beam imaging by time of flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets we have seen image approximately 40 labeled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$
+MIBI-TOF (multiplexed ion beam imaging by time of flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$.
 
 #### [Triple Negative Breast Cancer - Keren_2018](datasets/Keren_2018/Keren_2018.qmd)
 
-A MIBI-TOF dataset profiling tissue from triple-negative breast cancer patients is used to illustrate the functionality of our [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package. That is, identifying changes in cell state that are related to spatial localisation of cells. This dataset simultaneously quantifies *in situ* expression of 36 proteins in 41 patients.
+This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer using MIBI-TOF. We will use this dataset to demonstrate the functionality of our [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package, which allows us to identify changes in cell state that are related to the spatial localisation of cells.
 
 <citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
 
-#### [Ductal carcinoma in situ - Risom_2022](https://sydneybiox.github.io/spicyWorkflow/articles/spicyWorkflow.html)
+#### Ductal carcinoma in situ - Risom_2022
 
-A MIBI-TOF data profiling the spatial landscape of ductal carcinoma in situ (DCIS), which is a pre-invasive lesion that is thought to be a precursor to invasive breast cancer (IBC). This is currently the primary dataset used for illustration of our [spicyWorkflow on Bioconductor](https://bioconductor.org/packages/release/workflows/html/spicyWorkflow.html). The key conclusion of this manuscript (amongst others) is that spatial information about cells can be used to predict disease progression in patients. We use a bunch of our packages to make a similar conclusion and cover topics such as cell segmentation, data normalisation, various tests of proportion and spatial localisation, microenvironment estimation and patient prediction.
+This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma in situ (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A key conclusion of the manuscript is that spatial information about cells can be leveraged to predict disease progression in patients. We use the workflow described in this guide to reach a similar conclusion.
 
 <citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
 
 ### Spatial Proteomics - CODEX
 
-CODEX (Co-detection by indexing) is a highly multiplexed tissue imaging technique using DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. The datasets using this technology can visualise up to 60 labelled antibodies at subcellular resolution.
+CODEX (Co-detection by indexing) is a highly multiplexed tissue imaging technique that uses DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. It can visualise up to 60 labelled antibodies at subcellular resolution.
 
 #### Colorectal cancer - Schurch_2020
 
-A CODEX dataset  which aimed to characterise the immune tumour microenvironment in advanced-stage colorectal cancer. The dataset consists of 35 advanced colorectal cancer patients, with 4 images per patient for a total of 140 images. Each image is marked with a 56-antibody panel to characterise a total of 24 distinct tumour and immune cell populations. Overall, the dataset contains 240,000 cells along with clinical information including patient tumour grade, tumour type, and patient survival.
+A CODEX dataset which aimed to characterise the immune tumour microenvironment in advanced-stage colorectal cancer. The dataset consists of 35 advanced colorectal cancer patients, with 4 images per patient for a total of 140 images. Each image is marked with a 56-antibody panel to characterise a total of 24 distinct tumour and immune cell populations. Overall, the dataset contains 240,000 cells along with clinical information including patient tumour grade, tumour type, and patient survival.
 
-<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
+<citation> Schürch et al. (2020). Coordinated Cellular Neighborhoods Orchestrate Antitumoral Immunity at the Colorectal Cancer Invasive Front et al. (2018). A Coordinated Cellular Neighborhoods Orchestrate Antitumoral Immunity at the Colorectal Cancer Invasive Front. Cell, 182(5), 1341-1359.e19. ([DOI](https://doi.org/10.1016/j.cell.2020.07.005)) </citation>
 
-### Spatial Proteomics - IMC 
+### Spatial Proteomics - IMC
 
-IMC (Imaging Mass Cytometry) is an instrument that combines laser ablation with mass cytometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets produced by IMC can image approximately 30–40 labeled antibodies, covering tissue areas of around $1mm^2$ with a resolution down to 1 micron.
+IMC (Imaging Mass Cytometry) is an instrument that combines laser ablation with mass cytometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets produced by IMC can image approximately 30–40 labeled antibodies, covering tissue areas of around $1mm^2$ with a resolution down to $1 \mu m$.
 
 #### Breast cancer - Ali_2020
 
-Also known as the METABRIC dataset, this IMC datasets consists of 456 Primary invasive breast carcinoma patients for which their are 548 samples. Out of these 548 samples, 518 have both clinical and IMC data available. The dataset contained several clinical variables, including: Age, Chemotherapy Indicator (CT), Radiotherapy Indicator (RT), Hormone Treatment Indicator (HT), Estrogen Receptor Status(ER)) and 4 other gene indicators (MKI67, EGFR, PGR, and ERBB2). Tissue
-samples were acquired using a Hyperion Imaging Mass Cytometer (Fluidigm).
-The IMC images used a 37-antibody panel to identify a total of 22 distinct cell types.
+Also known as the METABRIC dataset, this 37-panel IMC dataset contains images of 456 primary invasive breast carcinoma patients obtained from 548 samples. Clinical variables in the dataset include age, chemotherapy (CT), radiotherapy (RT), hormone treatment (HT) indicators, estrogen receptor (ER) status, and gene expression markers (MKI67, EGFR, PGR, and ERBB2).
+
+<citation> Ali et al. (2020). Imaging mass cytometry and multiplatform genomics define the phenogenomic landscape of breast cancer. Nature Cancer, 1, 163-175. ([DOI](https://doi.org/10.1038/s43018-020-0026-6))</citation>
 
 #### Head and neck squamous cell carcinoma - Ferguson_2020
 
-A IMC dataset profiling the spatial landscape of head and neck cutaneous squamous cell carcinomas (HNcSCC), the second most common type of skin cancer. The majority of HNcSCC can be treated with surgery and good local control, but a subset of large tumours infiltrate subcutaneous tissue and are considered high risk for local recurrence and metastases. The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our spicy workflow to reach a similar conclusion. The dataset contains a total of 31 patients, including 9 non-progressors and 22 progressors. A 36-antibody panel was used to identify a total of 19 distinct cell types.
+This study uses IMC to map the immune landscape and identify differences between high-risk primary head and neck cancer (HNcSCC) tumors that did not progress and those that developed metastases (progressing tumours). The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our spicyWorkflow to reach a similar conclusion.
+
+<citation> Ferguson et al. (2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. ([DOI](https://doi.org/10.1158/1078-0432.CCR-22-1332))</citation>
 
 ### Spatial Transcriptomics - seqFISH
 
-[SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities, such as imaging the transcriptome and proteins
+[SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities.
 
 #### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd)
 
-We use our package [scHOT](https://www.bioconductor.org/packages/release/bioc/html/scHOT.html) to analyse [Lohoff et al's](https://www.nature.com/articles/s41587-021-01006-2) study of early mouse organogenesis that was performed using a seqFISH. This analysis was adapted from a workshop that Shila and Ellis deliver as an introduction to spatial data analysis and in addition to scHOT, covers basic manipulation and visualisation of `SpatialExperiment` objects.
+This study uses seqFISH to spatially profile the expression of 387 genes in mouse embryos. A comprehensive spatially resolved map of gene expression was created by integrating the seqFISH data with existing scRNAseq data. This integration facilitated the exploration of cellular relationships across different regions of the embryo.
 
 <citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>
-
