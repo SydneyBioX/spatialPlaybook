@@ -27,8 +27,6 @@ format:
     theme: [cosmo, styles.scss]
     css: styles.css
     toc: true
-  pdf:
-    documentclass: scrreprt
 
 editor: visual
 

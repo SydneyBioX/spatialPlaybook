@@ -282,19 +282,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survivalResults)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                    coef se.coef    pval adjPval
-Si__Unidentified__region_1         -3.10    0.89 0.00041     0.5
-CD138__DC_or_Mono__region_4         0.85    0.26 0.00110     0.5
-Keratin6__Keratin_Tumour__region_3  1.20    0.37 0.00120     0.5
-MPO__CD4_T_cell__region_4          19.00    5.90 0.00120     0.5
-CD138__Macrophages__region_1        0.89    0.28 0.00150     0.5
-CD138__Other_Immune__region_3       1.20    0.40 0.00180     0.5
+B7H3__CD4_T_cell__region_2         270.0   76.00 0.00038    0.43
+CD163__CD4_T_cell__region_2         67.0   19.00 0.00038    0.43
+FoxP3__CD4_T_cell__region_2         25.0    7.20 0.00052    0.43
+Si__Unidentified__region_4          -3.1    0.89 0.00053    0.43
+CD56__CD4_T_cell__region_2          28.0    8.10 0.00067    0.43
+Keratin6__Keratin_Tumour__region_1   1.6    0.47 0.00073    0.43
                                                               cluster
-Si__Unidentified__region_1                 Si__Unidentified__region_1
-CD138__DC_or_Mono__region_4               CD138__DC_or_Mono__region_4
-Keratin6__Keratin_Tumour__region_3 Keratin6__Keratin_Tumour__region_3
-MPO__CD4_T_cell__region_4                   MPO__CD4_T_cell__region_4
-CD138__Macrophages__region_1             CD138__Macrophages__region_1
-CD138__Other_Immune__region_3           CD138__Other_Immune__region_3</code></pre>
+B7H3__CD4_T_cell__region_2                 B7H3__CD4_T_cell__region_2
+CD163__CD4_T_cell__region_2               CD163__CD4_T_cell__region_2
+FoxP3__CD4_T_cell__region_2               FoxP3__CD4_T_cell__region_2
+Si__Unidentified__region_4                 Si__Unidentified__region_4
+CD56__CD4_T_cell__region_2                 CD56__CD4_T_cell__region_2
+Keratin6__Keratin_Tumour__region_1 Keratin6__Keratin_Tumour__region_1</code></pre>
 </div>
 </div>
 </section>
@@ -557,9 +557,9 @@ $scatter</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> <span class="fu">calcContamination</span>(kerenSPE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Growing trees.. Progress: 29%. Estimated remaining time: 1 minute, 18 seconds.
-Growing trees.. Progress: 58%. Estimated remaining time: 45 seconds.
-Growing trees.. Progress: 86%. Estimated remaining time: 15 seconds.</code></pre>
+<pre><code>Growing trees.. Progress: 30%. Estimated remaining time: 1 minute, 14 seconds.
+Growing trees.. Progress: 61%. Estimated remaining time: 40 seconds.
+Growing trees.. Progress: 92%. Estimated remaining time: 8 seconds.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>stateChangesCorrected <span class="ot">&lt;-</span> <span class="fu">calcStateChanges</span>(</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cells =</span> kerenSPE,</span>
@@ -574,45 +574,45 @@ Growing trees.. Progress: 86%. Estimated remaining time: 15 seconds.</code></pre
 <pre><code>       imageID primaryCellType otherCellType      marker          coef
 69468       37     Endothelial        Tumour        Lag3 -0.0016215172
 153135      11     Neutrophils            NK        CD56 -0.0599368661
-16402       35      CD4_T_cell        B_cell        CD20 -0.0256489252
-16498       35      CD4_T_cell    DC_or_Mono        CD20  0.0165641516
-16507       35      CD4_T_cell    DC_or_Mono  phospho.S6  0.0037034748
-16354       35      CD4_T_cell      dn_T_CD3        CD20  0.0141406481
-16357       35      CD4_T_cell      dn_T_CD3      HLA.DR  0.0106921877
-3697        28          B_cell            NK          Na -0.0045540050
-89188        3  Keratin_Tumour            DC          Ca -0.0138536283
-4891        35          B_cell    DC_or_Mono  phospho.S6  0.0041927954
-82222       20  Keratin_Tumour        Tumour HLA_Class_1  0.0029268947
-83998       23  Keratin_Tumour  Unidentified HLA_Class_1  0.0031383323
-16363       35      CD4_T_cell      dn_T_CD3  phospho.S6  0.0030232817
-4741        35          B_cell      dn_T_CD3      HLA.DR  0.0087702027
-82985       21  Keratin_Tumour            DC Pan.Keratin -0.0060072540
-16491       35      CD4_T_cell    DC_or_Mono      CSF.1R  0.0085474287
-99073        6  Keratin_Tumour  Unidentified          Na  0.0041876837
-85957       26  Keratin_Tumour    CD8_T_cell      HLA.DR -0.0004547647
-82177       20  Keratin_Tumour        Tumour          Na  0.0025256731
-4885        35          B_cell    DC_or_Mono      HLA.DR  0.0085167358
+16402       35      CD4_T_cell        B_cell        CD20 -0.0249544057
+16498       35      CD4_T_cell    DC_or_Mono        CD20  0.0161515811
+16354       35      CD4_T_cell      dn_T_CD3        CD20  0.0138627995
+4891        35          B_cell    DC_or_Mono  phospho.S6  0.0043116217
+16507       35      CD4_T_cell    DC_or_Mono  phospho.S6  0.0036184512
+16357       35      CD4_T_cell      dn_T_CD3      HLA.DR  0.0104062272
+89188        3  Keratin_Tumour            DC          Ca -0.0138856202
+3697        28          B_cell            NK          Na -0.0045200220
+82222       20  Keratin_Tumour        Tumour HLA_Class_1  0.0029391854
+4741        35          B_cell      dn_T_CD3      HLA.DR  0.0088601913
+4885        35          B_cell    DC_or_Mono      HLA.DR  0.0088250768
+82985       21  Keratin_Tumour            DC Pan.Keratin -0.0059476295
+16491       35      CD4_T_cell    DC_or_Mono      CSF.1R  0.0085353317
+83998       23  Keratin_Tumour  Unidentified HLA_Class_1  0.0030202408
+16363       35      CD4_T_cell      dn_T_CD3  phospho.S6  0.0029594713
+99073        6  Keratin_Tumour  Unidentified          Na  0.0042156170
+85957       26  Keratin_Tumour    CD8_T_cell      HLA.DR -0.0004644983
+82177       20  Keratin_Tumour        Tumour          Na  0.0025359057
                 tval          pval           fdr
-69468  -2.531234e+14  0.000000e+00  0.000000e+00
-153135 -1.764258e+15  0.000000e+00  0.000000e+00
-16402  -3.595358e+01 9.873151e-232 6.067710e-227
-16498   3.497968e+01 1.744397e-221 8.040363e-217
-16507   3.064862e+01 2.493316e-177 9.193854e-173
-16354   3.061381e+01 5.507970e-177 1.692508e-172
-16357   3.008570e+01 8.693821e-172 2.289828e-167
-3697   -2.987338e+01 2.525439e-165 5.820189e-161
-89188  -2.951603e+01 6.268844e-162 1.284208e-157
-4891    2.901642e+01 1.201341e-160 2.214912e-156
-82222   2.552330e+01 1.418979e-131 2.378338e-127
-83998   2.538660e+01 1.435453e-130 2.205455e-126
-16363   2.557517e+01 2.148133e-129 3.046549e-125
-4741    2.560379e+01 3.708258e-129 4.883511e-125
-82985  -2.475908e+01 2.506570e-127 3.080909e-123
-16491   2.518166e+01 6.926696e-126 7.981719e-122
-99073   2.452722e+01 2.956326e-122 3.206222e-118
-85957  -2.423165e+01 1.835875e-121 1.880446e-117
-82177   2.415462e+01 4.575326e-119 4.439752e-115
-4885    2.433211e+01 5.159434e-118 4.756224e-114</code></pre>
+69468  -5.424909e+14  0.000000e+00  0.000000e+00
+153135 -1.627379e+15  0.000000e+00  0.000000e+00
+16402  -3.501198e+01 8.006624e-222 4.920605e-217
+16498   3.445307e+01 5.478139e-216 2.525011e-211
+16354   3.022437e+01 3.788809e-173 1.397086e-168
+4891    3.007855e+01 7.247047e-171 2.226897e-166
+16507   2.996623e+01 1.285192e-170 3.385013e-166
+16357   2.926008e+01 9.437302e-164 2.174944e-159
+89188  -2.933926e+01 2.669818e-160 5.469271e-156
+3697   -2.918337e+01 5.998233e-159 1.105894e-154
+82222   2.569988e+01 3.191928e-133 5.349962e-129
+4741    2.550775e+01 2.646829e-128 4.066632e-124
+4885    2.535842e+01 5.573271e-127 7.904185e-123
+82985  -2.465347e+01 2.534357e-126 3.337568e-122
+16491   2.507647e+01 5.924492e-125 7.281990e-121
+83998   2.476286e+01 8.269720e-125 9.529302e-121
+16363   2.497101e+01 5.067702e-124 5.496071e-120
+99073   2.468791e+01 1.036322e-123 1.061482e-119
+85957  -2.441339e+01 3.801165e-123 3.688531e-119
+82177   2.436358e+01 6.047850e-121 5.575211e-117</code></pre>
 </div>
 </div>
 <p>However, this does not mean factoring in contamination into our linear model was ineffective.</p>
@@ -650,7 +650,7 @@ Growing trees.. Progress: 86%. Estimated remaining time: 15 seconds.</code></pre
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Cell state marker"</span>, <span class="at">x =</span> <span class="st">"Cell type marker"</span>) <span class="sc">+</span></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 371468 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 371472 rows containing missing values or values outside the scale range
 (`geom_line()`).</code></pre>
 </div>
 <div class="cell-output-display">

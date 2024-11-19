@@ -305,7 +305,7 @@ window.Quarto = {
 <section id="spicyr-cell-localisation" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="spicyr-cell-localisation"><span class="header-section-number">4.1</span> spicyR: Cell localisation</h2>
 <p>This section provides step-by-step instructions on assessing how the localisation of different cell types changes across different disease conditions.</p>
-<p>We use the <span class="citation" data-cites="keren2018">(<a href="#ref-keren2018" role="doc-biblioref"><strong>keren2018?</strong></a>)</span> breast cancer dataset to compare the spatial distribution of immune cells in individuals with different levels of tumour infiltration (cold and compartmentalised).</p>
+<p>We use the <span class="citation" data-cites="keren2018">(<a href="09-references.html#ref-keren2018" role="doc-biblioref"><strong>keren2018?</strong></a>)</span> breast cancer dataset to compare the spatial distribution of immune cells in individuals with different levels of tumour infiltration (cold and compartmentalised).</p>
 <p>The data is stored as a <code>SpatialExperiment</code> object and contains single-cell spatial data from 41 images.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>kerenSPE <span class="ot">&lt;-</span> SpatialDatasets<span class="sc">::</span><span class="fu">spe_Keren_2018</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -855,7 +855,7 @@ $parent_2
 <span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>kontextMat[<span class="fu">is.na</span>(kontextMat)] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, both the <code>SingleCellExperiment</code> object and the Kontextual matrix are passed into the <code>spicy</code> function, with <code>condition = "survival"</code>. The resulting coefficients and p values can be obtained by accessing the <code>survivalResults</code> name.</p>
-<p><em>Note:</em> You can specify additional covariates and include a subject id for mixed effects survival modelling, see \code{ for more information.</p>
+<p><em>Note:</em> You can specify additional covariates and include a subject id for mixed effects survival modelling, see <a href="https://bioconductor.org/packages/release/bioc/html/spicyR.html">spicyR</a> for more information.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>kerenSPE<span class="sc">$</span>event <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> kerenSPE<span class="sc">$</span>Censored</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>kerenSPE<span class="sc">$</span>survival <span class="ot">=</span> <span class="fu">Surv</span>(kerenSPE<span class="sc">$</span><span class="st">`</span><span class="at">Survival_days_capped*</span><span class="st">`</span>, kerenSPE<span class="sc">$</span>event)</span>

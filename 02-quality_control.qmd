@@ -15,7 +15,7 @@ In many spatial imaging protocols, there tends to be a degree of variability in 
 
 First, let's load in the images we previously segmented out in the last section. The `SpatialDatasets` package conveniently provides the segmented out images for the HNsCC dataset from Ferguson et al., 2022. 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(tidySingleCellExperiment)
 library(simpleSeg)
 # library(scMerge)

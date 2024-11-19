@@ -449,7 +449,7 @@ kontextMat[is.na(kontextMat)] <- 0
 Finally, both the `SingleCellExperiment` object and the Kontextual matrix are passed into the `spicy` function, with `condition = "survival"`. The resulting coefficients and p values can be obtained by accessing the `survivalResults` name.
 
 
-*Note:* You can specify additional covariates and include a subject id for mixed effects survival modelling, see \code{\link[spicyR]{spicy} for more information.
+*Note:* You can specify additional covariates and include a subject id for mixed effects survival modelling, see [spicyR](https://bioconductor.org/packages/release/bioc/html/spicyR.html) for more information.
 
 ```{r}
 kerenSPE$event = 1 - kerenSPE$Censored
