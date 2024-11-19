@@ -214,12 +214,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#reading-in-images" id="toc-reading-in-images" class="nav-link active" data-scroll-target="#reading-in-images"><span class="header-section-number">1.1</span> Reading in images</a></li>
-  <li><a href="#simpleseg" id="toc-simpleseg" class="nav-link" data-scroll-target="#simpleseg"><span class="header-section-number">1.2</span> simpleSeg</a>
+  <li><a href="#cell-segmentation-with-simpleseg" id="toc-cell-segmentation-with-simpleseg" class="nav-link" data-scroll-target="#cell-segmentation-with-simpleseg"><span class="header-section-number">1.2</span> Cell segmentation with simpleSeg</a>
   <ul class="collapse">
   <li><a href="#visualise-separation" id="toc-visualise-separation" class="nav-link" data-scroll-target="#visualise-separation"><span class="header-section-number">1.2.1</span> Visualise separation</a></li>
   <li><a href="#visualise-outlines" id="toc-visualise-outlines" class="nav-link" data-scroll-target="#visualise-outlines"><span class="header-section-number">1.2.2</span> Visualise outlines</a></li>
   </ul></li>
-  <li><a href="#bidcell" id="toc-bidcell" class="nav-link" data-scroll-target="#bidcell"><span class="header-section-number">1.3</span> BIDCell</a></li>
+  <li><a href="#cell-segmentation-with-bidcell" id="toc-cell-segmentation-with-bidcell" class="nav-link" data-scroll-target="#cell-segmentation-with-bidcell"><span class="header-section-number">1.3</span> Cell segmentation with BIDCell</a></li>
   <li><a href="#visual-comparison-of-segmentations" id="toc-visual-comparison-of-segmentations" class="nav-link" data-scroll-target="#visual-comparison-of-segmentations"><span class="header-section-number">1.4</span> Visual comparison of segmentations</a></li>
   <li><a href="#summarise-cell-features" id="toc-summarise-cell-features" class="nav-link" data-scroll-target="#summarise-cell-features"><span class="header-section-number">1.5</span> Summarise cell features</a></li>
   <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">1.6</span> sessionInfo</a></li>
@@ -248,13 +248,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>In this section, we will describe how to read in and pre-process images obtained through various imaging technologies for downstream analysis.</p>
 <p>Steps:</p>
 <ol type="1">
-<li>Format of images (TIFFs)</li>
-<li>How to read in data (cytomapper)</li>
-<li>How to segment data (simpleSeg)</li>
-<li>How to segment data (BIDCell?)</li>
-<li>How to read in spot-based data (MoleculeExperiment)</li>
+<li>How to read in data with cytomapper</li>
+<li>How to segment data with simpleSeg</li>
+<li>How to segment data with BIDCell</li>
+<li>How to read in spot-based data with MoleculeExperiment</li>
 </ol>
 <section id="reading-in-images" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="reading-in-images"><span class="header-section-number">1.1</span> Reading in images</h2>
@@ -263,6 +263,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simpleSeg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>It is convenient to set the number of cores for running code in parallel. Please choose a number that is appropriate for your resources. A minimum of 2 cores is suggested since running this workflow is rather computationally intensive.</p>
+<p>If you would like to use parallel processing for the rest of the vignette, set the <code>use_mc</code> flag to <code>TRUE</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>use_mc <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -275,7 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Once the spicyWorkflow package is installed, these images will be located within the <code>spicyWorkflow</code> folder where the <code>spicyWorkflow</code> package is installed, under <code>inst/extdata/images</code>. Here we use <code>loadImages()</code> from the <code>cytomapper</code> package to load all the tiff images into a <code>CytoImageList</code> object and store the images as h5 file on-disk in a temporary directory using the <code>h5FilesPath = HDF5Array::getHDF5DumpDir()</code> parameter.</p>
+<p>We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the <code>SpatialDatasets</code> package. The <code>loadImages()</code> function form the <code>cytomapper</code> package can be used to load all the TIFF images into a <code>CytoImageList</code> object and store the images as h5 file on-disk in a temporary directory using the <code>h5FilesPath = HDF5Array::getHDF5DumpDir()</code> parameter.</p>
 <p>We will also assign the metadata columns of the <code>CytoImageList</code> object using the <code>mcols()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pathToImages <span class="ot">&lt;-</span> SpatialDatasets<span class="sc">::</span><span class="fu">Ferguson_Images</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -319,11 +321,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mcols</span>(images) <span class="ot">&lt;-</span> S4Vectors<span class="sc">::</span><span class="fu">DataFrame</span>(<span class="at">imageID =</span> <span class="fu">names</span>(images))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="simpleseg" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="simpleseg"><span class="header-section-number">1.2</span> simpleSeg</h2>
-<p>If your images are stored in a <code>list</code> or <code>CytoImageList</code> they can be segmented with a simple call to <code>simpleSeg()</code>. To summarise, <code>simpleSeg()</code> is an R implementation of a simple segmentation technique which traces out the nuclei using a specified channel using <code>nucleus</code> then dilates around the traced nuclei by a specified amount using <code>discSize</code>. The nucleus can be traced out using either one specified channel, or by using the principal components of all channels most correlated to the specified nuclear channel by setting <code>pca = TRUE</code>.</p>
+<section id="cell-segmentation-with-simpleseg" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="cell-segmentation-with-simpleseg"><span class="header-section-number">1.2</span> Cell segmentation with simpleSeg</h2>
+<p>The <a href="https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> package provides functionality to perform cell segmentation on multiplexed imaging data. The <code>simpleSeg()</code> function can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.</p>
 <p>In the particular example below, we have asked <code>simpleSeg</code> to do the following:</p>
-<p>By setting <code>nucleus = c("HH3")</code>, we’ve asked simpleSeg to trace out the nuclei signal in the images using the HH3 channel. By setting <code>pca = TRUE</code>, simpleSeg segments out the nuclei mask using a principal component analysis of all channels and using the principal components most aligned with the nuclei channel, in this case, HH3. By setting <code>cellBody = "dilate"</code>, simpleSeg uses a dilation strategy of segmentation, expanding out from the nucleus by a specified <code>discSize</code>. By setting <code>discSize = 3</code>, simpleSeg dilates out from the nucleus by 3 pixels. By setting <code>sizeSelection = 20</code>, simpleSeg ensures that only cells with a size greater than 20 pixels will be used. By setting <code>transform = "sqrt"</code>, simpleSeg square root transforms each of the channels prior to segmentation. By setting <code>tissue = c("panCK", "CD45", "HH3")</code>, we specify a tissue mask which simpleSeg uses, filtering out all background noise outside the tissue mask. This is important as these are tumour cores, wand hence circular, so we’d want to ignore background noise which happens outside of the tumour core.</p>
+<ul>
+<li><code>nucleus = c("HH3")</code>: trace out the nuclei signal in the images using the HH3 channel.</li>
+<li><code>pca = TRUE</code>: segment out the nuclei mask using a principal component analysis of all channels and using the principal components most aligned with the nuclei channel, in this case, HH3.</li>
+<li><code>cellBody = "dilate"</code>: use a dilation strategy of segmentation, expanding out from the nucleus by a specified <code>discSize</code>. In this case, <code>discSize = 3</code>, which means simpleSeg dilates out from the nucleus by 3 pixels.</li>
+<li><code>sizeSelection = 20</code>: ensure that only cells with a size greater than 20 pixels will be used.</li>
+<li><code>transform = "sqrt"</code>: perform square root transformation on each of the channels prior to segmentation.</li>
+<li><code>tissue = c("panCK", "CD45", "HH3")</code>: use the specified tissue mask to filter out all background noise outside the tissue mask. This allows us to ignore background noise which happens outside of the tumour core.</li>
+</ul>
 <p>There are many other parameters that can be specified in simpleSeg (<code>smooth</code>, <code>watershed</code>, <code>tolerance</code>, and <code>ext</code>), and we encourage the user to select the best parameters which suit their biological context.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>masks <span class="ot">&lt;-</span> <span class="fu">simpleSeg</span>(images,</span>
@@ -339,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="visualise-separation" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="visualise-separation"><span class="header-section-number">1.2.1</span> Visualise separation</h3>
-<p>The <code>display</code> and <code>colorLabels</code> functions in <code>EBImage</code> make it very easy to examine the performance of the cell segmentation. The great thing about <code>display</code> is that if used in an interactive session it is very easy to zoom in and out of the image.</p>
+<p>The <code>display()</code> and <code>colorLabels()</code> functions in the <code>EBImage</code> packagemake it very easy to examine the performance of the cell segmentation. If used in an interactive session, <code>display()</code> allows you to zoom in and out of the image.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>EBImage<span class="sc">::</span><span class="fu">display</span>(<span class="fu">colorLabels</span>(masks[[<span class="dv">1</span>]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -374,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If you wish to visualise multiple markers instead of just the HH3 marker and see how the segmentation mask performs, this can also be done. Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the <code>discSize</code> or other parameters of <code>simpleSeg</code>.</p>
+<p>We can also visualise multiple markers at once instead of just the HH3 marker to see how the segmentation mask performs. Below, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the <code>discSize</code> or other parameters of <code>simpleSeg</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPixels</span>(<span class="at">image =</span> images[<span class="st">"F3"</span>], </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">mask =</span> masks[<span class="st">"F3"</span>],</span>
@@ -474,8 +483,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="bidcell" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="bidcell"><span class="header-section-number">1.3</span> BIDCell</h2>
+<section id="cell-segmentation-with-bidcell" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="cell-segmentation-with-bidcell"><span class="header-section-number">1.3</span> Cell segmentation with BIDCell</h2>
 </section>
 <section id="visual-comparison-of-segmentations" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="visual-comparison-of-segmentations"><span class="header-section-number">1.4</span> Visual comparison of segmentations</h2>
