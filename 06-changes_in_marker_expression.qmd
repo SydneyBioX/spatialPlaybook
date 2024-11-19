@@ -29,9 +29,9 @@ kerenSPE <- lisaClust(kerenSPE,
 )
 ```
 
-
 ## Statial: Marker means
-One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain. 
+
+One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain.
 
 ```{r, include = FALSE}
 kerenSPE$event = 1 - kerenSPE$Censored
@@ -294,4 +294,3 @@ survfit2(kerenSurv ~ survRelationship) |>
 ```{r}
 sessionInfo()
 ```
-

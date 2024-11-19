@@ -22,7 +22,61 @@ Regardless of the end goal, classification is an important end-point for any bio
 ## Cross validation
 Cross validation is an essential part of any classification process, and is necessary to robustly determine how well your model has performed. `ClassifyR` makes this extremely easy to implement with the `crossValidate` function. 
 
+```{r, message=FALSE,warning=FALSE}
+library(ClassifyR)
+library(lisaClust)
+
+BPPARAM <- simpleSeg:::generateBPParam(cores = 40)
+```
+
+Using all the features we've generated in the previous chapters, we can build a list of features matrices.
+
 ```{r}
+kerenSPE <- SpatialDatasets::spe_Keren_2018()
+
 
 ```
+
+
+```{r, eval = FALSE, include =FALSE}
+data <- list()
+
+# Cell type proportion (FuseSOM)
+data[["Proportions"]] <- getProp(kerenSPE, "cellType")
+# Cell localisation (spicyR)
+data[["SpicyR"]] <- getPairwise(kerenSPE, 
+                        BPPARAM = BPPARAM)
+# Cell localisation with respect to a parent (Kontextual)
+data[["LisaClust"]] <- getProp(lisaClust(kerenSPE, k = 5), "region")
+# Spatial Domains (lisaClust)
+
+# Marker means in each cell type (Statial)
+
+# Marker means in each cell type in each region (Statial)
+
+# Proximity-associated changes in marker expression (SpatioMark)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
