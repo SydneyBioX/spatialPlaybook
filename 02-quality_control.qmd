@@ -1,13 +1,17 @@
 # Quality Control
 
+This section explains how to evaluate the quality of segmentation performed with simpleSeg in the previous step. It also introduces additional functions and packages for data normalisation and transformation to address batch effects.
+
 Steps:
 
-1.  How to qc segmentation (simpleSeg/cellSPA?)
+1.  Evaluate quality of cell segmentation with CellSPA (simpleSeg/cellSPA?)
 2.  How to qc image batch-effect (simpleSeg::normalizeCells)
 3.  How to qc patient batch-effect (simpleSeg::normalizeCells)
 4.  How to qc batch effects (scMerge)
 
 ## CellSPA: How do I determine segmentation quality?
+
+[CellSPA](https://sydneybiox.github.io/CellSPA/) is an R package that provides an evaluation framework for *in situ* cell segmentation results.
 
 ## simpleSeg: Do my images have a batch effect?
 

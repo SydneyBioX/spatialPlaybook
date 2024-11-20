@@ -4,10 +4,10 @@ In this section, we will describe how to read in and pre-process images obtained
 
 Steps:
 
-1.  How to read in data with cytomapper
-2.  How to segment data with simpleSeg
-3.  How to segment data with BIDCell
-4.  How to read in spot-based data with MoleculeExperiment
+1.  Reading in data with cytomapper
+2.  Cell segmentation with simpleSeg
+3.  Cell segmentation with BIDCell
+4.  Reading in spot-based data with MoleculeExperiment
 
 ## Reading in images
 
