@@ -371,7 +371,7 @@ table {
 ```
 
 | Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
-|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | Breast cancer | MIBI-TOF | Keren_2018 |  |  |  | X | X | X |  |
 | Breast cancer | MIBI-TOF | Risom_2022 | X | X | X | X | X | X |  |
 | Mouse organogenesis | seqFISH | Lohoff_2022 |  | X |  | X |  |  |  |

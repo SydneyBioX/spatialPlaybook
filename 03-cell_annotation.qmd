@@ -87,7 +87,7 @@ risomKest <- estimateNumCluster(data = risomRes$model, kSeq = 2:25,
 
 ```
 
-We can then use this result to determine the best number of clusters for this dataset based on the different metrics. 
+We can then use this result to determine the best number of clusters for this dataset based on the different metrics.
 
 ```{r}
 # what is the best number of clusters determined by the discriminant method?
@@ -119,7 +119,7 @@ From the plots, we see that the `Jump` statistic almost perfectly captures the c
 
 The `FuseSOM` algorithm is also equipped to take in a `SingleCellExperiment` object as input. The results of the pipeline will be written to either the metada or the colData fields.
 
-First, we create a `SingleCellExperiment` object using the Risom 2022 data. 
+First, we create a `SingleCellExperiment` object using the Risom 2022 data.
 
 ```{r, message=FALSE, warning=FALSE}
 library(SingleCellExperiment)
@@ -132,7 +132,7 @@ sce <- SingleCellExperiment(assays = list(counts = t(risom_dat)),
 sce
 ```
 
-Next, we pass it to the `runFuseSOM()` function. Here, we can provide the assay in which the data is stored (`counts`) and specify the column to store the clusters in using `clusterCol = "clusters"`. Note that the `Self Organizing Map` that is generated will be stored in the metadata field.
+Next, we pass it to the `runFuseSOM()` function. Here, we can provide the assay in which the data is stored (`counts`) and specify the column to store the clusters in using `clusterCol = "clusters"`. The `Self Organizing Map` that is generated will be stored in the metadata field.
 
 ```{r}
 risomRessce <- runFuseSOM(sce, markers = risomMarkers, clusterCol = "clusters",
@@ -142,7 +142,7 @@ colnames(colData(risomRessce))
 names(metadata(risomRessce))
 ```
 
-Notice how the there is now a `clusters` column in the `colData` and a SOM field in the metadata. 
+Notice how the there is now a `clusters` column in the `colData` and a SOM field in the metadata.
 
 If necessary, you can run `runFuseSOM()` with a new cluster number and specify a new `clusterCol`. If `clusterCol` contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current `clusters` column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.
 
@@ -157,31 +157,31 @@ risomHeatsce <- markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = clusters, clusterMarkers = TRUE)
 ```
 
-### Using `FuseSOM` to estimate the number of clusters for single cell experiment objects
+### Using `FuseSOM` to estimate the number of clusters for `SingleCellExperiment` objects
 
-Just like before, we can estimate the number of clusters
+Just like before, we will use `estimateNumCluster()` on our Risom `SingleCellExperiment` object.
 
 ```{r}
 # lets estimate the number of clusters using all the methods
 # original clustering has 23 clusters so we will set kseq from 2:25
-# now we pass it a singlecellexperiment object instead of the som model as before
-# this will return a singelcellexperiment object where the metatdata contains the
-# cluster estimation information
 risomRessce <- estimateNumCluster(data = risomRessce, kSeq = 2:25, 
                                   method = c("Discriminant", "Distance"))
 
 names(metadata(risomRessce))
 ```
 
-Notice how the metadata now contains a `clusterEstimation` field which holds the results from the `estimateNumCluster()` function
+The metadata now contains a `clusterEstimation` field which holds the results from the `estimateNumCluster()` function.
 
-We can assess the results in a similar fashion as before
+We can assess the results of cluster estimation as below.
 
 ```{r, fig.align='center', fig.height=5, fig.width=6, dev='png'}
 # what is the best number of clusters determined by the discriminant method?
-# optimal number of clusters according to the discriminant method is 8
 metadata(risomRessce)$clusterEstimation$Discriminant 
+```
 
+According to the discrminant method, the optimal number of clusters is 10.
+
+```{r}
 # we can plot the results using the optiplot function
 pSlope <- optiPlot(risomRessce, method = 'slope')
 pSlope
@@ -196,7 +196,7 @@ pSil
 
 ```
 
-Again, we see that the `Jump` statistics almost perfectly capture the number of clusters. The `Gap` method is a close second with $15$ clusters. All the other methods significantly underestimates the number of clusters.
+Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 
 ## scClassify: Cell annotation
 

@@ -1,42 +1,46 @@
 # Classification
 
+When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
+
 Steps:
 
-1.  Motivation of classification (prediction)
+1.  Introduction to ClassifyR
 2.  Classification of patients by condition
 3.  Classification of patients by survival
 4.  Easy and Hard to classify patients (samplesMetricMap)
 5.  Maximising accuracy during classification (parameter tuning for crossValidate)
 
-## Why classify?
+## Introduction to `ClassifyR`
 
-When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
+[ClassifyR](https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html) provides a structured pipeline for cross-validated classification. Classification is viewed in terms of four stages: data transformation, feature selection, classifier training, and prediction. The driver functions crossValidate and runTests implements varieties of cross-validation. They are:
 
-Regardless of the end goal, classification is an important end-point for any biological dataset, as it provides us information on:
+* Permutation of the order of samples followed by k-fold cross-validation 
+* Repeated $x\%$ test set cross-validation
+* leave-k-out cross-validation
 
-1.    Important features
-2.    Predictability of the full dataset, or a subset of the dataset
+## Classification of patients by condition
 
-`ClassifyR` simplifies the process of classification, and provides quick and simple ways to analyse datasets and determine how well biological datasets can be classified into disease states using particular feature generation techniques. In this chapter, we will provide a guide on how to use `ClassifyR` on biological datasets, and typical workflows for classification.
-
-## Cross validation
-Cross validation is an essential part of any classification process, and is necessary to robustly determine how well your model has performed. `ClassifyR` makes this extremely easy to implement with the `crossValidate` function. 
+We will use the Keren 2018 dataset to classify a patient's tumour into one of three types: cold, compartmentalised, and mixed. 
 
 ```{r, message=FALSE,warning=FALSE}
 library(ClassifyR)
 library(lisaClust)
 
-BPPARAM <- simpleSeg:::generateBPParam(cores = 40)
-```
+BPPARAM <- simpleSeg:::generateBPParam(cores = 10)
 
-Using all the features we've generated in the previous chapters, we can build a list of features matrices.
-
-```{r}
+# load the Keren 2018 dataset
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
-
-
 ```
 
+We will build a list of feature matrices using the features we've generated in the previous chapters:
+
+1. Cell type proportions
+2. Cell type co-localistion using the L-function (spicyR)
+3. Cell type co-localisation with respect to a parent (Kontextual)
+4. Spatial domains (lisaClust)
+5. Marker means in each cell type (Statial)
+6. Marker means in each cell type in each region (Statial)
+7. Proximity-associated changes in marker expression (SpatioMark)
 
 ```{r, eval = FALSE, include =FALSE}
 data <- list()
@@ -57,26 +61,3 @@ data[["LisaClust"]] <- getProp(lisaClust(kerenSPE, k = 5), "region")
 # Proximity-associated changes in marker expression (SpatioMark)
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
