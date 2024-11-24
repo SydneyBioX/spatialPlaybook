@@ -1,6 +1,8 @@
 # Cell localisation
 
-Now that we've finished performing all of our upstream preprocessing (segmentation, quality control, and annotation), we can now begin dissecting out interesting findings for our datasets. One of the primary motivations behind pursuing a spatial technology as opposed to a space-agnostic technology such as single-cell RNA sequencing, is that we are more able to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are usually visually obvious, to quantify localisation and dispersion relationships, more advanced statistical modelling is required. 
+Now that we have finished preprocessing our data, we can now begin analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
+
+
 
 ```{r warning=FALSE, message=FALSE}
 # load required packages
@@ -16,28 +18,22 @@ library(tibble)
 library(treekoR)
 library(ggsurvfit)
 
-nCores <- 2
+nCores <- 10
 ```
 
-## spicyR: Cell localisation
+## Quantifying cell type co-localisation with spicyR
 
-This section provides step-by-step instructions on assessing how the localisation of different cell types changes across different disease conditions.
-
-We use the @keren2018 breast cancer dataset to compare the spatial distribution of immune cells in individuals with different levels of tumour infiltration (cold and compartmentalised).
-
-The data is stored as a `SpatialExperiment` object and contains single-cell spatial data from 41 images.
+[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups. Here, we will use the Keren 2018 dataset to demonstrate the use of `spicyR` The data is stored as a `SpatialExperiment` object within the `SpatialDatasets` package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).
 
 ```{r warning=FALSE, message=FALSE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 ```
 
-The cell types in this dataset includes 11 immune cell types (double negative CD3 T cells, CD4 T cells, B cells, monocytes, macrophages, CD8 T cells, neutrophils, natural killer cells, dendritic cells, regulatory T cells), 2 structural cell types (endothelial, mesenchymal), 2 tumour cell types (keratin+ tumour, tumour) and one unidentified category. Below we've provided detailed information on the statistical backend of `spicyR`.
+The cell types in this dataset includes 11 immune cell types (double negative CD3 T cells, CD4 T cells, B cells, monocytes, macrophages, CD8 T cells, neutrophils, natural killer cells, dendritic cells, regulatory T cells), 2 structural cell types (endothelial, mesenchymal), 2 tumour cell types (keratin+ tumour, tumour) and one unidentified category. 
 
 ### Linear modelling
 
-To investigate changes in localisation between two different cell types, we 
-measure the level of localisation between two cell types by modelling with the 
-L-function. The L-function is a variance-stabilised K-function given by the equation
+We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a variance-stabilised version of the K-function given by the equation
 
 $$
 \widehat{L_{ij}} (r) = \sqrt{\frac{\widehat{K_{ij}}(r)}{\pi}}
@@ -57,13 +53,17 @@ $$
 u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experimental}} (r') - \widehat L_{ij, \text{Poisson}} (r')
 $$
 
-where $u$ is the sum is taken over a discrete range of $r$ between $r_{\text{min}}$ and $r_{\text{max}}$. Differences of the statistic $u$ between two  conditions is modelled using a weighted linear model.
+where $u$ is the sum is taken over a discrete range of $r$ between $r_{\text{min}}$ and $r_{\text{max}}$. Differences of the statistic $u$ between two conditions is modelled using a weighted linear model.
 
 ### Test for changes in localisation for a specific pair of cells
 
 Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy()` function, where we specify the `condition` parameter.
 
-In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy` will also naturally coerce the `condition` column into a factor if it is not already a factor. The column containing cell type annotations can be specified using the `cellTypeCol` argument. By default, `spicy` uses the column named `cellType` in the `SpatialExperiment` object.
+In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy()` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy()` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-funcion can be specified using the `Rs` argument. Small radii will examine local spatial relationships, whereas larger radii will examine global spatial relationships. By default, `spicy()` calculates the L-function over a range of radii.
+
+The column containing cell type annotations and image IDs can be specified using the `cellType` and `imageID` arguments respectively. By default, `spicy` uses the columns named `cellType` and `imageID`.
+
+We obtain a `spicy` object which details the results of the modelling performed. The `topPairs()` function can be used to obtain the associated coefficients and p-value.
 
 ```{r}
 spicyTestPair <- spicy(
@@ -76,16 +76,11 @@ spicyTestPair <- spicy(
 topPairs(spicyTestPair)
 ```
 
-We obtain a `spicy` object which details the results of the 
-modelling performed. The `topPairs()` function can be used to obtain the associated coefficients and p-value.
-
 As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.
 
 ### Test for changes in localisation for all pairwise cell combinations
 
-We can perform what we did above for all pairwise combinations of cell 
-types by excluding the `from` and `to` parameters in `spicy()`.
-
+We can perform what we did above for all pairwise combinations of cell types by excluding the `from` and `to` parameters in `spicy()`. Additional covariates can be added using the `covariates` argument.
 
 ```{r}
 spicyTest <- spicy(
@@ -96,16 +91,13 @@ spicyTest <- spicy(
 topPairs(spicyTest)
 ```
 
-Again, we obtain a `spicy` object which outlines the result of the linear
-models performed for each pairwise combination of cell types.
+Again, we obtain a `spicy` object which outlines the result of the linear models performed for each pairwise combination of cell types.
 
-We can also examine the L-function metrics of individual images by using the
-convenient `bind()` function on our `spicyTest` results object.
+We can also examine the L-function metrics of individual images by using the convenient `bind()` function on our `spicyTest` results object.
 
 ```{r}
 bind(spicyTest)[1:5, 1:5]
 ```
-
 
 The results can be represented as a bubble plot using the `signifPlot()` function.
 
@@ -147,7 +139,7 @@ pairAbundances <- convPairs(kerenSPE,
 head(pairAbundances["B_cell__B_cell"])
 ```
 
-The custom distance or abundance metrics can then be included in the analysis with the `alternateResult` parameter. The `Statial` package contains other custom distance metrics which can be used with `spicy`.
+The custom distance or abundance metrics can then be included in the analysis with the `alternateResult` parameter. 
 
 ```{r}
 spicyTestColPairs <- spicy(
@@ -169,16 +161,16 @@ signifPlot(
 )
 ```
 
-### Performing survival analysis 
+### Performing survival analysis
 
-`spicy` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
+`spicy()` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy()` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
 
 ```{r}
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 ```
 
-We can then perform survival analysis using the `spicy` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
+We can then perform survival analysis using the `spicy()` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
 
 ```{r}
 # Running survival analysis
@@ -189,12 +181,12 @@ spicySurvival = spicy(kerenSPE,
 head(spicySurvival$survivalResults, 10)
 ```
 
-
 ### Accounting for tissue inhomogeneity
 
-The `spicy` function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the `sigma = ` parameter within the spicy function. By default, `sigma` is set to `NULL`, and `spicy` assumes a homogeneous tissue structure. 
+The `spicy()` function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the `sigma =` parameter within the spicy function. By default, `sigma` is set to `NULL`, and `spicy()` assumes a homogeneous tissue structure.
 
-For example, when we examine the L-function for `Keratin_Tumour__Neutrophils` when `sigma = NULL` and `Rs = 100`, the value is positive, indicating attraction between the two cell types. 
+In the example below, we examine the degree of co-localisation between `Keratin_Tumour__Neutrophils` in one image using the `getPairwise()` function, which returns the L-function values for each cell type pair. We
+set the radius over which the L-function should be calculated (`Rs = 100`) and specify `sigma = NULL`. The calculated L-function is positive, indicating attraction between the two cell types.
 
 ```{r}
 # filter SPE object to obtain image 24 data
@@ -209,7 +201,6 @@ pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
 ```
 
 When we specify `sigma = 20` and re-calculate the L-function, it indicates that there is no relationship between `Keratin_Tumour` and `Neutrophils`, i.e., there is no major attraction or dispersion, as it now takes into account tissue inhomogeneity.
-
 
 ```{r}
 pairwiseAssoc = getPairwise(kerenSubset, 
@@ -256,7 +247,7 @@ Plotting image 24 shows that the supposed co-localisation occurs due to the dens
 
 ### Mixed effects modelling
 
-`spicyR` supports mixed effects modelling when multiple images are obtained for each subject. In this case, `subject` is treated as a random effect and `condition` is treated as a fixed effect. To perform mixed effects modelling, we can specify the `subject` parameter in the `spicy` function.
+`spicyR` supports mixed effects modelling when multiple images are obtained for each subject. In this case, `subject` is treated as a random effect and `condition` is treated as a fixed effect. To perform mixed effects modelling, we can specify the `subject` parameter in the `spicy()` function.
 
 ```{r eval=FALSE}
 spicyMixedTest <- spicy(
@@ -268,18 +259,19 @@ spicyMixedTest <- spicy(
 
 ## Kontextual: Context aware cell localisation
 
-```{r, include = FALSE}
-kerenSPE <- SpatialDatasets::spe_Keren_2018()
+```{r}
+# Reload keren 2018 dataset
+kerenSPE = SpatialDatasets::spe_Keren_2018()
 ```
 
 
-`Kontextual` is a method for performing inference on cell localisation which explicitly defines the contexts in which spatial relationships between cells can be identified and interpreted. These contexts may represent landmarks, spatial domains, or groups of functionally similar cells which are consistent across regions. By modelling spatial relationships between cells relative to these contexts, `Kontextual` produces robust spatial quantifications that are not confounded by biases such as the choice of region to image and the tissue structure present in the images.
+`Kontextual` is a method for performing inference on cell localisation which explicitly defines the contexts in which spatial relationships between cells can be identified and interpreted. These contexts may represent landmarks, spatial domains, or groups of functionally similar cells which are consistent across regions. By modelling spatial relationships between cells relative to these contexts, `Kontextual` produces robust spatial quantifications that are not confounded by biases such as the choice of region to image and the tissue structure present in the images. The `Kontextual` function is available in the [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package.
 
 In this example we demonstrate how cell type hierarchies can be used as a means to derive appropriate "contexts" for the evaluation of cell localisation. We then demonstrate the types of conclusions which `Kontextual` enables.
 
 ### Using cell type hierarchies to define a "context"
 
-A cell type hierarchy may be used to define the "context" in which cell type relationships are evaluated within. A cell type hierarchy defines how cell types are functionally related to one another. The bottom of the hierarchy represents homogeneous populations of a cell type (child), the cell populations at the nodes of the hierarchy represent broader parent populations with shared generalised function. For example CD4 T cells may be considered a child population to the Immune parent population.
+A cell type hierarchy may be used to define the "context" in which cell type relationships are evaluated within. A cell type hierarchy defines how cell types are functionally related to one another. The bottom of the hierarchy represents homogeneous populations of a cell type (child), and the cell populations at the nodes of the hierarchy represent broader parent populations with shared generalised function. For example, CD4 T cells may be considered a child population to the Immune parent population.
 
 There are two ways to define the cell type hierarchy. First, they can be defined based on our biological understanding of the cell types. We can represent this by creating a named list containing the names of each parent and the associated vector of child cell types.
 
@@ -310,13 +302,13 @@ all <- unique(kerenSPE$cellType)
 
 Alternatively, you can use the `treeKor` bioconductor package [treekoR](http://www.bioconductor.org/packages/release/bioc/html/treekoR.html) to define these hierarchies in a data driven way.
 
-*Note:* These parent populations may not be accurate as we are using a small subset of the data. 
+*Note:* These parent populations may not be accurate as we are using a small subset of the data.
 
 ```{r clusteringHierarchy, warning = FALSE}
 # Calculate hierarchy using treekoR
 kerenTree <- treekoR::getClusterTree(t(assay(kerenSPE, "intensities")),
                             kerenSPE$cellType,
-                            hierarchy_method="hopach",
+                            hierarchy_method = "hopach",
                             hopach_K = 1)
 
 # Convert treekoR result to a name list of parents and children.
@@ -325,9 +317,9 @@ treekorParents = getParentPhylo(kerenTree)
 treekorParents
 ```
 
-### Application on triple negative breast cancer image.
+### Application on triple negative breast cancer image
 
-Here we examine an image highlighted in the Keren et al. 2018 manuscript where accounting for context information enables new conclusions. In image 6 of the Keren et al. dataset, we can see that *p53+ tumour cells* and *immune cells* are dispersed i.e. these two cell types are not mixing. However we can also see that *p53+ tumour cells* appear much more localised to *immune cells* relative to the tumour context (*tumour cells* and *p53+ tumour cells*).
+Here we examine an image highlighted in the Keren 2018 [manuscript](https://doi.org/10.1016/j.cell.2018.08.039) where accounting for context information enabled new conclusions.
 
 ```{r image6}
 # Lets define a new cell type vector
@@ -359,9 +351,11 @@ kerenSPE |>
   guides(colour = guide_legend(title = "Cell types", override.aes = list(size = 3)))
 ```
 
-`Kontextual` accepts a `SingleCellExperiment` object, a single image, or list of images from a `SingleCellExperiment` object, which gets passed into the `cells` argument. The two cell types which will be evaluated are specified in the `to` and `from` arguments. A parent population must also be specified in the `parent` argument, note the parent cell population must include the `to` cell type. The argument `r` will specify the radius which the cell relationship will be evaluated on. `Kontextual` supports parallel processing, the number of cores can be specified using the `cores` argument. `Kontextual` can take a single value or multiple values for each argument and will test all combinations of the arguments specified.
+In image 6 of the Keren 2018 dataset given above, we can see that *p53+ tumour cells* and *immune cells* are dispersed. However, we can also see that *p53+ tumour cells* appear much more localised to *immune cells* relative to the tumour context (*tumour cells* and *p53+ tumour cells*).
 
-We can calculate these relationships across all images for a single radius (r = 100). Small radii will examine local spatial relationships, whereas larger radii will examine global spatial relationships.
+We can calculate a context-aware spatial co-localisation metric using `Kontextual`. `Kontextual` accepts a `SingleCellExperiment` object, a single image, or list of images from a `SingleCellExperiment` object, which gets passed into the `cells` argument. The two cell types which will be evaluated are specified in the `to` and `from` arguments. A parent population must also be specified in the `parent` argument. Note the parent cell population must include the `to` cell type. The argument `r` will specify the radius which the cell relationship will be evaluated on. `Kontextual` supports parallel processing, the number of cores can be specified using the `cores` argument. `Kontextual` can take a single value or multiple values for each argument and will test all combinations of the arguments specified.
+
+We can calculate these relationships across all images for a single radius (r = 100). 
 
 ```{r p53Relationship}
 p53_Kontextual <- Kontextual(
@@ -376,7 +370,7 @@ p53_Kontextual <- Kontextual(
 p53_Kontextual
 ```
 
-The `kontextCurve` function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated. 
+The `kontextCurve` function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.
 
 As seen in the following plot the L-function produces negative values over a range of radii, indicating that *p53+ tumour cells* and *immune cells* are dispersed from one another. However by taking into account the tumour context, `Kontextual` shows positive values over some radii, indicating localisation between *p53+ tumour cells* and *immune cells*.
 
@@ -395,7 +389,7 @@ curves <- kontextCurve(
 kontextPlot(curves)
 ```
 
-Alternatively all pairwise cell relationships and their corresponding parent in the dataset can be tested. A data frame with all pairwise combinations can be creating using the `parentCombinations` function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the `parentList` argument. As shown below the output is a data frame specifying the `to`, `from`, and `parent` arguments for `Kontextual`.
+Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the `parentCombinations` function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the `parentList` argument. As shown below, the output is a data frame specifying the `to`, `from`, and `parent` arguments for `Kontextual`.
 
 *Note:* the output of `getPhyloParent` may also be using the in the `parentList` argument, for example if you wanted to use the treekoR defined hierarchy instead.
 
@@ -407,15 +401,9 @@ parentDf <- parentCombinations(
 )
 ```
 
-
 ### Calculating all pairwise relationships
 
-Rather than specifying `to`, `from`, and `parent` in `Kontextual`, the output from `parentCombinations` can be inputed into `Kontextual` using the `parentDf` argument, to examine all pairwise relationships in the dataset. This chunk will take a significant amount of time to run, for demonstration the results have been saved and are loaded in.
-
-```{r, include = FALSE}
-nCores = 40
-```
-
+Rather than specifying `to`, `from`, and `parent` in `Kontextual`, the output from `parentCombinations` can be inputed into `Kontextual` using the `parentDf` argument, to examine all pairwise relationships in the dataset.
 
 ```{r runKontextual}
 # Running Kontextual on all relationships across all images.
@@ -433,7 +421,9 @@ For every pairwise relationship (named accordingly: `from__to__parent`) `Kontext
 
 To examine whether the features obtained from `Statial` are associated with patient outcomes or groupings, we can use the `spicy` function from the `spicyR` package.
 
-In addition to this, the Kontextual results must be converted from a `data.frame` to a wide `matrix`, this can be done using `prepMatrix`. Note, to extract the original L-function values, specify `column = "original"` in `prepMatrix`.
+In addition to this, the Kontextual results must be converted from a `data.frame` to a wide `matrix`, this can be done using `prepMatrix`. 
+
+*Note:*, to extract the original L-function values, specify `column = "original"` in `prepMatrix`.
 
 ```{r}
 # Converting Kontextual result into data matrix
@@ -446,10 +436,7 @@ kontextMat <- kontextMat[kerenSPE$imageID |> unique(), ]
 kontextMat[is.na(kontextMat)] <- 0
 ```
 
-Finally, both the `SingleCellExperiment` object and the Kontextual matrix are passed into the `spicy` function, with `condition = "survival"`. The resulting coefficients and p values can be obtained by accessing the `survivalResults` name.
-
-
-*Note:* You can specify additional covariates and include a subject id for mixed effects survival modelling, see [spicyR](https://bioconductor.org/packages/release/bioc/html/spicyR.html) for more information.
+Finally, both the `SingleCellExperiment` object and the Kontextual matrix are passed into the `spicy` function, with `condition = "survival"`. The resulting coefficients and p values can be obtained by accessing the `survivalResults` name. 
 
 ```{r}
 kerenSPE$event = 1 - kerenSPE$Censored
@@ -462,7 +449,6 @@ survivalResults = spicy(cells = kerenSPE,
                         weights = TRUE)
 
 head(survivalResults$survivalResults, 10)
-
 ```
 
 The survival results can also be visualised using the `signifPlot` function.
@@ -471,11 +457,9 @@ The survival results can also be visualised using the `signifPlot` function.
 signifPlot(survivalResults)
 ```
 
+As we can see from the results, `Neutrophils__CD8_T_cell__immune` is the one of the most significant pairwise relationships which contributes to patient survival. That is the relationship between neutrophils and  CD8 T cells, relative to the parent population of immune cells. We can see that there is a positive coefficient associated with this relationship, which tells us an increase in localisation of these cell types relative to immune cells leads to better survival outcomes for patients.
 
-As we can see from the results `DC__NK__immune` is the one of the most significant pairwise relationship which contributes to patient survival. That is the relationship between dendritic cells and natural killer cells, relative to the parent population of immune cells. We can see that there is a negative coefficient associated with this relationship, which tells us an increase in localisation of these cell types relative to immune cells leads to better survival outcomes for patients.
-
-The association between `DC__NK__immune` and survival can also be visualised on a Kaplan-Meier curve. First, we extract survival data from the `SingleCellExperiment` object and create a survival vector. 
-
+The association between `Neutrophils__CD8_T_cell__immune` and survival can also be visualised on a Kaplan-Meier curve. First, we extract survival data from the `SingleCellExperiment` object and create a survival vector.
 
 ```{r}
 # Extracting survival data
@@ -492,44 +476,23 @@ names(kerenSurv) <- survData$imageID
 kerenSurv
 ```
 
-Next, we extract the Kontextual values of this relationship across all images. We then determine if dendritic and natural killer cells are relatively attracted or avoiding in each image by comparing the Kontextual value in each image to the median Kontextual value.
+Next, we extract the Kontextual values of this relationship across all images. We then determine if neutrophils and CD8 T cells are relatively attracted or avoiding in each image by comparing the Kontextual value in each image to the median Kontextual value.
 
-Finally, we plot a Kaplan-Meier curve using the `ggsurvfit` package. As shown below, when dendritic and natural killer cells are more localised to one another relative to the immune cell population, patients tend to have better survival outcomes.
+Finally, we plot a Kaplan-Meier curve using the `ggsurvfit` package. As shown below, when neutrophils and CD8 T cells are more localised to one another relative to the immune cell population, patients tend to have better survival outcomes.
 
 ```{r, fig.width=5, fig.height=4}
 # Selecting most significant relationship
-survRelationship <- kontextMat[["DC__NK__immune"]]
+survRelationship <- kontextMat[["Neutrophils__CD8_T_cell__immune"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Localised", "Dispersed")
 
 # Plotting Kaplan-Meier curve
 survfit2(kerenSurv ~ survRelationship) |>
   ggsurvfit() +
-  ggtitle("DC__NK__immune")
+  ggtitle("Neutrophils__CD8_T_cell__immune")
 ```
-
 
 ## sessionInfo
 
 ```{r}
 sessionInfo()
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
