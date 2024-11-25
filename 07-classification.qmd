@@ -140,17 +140,6 @@ names(surv_outcome) = kerenSPE$imageID[!duplicated(kerenSPE$imageID)]
 surv_outcome
 ```
 
-```{r}
-filtered_surv = surv_outcome[names(surv_outcome) != "38"]
-filtered_surv
-
-data_mod <- lapply(data, function(mat) {
-    mat[rownames(mat) != "38", , drop = FALSE]  
-})
-
-```
-
-
 We can then run `crossValidate` and specify the outcome to be survival.
 
 ```{r}
@@ -167,8 +156,6 @@ performancePlot(surv_cv,
   orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans"))
 )
 ```
-
-
 
 ## Easy and hard to classify patients
 
