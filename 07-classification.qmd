@@ -20,7 +20,7 @@ Steps:
 
 ## Classification of patients by condition
 
-We will use the Keren 2018 dataset to classify a patient's tumour into one of three types: cold, compartmentalised, and mixed. 
+We will use the Keren 2018 dataset to classify a patient's tumour into one of three types: cold, compartmentalised, and mixed.
 
 ```{r, message=FALSE,warning=FALSE}
 set.seed(51773)
@@ -49,7 +49,7 @@ We will build a list of feature matrices using the features we've generated in t
 data <- list()
 
 # Cell type proportions (FuseSOM)
-data[["proportions"]] <- getProp(kerenSPE, "cellType") |> as.matrix()
+data[["proportions"]] <- getProp(kerenSPE, "cellType")
 
 # Cell localisation (spicyR)
 data[["spicyR"]] <- getPairwise(kerenSPE,
@@ -83,21 +83,14 @@ We will then generate a factor vector of our outcome variable.
 outcome = kerenSPE$tumour_type[!duplicated(kerenSPE$imageID)]
 names(outcome) = kerenSPE$imageID[!duplicated(kerenSPE$imageID)]
 
-outcome
+head(outcome, 5)
 ```
 
-`ClassifyR` provides a convenient function, `crossValidate`, to build and test models. `crossValidate` must be supplied with `measurements`, a simple tabular data container or a list-like structure of such related tabular data on common samples. It can be 
-in the form of a  `matrix`, `data.frame`, `DataFrame`, `MultiAssayExperiment` or a list of `data.frames`. 
+`ClassifyR` provides a convenient function, `crossValidate`, to build and test models. `crossValidate` must be supplied with `measurements`, a simple tabular data container or a list-like structure of such related tabular data on common samples. It can be in the form of a `matrix`, `data.frame`, `DataFrame`, `MultiAssayExperiment` or a list of `data.frames`.
 
-`crossValidate` must also be supplied with `outcome`, which represents the 
-prediction to be made. `outcome` can be either a factor containing the class 
-labels for each observation, or a `character` of length 1 that matches a column name in a data frame which holds the classes. If a `character` is provided, 
-`crossValidate` will automatically remove the classes before training.
+`crossValidate` must also be supplied with `outcome`, which represents the prediction to be made. `outcome` can be either a factor containing the class labels for each observation, or a `character` of length 1 that matches a column name in a data frame which holds the classes. If a `character` is provided, `crossValidate` will automatically remove the classes before training.
 
-By default, `crossValidate` will build and train a random forest. Alternative
-classifiers can be specified using the `classifier` argument. To view all 
-available feature selection and classification approaches, use the `available()`
-function.
+By default, `crossValidate` will build and train a random forest. Alternative classifiers can be specified using the `classifier` argument. To view all available feature selection and classification approaches, use the `available()` function.
 
 ```{r}
 # perform 50 repeats of 5-fold cross-validation
@@ -108,9 +101,7 @@ cv = crossValidate(measurements = data,
                    nCores = 10)
 ```
 
-We can use `performancePlot` to visualise performance metrics for all our features.
-Here, we visualise the AUC for each of the six feature matrices we tested. Additional
-performance metrics can be specified in the `metric` argument.
+We can use `performancePlot` to visualise performance metrics for all our features. Here, we visualise the AUC for each of the six feature matrices we tested. Additional performance metrics can be specified in the `metric` argument.
 
 ```{r fig.width = 12, fig.height = 6}
 performancePlot(
@@ -125,11 +116,15 @@ From the graph, both `lisaClust` and `proportions` appear to capture information
 
 ## Classification of patients by survival
 
-`crossValidate` also has the capacity to test classification performance for a survival outcome. In this case, `outcome` must be a `Surv` object of the same length as the number of samples in the feature matrix containing information about the time and censoring of the samples. Alternatively, we can specify `outcome` to be a `character` of length 2 or 3 that that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.
+`crossValidate` also has the capacity to test classification performance for a survival outcome. In this case, `outcome` must be a `Surv` object of the same length as the number of samples in the feature matrix and should information about the time and censoring of the samples. Alternatively, we can specify `outcome` to be a `character` of length 2 or 3 that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.
 
-We will first add a `survival` column to the `kerenSPE` object.  
+We will first add a `survival` column to the `kerenSPE` object, and remove any rows that contain missing survival data.
 
 ```{r}
+# remove rows with missing survival data 
+kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*")])]
+
+# create a Surv object named "survival"
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 
@@ -140,9 +135,17 @@ names(surv_outcome) = kerenSPE$imageID[!duplicated(kerenSPE$imageID)]
 surv_outcome
 ```
 
-We can then run `crossValidate` and specify the outcome to be survival.
+Next, we filter `data` to ensure the image IDs it contains are consistent with those in `surv_outcome`.
 
 ```{r}
+data = lapply(data, function(mat) {
+    mat[rownames(mat) %in% names(surv_outcome), , drop = FALSE]
+})
+```
+
+We can then run `crossValidate` and specify the outcome to be `surv_outcome`, and use `performancePlot` to visualise the performance of the cross-validation. Since we are performing survival analysis, we will specify `metric = "C-index"`.
+
+```{r fig.width = 12, fig.height = 6}
 # perform 50 repeats of 5-fold cross-validation
 surv_cv = crossValidate(measurements = data,
                    outcome = surv_outcome,
@@ -151,12 +154,16 @@ surv_cv = crossValidate(measurements = data,
                    nCores = 10)
 
 performancePlot(surv_cv,
-  metric = "AUC",
+  metric = "C-index",
   characteristicsList = list(x = "Assay Name"),
   orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans"))
 )
 ```
 
+From the graph, we can see that `lisaClust` appears to capture information that is predictive of survival outcomes comparatively well.
+
 ## Easy and hard to classify patients
+
+
 
 ## Maximising accuracy during classification
