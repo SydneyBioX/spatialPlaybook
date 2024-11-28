@@ -4,7 +4,9 @@
 
 <img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
 
-Recent advances in highly multiplexed cell imaging technologies such as *PhenoCycler, IMC, CosMx, Xenium, and MERFISH (and many more)* have fundamentally revolutionized our ability to observe complex cellular relationships in tissue. Where previous immunohistochemistry protocols only allowed the visualization of cells that could be characterized by two or three surface proteins, cutting-edge technologies characterize cells with upwards of 50 proteins or 1000s of RNA in situ. These technologies enable precise classification of cell sub-types and provide an unprecedented depiction of cellular heterogeneity in a tissue environment. These technical developments have necessitated the development of a variety of new analytical approaches that are required to harness these new imaging technologies. On this website we will demonstrate how packages in [scdney](https://sydneybiox.github.io/scdney/) can be used to provide new insights into complex biological systems and diseases.
+Recent advances in highly multiplexed cell imaging technologies—such as PhenoCycler, IMC, CosMx, Xenium, and MERFISH—have fundamentally transformed our ability to study complex cellular relationships within tissues. While traditional immunohistochemistry protocols were limited to visualising cells based on just two or three surface proteins, these cutting-edge technologies can now characterise cells using over 50 proteins or thousands of RNA molecules in situ. This breakthrough enables precise classification of cell subtypes and offers an unprecedented view of cellular heterogeneity in tissue environments.
+
+These technological advancements have driven the development of novel analytical approaches, essential for fully leveraging the potential of these new imaging methods. On this website, we demonstrate how packages in [**scdney**](https://sydneybiox.github.io/scdney/) can provide fresh insights into complex biological systems and diseases.
 
 ## Packages
 
@@ -359,7 +361,19 @@ print(myCitation("ClassifyR"), style = "html")
 
 </font>
 
-This guide presents a comprehensive workflow for analysing spatial omics data, featuring examples sorted by different technologies as described below. The workflow covers cell segmentation, data normalisation, various tests of proportion and spatial localisation, microenvironment estimation and patient prediction. We encourage focusing on the biological questions these methods can address rather than the specific technologies used.
+This guide presents a comprehensive workflow for analysing spatial omics data, featuring examples sorted by different technologies as described below.
+
+The workflow described here contains 7 major stages:
+
+1.  Cell segmentation and pre-processing
+2.  Quality control and normalisation
+3.  Cell clustering/annotation
+4.  Quantifying co-localisation between cell types
+5.  Identifying spatial domains
+6.  Measuring changes in marker expression
+7.  Classification of patients to clinical outcomes
+
+We encourage focusing on the biological questions these methods can address rather than the specific technologies used.
 
 ```{=html}
 <style>
@@ -371,7 +385,7 @@ table {
 ```
 
 | Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 | Breast cancer | MIBI-TOF | Keren_2018 |  |  |  | X | X | X |  |
 | Breast cancer | MIBI-TOF | Risom_2022 | X | X | X | X | X | X |  |
 | Mouse organogenesis | seqFISH | Lohoff_2022 |  | X |  | X |  |  |  |
@@ -387,31 +401,31 @@ citation {
 
 ## Datasets
 
-Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
+Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on Bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
 
-### Spatial Proteomics - MIBITOF
+### Spatial Proteomics - MIBI-TOF
 
-MIBI-TOF (multiplexed ion beam imaging by time of flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$.
+MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$.
 
 #### [Triple Negative Breast Cancer - Keren_2018](datasets/Keren_2018/Keren_2018.qmd)
 
-This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer using MIBI-TOF. We will use this dataset to demonstrate the functionality of our [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package, which allows us to identify changes in cell state that are related to the spatial localisation of cells.
+This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer using MIBI-TOF. The dataset captures high-resolution, spatially resolved data on 17 distinct cell populations, immune composition, checkpoint protein expression, and tumor-immune interactions.
 
 <citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
 
 #### Ductal carcinoma in situ - Risom_2022
 
-This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma *in situ* (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A key conclusion of the manuscript is that spatial information about cells can be leveraged to predict disease progression in patients. We use the workflow described in this guide to reach a similar conclusion.
+This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma *in situ* (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A 37-plex antibody staining panel was used to capture spatial relationships that provided insight into the dynamics of the tumour microenvironment during the transition from normal breast tissue to DCIS and IBC.
 
 <citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
 
 ### Spatial Proteomics - CODEX
 
-CODEX (Co-detection by indexing) is a highly multiplexed tissue imaging technique that uses DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. It can visualise up to 60 labelled antibodies at subcellular resolution.
+CODEX (co-detection by indexing) is a highly multiplexed tissue imaging technique that uses DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. It can visualise up to 60 labelled antibodies at subcellular resolution.
 
 #### Colorectal cancer - Schurch_2020
 
-A CODEX dataset which aimed to characterise the immune tumour microenvironment in advanced-stage colorectal cancer. The dataset consists of 35 advanced colorectal cancer patients, with 4 images per patient for a total of 140 images. Each image is marked with a 56-antibody panel to characterise a total of 24 distinct tumour and immune cell populations. Overall, the dataset contains 240,000 cells along with clinical information including patient tumour grade, tumour type, and patient survival.
+This study aims to characterise the immune tumour microenvironment in advanced-stage colorectal cancer using CODEX. The dataset consists of 35 advanced colorectal cancer patients, with 4 images per patient for a total of 140 images. Each image is marked with a 56-antibody panel to characterise a total of 24 distinct tumour and immune cell populations. Overall, the dataset contains 240,000 cells along with clinical information such as patient tumour grade, tumour type, and patient survival.
 
 <citation> Schürch et al. (2020). Coordinated Cellular Neighborhoods Orchestrate Antitumoral Immunity at the Colorectal Cancer Invasive Front et al. (2018). A Coordinated Cellular Neighborhoods Orchestrate Antitumoral Immunity at the Colorectal Cancer Invasive Front. Cell, 182(5), 1341-1359.e19. ([DOI](https://doi.org/10.1016/j.cell.2020.07.005)) </citation>
 
@@ -425,9 +439,9 @@ Also known as the METABRIC dataset, this 37-panel IMC dataset contains images of
 
 <citation> Ali et al. (2020). Imaging mass cytometry and multiplatform genomics define the phenogenomic landscape of breast cancer. Nature Cancer, 1, 163-175. ([DOI](https://doi.org/10.1038/s43018-020-0026-6))</citation>
 
-#### Head and neck squamous cell carcinoma - Ferguson_2020
+#### Head and neck squamous cell carcinoma - Ferguson_2022
 
-This study uses IMC to map the immune landscape and identify differences between high-risk primary head and neck cancer (HNcSCC) tumors that did not progress and those that developed metastases (progressing tumours). The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our spicyWorkflow to reach a similar conclusion.
+This study uses IMC to map the immune landscape and identify differences between high-risk primary head and neck cancer (HNcSCC) tumors that did not progress and those that developed metastases (progressing tumours). The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our workflow to reach a similar conclusion.
 
 <citation> Ferguson et al. (2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. ([DOI](https://doi.org/10.1158/1078-0432.CCR-22-1332))</citation>
 
@@ -440,3 +454,5 @@ This study uses IMC to map the immune landscape and identify differences between
 This study uses seqFISH to spatially profile the expression of 387 genes in mouse embryos. A comprehensive spatially resolved map of gene expression was created by integrating the seqFISH data with existing scRNAseq data. This integration facilitated the exploration of cellular relationships across different regions of the embryo.
 
 <citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>
+
+

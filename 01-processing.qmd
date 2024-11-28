@@ -1,4 +1,4 @@
-# Processing
+# Cell segmentation and pre-processing
 
 In this section, we will describe how to read in and pre-process images obtained through various imaging technologies for downstream analysis.
 
@@ -9,7 +9,7 @@ Steps:
 3.  Cell segmentation with BIDCell
 4.  Reading in spot-based data with MoleculeExperiment
 
-## Reading in images
+## Reading in data with cytomapper
 
 ```{r 02-library, message=FALSE,warning=FALSE}
 library(cytomapper)
@@ -17,33 +17,26 @@ library(ggplot2)
 library(simpleSeg)
 ```
 
-It is convenient to set the number of cores for running code in parallel. Please choose a number that is appropriate for your resources. A minimum of 2 cores is suggested since running this workflow is rather computationally intensive.
+We recommend setting the number of cores to enable running code in parallel. Please choose a number that is appropriate for your resources. A minimum of 2 cores is suggested since running this workflow can be computationally intensive.
 
-If you would like to use parallel processing for the rest of the vignette, set the `use_mc` flag to `TRUE`.
-
-```{r 02-setParam}
-use_mc <- TRUE
-
-if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
-} else {
-  nCores <- 2
-}
+```{r 01-setParam}
+set.seed(51773)
+nCores <- 10
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 
 theme_set(theme_classic())
 ```
 
-We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the `SpatialDatasets` package. The `loadImages()` function form the `cytomapper` package can be used to load all the TIFF images into a `CytoImageList` object and store the images as h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
+We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the `SpatialDatasets` package. The `loadImages` function form the `cytomapper` package can be used to load all the TIFF images into a `CytoImageList` object and store the images as an h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
 
-We will also assign the metadata columns of the `CytoImageList` object using the `mcols()` function.
+We will also assign the metadata columns of the `CytoImageList` object using the `mcols` function.
 
-```{r 02-loadImages}
+```{r 01-loadImages}
 pathToImages <- SpatialDatasets::Ferguson_Images()
 tmp <- tempfile()
 unzip(pathToImages, exdir = tmp)
 
-# Store images in a CytoImageList on_disk as h5 files to save memory.
+# store images in a CytoImageList on_disk as h5 files to save memory
 images <- cytomapper::loadImages(
   tmp,
   single_channel = TRUE,
@@ -52,14 +45,13 @@ images <- cytomapper::loadImages(
   BPPARAM = BPPARAM
 )
 
+# assign metadata columns
 mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 ```
 
-As we're reading the image channels directly from the names of the TIFF image, often these channel names will need to be cleaned for ease of downstream processing.
+When reading the image channels directly from the names of the TIFF images, they will often need to be cleaned for ease of downstream processing. The channel names can be accessed from the `CytoImageList` object using the `channelNames` function.
 
-The channel names can be accessed from the `CytoImageList` object using the `channelNames()` function.
-
-```{r}
+```{r 01-cleanChannelNames}
 channelNames(images) <- channelNames(images) |>
                           # Remove preceding letters
                           sub(pattern = ".*_", replacement = "", x = _) |> 
@@ -69,7 +61,8 @@ channelNames(images) <- channelNames(images) |>
 
 Similarly, the image names will be taken from the folder name containing the individual TIFF images for each channel. These will often also need to be cleaned.
 
-```{r}
+```{r 01-cleanImageNames}
+# cleaning image names to obtain image IDs
 split_names <- function(x) {
   sapply(strsplit(x, "_"), `[`, 3)
 }
@@ -81,7 +74,7 @@ mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 
 ## Cell segmentation with simpleSeg
 
-The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides functionality to perform cell segmentation on multiplexed imaging data. The `simpleSeg()` function can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.
+A standard pipeline for spatial analysis starts with cell segmentation to isolate and identify the individual cells in each image. The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides functionality for user friendly, watershed based segmentation on multiplexed cellular images based on the intensity of user specified protein marker channels. The main function, `simpleSeg`, can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.
 
 In the particular example below, we have asked `simpleSeg` to do the following:
 
@@ -94,7 +87,7 @@ In the particular example below, we have asked `simpleSeg` to do the following:
 
 There are many other parameters that can be specified in simpleSeg (`smooth`, `watershed`, `tolerance`, and `ext`), and we encourage the user to select the best parameters which suit their biological context.
 
-```{r}
+```{r 01-simpleSeg}
 masks <- simpleSeg(images,
                    nucleus = c("HH3"),
                    pca = TRUE,
@@ -109,19 +102,17 @@ masks <- simpleSeg(images,
 
 ### Visualise separation
 
-The `display()` and `colorLabels()` functions in the `EBImage` packagemake it very easy to examine the performance of the cell segmentation. If used in an interactive session, `display()` allows you to zoom in and out of the image.
+We can examine the performance of the cell segmentation using the `display` and `colorLabels` functions from the `EBImage` package. If used in an interactive session, `display` allows you to zoom in and out of the image.
 
-```{r visualise segmentation}
+```{r 01-visualiseSegmentation}
 EBImage::display(colorLabels(masks[[1]]))
 ```
 
 ### Visualise outlines
 
-The `plotPixels` function in `cytomapper` makes it easy to overlay the mask on top of the nucleus intensity marker to see how well our segmentation process has performed. Here we can see that the segmentation appears to be performing reasonably.
+The `plotPixels` function from `cytomapper` makes it easy to overlay the mask on top of the nucleus intensity marker to see how well our segmentation process has performed.
 
-If you see over or under-segmentation of your images, `discSize` is a key parameter in `simpleSeg()` for optimising the size of the dilation disc after segmenting out the nuclei.
-
-```{r}
+```{r 01-plotHH3}
 plotPixels(image = images["F3"], 
            mask = masks["F3"],
            img_id = "imageID", 
@@ -134,9 +125,13 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-We can also visualise multiple markers at once instead of just the HH3 marker to see how the segmentation mask performs. Below, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the `discSize` or other parameters of `simpleSeg`.
+Here, we can see that the segmentation appears to be performing reasonably.
 
-```{r}
+If you see over or under-segmentation of your images, `discSize` is a key parameter in the `simpleSeg` function for optimising the size of the dilation disc after segmenting out the nuclei.
+
+We can also visualise multiple markers at once instead of just the HH3 marker to see how the segmentation mask performs.
+
+```{r 01-plotMarkers}
 plotPixels(image = images["F3"], 
            mask = masks["F3"],
            img_id = "imageID", 
@@ -153,12 +148,14 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-In particular, the `cellBody` and `watershed` parameters can strongly influence the way cells are segmented using `simpleSeg()`. We've provided further details on how the user may specify cell body identification and watershedding in the tables below.
+Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This suggests that we might need to increase the `discSize` or other parameters of `simpleSeg`.
+
+In particular, the `cellBody` and `watershed` parameters can strongly influence the way cells are segmented using `simpleSeg`. We have provided further details on how the user may specify cell body identification and watershedding in the tables below.
 
 #### `cellBody` Parameters
 
 | Method | Description |   |
-|----|:--:|:--:|
+|------------------------|:----------------------:|:----------------------:|
 | ["distance"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["intensity"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding using the intensity of the nuclei marker.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["combine"]{style="font-family: 'Courier New', monospace;"} | [Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.]{style="font-family: 'Courier New', monospace;"} |  |
@@ -166,7 +163,7 @@ In particular, the `cellBody` and `watershed` parameters can strongly influence 
 #### `watershed` Parameters
 
 | Method | Description |   |
-|----|:--:|:--:|
+|------------------------|:----------------------:|:----------------------:|
 | ["dilation"]{style="font-family: 'Courier New', monospace;"} | [Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the `discDize` argument.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["discModel"]{style="font-family: 'Courier New', monospace;"} | [Uses all the markers to predict the presence of dilated 'discs' around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["marker"]{style="font-family: 'Courier New', monospace;"} | [The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using `cellBody = "marker name"/"index"`]{style="font-family: 'Courier New', monospace;"} |  |
@@ -180,12 +177,12 @@ plotPixels can plot multiple images \<-- use this to visualise multiple images a
 
 ## Summarise cell features
 
-In order to characterise the phenotypes of each of the segmented cells, `measureObjects()` from `cytomapper` will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, the `measureObjects()` function will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns.
+We can use the `measureObjects` from `cytomapper` to calculate the average intensity of each channel within each cell, as well as other morphological features. By default, `measureObjects` function will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns.
 
-However, you can also specify `measureObjects()` to return a `SpatialExperiment` object by specifying `return_as = "spe"`. As a `SpatialExperiment` object, the spatial location of each cell is stored in the `spatialCoords` slot, as `m.cx` and `m.cy`, which simplifies plotting. In this demonstration, we will return a `SpatialExperiment` object.
+However, you can also specify `measureObjects` to return a `SpatialExperiment` object by specifying `return_as = "spe"`. In a `SpatialExperiment` object, the spatial location of each cell is stored in the `spatialCoords` slot as `m.cx` and `m.cy`, which simplifies plotting. In this demonstration, we will return a `SpatialExperiment` object.
 
-```{r}
-# Summarise the expression of each marker in each cell
+```{r 01-measureObjects}
+# summarise the expression of each marker in each cell
 cells <- cytomapper::measureObjects(masks,
                                     images,
                                     img_id = "imageID",
@@ -194,6 +191,8 @@ cells <- cytomapper::measureObjects(masks,
 
 spatialCoordsNames(cells) <- c("x", "y")
 ```
+
+Once we have obtained our `SpatialExperiment` object, we can move on to quality control and data transformation and normalisation to address batch effects.
 
 ## sessionInfo
 
