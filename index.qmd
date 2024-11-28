@@ -387,7 +387,7 @@ citation {
 
 ## Datasets
 
-Through the course of this spicyWorkBook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
+Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
 
 ### Spatial Proteomics - MIBITOF
 
@@ -401,7 +401,7 @@ This study profiles 36 proteins in tissue samples from 41 patients with triple-n
 
 #### Ductal carcinoma in situ - Risom_2022
 
-This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma in situ (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A key conclusion of the manuscript is that spatial information about cells can be leveraged to predict disease progression in patients. We use the workflow described in this guide to reach a similar conclusion.
+This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma *in situ* (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A key conclusion of the manuscript is that spatial information about cells can be leveraged to predict disease progression in patients. We use the workflow described in this guide to reach a similar conclusion.
 
 <citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
 

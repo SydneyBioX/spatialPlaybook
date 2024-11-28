@@ -18,9 +18,8 @@ Steps:
 -   Repeated $x\%$ test set cross-validation
 -   leave-k-out cross-validation
 
-## Classification of patients by condition
+We will use the Keren 2018 dataset to perform two predictions: 1) predict the patient's tumour type (cold, compartmentalised, or mixed) and 2) predict the patient's survival outcome. 
 
-We will use the Keren 2018 dataset to classify a patient's tumour into one of three types: cold, compartmentalised, and mixed.
 
 ```{r, message=FALSE,warning=FALSE}
 set.seed(51773)
@@ -28,12 +27,21 @@ set.seed(51773)
 library(ClassifyR)
 library(lisaClust)
 library(Statial)
+library(spicyR)
 
 BPPARAM <- simpleSeg:::generateBPParam(cores = 10)
 
 # load the Keren 2018 dataset
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
+
+# remove any missing data in our outcome columns
+kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
+                                                           "tumour_type")])]
 ```
+
+## Classification of patients by condition
+
+We will use the Keren 2018 dataset to classify a patient's tumour into one of three types: cold, compartmentalised, and mixed.
 
 We will build a list of feature matrices using the features we've generated in the previous chapters:
 
@@ -73,7 +81,7 @@ data[["regionMarkerMeans"]] <- getMarkerMeans(lisaClust(kerenSPE, k = 5),
                                         region = "region")
 
 # Proximity-associated changes in marker expression (SpatioMark)
-
+data[["SpatioMark"]] <- stateMat
 ```
 
 We will then generate a factor vector of our outcome variable.
@@ -108,7 +116,7 @@ performancePlot(
   cv,
   metric = "AUC",
   characteristicsList = list(x = "Assay Name"),
-  orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans"))
+  orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans", "SpatioMark"))
 )
 ```
 
@@ -121,9 +129,6 @@ From the graph, both `lisaClust` and `proportions` appear to capture information
 We will first add a `survival` column to the `kerenSPE` object, and remove any rows that contain missing survival data.
 
 ```{r}
-# remove rows with missing survival data 
-kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*")])]
-
 # create a Surv object named "survival"
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
@@ -136,12 +141,6 @@ surv_outcome
 ```
 
 Next, we filter `data` to ensure the image IDs it contains are consistent with those in `surv_outcome`.
-
-```{r}
-data = lapply(data, function(mat) {
-    mat[rownames(mat) %in% names(surv_outcome), , drop = FALSE]
-})
-```
 
 We can then run `crossValidate` and specify the outcome to be `surv_outcome`, and use `performancePlot` to visualise the performance of the cross-validation. Since we are performing survival analysis, we will specify `metric = "C-index"`.
 
@@ -156,7 +155,7 @@ surv_cv = crossValidate(measurements = data,
 performancePlot(surv_cv,
   metric = "C-index",
   characteristicsList = list(x = "Assay Name"),
-  orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans"))
+  orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans", "SpatioMark"))
 )
 ```
 
@@ -164,6 +163,19 @@ From the graph, we can see that `lisaClust` appears to capture information that 
 
 ## Easy and hard to classify patients
 
+The `samplesMetricMap` function allows the visual comparison of sample-wise error rate or accuracy measures from the cross-validation process. 
+
+### Predicting tumour type
+
+```{r}
+samplesMetricMap(cv, showXtickLabels = FALSE)
+```
+
+### Predicting survival outcomes
+
+```{r}
+samplesMetricMap(surv_cv, showXtickLabels = FALSE)
+```
 
 
 ## Maximising accuracy during classification

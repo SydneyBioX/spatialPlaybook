@@ -13,7 +13,7 @@ library(ggsurvfit)
 library(survival)
 library(tibble)
 library(treekoR)
-devtools::load_all("~/Statial")
+devtools::load_all("../Statial")
 
 theme_set(theme_classic())
 nCores <- 8
@@ -74,9 +74,12 @@ Changes in cell states can be analytically framed as the change in abundance of 
 The first step in analysing these changes is to calculate the spatial proximity (`getDistances`) and abundance (`getAbundances`) of each cell to every cell type. These values will then be stored in the `reducedDims` slot of the `SingleCellExperiment` object under the names `distances` and `abundances` respectively.
 
 ```{r}
+# to be fixed
+kerenSPE$x = spatialCoords(kerenSPE)[, 1]
+kerenSPE$y = spatialCoords(kerenSPE)[, 2]
+
 kerenSPE <- getDistances(kerenSPE,
   maxDist = 200,
-  nCores = 1
 )
 
 kerenSPE <- getAbundances(kerenSPE,

@@ -2,12 +2,11 @@
 
 ## Why look at spatial domains?
 
-Beyond spatial relationships between cell types, imaging datasets also contain another source of rich information - spatial domains. To give an idea of what spatial domains might visually look like, we've provided an image on the right, where we can clearly map out our healthy epithelial tissue spatial domain on the left of the image, and our immune and tumour domains on the right of the image.
-<img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
+Beyond spatial relationships between cell types, imaging datasets also contain another source of rich information - spatial domains. To give an idea of what spatial domains might visually look like, we've provided an image on the right, where we can clearly map out our healthy epithelial tissue spatial domain on the left of the image, and our immune and tumour domains on the right of the image. <img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
 
 However, spatial domains tend to be highly dependent on the biological question being answered. For example, when your primary tissue of interest are solid tumours, spatial domain analysis can provide insights into proportion of tumour domain vs immune domains, or how tumour domains differ between progressive and non-progressive cancers. Alternatively, if your primary tissue of interest is diabetes, spatial domains can provide insights into marker or cell type differences in your pancreatic islets.
 
-In this section, we'll be exploring the use of `lisaClust` on two different datasets to help inform 
+In this section, we'll be exploring the use of `lisaClust` on two different datasets to help inform
 
 ```{r message=FALSE, warning=FALSE}
 # load required packages
@@ -20,32 +19,17 @@ library(SpatialDatasets)
 
 ## lisaClust
 
-Clustering local indicators of spatial association (LISA) functions is a
-methodology for identifying consistent spatial organisation of multiple
-cell-types in an unsupervised way. This can be used to enable the
-characterization of interactions between multiple cell-types
-simultaneously and can complement traditional pairwise analysis. In our
-implementation our LISA curves are a localised summary of an L-function
-from a Poisson point process model. Our framework `lisaClust` can be
-used to provide a high-level summary of cell-type colocalization in
-high-parameter spatial cytometry data, facilitating the identification
-of distinct tissue compartments or identification of complex cellular
-microenvironments.
+Clustering local indicators of spatial association (LISA) functions is a methodology for identifying consistent spatial organisation of multiple cell-types in an unsupervised way. This can be used to enable the characterization of interactions between multiple cell-types simultaneously and can complement traditional pairwise analysis. In our implementation our LISA curves are a localised summary of an L-function from a Poisson point process model. Our framework `lisaClust` can be used to provide a high-level summary of cell-type colocalization in high-parameter spatial cytometry data, facilitating the identification of distinct tissue compartments or identification of complex cellular microenvironments.
 
 <img src="lisaClust_fig1.jpg" align="center" style="height: 300px; border: 0px"/>
 
 ### How lisaClust works
 
-The workflow that lisaClust uses to identify regions of tissue with similar localisation patterns of cells contains multiple key steps. First, cells are treated as objects and assigned coordinates in an x-y space. Second, distances between all cells are calculated and then, by modeling the cells as a multi-type Poisson point process, the distances are used to calculate local indicators of spatial association (LISA). These LISA curves summarize the spatial association between each cell and a specific cell type over a range of radii, r. The LISA curves are calculated for each cell and cell type and then clustered to assign a region label for each cell. 
-
-
-
+The workflow that lisaClust uses to identify regions of tissue with similar localisation patterns of cells contains multiple key steps. First, cells are treated as objects and assigned coordinates in an x-y space. Second, distances between all cells are calculated and then, by modeling the cells as a multi-type Poisson point process, the distances are used to calculate local indicators of spatial association (LISA). These LISA curves summarize the spatial association between each cell and a specific cell type over a range of radii, r. The LISA curves are calculated for each cell and cell type and then clustered to assign a region label for each cell.
 
 ### Case study: Keren
 
-We will start by reading in the data from the `SpatialDatasets` package
-as a `SingleCellExperiment` object. Here the data is in a format consistent with
-that outputted by CellProfiler.
+We will start by reading in the data from the `SpatialDatasets` package as a `SingleCellExperiment` object. Here the data is in a format consistent with that outputted by CellProfiler.
 
 ```{r}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
@@ -53,12 +37,7 @@ kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 #### Generate LISA curves
 
-This data includes annotation of the cell-types of each cell. Hence, we can
-move directly to performing k-means clustering on the local indicators of
-spatial association (LISA) functions using the `lisaClust` function, remembering
-to specify the `imageID`, `cellType`, and `spatialCoords` 
-columns in `colData`. For the purpose of demonstration, we will be using
-only images 5 and 6 of the `kerenSPE` dataset.
+This data includes annotation of the cell-types of each cell. Hence, we can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the `lisaClust` function, remembering to specify the `imageID`, `cellType`, and `spatialCoords` columns in `colData`. For the purpose of demonstration, we will be using only images 5 and 6 of the `kerenSPE` dataset.
 
 ```{r}
 kerenSPE <- kerenSPE[,kerenSPE$imageID %in% c("5", "6")]
@@ -77,17 +56,11 @@ colData(kerenSPE)[, c("imageID", "region")] |>
 
 #### Examine cell type enrichment
 
-`lisaClust` also provides a convenient function, `regionMap`, for examining which 
-cell types are located in which regions. In this example, we use this to check
-which cell types appear more frequently in each region than expected by chance.
+`lisaClust` also provides a convenient function, `regionMap`, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.
 
-Here, we clearly see that healthy epithelial and mesenchymal tissue are highly
-concentrated in region 1, immune cells are concentrated in regions 2 and 4, 
-whilst tumour cells are concentrated in region 3.
+Here, we clearly see that healthy epithelial and mesenchymal tissue are highly concentrated in region 1, immune cells are concentrated in regions 2 and 4, whilst tumour cells are concentrated in region 3.
 
-We can further segregate these cells by increasing the number of clusters, i.e.,
-increasing the parameter `k = ` in the `lisaClust()` function. For the purposes
-of demonstration, let's take a look at the `hatchingPlot` of these regions.
+We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter `k =` in the `lisaClust()` function. For the purposes of demonstration, let's take a look at the `hatchingPlot` of these regions.
 
 ```{r}
 regionMap(kerenSPE,
@@ -97,9 +70,7 @@ regionMap(kerenSPE,
 
 #### Plot identified regions
 
-Finally, we can use `hatchingPlot` to construct a `ggplot` object where
-the regions are marked by different hatching patterns. This allows us to
-visualize the 5 regions and 17 cell-types simultaneously.
+Finally, we can use `hatchingPlot` to construct a `ggplot` object where the regions are marked by different hatching patterns. This allows us to visualize the 5 regions and 17 cell-types simultaneously.
 
 ```{r fig.height=7, fig.width=9}
 hatchingPlot(kerenSPE, nbp = 300)
@@ -110,5 +81,3 @@ hatchingPlot(kerenSPE, nbp = 300)
 ```{r}
 sessionInfo()
 ```
-
-
