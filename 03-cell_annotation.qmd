@@ -25,6 +25,8 @@ To demonstrate the functionality of `FuseSOM`, we will use the Risom 2022 datase
 ```{r}
 # load FuseSOM
 library(FuseSOM)
+library(scClassify)
+library(MouseGastrulationData)
 
 # load in the data
 data("risom_dat")
@@ -37,7 +39,6 @@ risomMarkers <- c('CD45','SMA','CK7','CK5','VIM','CD31','PanKRT','ECAD',
 # we will be using the manual_gating_phenotype as the true cell type to gauge 
 # performance
 names(risom_dat)[names(risom_dat) == 'manual_gating_phenotype'] <- 'CellType'
-
 ```
 
 Now that we have loaded the data and defined the markers of interest, we can run the `FuseSOM` algorithm using the `runFuseSOM()` function. We specify the number of clusters to be 23 based on prior domain knowledge. The output contains the cluster labels as well as the `Self Organizing Map` model.
@@ -199,6 +200,85 @@ pSil
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 
 ## scClassify: Cell annotation
+
+[scClassify](https://new.bioconductor.org/packages/release/bioc/html/scClassify.html) is a supervised multiscale classification framework for scRNAseq data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.
+
+To demonstrate the use of scClassify, we will use the Lohoff 2022 dataset, which examines spatial relationships during mouse embryo development. It is available through the `MouseGastrulationData` package. We will select samples 21-24 for demonstration purposes.
+
+```{r warning = FALSE, message = FALSE}
+mouseSCE = EmbryoAtlasData(samples = c(21, 22, 23, 24))
+
+# remove missing values
+mouseSCE = mouseSCE[, !is.na(colData(mouseSCE)$celltype)]
+
+mouseSCE
+```
+
+As scClassify requires log-normalised expression data, we will use `normalizeCounts` from the `scuttle` package to transform and normalise our expression data.
+
+```{r}
+# log normalisation
+norm_assay = normalizeCounts(mouseSCE, transform = "log", BPPARAM = BiocParallel::MulticoreParam(workers = 8))
+
+# store normalised expression data in the "norm" slot
+assay(mouseSCE, "norm") = norm_assay
+```
+
+The Lohoff 2022 dataset contains 37 unique cell types.
+
+```{r}
+mouseSCE$celltype |> unique()
+```
+
+We will first split the dataset into an 80% training or reference dataset and a 20% testing or query dataset.
+
+```{r}
+set.seed(51773)
+
+# split into 80% reference and 20% query
+train_idx = sample(seq_len(ncol(mouseSCE)), size = 0.8 * ncol(mouseSCE))
+train_sce = mouseSCE[, train_idx]
+test_sce = mouseSCE[, -train_idx]
+
+# access expression data as matrix
+train_mat = assay(train_sce, "norm")
+test_mat = assay(test_sce, "norm")
+```
+
+`scClassify` is the main classification function within scClassify. It requires a reference expression matrix (`exprsMat_train`) and the corresponding vector of cell type labels as input (`cellTypes_train`). We then specify our query matrix (`exprsMat_test`) and the corresponding cell type labels (`cellTypes_test`) in the form of lists. Below, we have also specified the following customisations for building the model -
+
+-   `tree = HOPACH`: use the HOPACH algorithm to build a cell type hierarchy.
+-   `algorithm = WKNN`: use the weighted KNN model
+-   `selectFeatures = c("limma")`: identify differentially expressed (DE) genes using `limma`, which will be used as features to build the WKNN model. Other options to select features include differentially variable (DV) genes, differentially distributed (DD), bimodally distributed (BI) and differentially expressed proportions.
+-   `similarity = c("spearman")`: use the Spearman correlation metric to measure correlation between cells. Other options include Pearson's correlation, Kendall's correlation, Jaccard distance, Cosine distance, and weighted rank correlation.
+
+```{r}
+scClassify_res = scClassify(exprsMat_train = train_mat,
+                            cellTypes_train = train_sce$celltype,
+                            exprsMat_test = list(lohoff = test_mat),
+                            cellTypes_test = list(lohoff = test_sce$celltype),
+                            tree = "HOPACH",
+                            algorithm = "WKNN",
+                            selectFeatures = c("limma"),
+                            similarity = c("spearman"),
+                            returnList = FALSE,
+                            parallel = TRUE,
+                            BPPARAM = BiocParallel::MulticoreParam(workers = 8),
+                            verbose = FALSE)
+```
+
+The output is a list containing all model building and testing information. The `testRes` slot contains the results of testing the model on the query dataset, and the `trainRes` contains the model built from the reference dataset.
+
+```{r}
+scClassify_res$trainRes
+```
+
+We can then examine the cell type tree generated by the reference dataset.
+
+```{r}
+plotCellTypeTree(cellTypeTree(scClassify_res$trainRes))
+```
+
 
 ## Choosing between clustering and annotation
 
