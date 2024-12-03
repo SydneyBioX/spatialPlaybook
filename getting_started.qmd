@@ -1,0 +1,53 @@
+---
+title: "Getting Started"
+format:
+  html:
+    code-link: true
+---
+
+If you are new to spatial omics data and would like to jump into some analysis, this page is a great place to start.
+
+
+## What technologies is our software applicable to?
+
+Please check out our [scdney](https://sydneybiox.github.io/scdney/) suite of packages for analysing many different types of single cell resolution assays. This website focuses specifically on single cell resolution assays that have spatial context. That is, each of the cells has an x-y coordinate. Technologies that generate this type of data include Imaging Mass Cytometry, MIBI-TOF, Xenium, CosMx, and MERFISH.
+
+
+## Using our packages
+
+Its important to know that our packages are interoperable with many other awesome packages out there. We highly recommend that you reflect on your needs or what you would like to find in *your data*, and then choose the analytical methods that will be most appropriate for *your data*. 
+
+To get started with our packages, we recommend that you read the descriptions of our packages on the [Software page](packages.qmd). Clicking on the beautiful hex stickers will take you to the package vignettes that will explain their functionality in depth.
+
+We also recommend that you browse our analysis examples in the case studies chapter. Here you will find the application of combinations of our packages to answer multi-compenent questions on a diverse range of spatially-resolved single-cell assays. When you are reading these, keep the assay in mind for context but also be cognisant that the majority of the analytical approaches that are demonstrated will apply to many different assays.
+
+In saying this, interoperability, the key linking object between many of the packages is a `SpatialExperiment` object from the [SpatialExperiment](https://www.bioconductor.org/packages/release/bioc/html/SpatialExperiment.html).
+
+## SpatialExperiment
+
+With interoperability as a focus, the key linking object between many of the packages demonstrated on this website is a `SpatialExperiment` object from the [SpatialExperiment](https://www.bioconductor.org/packages/release/bioc/html/SpatialExperiment.html). 
+
+```{r, eval=FALSE}
+library(readxl)
+library(Seurat)
+```
+
+### Creating a SpatialExperiment
+
+- The [vignette](https://www.bioconductor.org/packages/release/bioc/vignettes/SpatialExperiment/inst/doc/SpatialExperiment.html) for the SpatialExperiment package explains how to turn a `matrix` or `data.frame` into a `SpatialExperiment`.
+
+- If you have a .csv file or a .xlsx file, this can be read into R using `read_csv()` and `read_xlsx()` from the `readxl` package and converted into a `matrix` or `data.frame`. You could also use `read.csv()` or `read.delim()` in base R.
+
+- If you have a `Seurat` object, you can convert this to a `SingleCellExperiment` using the `as.SingleCellExperiment()` function or back again using `as.Seurat()`.
+
+- A `SpatialExperiment` object is pretty much just a `SingleCellExperiment` but with spatial coordinates stored in `spatialCoords()`. You will see many people analysing spatial data with a `SingleCellExperiment` with the spatial coordinates stored in the `colData`. Most of our packages are accepting of this approach.
+
+- For visualisations, we recommend duplicating your `spatialCoords()` in the `reducedDim()` slot and in the `colData`.
+
+
+
+
+
+
+
+

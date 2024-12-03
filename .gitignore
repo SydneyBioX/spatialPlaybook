@@ -4,5 +4,6 @@
 .Ruserdata
 
 /.quarto/
+_freeze/
 docs/
-index.*
+data/processing/images/

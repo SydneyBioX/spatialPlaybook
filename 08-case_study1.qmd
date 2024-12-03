@@ -38,7 +38,6 @@ library(SpatialExperiment)
 library(SpatialDatasets)
 ```
 
-
 ## Global parameters
 
 It is convenient to set the number of cores for running code in parallel. Please choose a number that is appropriate for your resources. Set the `use_mc` flag to `TRUE` if you would like to use parallel processing for the rest of the vignette. A minimum of 2 cores is suggested since running this workflow is rather computationally intensive.
@@ -60,12 +59,11 @@ theme_set(theme_classic())
 
 In the following we will re-analyse some IMC data [(Ferguson et al, 2022)](https://doi.org/10.1158/1078-0432.CCR-22-1332) profiling the spatial landscape of head and neck cutaneous squamous cell carcinomas (HNcSCC), the second most common type of skin cancer. The majority of HNcSCC can be treated with surgery and good local control, but a subset of large tumours infiltrate subcutaneous tissue and are considered high risk for local recurrence and metastases. The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our spicy workflow to reach a similar conclusion.
 
-The R code for this analysis is available on github [https://github.com/SydneyBioX/spicyWorkflow](https://github.com/SydneyBioX/spicyWorkflow).
+The R code for this analysis is available on github <https://github.com/SydneyBioX/spicyWorkflow>.
 
 ## Read in images
 
-Once the spicyWorkflow package is installed, these images will be located within the `spicyWorkflow` folder where the `spicyWorkflow` package is installed, under `inst/extdata/images`. 
-Here we use `loadImages()` from the `cytomapper` package to load all the tiff images into a `CytoImageList` object and store the images as h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
+Once the spicyWorkflow package is installed, these images will be located within the `spicyWorkflow` folder where the `spicyWorkflow` package is installed, under `inst/extdata/images`. Here we use `loadImages()` from the `cytomapper` package to load all the tiff images into a `CytoImageList` object and store the images as h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
 
 We will also assign the metadata columns of the `CytoImageList` object using the `mcols()` function.
 
@@ -87,7 +85,8 @@ mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 ```
 
 ### Clean channel names
-As we're reading the image channels directly from the names of the TIFF image, often these channel names will need to be cleaned for ease of downstream processing. 
+
+As we're reading the image channels directly from the names of the TIFF image, often these channel names will need to be cleaned for ease of downstream processing.
 
 The channel names can be accessed from the `CytoImageList` object using the `channelNames()` function.
 
@@ -105,7 +104,8 @@ channelNames(images) <- cn # Reassign channel names
 ```
 
 ### Clean image names
-Similarly, the image names will be taken from the folder name containing the individual TIFF images for each channel. These will often also need to be cleaned. 
+
+Similarly, the image names will be taken from the folder name containing the individual TIFF images for each channel. These will often also need to be cleaned.
 
 ```{r}
 head(names(images))
@@ -119,21 +119,15 @@ mcols(images)[["imageID"]] <- nam # Reassigning image names
 
 ## SimpleSeg: Segment the cells in the images
 
-Our simpleSeg R package on [https://github.com/SydneyBioX/simpleSeg](https://github.com/SydneyBioX/simpleSeg) provides a series of functions to generate simple segmentation masks of images. These functions leverage the functionality of the [EBImage](https://bioconductor.org/packages/release/bioc/vignettes/EBImage/inst/doc/EBImage-introduction.html) package on Bioconductor. For more flexibility when performing your segmentation in R we recommend learning to use the EBimage package. A key strength of the simpleSeg package is that we have coded multiple ways to perform some simple segmentation operations as well as incorporating multiple automatic procedures to optimise some key parameters when these aren't specified. 
+Our simpleSeg R package on <https://github.com/SydneyBioX/simpleSeg> provides a series of functions to generate simple segmentation masks of images. These functions leverage the functionality of the [EBImage](https://bioconductor.org/packages/release/bioc/vignettes/EBImage/inst/doc/EBImage-introduction.html) package on Bioconductor. For more flexibility when performing your segmentation in R we recommend learning to use the EBimage package. A key strength of the simpleSeg package is that we have coded multiple ways to perform some simple segmentation operations as well as incorporating multiple automatic procedures to optimise some key parameters when these aren't specified.
 
 ### Run simpleSeg
 
 If your images are stored in a `list` or `CytoImageList` they can be segmented with a simple call to `simpleSeg()`. To summarise, `simpleSeg()` is an R implementation of a simple segmentation technique which traces out the nuclei using a specified channel using `nucleus` then dilates around the traced nuclei by a specified amount using `discSize`. The nucleus can be traced out using either one specified channel, or by using the principal components of all channels most correlated to the specified nuclear channel by setting `pca = TRUE`.
 
-In the particular example below, we have asked `simpleSeg` to do the following: 
+In the particular example below, we have asked `simpleSeg` to do the following:
 
-By setting `nucleus = c("HH3")`, we've asked simpleSeg to trace out the nuclei signal in the images using the HH3 channel.
-By setting `pca = TRUE`, simpleSeg segments out the nuclei mask using a principal component analysis of all channels and using the principal components most aligned with the nuclei channel, in this case, HH3.
-By setting `cellBody = "dilate"`, simpleSeg uses a dilation strategy of segmentation, expanding out from the nucleus by a specified `discSize`.
-By setting `discSize = 3`, simpleSeg dilates out from the nucleus by 3 pixels.
-By setting `sizeSelection = 20`, simpleSeg ensures that only cells with a size greater than 20 pixels will be used.
-By setting `transform = "sqrt"`, simpleSeg square root transforms each of the channels prior to segmentation.
-By setting `tissue = c("panCK", "CD45", "HH3")`, we specify a tissue mask which simpleSeg uses, filtering out all background noise outside the tissue mask. This is important as these are tumour cores, wand hence circular, so we'd want to ignore background noise which happens outside of the tumour core. 
+By setting `nucleus = c("HH3")`, we've asked simpleSeg to trace out the nuclei signal in the images using the HH3 channel. By setting `pca = TRUE`, simpleSeg segments out the nuclei mask using a principal component analysis of all channels and using the principal components most aligned with the nuclei channel, in this case, HH3. By setting `cellBody = "dilate"`, simpleSeg uses a dilation strategy of segmentation, expanding out from the nucleus by a specified `discSize`. By setting `discSize = 3`, simpleSeg dilates out from the nucleus by 3 pixels. By setting `sizeSelection = 20`, simpleSeg ensures that only cells with a size greater than 20 pixels will be used. By setting `transform = "sqrt"`, simpleSeg square root transforms each of the channels prior to segmentation. By setting `tissue = c("panCK", "CD45", "HH3")`, we specify a tissue mask which simpleSeg uses, filtering out all background noise outside the tissue mask. This is important as these are tumour cores, wand hence circular, so we'd want to ignore background noise which happens outside of the tumour core.
 
 There are many other parameters that can be specified in simpleSeg (`smooth`, `watershed`, `tolerance`, and `ext`), and we encourage the user to select the best parameters which suit their biological context.
 
@@ -198,7 +192,7 @@ plotPixels(image = images["F3"],
 
 ## Summarise cell features.
 
-In order to characterise the phenotypes of each of the segmented cells, `measureObjects()` from `cytomapper` will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, the `measureObjects()` function will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns. 
+In order to characterise the phenotypes of each of the segmented cells, `measureObjects()` from `cytomapper` will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, the `measureObjects()` function will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns.
 
 However, you can also specify `measureObjects()` to return a `SpatialExperiment` object by specifying `return_as = "spe"`. As a `SpatialExperiment` object, the spatial location of each cell is stored in the `spatialCoords` slot, as `m.cx` and `m.cy`, which simplifies plotting. In this demonstration, we will return a `SpatialExperiment` object.
 
@@ -212,8 +206,6 @@ cells <- cytomapper::measureObjects(masks,
 
 spatialCoordsNames(cells) <- c("x", "y")
 ```
-
-
 
 ## Load the clinical data
 
@@ -244,8 +236,7 @@ colData(cells) <- cbind(colData(cells), clinical[cells$imageID, ])
 save(cells, file = "spe_Ferguson_2022.rda")
 ```
 
-In case you already have your SCE object, you may only be interested in our downstream workflow.
-For the sake of convenience, we've provided capability to directly load in the SpatialExperiment (SPE) object that we've generated. 
+In case you already have your SCE object, you may only be interested in our downstream workflow. For the sake of convenience, we've provided capability to directly load in the SpatialExperiment (SPE) object that we've generated.
 
 ```{r, eval=FALSE}
 load(system.file("extdata/cells.rda", package = "spicyWorkflow"))
@@ -253,8 +244,8 @@ load(system.file("extdata/cells.rda", package = "spicyWorkflow"))
 
 ## Normalise the data
 
-We should check to see if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:  
-1) The intensities of images are often highly skewed, preventing any meaningful downstream analysis.  
+We should check to see if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:\
+1) The intensities of images are often highly skewed, preventing any meaningful downstream analysis.\
 2) The intensities across different images are often different, meaning that what is considered "positive" can be different across images.
 
 By transforming and normalising the data, we aim to reduce these two effects. Here we extract the intensities from the `counts` assay. Looking at CD3 which should be expressed in the majority of the T cells, the intensities are clearly very skewed, and it is difficult to see what is considered a CD3- cell, and what is a CD3+ cell.
@@ -270,7 +261,7 @@ cells |>
 
 ### Dimension reduction and visualisation
 
-As our data is stored in a `SpatialExperiment` we can also use `scater` to perform and visualise our data in a lower dimension to look for batch effects in our images. We can see that before normalisation, our UMAP shows a clear batch effect between images. 
+As our data is stored in a `SpatialExperiment` we can also use `scater` to perform and visualise our data in a lower dimension to look for batch effects in our images. We can see that before normalisation, our UMAP shows a clear batch effect between images.
 
 ```{r}
 # Usually we specify a subset of the original markers which are informative to separating out distinct cell types for the UMAP and clustering.
@@ -302,13 +293,7 @@ scater::plotReducedDim(
 )
 ```
 
-We can transform and normalise our data using the `normalizeCells` function. In the `normalizeCells()` function, we specify the following parameters.
-`transformation` is an optional argument which specifies the function to be applied to the data. We do not apply an arcsinh transformation here, as we already apply a square root transform in the `simpleSeg()` function.
-`method = c("trim99", "mean", PC1")` is an optional argument which specifies the normalisation method/s to be performed. Here, we:
-1) Trim the 99th percentile
-2) Divide by the mean
-3) Remove the 1st principal component
-`assayIn = "counts"` is a required argument which specifies what the assay you'll be taking the intensity data from is named. In our context, this is called `counts`.
+We can transform and normalise our data using the `normalizeCells` function. In the `normalizeCells()` function, we specify the following parameters. `transformation` is an optional argument which specifies the function to be applied to the data. We do not apply an arcsinh transformation here, as we already apply a square root transform in the `simpleSeg()` function. `method = c("trim99", "mean", PC1")` is an optional argument which specifies the normalisation method/s to be performed. Here, we: 1) Trim the 99th percentile 2) Divide by the mean 3) Remove the 1st principal component `assayIn = "counts"` is a required argument which specifies what the assay you'll be taking the intensity data from is named. In our context, this is called `counts`.
 
 This modified data is then stored in the `norm` assay by default. We can see that this normalised data appears more bimodal, not perfectly, but likely to a sufficient degree for clustering, as we can at least observe a clear CD3+ peak at 1.00, and a CD3- peak at around 0.3.
 
@@ -355,12 +340,11 @@ scater::plotReducedDim(
 )
 ```
 
-
 ## FuseSOM: Cluster cells into cell types
 
 We can appreciate from the UMAP that there is a division of clusters, most likely representing different cell types. We next aim to empirically distinguish each cluster using our FuseSOM package for clustering.
 
-Our FuseSOM R package can be found on bioconductor at [https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html](https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html), and provides a pipeline for the clustering of highly multiplexed in situ imaging cytometry assays. This pipeline uses the Self Organising Map architecture coupled with Multiview hierarchical clustering and provides functions for the estimation of the number of clusters.
+Our FuseSOM R package can be found on bioconductor at <https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html>, and provides a pipeline for the clustering of highly multiplexed in situ imaging cytometry assays. This pipeline uses the Self Organising Map architecture coupled with Multiview hierarchical clustering and provides functions for the estimation of the number of clusters.
 
 Here we cluster using the `runFuseSOM` function. We specify the number of clusters to identify to be `numClusters = 10`. We also specify a set of cell-type specific markers to use, as we want our clusters to be distinct based off cell type markers, rather than markers which might pick up a transitioning cell state.
 
@@ -424,7 +408,7 @@ cells <- cells |>
   ))
 ```
 
-We might also be interested in how these cell types are distributed on the images themselves. Here we examine the distribution of clusters on image F3, noting the healthy epithelial and endothelial structures surrounded by tumour cells. 
+We might also be interested in how these cell types are distributed on the images themselves. Here we examine the distribution of clusters on image F3, noting the healthy epithelial and endothelial structures surrounded by tumour cells.
 
 ```{r}
 reducedDim(cells, "spatialCoords") <- spatialCoords(cells)
@@ -471,9 +455,9 @@ testProp <- colTest(cells,
 head(testProp)
 ```
 
-Let's examine one of these clusters using our `getProp()` function from `spicyR`, which conveniently transforms our proportions into a feature matrix of images by cell type,  enabling convenient downstream classification or analysis.
+Let's examine one of these clusters using our `getProp()` function from `spicyR`, which conveniently transforms our proportions into a feature matrix of images by cell type, enabling convenient downstream classification or analysis.
 
-Next, let's visualise how different the proportions are 
+Next, let's visualise how different the proportions are
 
 boxplot.
 
@@ -495,7 +479,7 @@ prop |>
   geom_boxplot()
 ```
 
-**NB**: If you have already clustered and annotated your cells, you may only be interested in our downstream analysis capabilities, looking into identifying localisation (spicyR), cell regions (lisaClust), and cell-cell interactions (SpatioMark & Kontextual). Therefore, for the sake of convenience, we've provided capability to directly load in the SpatialExperiment (SPE) object that we've generated up to this point, complete with clusters and normalised intensities. 
+**NB**: If you have already clustered and annotated your cells, you may only be interested in our downstream analysis capabilities, looking into identifying localisation (spicyR), cell regions (lisaClust), and cell-cell interactions (SpatioMark & Kontextual). Therefore, for the sake of convenience, we've provided capability to directly load in the SpatialExperiment (SPE) object that we've generated up to this point, complete with clusters and normalised intensities.
 
 ```{r, eval=FALSE}
 load(system.file("extdata/computed_cells.rda", package = "spicyWorkflow"))
@@ -503,7 +487,7 @@ load(system.file("extdata/computed_cells.rda", package = "spicyWorkflow"))
 
 ## spicyR: Test spatial relationships
 
-Our spicyR package is available on bioconductor on [https://www.bioconductor.org/packages/devel/bioc/html/spicyR.html](https://www.bioconductor.org/packages/devel/bioc/html/spicyR.html) and provides a series of functions to aid in the analysis of both immunofluorescence and imaging mass cytometry data as well as other assays that can deeply phenotype individual cells and their spatial location. Here we use the `spicy()` function to test for changes in the spatial relationships between pair-wise combinations of cells.
+Our spicyR package is available on bioconductor on <https://www.bioconductor.org/packages/devel/bioc/html/spicyR.html> and provides a series of functions to aid in the analysis of both immunofluorescence and imaging mass cytometry data as well as other assays that can deeply phenotype individual cells and their spatial location. Here we use the `spicy()` function to test for changes in the spatial relationships between pair-wise combinations of cells.
 
 Put simply, spicyR uses the L-function to determine localisation or dispersion between cell types. The L-function is an arbitrary measure of "closeness" between points, with greater values suggesting increased localisation, and lower values suggesting dispersion.
 
@@ -532,7 +516,7 @@ signifPlot(
 )
 ```
 
-`spicyR` also has functionality for plotting out individual pairwise relationships. We can first try look into whether the `SC` tumour cell type localises with the `GC` granular cell type, and whether this localisation affects progression vs non-progression of the tumour. 
+`spicyR` also has functionality for plotting out individual pairwise relationships. We can first try look into whether the `SC` tumour cell type localises with the `GC` granular cell type, and whether this localisation affects progression vs non-progression of the tumour.
 
 ```{r}
 spicyBoxPlot(spicyTest, 
@@ -549,7 +533,7 @@ spicyBoxPlot(spicyTest,
 
 ## lisaClust: Find cellular neighbourhoods
 
-Our lisaClust package (https://www.bioconductor.org/packages/devel/bioc/html/lisaClust.html)[https://www.bioconductor.org/packages/devel/bioc/html/lisaClust.html] provides a series of functions to identify and visualise regions of tissue where spatial associations between cell-types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the `lisaClust` function to clusters cells into 5 regions with distinct spatial ordering. 
+Our lisaClust package (https://www.bioconductor.org/packages/devel/bioc/html/lisaClust.html)\[https://www.bioconductor.org/packages/devel/bioc/html/lisaClust.html\] provides a series of functions to identify and visualise regions of tissue where spatial associations between cell-types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the `lisaClust` function to clusters cells into 5 regions with distinct spatial ordering.
 
 ```{r}
 set.seed(51773)
@@ -614,11 +598,11 @@ testRegion
 
 ## Statial: Identify changes in cell state.
 
-Our Statial package (https://www.bioconductor.org/packages/release/bioc/html/Statial.html) provides a suite of functions (Kontextual) for robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition, we provide a suite of functions (SpatioMark) for uncovering continuous changes in marker expression associated with varying levels of localisation. 
+Our Statial package (https://www.bioconductor.org/packages/release/bioc/html/Statial.html) provides a suite of functions (Kontextual) for robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition, we provide a suite of functions (SpatioMark) for uncovering continuous changes in marker expression associated with varying levels of localisation.
 
 ### SpatioMark: Continuous changes in marker expression associated with varying levels of localisation.
 
-The first step in analysing these changes is to calculate the spatial proximity (`getDistances`) of each cell to every cell type. These values will then be stored in the `reducedDims` slot of the `SingleCellExperiment` object under the names `distances`. SpatioMark also provides functionality to look into proximal cell abundance using the `getAbundance()` function, which is further explored within the `Statial` package vignette. 
+The first step in analysing these changes is to calculate the spatial proximity (`getDistances`) of each cell to every cell type. These values will then be stored in the `reducedDims` slot of the `SingleCellExperiment` object under the names `distances`. SpatioMark also provides functionality to look into proximal cell abundance using the `getAbundance()` function, which is further explored within the `Statial` package vignette.
 
 ```{r}
 cells$m.cx <- spatialCoords(cells)[,"x"]
@@ -691,7 +675,7 @@ head(survivalResults)
 
 ### Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure
 
-`Kontextual` is a method to evaluate the localisation relationship between two cell types in an image. `Kontextual` builds on the L-function by contextualising the relationship between two cell types in reference to the typical spatial behaviour of a  $3^{rd}$ cell type/population. By taking this approach, `Kontextual` is invariant to changes in the window of the image as well as tissue structures which may be present. 
+`Kontextual` is a method to evaluate the localisation relationship between two cell types in an image. `Kontextual` builds on the L-function by contextualising the relationship between two cell types in reference to the typical spatial behaviour of a $3^{rd}$ cell type/population. By taking this approach, `Kontextual` is invariant to changes in the window of the image as well as tissue structures which may be present.
 
 The definitions of cell types and cell states are somewhat ambiguous, cell types imply well defined groups of cells that serve different roles from one another, on the other hand cell states imply that cells are a dynamic entity which cannot be discretised, and thus exist in a continuum. For the purposes of using `Kontextual` we treat cell states as identified clusters of cells, where larger clusters represent a "parent" cell population, and finer sub-clusters representing a "child" cell population. For example a CD4 T cell may be considered a child to a larger parent population of Immune cells. `Kontextual` thus aims to see how a child population of cells deviate from the spatial behaviour of their parent population, and how that influences the localisation between the child cell state and another cell state.
 
@@ -720,7 +704,7 @@ treeDf = Statial::parentCombinations(all, parent1, parent2, parent3, parent4, pa
 fergusonTree$clust_tree |> plot()
 ```
 
-`Kontextual` accepts a `SingleCellExperiment` object, a single image, or list of images from a `SingleCellExperiment` object, which gets passed into the `cells` argument. Here, we've specified Kontextual to perform calculations on all pairwise combinations for every cluster using the `parentCombinations()` function to create the `treeDf` dataframe which we've specified in the `parentDf` parameter. The argument `r` will specify the radius which the cell relationship will be evaluated on. `Kontextual` supports parallel processing, the number of cores can be specified using the `cores` argument. `Kontextual` can take a single value or multiple values for each argument and will test all combinations of the arguments specified. 
+`Kontextual` accepts a `SingleCellExperiment` object, a single image, or list of images from a `SingleCellExperiment` object, which gets passed into the `cells` argument. Here, we've specified Kontextual to perform calculations on all pairwise combinations for every cluster using the `parentCombinations()` function to create the `treeDf` dataframe which we've specified in the `parentDf` parameter. The argument `r` will specify the radius which the cell relationship will be evaluated on. `Kontextual` supports parallel processing, the number of cores can be specified using the `cores` argument. `Kontextual` can take a single value or multiple values for each argument and will test all combinations of the arguments specified.
 
 We can calculate all pairwise relationships across all images for a single radius.
 
@@ -752,12 +736,7 @@ head(survivalResults)
 
 ## ClassifyR: Classification
 
-Our ClassifyR package, [https://github.com/SydneyBioX/ClassifyR](https://github.com/SydneyBioX/ClassifyR), formalises a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages; Data transformation, feature selection, classifier training and prediction; into a cross-validation loop. Here we use the `crossValidate` function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data; 
-1)    Cell type proportions 
-2)    Cell type localisation from `spicyR`
-3)    Region proportions from `lisaClust`
-4)    Cell type localisation in reference to a parent cell type from `Kontextual`
-5)    Cell changes in response to proximal changes from `SpatioMark`
+Our ClassifyR package, <https://github.com/SydneyBioX/ClassifyR>, formalises a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages; Data transformation, feature selection, classifier training and prediction; into a cross-validation loop. Here we use the `crossValidate` function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data; 1) Cell type proportions 2) Cell type localisation from `spicyR` 3) Region proportions from `lisaClust` 4) Cell type localisation in reference to a parent cell type from `Kontextual` 5) Cell changes in response to proximal changes from `SpatioMark`
 
 ```{r}
 # Create list to store data.frames
@@ -826,7 +805,6 @@ samplesMetricMap(cv)
 ## Summary
 
 Here we have used a pipeline of our spatial analysis R packages to demonstrate an easy way to segment, cluster, normalise, quantify and classify high dimensional in situ cytometry data all within R.
-
 
 ## sessionInfo
 

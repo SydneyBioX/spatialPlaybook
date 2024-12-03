@@ -1,0 +1,55 @@
+# Datasets
+
+Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on Bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
+
+## Spatial Proteomics - MIBI-TOF
+
+MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$.
+
+### [Triple Negative Breast Cancer - Keren_2018](datasets/Keren_2018/Keren_2018.qmd)
+
+This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer using MIBI-TOF. The dataset captures high-resolution, spatially resolved data on 17 distinct cell populations, immune composition, checkpoint protein expression, and tumor-immune interactions.
+
+<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
+
+### Ductal carcinoma in situ - Risom_2022
+
+This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma *in situ* (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A 37-plex antibody staining panel was used to capture spatial relationships that provided insight into the dynamics of the tumour microenvironment during the transition from normal breast tissue to DCIS and IBC.
+
+<citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
+
+## Spatial Proteomics - CODEX
+
+CODEX (co-detection by indexing) is a highly multiplexed tissue imaging technique that uses DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. It can visualise up to 60 labelled antibodies at subcellular resolution.
+
+### Colorectal cancer - Schurch_2020
+
+This study aims to characterise the immune tumour microenvironment in advanced-stage colorectal cancer using CODEX. The dataset consists of 35 advanced colorectal cancer patients, with 4 images per patient for a total of 140 images. Each image is marked with a 56-antibody panel to characterise a total of 24 distinct tumour and immune cell populations. Overall, the dataset contains 240,000 cells along with clinical information such as patient tumour grade, tumour type, and patient survival.
+
+<citation> Schürch et al. (2020). Coordinated Cellular Neighborhoods Orchestrate Antitumoral Immunity at the Colorectal Cancer Invasive Front et al. (2018). A Coordinated Cellular Neighborhoods Orchestrate Antitumoral Immunity at the Colorectal Cancer Invasive Front. Cell, 182(5), 1341-1359.e19. ([DOI](https://doi.org/10.1016/j.cell.2020.07.005)) </citation>
+
+## Spatial Proteomics - IMC
+
+IMC (Imaging Mass Cytometry) is an instrument that combines laser ablation with mass cytometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. The datasets produced by IMC can image approximately 30–40 labeled antibodies, covering tissue areas of around $1mm^2$ with a resolution down to $1 \mu m$.
+
+### Breast cancer - Ali_2020
+
+Also known as the METABRIC dataset, this 37-panel IMC dataset contains images of 456 primary invasive breast carcinoma patients obtained from 548 samples. Clinical variables in the dataset include age, chemotherapy (CT), radiotherapy (RT), hormone treatment (HT) indicators, estrogen receptor (ER) status, and gene expression markers (MKI67, EGFR, PGR, and ERBB2).
+
+<citation> Ali et al. (2020). Imaging mass cytometry and multiplatform genomics define the phenogenomic landscape of breast cancer. Nature Cancer, 1, 163-175. ([DOI](https://doi.org/10.1038/s43018-020-0026-6))</citation>
+
+### Head and neck squamous cell carcinoma - Ferguson_2022
+
+This study uses IMC to map the immune landscape and identify differences between high-risk primary head and neck cancer (HNcSCC) tumors that did not progress and those that developed metastases (progressing tumours). The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our workflow to reach a similar conclusion.
+
+<citation> Ferguson et al. (2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. ([DOI](https://doi.org/10.1158/1078-0432.CCR-22-1332))</citation>
+
+## Spatial Transcriptomics - seqFISH
+
+[SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities.
+
+### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd)
+
+This study uses seqFISH to spatially profile the expression of 387 genes in mouse embryos. A comprehensive spatially resolved map of gene expression was created by integrating the seqFISH data with existing scRNAseq data. This integration facilitated the exploration of cellular relationships across different regions of the embryo.
+
+<citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>

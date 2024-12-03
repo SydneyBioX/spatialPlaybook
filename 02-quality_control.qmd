@@ -110,12 +110,12 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 
 #### `method` Parameters
 
-| Method | Description |   |
-|-------------------|:-------------------------:|:-------------------------:|
-| ["mean"]{style="font-family: 'Courier New', monospace;"} | [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"} |  |
-| ["minMax"]{style="font-family: 'Courier New', monospace;"} | [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"} |  |
-| ["trim99"]{style="font-family: 'Courier New', monospace;"} | [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"} |  |
-| ["PC1"]{style="font-family: 'Courier New', monospace;"} | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |  |
+| Method                                                     |                                                                                Description                                                                                 |     |
+|------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---:|
+| ["mean"]{style="font-family: 'Courier New', monospace;"}   |                              [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"}                               |     |
+| ["minMax"]{style="font-family: 'Courier New', monospace;"} |                             [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"}                              |     |
+| ["trim99"]{style="font-family: 'Courier New', monospace;"} |                           [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"}                           |     |
+| ["PC1"]{style="font-family: 'Courier New', monospace;"}    | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |     |
 
 We can then plot the same density curve for the CD3 marker using the normalised data.
 

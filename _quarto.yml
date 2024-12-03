@@ -2,21 +2,45 @@ project:
   type: book
   output-dir: docs
 
+execute:
+  freeze: auto
+
 book:
-  title: "spicyPlayBook"
-  author: "Alex Qin"
-  date: "11/11/2024"
+  title: "Spatial analysis playbook"
+  author: "Alex Qin, Shreya Rao, Farhan Ameen, Ellis Patrick"
+  date: "`r Sys.Date()`"
   chapters:
-    - index.qmd
-    - 01-processing.qmd
-    - 02-quality_control.qmd
-    - 03-cell_annotation.qmd
-    - 04-cell_localisation.qmd
-    - 05-cellular_niches.qmd
-    - 06-changes_in_marker_expression.qmd 
-    - 07-classification.qmd
-    - 08-case_study1.qmd
-    - 09-references.qmd
+    - part: "Overview"
+      contents:
+        - index.qmd
+        - packages.qmd
+        - datasets.qmd
+        - getting_started.qmd
+    - part: "Processing"
+      contents:
+        - 01-processing.qmd
+        - 02-quality_control.qmd
+    - part: "Cell annotation"
+      contents:
+        - 03-cell_annotation.qmd
+    - part: "Cell localisation"
+      contents:
+        - 04-cell_localisation.qmd
+    - part: "Spatial domains"
+      contents:
+        - 05-cellular_niches.qmd
+    - part: "Changes in marker expression"
+      contents:
+        - 06-changes_in_marker_expression.qmd
+    - part: "Classification"
+      contents:
+        - 07-classification.qmd
+    - part: "Case studies"
+      contents:
+        - 08-case_study1.qmd
+    - part: "References"
+      contents:
+        - 09-references.qmd
   navbar:
     logo: images/USydLogo.svg
 
@@ -27,6 +51,6 @@ format:
     theme: [cosmo, styles.scss]
     css: styles.css
     toc: true
+    code-link: true
 
 editor: visual
-
