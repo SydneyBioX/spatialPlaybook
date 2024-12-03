@@ -26,7 +26,8 @@ To demonstrate the functionality of `FuseSOM`, we will use the Risom 2022 datase
 # load FuseSOM
 library(FuseSOM)
 library(scClassify)
-library(MouseGastrulationData)
+library(STexampleData)
+library(MLmetrics)
 
 # load in the data
 data("risom_dat")
@@ -203,31 +204,30 @@ Again, we see that the `Jump` statistic almost perfectly captures the correct nu
 
 [scClassify](https://new.bioconductor.org/packages/release/bioc/html/scClassify.html) is a supervised multiscale classification framework for scRNAseq data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.
 
-To demonstrate the use of scClassify, we will use the Lohoff 2022 dataset, which examines spatial relationships during mouse embryo development. It is available through the `MouseGastrulationData` package. We will select samples 21-24 for demonstration purposes.
+To demonstrate the use of scClassify, we will use the Stickels 2021 dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the `STexampleData` package. We will select samples 21-24 for demonstration purposes.
 
 ```{r warning = FALSE, message = FALSE}
-mouseSCE = EmbryoAtlasData(samples = c(21, 22, 23, 24))
+stickelsSPE = STexampleData::SlideSeqV2_mouseHPC()
 
-# remove missing values
-mouseSCE = mouseSCE[, !is.na(colData(mouseSCE)$celltype)]
+# remove missing celltype values
+stickelsSPE = stickelsSPE[, !is.na(stickelsSPE$celltype)]
+stickelsSPE
+```
 
-mouseSCE
+The dataset contains 17 unique cell types.
+
+```{r}
+stickelsSPE$celltype |> unique()
 ```
 
 As scClassify requires log-normalised expression data, we will use `normalizeCounts` from the `scuttle` package to transform and normalise our expression data.
 
 ```{r}
 # log normalisation
-norm_assay = normalizeCounts(mouseSCE, transform = "log", BPPARAM = BiocParallel::MulticoreParam(workers = 8))
+norm_assay = normalizeCounts(stickelsSPE, transform = "log", BPPARAM = BiocParallel::MulticoreParam(workers = 8))
 
 # store normalised expression data in the "norm" slot
-assay(mouseSCE, "norm") = norm_assay
-```
-
-The Lohoff 2022 dataset contains 37 unique cell types.
-
-```{r}
-mouseSCE$celltype |> unique()
+assay(stickelsSPE, "norm") = norm_assay
 ```
 
 We will first split the dataset into an 80% training or reference dataset and a 20% testing or query dataset.
@@ -236,13 +236,13 @@ We will first split the dataset into an 80% training or reference dataset and a 
 set.seed(51773)
 
 # split into 80% reference and 20% query
-train_idx = sample(seq_len(ncol(mouseSCE)), size = 0.8 * ncol(mouseSCE))
-train_sce = mouseSCE[, train_idx]
-test_sce = mouseSCE[, -train_idx]
+ref_idx = sample(seq_len(ncol(stickelsSPE)), size = 0.8 * ncol(stickelsSPE))
+ref_spe = stickelsSPE[, ref_idx]
+query_spe = stickelsSPE[, -ref_idx]
 
 # access expression data as matrix
-train_mat = assay(train_sce, "norm")
-test_mat = assay(test_sce, "norm")
+ref_mat = assay(ref_spe, "norm")
+query_mat = assay(query_spe, "norm")
 ```
 
 `scClassify` is the main classification function within scClassify. It requires a reference expression matrix (`exprsMat_train`) and the corresponding vector of cell type labels as input (`cellTypes_train`). We then specify our query matrix (`exprsMat_test`) and the corresponding cell type labels (`cellTypes_test`) in the form of lists. Below, we have also specified the following customisations for building the model -
@@ -250,17 +250,17 @@ test_mat = assay(test_sce, "norm")
 -   `tree = HOPACH`: use the HOPACH algorithm to build a cell type hierarchy.
 -   `algorithm = WKNN`: use the weighted KNN model
 -   `selectFeatures = c("limma")`: identify differentially expressed (DE) genes using `limma`, which will be used as features to build the WKNN model. Other options to select features include differentially variable (DV) genes, differentially distributed (DD), bimodally distributed (BI) and differentially expressed proportions.
--   `similarity = c("spearman")`: use the Spearman correlation metric to measure correlation between cells. Other options include Pearson's correlation, Kendall's correlation, Jaccard distance, Cosine distance, and weighted rank correlation.
+-   `c("pearson", "spearman", "cosine")`: use Pearson and Spearman correlation to measure similarity between cells. Other options include Kendall's correlation, cosine distance, Jaccard distance, Manhattan distance, and weighted rank correlation.
 
 ```{r}
 scClassify_res = scClassify(exprsMat_train = train_mat,
-                            cellTypes_train = train_sce$celltype,
-                            exprsMat_test = list(lohoff = test_mat),
-                            cellTypes_test = list(lohoff = test_sce$celltype),
+                            cellTypes_train = train_spe$celltype,
+                            exprsMat_test = list(stickels = test_mat),
+                            cellTypes_test = list(stickels = test_spe$celltype),
                             tree = "HOPACH",
                             algorithm = "WKNN",
                             selectFeatures = c("limma"),
-                            similarity = c("spearman"),
+                            similarity = c("pearson", "spearman"),
                             returnList = FALSE,
                             parallel = TRUE,
                             BPPARAM = BiocParallel::MulticoreParam(workers = 8),
@@ -279,6 +279,34 @@ We can then examine the cell type tree generated by the reference dataset.
 plotCellTypeTree(cellTypeTree(scClassify_res$trainRes))
 ```
 
+The predictions for each cell can be accessed through the `ensembleRes` slot in the testing results.
+
+```{r}
+pred_mat = scClassify_res$testRes$stickels$ensembleRes |> as.data.frame()
+head(pred_mat)
+```
+
+We will evaluate scClassify's performance using 4 metrics - accuracy, precision, recall, and F1 Score.
+
+```{r}
+# accuracy
+MLmetrics::Accuracy(test_spe$celltype, pred_mat$cellTypes)
+```
+
+```{r}
+# precision
+MLmetrics::Precision(test_spe$celltype, pred_mat$cellTypes)
+```
+
+```{r}
+# recall
+MLmetrics::Recall(test_spe$celltype, pred_mat$cellTypes)
+```
+
+```{r}
+# recall
+MLmetrics::F1_Score(test_spe$celltype, pred_mat$cellTypes)
+```
 
 ## Choosing between clustering and annotation
 
