@@ -22,10 +22,12 @@ book:
         - 02-quality_control.qmd
     - part: "Cell annotation"
       contents:
-        - 03-cell_annotation.qmd
+        - 03a-cell_annotation.qmd
+        - 03b-cell_annotation.qmd
     - part: "Cell localisation"
       contents:
-        - 04-cell_localisation.qmd
+        - 04a-cell_localisation.qmd
+        - 04b-cell_localisation_parent.qmd
     - part: "Spatial domains"
       contents:
         - 05-cellular_niches.qmd

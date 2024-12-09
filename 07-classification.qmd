@@ -53,7 +53,13 @@ We will build a list of feature matrices using the features we've generated in t
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression (SpatioMark)
 
-```{r, eval = FALSE, include =FALSE}
+```{r, include = FALSE}
+kontextMat <- readRDS("data/kontextMat.rds")
+stateMat <- readRDS("data/stateMat.rds")
+```
+
+
+```{r}
 data <- list()
 
 # Cell type proportions (FuseSOM)
@@ -167,8 +173,12 @@ The `samplesMetricMap` function allows the visual comparison of sample-wise erro
 
 ### Predicting tumour type
 
-```{r}
-samplesMetricMap(cv, showXtickLabels = FALSE)
+```{r, fig.width=15}
+samplesMetricMap(cv,  
+                 classColours = c("#3F48CC", "#880015", "#00b409"),
+                 metricColours = list(c("#FFFFFF", "#CFD1F2", "#9FA3E5", "#6F75D8", "#3F48CC"),
+                                      c("#FFFFFF", "#E1BFC4", "#C37F8A", "#A53F4F", "#880015"),
+                                      c("#FFFFFF", "#c1ffc4", "#88ff8e", "#5aff62", "#00b409")))
 ```
 
 ### Predicting survival outcomes

@@ -1,4 +1,4 @@
-# Spatial domains
+# lisaClust: Spatial domains
 
 ## Why look at spatial domains?
 

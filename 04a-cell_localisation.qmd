@@ -1,0 +1,265 @@
+# SpicyR: Cell localisation
+
+Now that we have finished preprocessing our data, we can now begin analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
+
+```{r warning=FALSE, message=FALSE}
+# load required packages
+library(spicyR)
+library(Statial)
+library(ggplot2)
+library(SpatialExperiment)
+library(SpatialDatasets)
+library(imcRtools)
+library(dplyr)
+library(survival)
+library(tibble)
+library(treekoR)
+library(ggsurvfit)
+
+nCores <- 10
+```
+
+## Quantifying cell type co-localisation with spicyR
+
+[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups. Here, we will use the Keren 2018 dataset to demonstrate the use of `spicyR` The data is stored as a `SpatialExperiment` object within the `SpatialDatasets` package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).
+
+```{r warning=FALSE, message=FALSE}
+kerenSPE <- SpatialDatasets::spe_Keren_2018()
+
+# remove any missing data in our outcome columns
+kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
+                                                           "tumour_type")])]
+```
+
+The cell types in this dataset includes 11 immune cell types (double negative CD3 T cells, CD4 T cells, B cells, monocytes, macrophages, CD8 T cells, neutrophils, natural killer cells, dendritic cells, regulatory T cells), 2 structural cell types (endothelial, mesenchymal), 2 tumour cell types (keratin+ tumour, tumour) and one unidentified category.
+
+### Linear modelling
+
+We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a variance-stabilised version of the K-function given by the equation
+
+$$
+\widehat{L_{ij}} (r) = \sqrt{\frac{\widehat{K_{ij}}(r)}{\pi}}
+$$
+
+with $\widehat{K_{ij}}$ defined as
+
+$$
+\widehat{K_{ij}} (r) = \frac{|W|}{n_i n_j} \sum_{n_i} \sum_{n_j} 1 \{d_{ij} \leq r \} e_{ij} (r)
+$$
+
+where $\widehat{K_{ij}}$ summarises the degree of co-localisation of cell type $j$ with cell type $i$, $n_i$ and $n_j$ are the number of cells of type $i$ and $j$, $|W|$ is the image area, $d_{ij}$ is the distance between two cells and $e_{ij} (r)$ is an edge correcting factor.
+
+Specifically, the mean difference between the experimental function and the theoretical function is used as a measure for the level of localisation, defined as
+
+$$
+u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experimental}} (r') - \widehat L_{ij, \text{Poisson}} (r')
+$$
+
+where $u$ is the sum is taken over a discrete range of $r$ between $r_{\text{min}}$ and $r_{\text{max}}$. Differences of the statistic $u$ between two conditions is modelled using a weighted linear model.
+
+### Test for changes in localisation for a specific pair of cells
+
+Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy()` function, where we specify the `condition` parameter.
+
+In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy()` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy()` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-funcion can be specified using the `Rs` argument. Small radii will examine local spatial relationships, whereas larger radii will examine global spatial relationships. By default, `spicy()` calculates the L-function over a range of radii.
+
+The column containing cell type annotations and image IDs can be specified using the `cellType` and `imageID` arguments respectively. By default, `spicy` uses the columns named `cellType` and `imageID`.
+
+We obtain a `spicy` object which details the results of the modelling performed. The `topPairs()` function can be used to obtain the associated coefficients and p-value.
+
+```{r}
+spicyTestPair <- spicy(
+  kerenSPE,
+  condition = "tumour_type",
+  from = "CD8_T_cell",
+  to = "Neutrophils"
+)
+
+topPairs(spicyTestPair)
+```
+
+As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.
+
+### Test for changes in localisation for all pairwise cell combinations
+
+We can perform what we did above for all pairwise combinations of cell types by excluding the `from` and `to` parameters in `spicy()`. Additional covariates can be added using the `covariates` argument.
+
+```{r}
+spicyTest <- spicy(
+  kerenSPE,
+  condition = "tumour_type"
+)
+
+topPairs(spicyTest)
+```
+
+Again, we obtain a `spicy` object which outlines the result of the linear models performed for each pairwise combination of cell types.
+
+We can also examine the L-function metrics of individual images by using the convenient `bind()` function on our `spicyTest` results object.
+
+```{r}
+bind(spicyTest)[1:5, 1:5]
+```
+
+The results can be represented as a bubble plot using the `signifPlot()` function.
+
+```{r}
+signifPlot(
+  spicyTest,
+  breaks = c(-3, 3, 1),
+  marksToPlot = c("Macrophages", "DC_or_Mono", "dn_T_CD3", "Neutrophils",
+                  "CD8_T_cell", "Keratin_Tumour")
+)
+```
+
+Here, we can observe that the most significant relationships occur between macrophages and double negative CD3 T cells, suggesting that the two cell types are far more dispersed in compartmentalised tumours compared to cold tumours.
+
+To examine a specific cell type-cell type relationship in more detail, we can use `spicyBoxplot()` and specify either `from = "Macrophages"` and `to = "dn_T_CD3"` or `rank = 1`.
+
+```{r}
+spicyBoxPlot(results = spicyTest, 
+             # from = "Macrophages",
+             # to = "dn_T_CD3"
+             rank = 1)
+```
+
+### Linear modelling for custom metrics
+
+`spicyR` can also be applied to custom distance or abundance metrics. A kNN interactions graph can be generated with the function `buildSpatialGraph` from the `imcRtools` package. This generates a `colPairs` object inside of the `SpatialExperiment` object.
+
+`spicyR` provides the function `convPairs` for converting a `colPairs` object into an abundance matrix by calculating the average number of nearby cells types for every cell type for a given `k`. For example, if there exists on average 5 neutrophils for every macrophage in image 1, the column `Neutrophil__Macrophage` would have a value of 5 for image 1.
+
+```{r}
+kerenSPE <- imcRtools::buildSpatialGraph(kerenSPE, 
+                                         img_id = "imageID", 
+                                         type = "knn", k = 20,
+                                        coords = c("x", "y"))
+
+pairAbundances <- convPairs(kerenSPE,
+                  colPair = "knn_interaction_graph")
+
+head(pairAbundances["B_cell__B_cell"])
+```
+
+The custom distance or abundance metrics can then be included in the analysis with the `alternateResult` parameter.
+
+```{r}
+spicyTestColPairs <- spicy(
+  kerenSPE,
+  condition = "tumour_type",
+  alternateResult = pairAbundances,
+  weights = FALSE
+)
+
+topPairs(spicyTestColPairs)
+```
+
+```{r}
+signifPlot(
+  spicyTestColPairs,
+  breaks = c(-3, 3, 1),
+  marksToPlot = c("Macrophages", "dn_T_CD3", "CD4_T_cell", 
+                  "B_cell", "DC_or_Mono", "Neutrophils", "CD8_T_cell")
+)
+```
+
+### Performing survival analysis
+
+`spicy()` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy()` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
+
+```{r}
+kerenSPE$event = 1 - kerenSPE$Censored
+kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
+```
+
+We can then perform survival analysis using the `spicy()` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
+
+```{r}
+# Running survival analysis
+spicySurvival = spicy(kerenSPE,
+                      condition = "survival")
+
+# top 10 significant pairs
+head(spicySurvival$survivalResults, 10)
+```
+
+### Accounting for tissue inhomogeneity
+
+The `spicy()` function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the `sigma =` parameter within the spicy function. By default, `sigma` is set to `NULL`, and `spicy()` assumes a homogeneous tissue structure.
+
+In the example below, we examine the degree of co-localisation between `Keratin_Tumour__Neutrophils` in one image using the `getPairwise()` function, which returns the L-function values for each cell type pair. We set the radius over which the L-function should be calculated (`Rs = 100`) and specify `sigma = NULL`. The calculated L-function is positive, indicating attraction between the two cell types.
+
+```{r}
+# filter SPE object to obtain image 24 data
+kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "24"]
+
+pairwiseAssoc = getPairwise(kerenSubset, 
+                            sigma = NULL, 
+                            Rs = 100) |>
+  as.data.frame()
+
+pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
+```
+
+When we specify `sigma = 20` and re-calculate the L-function, it indicates that there is no relationship between `Keratin_Tumour` and `Neutrophils`, i.e., there is no major attraction or dispersion, as it now takes into account tissue inhomogeneity.
+
+```{r}
+pairwiseAssoc = getPairwise(kerenSubset, 
+                            sigma = 20, 
+                            Rs = 100) |>
+  as.data.frame()
+
+pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
+```
+
+```{r}
+# obtain colData for image 24
+cData = colData(kerenSPE) |> as.data.frame() |> 
+          dplyr::filter(imageID == "24")
+
+# obtain cells present in image 24
+coords = spatialCoords(kerenSPE) |> as.data.frame()
+coords$cellID = rownames(coords)
+coords = coords |> dplyr::filter(cellID %in% cData$CellID)
+
+cData$X = coords$x
+cData$Y = coords$y
+
+cData = cData |> 
+  dplyr::mutate(cellTypeNew = ifelse(cellType %in% c("Keratin_Tumour", "Neutrophils"), 
+                                     cellType, "Other"))
+
+ pal = setNames(c("#d6b11c", "#850f07"), 
+                c("Keratin_Tumour", "Neutrophils"))
+
+ggplot() +
+    stat_density_2d(data = cData, aes(x = X, y = Y, fill = after_stat(density)), 
+                    geom = "raster", 
+                    contour = FALSE) +
+    geom_point(data = cData |> filter(cellType != "Other"),
+               aes(x = X, y = Y, colour = cellTypeNew), size = 1) +
+    scale_color_manual(values = pal) +
+    scale_fill_distiller(palette = "Blues", direction = 1) +
+    theme_classic() +
+    labs(title = "image ID: 24")
+```
+
+Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the top of the image.
+
+### Mixed effects modelling
+
+`spicyR` supports mixed effects modelling when multiple images are obtained for each subject. In this case, `subject` is treated as a random effect and `condition` is treated as a fixed effect. To perform mixed effects modelling, we can specify the `subject` parameter in the `spicy()` function.
+
+```{r eval=FALSE}
+spicyMixedTest <- spicy(
+  diabetesData,
+  condition = "stage",
+  subject = "case"
+)
+```
+
+## sessionInfo
+
+```{r}
+sessionInfo()
+```

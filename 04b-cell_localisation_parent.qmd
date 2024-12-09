@@ -1,0 +1,264 @@
+# Kontextual: Cell localisation with context
+
+Now that we have finished preprocessing our data, we can now begin analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
+
+```{r warning=FALSE, message=FALSE}
+# load required packages
+library(spicyR)
+library(Statial)
+library(ggplot2)
+library(SpatialExperiment)
+library(SpatialDatasets)
+library(imcRtools)
+library(dplyr)
+library(survival)
+library(tibble)
+library(treekoR)
+library(ggsurvfit)
+
+nCores <- 10
+```
+
+## Load datasets
+
+```{r warning=FALSE, message=FALSE}
+kerenSPE <- SpatialDatasets::spe_Keren_2018()
+
+# remove any missing data in our outcome columns
+kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
+                                                           "tumour_type")])]
+```
+
+## Kontextual: Context aware cell localisation
+
+`Kontextual` is a method for performing inference on cell localisation which explicitly defines the contexts in which spatial relationships between cells can be identified and interpreted. These contexts may represent landmarks, spatial domains, or groups of functionally similar cells which are consistent across regions. By modelling spatial relationships between cells relative to these contexts, `Kontextual` produces robust spatial quantifications that are not confounded by biases such as the choice of region to image and the tissue structure present in the images. The `Kontextual` function is available in the [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package.
+
+In this example we demonstrate how cell type hierarchies can be used as a means to derive appropriate "contexts" for the evaluation of cell localisation. We then demonstrate the types of conclusions which `Kontextual` enables.
+
+### Using cell type hierarchies to define a "context"
+
+A cell type hierarchy may be used to define the "context" in which cell type relationships are evaluated within. A cell type hierarchy defines how cell types are functionally related to one another. The bottom of the hierarchy represents homogeneous populations of a cell type (child), and the cell populations at the nodes of the hierarchy represent broader parent populations with shared generalised function. For example, CD4 T cells may be considered a child population to the Immune parent population.
+
+There are two ways to define the cell type hierarchy. First, they can be defined based on our biological understanding of the cell types. We can represent this by creating a named list containing the names of each parent and the associated vector of child cell types.
+
+*Note:* The `all` vector must be created to include cell types which do not have a parent e.g. the *undefined* cell type in this data set.
+
+```{r biologicalHierarchy}
+# Examine all cell types in image
+unique(kerenSPE$cellType)
+
+# Named list of parents and their child cell types
+biologicalHierarchy = list(
+  "tumour" = c("Keratin_Tumour", "Tumour"),
+  "tcells" = c("dn_T_CD3", "CD4_T_cell", "CD8_T_cell", "Tregs"),
+  "myeloid" = c("DC_or_Mono", "DC", "Mono_or_Neu", "Macrophages", "Neutrophils"),
+  "tissue" = c("Endothelial", "Mesenchymal")
+)
+
+# Adding more broader immune parent populations
+biologicalHierarchy$immune = c(biologicalHierarchy$bcells,
+                               biologicalHierarchy$tcells,
+                               biologicalHierarchy$myeloid,
+                               "NK", "Other_Immune", "B_cell")
+
+
+# Creating a vector for all cellTypes
+all <- unique(kerenSPE$cellType)
+```
+
+Alternatively, you can use the `treeKor` bioconductor package [treekoR](http://www.bioconductor.org/packages/release/bioc/html/treekoR.html) to define these hierarchies in a data driven way.
+
+*Note:* These parent populations may not be accurate as we are using a small subset of the data.
+
+```{r clusteringHierarchy, warning = FALSE}
+# Calculate hierarchy using treekoR
+kerenTree <- treekoR::getClusterTree(t(assay(kerenSPE, "intensities")),
+                            kerenSPE$cellType,
+                            hierarchy_method = "hopach",
+                            hopach_K = 1)
+
+# Convert treekoR result to a name list of parents and children.
+treekorParents = getParentPhylo(kerenTree)
+
+treekorParents
+```
+
+### Application on triple negative breast cancer image
+
+Here we examine an image highlighted in the Keren 2018 [manuscript](https://doi.org/10.1016/j.cell.2018.08.039) where accounting for context information enabled new conclusions.
+
+```{r image6}
+# Lets define a new cell type vector
+kerenSPE$cellTypeNew <- kerenSPE$cellType
+
+# Select for all cells that express higher than baseline level of p53
+p53Pos <- assay(kerenSPE)["p53", ] > -0.300460
+
+# Find p53+ tumour cells
+kerenSPE$cellTypeNew[kerenSPE$cellType %in% biologicalHierarchy$tumour] <- "Tumour"
+kerenSPE$cellTypeNew[p53Pos & kerenSPE$cellType %in% biologicalHierarchy$tumour] <- "p53_Tumour"
+
+# Group all immune cells under the name "Immune"
+kerenSPE$cellTypeNew[kerenSPE$cellType %in% biologicalHierarchy$immune] <- "Immune"
+
+kerenSPE$x <- spatialCoords(kerenSPE)[,"x"]
+kerenSPE$y <- spatialCoords(kerenSPE)[,"y"]
+
+# Plot image 6
+kerenSPE |>
+  colData() |>
+  as.data.frame() |>
+  filter(imageID == "6") |>
+  filter(cellTypeNew %in% c("Immune", "Tumour", "p53_Tumour")) |>
+  arrange(cellTypeNew) |>
+  ggplot(aes(x = x, y = y, color = cellTypeNew)) +
+  geom_point(size = 1) +
+  scale_colour_manual(values = c("Immune" = "#505050", "p53_Tumour" = "#64BC46", "Tumour" = "#D6D6D6")) +
+  guides(colour = guide_legend(title = "Cell types", override.aes = list(size = 3)))
+```
+
+In image 6 of the Keren 2018 dataset given above, we can see that *p53+ tumour cells* and *immune cells* are dispersed. However, we can also see that *p53+ tumour cells* appear much more localised to *immune cells* relative to the tumour context (*tumour cells* and *p53+ tumour cells*).
+
+We can calculate a context-aware spatial co-localisation metric using `Kontextual`. `Kontextual` accepts a `SingleCellExperiment` object, a single image, or list of images from a `SingleCellExperiment` object, which gets passed into the `cells` argument. The two cell types which will be evaluated are specified in the `to` and `from` arguments. A parent population must also be specified in the `parent` argument. Note the parent cell population must include the `to` cell type. The argument `r` will specify the radius which the cell relationship will be evaluated on. `Kontextual` supports parallel processing, the number of cores can be specified using the `cores` argument. `Kontextual` can take a single value or multiple values for each argument and will test all combinations of the arguments specified.
+
+We can calculate these relationships across all images for a single radius (r = 100).
+
+```{r p53Relationship}
+p53_Kontextual <- Kontextual(
+  cells = kerenSPE,
+  r = 100,
+  from = "Immune",
+  to = "p53_Tumour",
+  parent = c("p53_Tumour", "Tumour"),
+  cellType = "cellTypeNew"
+)
+
+p53_Kontextual
+```
+
+The `kontextCurve` function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.
+
+As seen in the following plot the L-function produces negative values over a range of radii, indicating that *p53+ tumour cells* and *immune cells* are dispersed from one another. However by taking into account the tumour context, `Kontextual` shows positive values over some radii, indicating localisation between *p53+ tumour cells* and *immune cells*.
+
+```{r kontextCurve}
+curves <- kontextCurve(
+  cells = kerenSPE,
+  from = "Immune",
+  to = "p53_Tumour",
+  parent = c("p53_Tumour", "Tumour"),
+  rs = seq(50, 510, 50),
+  image = "6",
+  cellType = "cellTypeNew",
+  cores = nCores
+)
+
+kontextPlot(curves)
+```
+
+Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the `parentCombinations` function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the `parentList` argument. As shown below, the output is a data frame specifying the `to`, `from`, and `parent` arguments for `Kontextual`.
+
+*Note:* the output of `getPhyloParent` may also be using the in the `parentList` argument, for example if you wanted to use the treekoR defined hierarchy instead.
+
+```{r parentDf}
+# Get all relationships between cell types and their parents
+parentDf <- parentCombinations(
+  all = all,
+  parentList = biologicalHierarchy
+)
+```
+
+### Calculating all pairwise relationships
+
+Rather than specifying `to`, `from`, and `parent` in `Kontextual`, the output from `parentCombinations` can be inputed into `Kontextual` using the `parentDf` argument, to examine all pairwise relationships in the dataset.
+
+```{r runKontextual}
+# Running Kontextual on all relationships across all images.
+kerenKontextual <- Kontextual(
+  cells = kerenSPE,
+  parentDf = parentDf,
+  r = 100,
+  cores = nCores
+)
+```
+
+For every pairwise relationship (named accordingly: `from__to__parent`) `Kontextual` outputs the L-function values (original) and the Kontextual value. The relationships where the L-function and Kontextual disagree (e.g. one metric is positive and the other is negative) represent relationships where adding context information results in different conclusions on the spatial relationship between the two cell types.
+
+### Associating the relationships with survival outcomes.
+
+To examine whether the features obtained from `Statial` are associated with patient outcomes or groupings, we can use the `spicy` function from the `spicyR` package.
+
+In addition to this, the Kontextual results must be converted from a `data.frame` to a wide `matrix`, this can be done using `prepMatrix`.
+
+*Note:*, to extract the original L-function values, specify `column = "original"` in `prepMatrix`.
+
+```{r}
+# Converting Kontextual result into data matrix
+kontextMat <- prepMatrix(kerenKontextual)
+
+# Ensuring rownames of kontextMat match up with the image IDs of the SCE object
+kontextMat <- kontextMat[kerenSPE$imageID |> unique(), ]
+
+# Replace NAs with 0
+kontextMat[is.na(kontextMat)] <- 0
+```
+
+Finally, both the `SingleCellExperiment` object and the Kontextual matrix are passed into the `spicy` function, with `condition = "survival"`. The resulting coefficients and p values can be obtained by accessing the `survivalResults` name.
+
+```{r}
+kerenSPE$event = 1 - kerenSPE$Censored
+kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
+
+# Running survival analysis
+survivalResults = spicy(cells = kerenSPE,
+                        alternateResult = kontextMat,
+                        condition = "survival",
+                        weights = TRUE)
+
+head(survivalResults$survivalResults, 10)
+```
+
+The survival results can also be visualised using the `signifPlot` function.
+
+```{r}
+signifPlot(survivalResults)
+```
+
+As we can see from the results, `Neutrophils__CD8_T_cell__immune` is the one of the most significant pairwise relationships which contributes to patient survival. That is the relationship between neutrophils and CD8 T cells, relative to the parent population of immune cells. We can see that there is a positive coefficient associated with this relationship, which tells us an increase in localisation of these cell types relative to immune cells leads to better survival outcomes for patients.
+
+The association between `Neutrophils__CD8_T_cell__immune` and survival can also be visualised on a Kaplan-Meier curve. First, we extract survival data from the `SingleCellExperiment` object and create a survival vector.
+
+```{r}
+# Extracting survival data
+survData <- kerenSPE |>
+  colData() |>
+  data.frame() |>
+  select(imageID, survival) |>
+  unique()
+
+# Creating survival vector
+kerenSurv <- survData$survival
+names(kerenSurv) <- survData$imageID
+
+kerenSurv
+```
+
+Next, we extract the Kontextual values of this relationship across all images. We then determine if neutrophils and CD8 T cells are relatively attracted or avoiding in each image by comparing the Kontextual value in each image to the median Kontextual value.
+
+Finally, we plot a Kaplan-Meier curve using the `ggsurvfit` package. As shown below, when neutrophils and CD8 T cells are more localised to one another relative to the immune cell population, patients tend to have better survival outcomes.
+
+```{r, fig.width=5, fig.height=4}
+# Selecting most significant relationship
+survRelationship <- kontextMat[["Neutrophils__CD8_T_cell__immune"]]
+survRelationship <- ifelse(survRelationship > median(survRelationship), "Localised", "Dispersed")
+
+# Plotting Kaplan-Meier curve
+survfit2(kerenSurv ~ survRelationship) |>
+  ggsurvfit() +
+  ggtitle("Neutrophils__CD8_T_cell__immune")
+```
+
+## sessionInfo
+
+```{r}
+sessionInfo()
+```
