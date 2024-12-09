@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>8&nbsp; Cell localisation – Spatial analysis playbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-cellular_niches.html" rel="next">
+<link href="./04a-cell_localisation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><link rel="stylesheet" href="styles.css">
+</head>
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/USydLogo.svg" alt="" class="navbar-logo"></a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Spatial analysis playbook</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04a-cell_localisation.html">Cell localisation</a></li><li class="breadcrumb-item"><a href="./04b-cell_localisation_parent.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Packages</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Datasets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Started</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Processing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cell segmentation and pre-processing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-quality_control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cell annotation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-cell_annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cell Annotation</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cell localisation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Spatial domains</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial domains</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Changes in marker expression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Marker expression</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Classification</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-case_study1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">References</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#load-datasets" id="toc-load-datasets" class="nav-link active" data-scroll-target="#load-datasets"><span class="header-section-number">8.1</span> Load datasets</a></li>
+  <li>
+<a href="#kontextual-context-aware-cell-localisation" id="toc-kontextual-context-aware-cell-localisation" class="nav-link" data-scroll-target="#kontextual-context-aware-cell-localisation"><span class="header-section-number">8.2</span> Kontextual: Context aware cell localisation</a>
+  <ul class="collapse">
+<li><a href="#using-cell-type-hierarchies-to-define-a-context" id="toc-using-cell-type-hierarchies-to-define-a-context" class="nav-link" data-scroll-target="#using-cell-type-hierarchies-to-define-a-context"><span class="header-section-number">8.2.1</span> Using cell type hierarchies to define a “context”</a></li>
+  <li><a href="#application-on-triple-negative-breast-cancer-image" id="toc-application-on-triple-negative-breast-cancer-image" class="nav-link" data-scroll-target="#application-on-triple-negative-breast-cancer-image"><span class="header-section-number">8.2.2</span> Application on triple negative breast cancer image</a></li>
+  <li><a href="#calculating-all-pairwise-relationships" id="toc-calculating-all-pairwise-relationships" class="nav-link" data-scroll-target="#calculating-all-pairwise-relationships"><span class="header-section-number">8.2.3</span> Calculating all pairwise relationships</a></li>
+  <li><a href="#associating-the-relationships-with-survival-outcomes." id="toc-associating-the-relationships-with-survival-outcomes." class="nav-link" data-scroll-target="#associating-the-relationships-with-survival-outcomes."><span class="header-section-number">8.2.4</span> Associating the relationships with survival outcomes.</a></li>
+  </ul>
+</li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">8.3</span> sessionInfo</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04a-cell_localisation.html">Cell localisation</a></li><li class="breadcrumb-item"><a href="./04b-cell_localisation_parent.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation</span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><p>Now that we have finished preprocessing our data, we can now begin analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e.&nbsp;are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: <code>spicyR</code> and <code>Statial</code> for quantifying cell type localisation.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/Statial">Statial</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/drighelli/SpatialExperiment">SpatialExperiment</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SydneyBioX/SpatialDatasets">SpatialDatasets</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/BodenmillerGroup/imcRtools">imcRtools</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">treekoR</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pharmaverse/ggsurvfit">ggsurvfit</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="load-datasets" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="load-datasets">
+<span class="header-section-number">8.1</span> Load datasets</h2>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># remove any missing data in our outcome columns</span></span>
+<span><span class="va">kerenSPE</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Censored"</span>, <span class="st">"Survival_days_capped*"</span>,</span>
+<span>                                                           <span class="st">"tumour_type"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="kontextual-context-aware-cell-localisation" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="kontextual-context-aware-cell-localisation">
+<span class="header-section-number">8.2</span> Kontextual: Context aware cell localisation</h2>
+<p><code>Kontextual</code> is a method for performing inference on cell localisation which explicitly defines the contexts in which spatial relationships between cells can be identified and interpreted. These contexts may represent landmarks, spatial domains, or groups of functionally similar cells which are consistent across regions. By modelling spatial relationships between cells relative to these contexts, <code>Kontextual</code> produces robust spatial quantifications that are not confounded by biases such as the choice of region to image and the tissue structure present in the images. The <code>Kontextual</code> function is available in the <a href="https://www.bioconductor.org/packages/release/bioc/html/Statial.html">Statial</a> package.</p>
+<p>In this example we demonstrate how cell type hierarchies can be used as a means to derive appropriate “contexts” for the evaluation of cell localisation. We then demonstrate the types of conclusions which <code>Kontextual</code> enables.</p>
+<section id="using-cell-type-hierarchies-to-define-a-context" class="level3" data-number="8.2.1"><h3 data-number="8.2.1" class="anchored" data-anchor-id="using-cell-type-hierarchies-to-define-a-context">
+<span class="header-section-number">8.2.1</span> Using cell type hierarchies to define a “context”</h3>
+<p>A cell type hierarchy may be used to define the “context” in which cell type relationships are evaluated within. A cell type hierarchy defines how cell types are functionally related to one another. The bottom of the hierarchy represents homogeneous populations of a cell type (child), and the cell populations at the nodes of the hierarchy represent broader parent populations with shared generalised function. For example, CD4 T cells may be considered a child population to the Immune parent population.</p>
+<p>There are two ways to define the cell type hierarchy. First, they can be defined based on our biological understanding of the cell types. We can represent this by creating a named list containing the names of each parent and the associated vector of child cell types.</p>
+<p><em>Note:</em> The <code>all</code> vector must be created to include cell types which do not have a parent e.g.&nbsp;the <em>undefined</em> cell type in this data set.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Examine all cell types in image</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Keratin_Tumour" "dn_T_CD3"       "B_cell"         "CD4_T_cell"    
+ [5] "DC_or_Mono"     "Unidentified"   "Macrophages"    "CD8_T_cell"    
+ [9] "Other_Immune"   "Endothelial"    "Mono_or_Neu"    "Mesenchymal"   
+[13] "Neutrophils"    "NK"             "Tumour"         "DC"            
+[17] "Tregs"         </code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Named list of parents and their child cell types</span></span>
+<span><span class="va">biologicalHierarchy</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"tumour"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Keratin_Tumour"</span>, <span class="st">"Tumour"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"tcells"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dn_T_CD3"</span>, <span class="st">"CD4_T_cell"</span>, <span class="st">"CD8_T_cell"</span>, <span class="st">"Tregs"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"myeloid"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DC_or_Mono"</span>, <span class="st">"DC"</span>, <span class="st">"Mono_or_Neu"</span>, <span class="st">"Macrophages"</span>, <span class="st">"Neutrophils"</span><span class="op">)</span>,</span>
+<span>  <span class="st">"tissue"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Endothelial"</span>, <span class="st">"Mesenchymal"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Adding more broader immune parent populations</span></span>
+<span><span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">immune</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">bcells</span>,</span>
+<span>                               <span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">tcells</span>,</span>
+<span>                               <span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">myeloid</span>,</span>
+<span>                               <span class="st">"NK"</span>, <span class="st">"Other_Immune"</span>, <span class="st">"B_cell"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Creating a vector for all cellTypes</span></span>
+<span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alternatively, you can use the <code>treeKor</code> bioconductor package <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treekoR</a> to define these hierarchies in a data driven way.</p>
+<p><em>Note:</em> These parent populations may not be accurate as we are using a small subset of the data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate hierarchy using treekoR</span></span>
+<span><span class="va">kerenTree</span> <span class="op">&lt;-</span> <span class="fu">treekoR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/treekoR/man/getClusterTree.html">getClusterTree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">kerenSPE</span>, <span class="st">"intensities"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                            <span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span>,</span>
+<span>                            hierarchy_method <span class="op">=</span> <span class="st">"hopach"</span>,</span>
+<span>                            hopach_K <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convert treekoR result to a name list of parents and children.</span></span>
+<span><span class="va">treekorParents</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/getParentPhylo.html">getParentPhylo</a></span><span class="op">(</span><span class="va">kerenTree</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">treekorParents</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$parent_1
+[1] "Keratin_Tumour" "Unidentified"   "Macrophages"    "Endothelial"   
+[5] "Mono_or_Neu"    "Mesenchymal"    "Neutrophils"    "Tumour"        
+[9] "DC"            
+
+$parent_2
+[1] "dn_T_CD3"     "B_cell"       "CD4_T_cell"   "DC_or_Mono"   "CD8_T_cell"  
+[6] "Other_Immune" "NK"           "Tregs"       </code></pre>
+</div>
+</div>
+</section><section id="application-on-triple-negative-breast-cancer-image" class="level3" data-number="8.2.2"><h3 data-number="8.2.2" class="anchored" data-anchor-id="application-on-triple-negative-breast-cancer-image">
+<span class="header-section-number">8.2.2</span> Application on triple negative breast cancer image</h3>
+<p>Here we examine an image highlighted in the Keren 2018 <a href="https://doi.org/10.1016/j.cell.2018.08.039">manuscript</a> where accounting for context information enabled new conclusions.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Lets define a new cell type vector</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellTypeNew</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span></span>
+<span></span>
+<span><span class="co"># Select for all cells that express higher than baseline level of p53</span></span>
+<span><span class="va">p53Pos</span> <span class="op">&lt;-</span> <span class="fu">assay</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span><span class="st">"p53"</span>, <span class="op">]</span> <span class="op">&gt;</span> <span class="op">-</span><span class="fl">0.300460</span></span>
+<span></span>
+<span><span class="co"># Find p53+ tumour cells</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellTypeNew</span><span class="op">[</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">tumour</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Tumour"</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellTypeNew</span><span class="op">[</span><span class="va">p53Pos</span> <span class="op">&amp;</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">tumour</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"p53_Tumour"</span></span>
+<span></span>
+<span><span class="co"># Group all immune cells under the name "Immune"</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellTypeNew</span><span class="op">[</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">biologicalHierarchy</span><span class="op">$</span><span class="va">immune</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Immune"</span></span>
+<span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>,<span class="st">"x"</span><span class="op">]</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>,<span class="st">"y"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Plot image 6</span></span>
+<span><span class="va">kerenSPE</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">colData</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"6"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cellTypeNew</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Immune"</span>, <span class="st">"Tumour"</span>, <span class="st">"p53_Tumour"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">cellTypeNew</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">cellTypeNew</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Immune"</span> <span class="op">=</span> <span class="st">"#505050"</span>, <span class="st">"p53_Tumour"</span> <span class="op">=</span> <span class="st">"#64BC46"</span>, <span class="st">"Tumour"</span> <span class="op">=</span> <span class="st">"#D6D6D6"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Cell types"</span>, override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/image6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In image 6 of the Keren 2018 dataset given above, we can see that <em>p53+ tumour cells</em> and <em>immune cells</em> are dispersed. However, we can also see that <em>p53+ tumour cells</em> appear much more localised to <em>immune cells</em> relative to the tumour context (<em>tumour cells</em> and <em>p53+ tumour cells</em>).</p>
+<p>We can calculate a context-aware spatial co-localisation metric using <code>Kontextual</code>. <code>Kontextual</code> accepts a <code>SingleCellExperiment</code> object, a single image, or list of images from a <code>SingleCellExperiment</code> object, which gets passed into the <code>cells</code> argument. The two cell types which will be evaluated are specified in the <code>to</code> and <code>from</code> arguments. A parent population must also be specified in the <code>parent</code> argument. Note the parent cell population must include the <code>to</code> cell type. The argument <code>r</code> will specify the radius which the cell relationship will be evaluated on. <code>Kontextual</code> supports parallel processing, the number of cores can be specified using the <code>cores</code> argument. <code>Kontextual</code> can take a single value or multiple values for each argument and will test all combinations of the arguments specified.</p>
+<p>We can calculate these relationships across all images for a single radius (r = 100).</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p53_Kontextual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
+<span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
+<span>  r <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  from <span class="op">=</span> <span class="st">"Immune"</span>,</span>
+<span>  to <span class="op">=</span> <span class="st">"p53_Tumour"</span>,</span>
+<span>  parent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"p53_Tumour"</span>, <span class="st">"Tumour"</span><span class="op">)</span>,</span>
+<span>  cellType <span class="op">=</span> <span class="st">"cellTypeNew"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p53_Kontextual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   imageID               test   original  kontextual   r inhomL
+1        1 Immune__p53_Tumour -16.212016  -1.6815952 100  FALSE
+2       10 Immune__p53_Tumour -14.715356  -1.7937407 100  FALSE
+3       11 Immune__p53_Tumour -11.696597  -7.4615661 100  FALSE
+4       12 Immune__p53_Tumour  -9.777271  -2.6287005 100  FALSE
+5       13 Immune__p53_Tumour -15.613023  -3.9937364 100  FALSE
+6       14 Immune__p53_Tumour -14.671281  -4.2879138 100  FALSE
+7       15 Immune__p53_Tumour   8.369183  10.6710168 100  FALSE
+8       16 Immune__p53_Tumour -41.081088 -20.9688333 100  FALSE
+9       17 Immune__p53_Tumour  -6.331105   5.0017104 100  FALSE
+10      18 Immune__p53_Tumour  -1.953366   0.5795853 100  FALSE
+11      19 Immune__p53_Tumour -27.834450 -18.7433000 100  FALSE
+12       2 Immune__p53_Tumour  -4.989150  -0.5330373 100  FALSE
+13      20 Immune__p53_Tumour -20.580091  -9.2542544 100  FALSE
+14      21 Immune__p53_Tumour -14.300802  -7.1425133 100  FALSE
+15      23 Immune__p53_Tumour  15.803493  37.3584378 100  FALSE
+16      24 Immune__p53_Tumour -30.319961 -31.8146274 100  FALSE
+17      25 Immune__p53_Tumour   6.262995   6.9429103 100  FALSE
+18      26 Immune__p53_Tumour -38.190137 -24.6000029 100  FALSE
+19      27 Immune__p53_Tumour  -2.373587   4.4044397 100  FALSE
+20      28 Immune__p53_Tumour -70.058615 -33.4395839 100  FALSE
+21      29 Immune__p53_Tumour -20.728463  -7.0172785 100  FALSE
+22       3 Immune__p53_Tumour   1.719549  44.5060581 100  FALSE
+23      31 Immune__p53_Tumour -12.306957  -5.2820792 100  FALSE
+24      32 Immune__p53_Tumour -18.174569 -10.8972277 100  FALSE
+25      33 Immune__p53_Tumour -19.750457 -19.6246151 100  FALSE
+26      34 Immune__p53_Tumour -49.004947 -35.1320255 100  FALSE
+27      35 Immune__p53_Tumour -75.980619 -66.2395276 100  FALSE
+28      36 Immune__p53_Tumour -18.853398 -21.4398044 100  FALSE
+29      37 Immune__p53_Tumour -43.624905 -27.7162991 100  FALSE
+30      39 Immune__p53_Tumour -19.293290  -4.5192485 100  FALSE
+31       4 Immune__p53_Tumour         NA          NA 100  FALSE
+32      40 Immune__p53_Tumour -37.744261 -27.9604962 100  FALSE
+33      41 Immune__p53_Tumour -33.776940 -22.6113096 100  FALSE
+34       5 Immune__p53_Tumour         NA          NA 100  FALSE
+35       6 Immune__p53_Tumour -24.897348  -1.2724241 100  FALSE
+36       7 Immune__p53_Tumour -13.068307   0.6361875 100  FALSE
+37       8 Immune__p53_Tumour         NA          NA 100  FALSE
+38       9 Immune__p53_Tumour -31.857501   1.0261067 100  FALSE</code></pre>
+</div>
+</div>
+<p>The <code>kontextCurve</code> function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.</p>
+<p>As seen in the following plot the L-function produces negative values over a range of radii, indicating that <em>p53+ tumour cells</em> and <em>immune cells</em> are dispersed from one another. However by taking into account the tumour context, <code>Kontextual</code> shows positive values over some radii, indicating localisation between <em>p53+ tumour cells</em> and <em>immune cells</em>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curves</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/kontextCurve.html">kontextCurve</a></span><span class="op">(</span></span>
+<span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
+<span>  from <span class="op">=</span> <span class="st">"Immune"</span>,</span>
+<span>  to <span class="op">=</span> <span class="st">"p53_Tumour"</span>,</span>
+<span>  parent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"p53_Tumour"</span>, <span class="st">"Tumour"</span><span class="op">)</span>,</span>
+<span>  rs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">510</span>, <span class="fl">50</span><span class="op">)</span>,</span>
+<span>  image <span class="op">=</span> <span class="st">"6"</span>,</span>
+<span>  cellType <span class="op">=</span> <span class="st">"cellTypeNew"</span>,</span>
+<span>  cores <span class="op">=</span> <span class="va">nCores</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/kontextPlot.html">kontextPlot</a></span><span class="op">(</span><span class="va">curves</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/kontextCurve-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the <code>parentCombinations</code> function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the <code>parentList</code> argument. As shown below, the output is a data frame specifying the <code>to</code>, <code>from</code>, and <code>parent</code> arguments for <code>Kontextual</code>.</p>
+<p><em>Note:</em> the output of <code>getPhyloParent</code> may also be using the in the <code>parentList</code> argument, for example if you wanted to use the treekoR defined hierarchy instead.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get all relationships between cell types and their parents</span></span>
+<span><span class="va">parentDf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/parentCombinations.html">parentCombinations</a></span><span class="op">(</span></span>
+<span>  all <span class="op">=</span> <span class="va">all</span>,</span>
+<span>  parentList <span class="op">=</span> <span class="va">biologicalHierarchy</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="calculating-all-pairwise-relationships" class="level3" data-number="8.2.3"><h3 data-number="8.2.3" class="anchored" data-anchor-id="calculating-all-pairwise-relationships">
+<span class="header-section-number">8.2.3</span> Calculating all pairwise relationships</h3>
+<p>Rather than specifying <code>to</code>, <code>from</code>, and <code>parent</code> in <code>Kontextual</code>, the output from <code>parentCombinations</code> can be inputed into <code>Kontextual</code> using the <code>parentDf</code> argument, to examine all pairwise relationships in the dataset.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Running Kontextual on all relationships across all images.</span></span>
+<span><span class="va">kerenKontextual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
+<span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
+<span>  parentDf <span class="op">=</span> <span class="va">parentDf</span>,</span>
+<span>  r <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  cores <span class="op">=</span> <span class="va">nCores</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For every pairwise relationship (named accordingly: <code>from__to__parent</code>) <code>Kontextual</code> outputs the L-function values (original) and the Kontextual value. The relationships where the L-function and Kontextual disagree (e.g.&nbsp;one metric is positive and the other is negative) represent relationships where adding context information results in different conclusions on the spatial relationship between the two cell types.</p>
+</section><section id="associating-the-relationships-with-survival-outcomes." class="level3" data-number="8.2.4"><h3 data-number="8.2.4" class="anchored" data-anchor-id="associating-the-relationships-with-survival-outcomes.">
+<span class="header-section-number">8.2.4</span> Associating the relationships with survival outcomes.</h3>
+<p>To examine whether the features obtained from <code>Statial</code> are associated with patient outcomes or groupings, we can use the <code>spicy</code> function from the <code>spicyR</code> package.</p>
+<p>In addition to this, the Kontextual results must be converted from a <code>data.frame</code> to a wide <code>matrix</code>, this can be done using <code>prepMatrix</code>.</p>
+<p><em>Note:</em>, to extract the original L-function values, specify <code>column = "original"</code> in <code>prepMatrix</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Converting Kontextual result into data matrix</span></span>
+<span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix</a></span><span class="op">(</span><span class="va">kerenKontextual</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Ensuring rownames of kontextMat match up with the image IDs of the SCE object</span></span>
+<span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="va">kontextMat</span><span class="op">[</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Replace NAs with 0</span></span>
+<span><span class="va">kontextMat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">kontextMat</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, both the <code>SingleCellExperiment</code> object and the Kontextual matrix are passed into the <code>spicy</code> function, with <code>condition = "survival"</code>. The resulting coefficients and p values can be obtained by accessing the <code>survivalResults</code> name.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Running survival analysis</span></span>
+<span><span class="va">survivalResults</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span>cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
+<span>                        alternateResult <span class="op">=</span> <span class="va">kontextMat</span>,</span>
+<span>                        condition <span class="op">=</span> <span class="st">"survival"</span>,</span>
+<span>                        weights <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">$</span><span class="va">survivalResults</span>, <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   test                                    coef se.coef     p.value
+   &lt;chr&gt;                                  &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt;
+ 1 dn_T_CD3__Tregs__immune               0.0187 0.00716 0.000000568
+ 2 Other_Immune__Tregs__immune           0.0255 0.00885 0.000000696
+ 3 Tregs__dn_T_CD3__immune               0.0189 0.00716 0.00000176 
+ 4 Neutrophils__CD8_T_cell__immune       0.0178 0.00652 0.00000177 
+ 5 DC__dn_T_CD3__immune                 -0.0195 0.00662 0.00000730 
+ 6 DC__dn_T_CD3__tcells                 -0.0171 0.00759 0.0000165  
+ 7 Other_Immune__Keratin_Tumour__tumour  0.137  0.0409  0.0000207  
+ 8 CD4_T_cell__Tregs__immune             0.0216 0.00902 0.0000290  
+ 9 Other_Immune__DC__myeloid            -0.0181 0.00664 0.0000490  
+10 Other_Immune__DC__immune             -0.0186 0.00669 0.0000652  </code></pre>
+</div>
+</div>
+<p>The survival results can also be visualised using the <code>signifPlot</code> function.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see from the results, <code>Neutrophils__CD8_T_cell__immune</code> is the one of the most significant pairwise relationships which contributes to patient survival. That is the relationship between neutrophils and CD8 T cells, relative to the parent population of immune cells. We can see that there is a positive coefficient associated with this relationship, which tells us an increase in localisation of these cell types relative to immune cells leads to better survival outcomes for patients.</p>
+<p>The association between <code>Neutrophils__CD8_T_cell__immune</code> and survival can also be visualised on a Kaplan-Meier curve. First, we extract survival data from the <code>SingleCellExperiment</code> object and create a survival vector.</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extracting survival data</span></span>
+<span><span class="va">survData</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">colData</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">imageID</span>, <span class="va">survival</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Creating survival vector</span></span>
+<span><span class="va">kerenSurv</span> <span class="op">&lt;-</span> <span class="va">survData</span><span class="op">$</span><span class="va">survival</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">kerenSurv</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">survData</span><span class="op">$</span><span class="va">imageID</span></span>
+<span></span>
+<span><span class="va">kerenSurv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    1     2     3     4     5     6     7     8     9    10    11    12    13 
+ 2612   745 3130+ 2523+ 1683+ 2275+   584   946 3767+ 3822+ 3774+ 4353+  1072 
+   14    15    16    17    18    19    20    21    23    24    25    26    27 
+4145+  1754   530  2842 5063+ 3725+ 4761+   635    91   194 4785+ 4430+  3658 
+   28    29    31    32    33    34    35    36    37    39    40    41 
+3767+  1319  1009 1568+ 1738+ 2832+ 2759+ 3063+ 2853+ 2096+  3573 3355+ </code></pre>
+</div>
+</div>
+<p>Next, we extract the Kontextual values of this relationship across all images. We then determine if neutrophils and CD8 T cells are relatively attracted or avoiding in each image by comparing the Kontextual value in each image to the median Kontextual value.</p>
+<p>Finally, we plot a Kaplan-Meier curve using the <code>ggsurvfit</code> package. As shown below, when neutrophils and CD8 T cells are more localised to one another relative to the immune cell population, patients tend to have better survival outcomes.</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Selecting most significant relationship</span></span>
+<span><span class="va">survRelationship</span> <span class="op">&lt;-</span> <span class="va">kontextMat</span><span class="op">[[</span><span class="st">"Neutrophils__CD8_T_cell__immune"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">survRelationship</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">survRelationship</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">survRelationship</span><span class="op">)</span>, <span class="st">"Localised"</span>, <span class="st">"Dispersed"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plotting Kaplan-Meier curve</span></span>
+<span><span class="fu"><a href="http://www.danieldsjoberg.com/ggsurvfit/reference/survfit2.html">survfit2</a></span><span class="op">(</span><span class="va">kerenSurv</span> <span class="op">~</span> <span class="va">survRelationship</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="http://www.danieldsjoberg.com/ggsurvfit/reference/ggsurvfit.html">ggsurvfit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Neutrophils__CD8_T_cell__immune"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="sessioninfo" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">8.3</span> sessionInfo</h2>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: x86_64-pc-linux-gnu
+Running under: Debian GNU/Linux 12 (bookworm)
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.21.so;  LAPACK version 3.11.0
+
+locale:
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+
+time zone: Australia/Sydney
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] ggsurvfit_1.1.0             treekoR_1.14.0             
+ [3] tibble_3.2.1                survival_3.7-0             
+ [5] dplyr_1.1.4                 imcRtools_1.12.0           
+ [7] SpatialDatasets_1.4.0       ExperimentHub_2.14.0       
+ [9] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
+[11] dbplyr_2.5.0                SpatialExperiment_1.16.0   
+[13] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
+[15] Biobase_2.66.0              GenomicRanges_1.58.0       
+[17] GenomeInfoDb_1.42.1         IRanges_2.40.0             
+[19] S4Vectors_0.44.0            BiocGenerics_0.52.0        
+[21] MatrixGenerics_1.18.0       matrixStats_1.4.1          
+[23] ggplot2_3.5.1               Statial_1.8.0              
+[25] spicyR_1.18.0              
+
+loaded via a namespace (and not attached):
+  [1] vroom_1.6.5                 tiff_0.1-12                
+  [3] goftest_1.2-3               DT_0.33                    
+  [5] Biostrings_2.74.0           HDF5Array_1.34.0           
+  [7] TH.data_1.1-2               vctrs_0.6.5                
+  [9] spatstat.random_3.3-2       digest_0.6.37              
+ [11] png_0.1-8                   shape_1.4.6.1              
+ [13] proxy_0.4-27                ggrepel_0.9.6              
+ [15] deldir_2.0-4                magick_2.8.5               
+ [17] MASS_7.3-61                 reshape2_1.4.4             
+ [19] httpuv_1.6.15               foreach_1.5.2              
+ [21] withr_3.0.2                 ggfun_0.1.8                
+ [23] xfun_0.49                   ggpubr_0.6.0               
+ [25] memoise_2.0.1               RTriangle_1.6-0.14         
+ [27] cytomapper_1.18.0           ggbeeswarm_0.7.2           
+ [29] RProtoBufLib_2.18.0         systemfonts_1.1.0          
+ [31] tidytree_0.4.6              zoo_1.8-12                 
+ [33] GlobalOptions_0.1.2         Formula_1.2-5              
+ [35] KEGGREST_1.46.0             promises_1.3.2             
+ [37] httr_1.4.7                  rstatix_0.7.2              
+ [39] rhdf5filters_1.18.0         rhdf5_2.50.0               
+ [41] rstudioapi_0.17.1           UCSC.utils_1.2.0           
+ [43] units_0.8-5                 generics_0.1.3             
+ [45] concaveman_1.1.0            curl_6.0.1                 
+ [47] zlibbioc_1.52.0             ggraph_2.2.1               
+ [49] polyclip_1.10-7             GenomeInfoDbData_1.2.13    
+ [51] SparseArray_1.6.0           fftwtools_0.9-11           
+ [53] xtable_1.8-4                stringr_1.5.1              
+ [55] doParallel_1.0.17           evaluate_1.0.1             
+ [57] S4Arrays_1.6.0              hms_1.1.3                  
+ [59] colorspace_2.1-1            filelock_1.0.3             
+ [61] spatstat.data_3.1-4         magrittr_2.0.3             
+ [63] readr_2.1.5                 later_1.4.1                
+ [65] viridis_0.6.5               ggtree_3.14.0              
+ [67] lattice_0.22-6              spatstat.geom_3.3-4        
+ [69] XML_3.99-0.17               scuttle_1.16.0             
+ [71] ggupset_0.4.0               class_7.3-22               
+ [73] svgPanZoom_0.3.4            pillar_1.9.0               
+ [75] nlme_3.1-166                iterators_1.0.14           
+ [77] EBImage_4.48.0              compiler_4.4.1             
+ [79] beachmat_2.22.0             stringi_1.8.4              
+ [81] sf_1.0-19                   tensor_1.5                 
+ [83] minqa_1.2.8                 ClassifyR_3.11.4           
+ [85] plyr_1.8.9                  crayon_1.5.3               
+ [87] abind_1.4-8                 gridGraphics_0.5-1         
+ [89] locfit_1.5-9.10             sp_2.1-4                   
+ [91] graphlayouts_1.2.1          bit_4.5.0.1                
+ [93] terra_1.7-83                sandwich_3.1-1             
+ [95] codetools_0.2-20            multcomp_1.4-26            
+ [97] e1071_1.7-16                GetoptLong_1.0.5           
+ [99] plotly_4.10.4               mime_0.12                  
+[101] MultiAssayExperiment_1.32.0 splines_4.4.1              
+[103] circlize_0.4.16             Rcpp_1.0.13-1              
+[105] knitr_1.49                  blob_1.2.4                 
+[107] utf8_1.2.4                  clue_0.3-66                
+[109] BiocVersion_3.20.0          lme4_1.1-35.5              
+[111] fs_1.6.5                    nnls_1.6                   
+[113] ggplotify_0.1.2             ggsignif_0.6.4             
+[115] Matrix_1.7-1                scam_1.2-17                
+[117] statmod_1.5.0               tzdb_0.4.0                 
+[119] svglite_2.1.3               tweenr_2.0.3               
+[121] pkgconfig_2.0.3             pheatmap_1.0.12            
+[123] tools_4.4.1                 cachem_1.1.0               
+[125] RSQLite_2.3.9               viridisLite_0.4.2          
+[127] DBI_1.2.3                   numDeriv_2016.8-1.1        
+[129] fastmap_1.2.0               rmarkdown_2.29             
+[131] scales_1.3.0                grid_4.4.1                 
+[133] shinydashboard_0.7.2        broom_1.0.7                
+[135] patchwork_1.3.0             BiocManager_1.30.25        
+[137] carData_3.0-5               farver_2.1.2               
+[139] tidygraph_1.3.1             mgcv_1.9-1                 
+[141] yaml_2.3.10                 ggthemes_5.1.0             
+[143] cli_3.6.3                   purrr_1.0.2                
+[145] hopach_2.66.0               lifecycle_1.0.4            
+[147] mvtnorm_1.3-2               backports_1.5.0            
+[149] BiocParallel_1.40.0         cytolib_2.18.0             
+[151] gtable_0.3.6                rjson_0.2.23               
+[153] parallel_4.4.1              ape_5.8                    
+[155] limma_3.62.1                jsonlite_1.8.9             
+[157] edgeR_4.4.1                 bitops_1.0-9               
+[159] bit64_4.5.2                 Rtsne_0.17                 
+[161] FlowSOM_2.14.0              yulab.utils_0.1.8          
+[163] spatstat.utils_3.1-1        BiocNeighbors_2.0.1        
+[165] ranger_0.17.0               flowCore_2.18.0            
+[167] bdsmatrix_1.3-7             spatstat.univar_3.1-1      
+[169] lazyeval_0.2.2              shiny_1.9.1                
+[171] ConsensusClusterPlus_1.70.0 htmltools_0.5.8.1          
+[173] diffcyt_1.26.0              rappdirs_0.3.3             
+[175] distances_0.1.11            glue_1.8.0                 
+[177] XVector_0.46.0              RCurl_1.98-1.16            
+[179] treeio_1.30.0               classInt_0.4-10            
+[181] coxme_2.2-22                jpeg_0.1-10                
+[183] gridExtra_2.3               boot_1.3-31                
+[185] igraph_2.1.1                R6_2.5.1                   
+[187] tidyr_1.3.1                 ggiraph_0.8.11             
+[189] labeling_0.4.3              ggh4x_0.2.8                
+[191] cluster_2.1.6               Rhdf5lib_1.28.0            
+[193] aplot_0.2.3                 nloptr_2.1.1               
+[195] DelayedArray_0.32.0         tidyselect_1.2.1           
+[197] vipor_0.4.7                 ggforce_0.4.2              
+[199] raster_3.6-30               car_3.1-3                  
+[201] AnnotationDbi_1.68.0        munsell_0.5.1              
+[203] KernSmooth_2.23-24          data.table_1.16.4          
+[205] htmlwidgets_1.6.4           ComplexHeatmap_2.22.0      
+[207] RColorBrewer_1.1-3          rlang_1.1.4                
+[209] spatstat.sparse_3.1-0       spatstat.explore_3.3-3     
+[211] lmerTest_3.1-3              uuid_1.2-1                 
+[213] colorRamps_2.3.4            ggnewscale_0.5.0           
+[215] fansi_1.0.6                 beeswarm_0.4.0             </code></pre>
+</div>
+</div>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="Cell localisation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cell localisation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-cellular_niches.html" class="pagination-link" aria-label="Spatial domains">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial domains</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

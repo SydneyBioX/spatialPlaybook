@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.36">
-
+<meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-
-<title>2&nbsp; Quality Control – spicyPlayBook</title>
+<title>5&nbsp; Quality Control – Spatial analysis playbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -56,7 +53,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -71,11 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-01c78b5cd655e4cd89133cf59d535862.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7d8021373f2e99812af5473f16ea521c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -101,131 +96,237 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-
-
-<link rel="stylesheet" href="styles.css">
+}</script><link rel="stylesheet" href="styles.css">
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/USydLogo.svg" alt="" class="navbar-logo">
-    </a>
+    <img src="./images/USydLogo.svg" alt="" class="navbar-logo"></a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">spicyPlayBook</span>
+    <span class="navbar-title">Spatial analysis playbook</span>
     </a>
   </div>
         <div class="quarto-navbar-tools tools-end">
 </div>
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-quality_control.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quality Control</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-processing.html">Processing</a></li><li class="breadcrumb-item"><a href="./02-quality_control.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container"> 
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Packages</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Datasets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Getting Started</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Processing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-processing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Processing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cell segmentation and pre-processing</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-quality_control.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cell annotation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cell Annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cell Annotation</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cell localisation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
+  <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Spatial domains</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial domains</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Spatial domains</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Changes in marker expression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Marker expression</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Classification</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Case studies</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-case_study1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">References</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
+      </ul>
+</li>
     </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#cellspa-how-do-i-determine-segmentation-quality" id="toc-cellspa-how-do-i-determine-segmentation-quality" class="nav-link active" data-scroll-target="#cellspa-how-do-i-determine-segmentation-quality"><span class="header-section-number">2.1</span> CellSPA: How do I determine segmentation quality?</a></li>
-  <li><a href="#simpleseg-do-my-images-have-a-batch-effect" id="toc-simpleseg-do-my-images-have-a-batch-effect" class="nav-link" data-scroll-target="#simpleseg-do-my-images-have-a-batch-effect"><span class="header-section-number">2.2</span> simpleSeg: Do my images have a batch effect?</a></li>
-  <li><a href="#scmerge-combining-multiple-spatial-datasets" id="toc-scmerge-combining-multiple-spatial-datasets" class="nav-link" data-scroll-target="#scmerge-combining-multiple-spatial-datasets"><span class="header-section-number">2.3</span> scMerge: Combining multiple spatial datasets</a></li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">2.4</span> sessionInfo</a></li>
-  </ul>
-</nav>
+<li><a href="#cellspa-how-do-i-determine-segmentation-quality" id="toc-cellspa-how-do-i-determine-segmentation-quality" class="nav-link active" data-scroll-target="#cellspa-how-do-i-determine-segmentation-quality"><span class="header-section-number">5.1</span> CellSPA: How do I determine segmentation quality?</a></li>
+  <li><a href="#simpleseg-do-my-images-have-a-batch-effect" id="toc-simpleseg-do-my-images-have-a-batch-effect" class="nav-link" data-scroll-target="#simpleseg-do-my-images-have-a-batch-effect"><span class="header-section-number">5.2</span> simpleSeg: Do my images have a batch effect?</a></li>
+  <li><a href="#scmerge-combining-multiple-spatial-datasets" id="toc-scmerge-combining-multiple-spatial-datasets" class="nav-link" data-scroll-target="#scmerge-combining-multiple-spatial-datasets"><span class="header-section-number">5.3</span> scMerge: Combining multiple spatial datasets</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">5.4</span> sessionInfo</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Quality Control</span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-processing.html">Processing</a></li><li class="breadcrumb-item"><a href="./02-quality_control.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Quality Control</span>
+</h1>
 </div>
 
 
@@ -239,219 +340,129 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
+</header><p>This section demonstrates how to evaluate the quality of segmentation performed with simpleSeg in the previous step. It also introduces additional functions and packages for data normalisation and transformation to address batch effects.</p>
 <p>Steps:</p>
 <ol type="1">
-<li>How to qc segmentation (simpleSeg/cellSPA?)</li>
+<li>Evaluate quality of cell segmentation with CellSPA (simpleSeg/cellSPA?)</li>
 <li>How to qc image batch-effect (simpleSeg::normalizeCells)</li>
 <li>How to qc patient batch-effect (simpleSeg::normalizeCells)</li>
 <li>How to qc batch effects (scMerge)</li>
 </ol>
-<section id="cellspa-how-do-i-determine-segmentation-quality" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="cellspa-how-do-i-determine-segmentation-quality"><span class="header-section-number">2.1</span> CellSPA: How do I determine segmentation quality?</h2>
-</section>
-<section id="simpleseg-do-my-images-have-a-batch-effect" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="simpleseg-do-my-images-have-a-batch-effect"><span class="header-section-number">2.2</span> simpleSeg: Do my images have a batch effect?</h2>
-<p>In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, whereas in another image the CD3 staining is particularly weak. This variability is often times inevitable and can be hard to correct for in the imaging process. Hence, it is important that we identify when such variance occurs and correct it.</p>
+<section id="cellspa-how-do-i-determine-segmentation-quality" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="cellspa-how-do-i-determine-segmentation-quality">
+<span class="header-section-number">5.1</span> CellSPA: How do I determine segmentation quality?</h2>
+<p><a href="https://sydneybiox.github.io/CellSPA/">CellSPA</a> is an R package that provides an evaluation framework for <em>in situ</em> cell segmentation results.</p>
+</section><section id="simpleseg-do-my-images-have-a-batch-effect" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="simpleseg-do-my-images-have-a-batch-effect">
+<span class="header-section-number">5.2</span> simpleSeg: Do my images have a batch effect?</h2>
+<p>In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining is particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it.</p>
 <p>First, let’s load in the images we previously segmented out in the last section. The <code>SpatialDatasets</code> package conveniently provides the segmented out images for the HNsCC dataset from Ferguson et al., 2022.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidySingleCellExperiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: SingleCellExperiment</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: SummarizedExperiment</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: MatrixGenerics</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: matrixStats</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'MatrixGenerics'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:matrixStats':
-
-    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
-    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
-    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
-    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
-    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
-    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
-    colWeightedMeans, colWeightedMedians, colWeightedSds,
-    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
-    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
-    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
-    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
-    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
-    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
-    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
-    rowWeightedSds, rowWeightedVars</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: GenomicRanges</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: stats4</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: BiocGenerics</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'BiocGenerics'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    IQR, mad, sd, var, xtabs</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
-    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
-    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-    Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,
-    table, tapply, union, unique, unsplit, which.max, which.min</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: S4Vectors</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'S4Vectors'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:utils':
-
-    findMatches</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    expand.grid, I, unname</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: IRanges</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: GenomeInfoDb</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: Biobase</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Welcome to Bioconductor
-
-    Vignettes contain introductory material; view with
-    'browseVignettes()'. To cite Bioconductor, see
-    'citation("Biobase")', and for packages 'citation("pkgname")'.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'Biobase'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:MatrixGenerics':
-
-    rowMedians</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:matrixStats':
-
-    anyMissing, rowMedians</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simpleSeg)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(scMerge)</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scater)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: scuttle</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/stemangiola/tidySingleCellExperiment">tidySingleCellExperiment</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/simpleSeg/">simpleSeg</a></span><span class="op">)</span></span>
+<span><span class="co"># library(scMerge)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioconductor.org/packages/scater/">scater</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># load in data</span></span>
+<span><span class="va">fergusonSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Ferguson_2022</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fergusonSPE <span class="ot">&lt;-</span> SpatialDatasets<span class="sc">::</span><span class="fu">spe_Ferguson_2022</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>see ?SpatialDatasets and browseVignettes('SpatialDatasets') for documentation</code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span><span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>loading from cache</code></pre>
-</div>
-</div>
-<p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:<br>
-1) The intensities of images are often highly skewed, preventing any meaningful downstream analysis.<br>
-2) The intensities across different images are often different, meaning that what is considered “positive” can be different across images.</p>
-<p>By transforming and normalising the data, we aim to reduce these two effects. Here we extract the intensities from the <code>counts</code> assay. Looking at CD3 which should be expressed in the majority of the T cells, the intensities are clearly very skewed, and it is difficult to see what is considered a CD3- cell, and what is a CD3+ cell. Further, we can clearly see some image-level batch effect, where across images, the intensity peaks differ drastically.</p>
+<p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:<br></p>
+<ol type="1">
+<li>The intensities of images are often highly skewed, preventing any meaningful downstream analysis.<br>
+</li>
+<li>The intensities across different images are often different, meaning that what is considered “positive” can be different across images.</li>
+</ol>
+<p>By transforming and normalising the data, we aim to reduce these two effects. Below, we extract the marker intensities from the <code>counts</code> assay and take a closer look at the CD3 marker, which should be expressed in the majority of T cells.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot densities of CD3 for each image.</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>fergusonSPE <span class="sc">|&gt;</span> </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">join_features</span>(<span class="at">features =</span> <span class="fu">rownames</span>(fergusonSPE), <span class="at">shape =</span> <span class="st">"wide"</span>, <span class="at">assay =</span> <span class="st">"counts"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> CD3, <span class="at">colour =</span> imageID)) <span class="sc">+</span> </span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot densities of CD3 for each image</span></span>
+<span><span class="va">fergusonSPE</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ttservice/man/join_features.html">join_features</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fergusonSPE</span><span class="op">)</span>, shape <span class="op">=</span> <span class="st">"wide"</span>, assay <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CD3</span>, colour <span class="op">=</span> <span class="va">imageID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="02-quality_control_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plotCD3Density-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effect, where across images, the intensity peaks differ drastically.</p>
 <p>Another method of visualising batch effect is using a dimensionality reduction technique and visualising how the images separate out on a 2D plot. If no batch effect is expected, we should see the images largely overlap with each other.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usually we specify a subset of the original markers which are informative to separating out distinct cell types for the UMAP and clustering.</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>ct_markers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"podoplanin"</span>, <span class="st">"CD13"</span>, <span class="st">"CD31"</span>,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"panCK"</span>, <span class="st">"CD3"</span>, <span class="st">"CD4"</span>, <span class="st">"CD8a"</span>,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"CD20"</span>, <span class="st">"CD68"</span>, <span class="st">"CD16"</span>, <span class="st">"CD14"</span>, </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"HLADR"</span>, <span class="st">"CD66a"</span>)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">51773</span>)</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform dimension reduction using UMAP.</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>fergusonSPE <span class="ot">&lt;-</span> scater<span class="sc">::</span><span class="fu">runUMAP</span>(</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  fergusonSPE,</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">subset_row =</span> ct_markers,</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">exprs_values =</span> <span class="st">"counts"</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a subset of images to plot.</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>someImages <span class="ot">&lt;-</span> <span class="fu">unique</span>(fergusonSPE<span class="sc">$</span>imageID)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>)]</span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP by imageID.</span></span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>scater<span class="sc">::</span><span class="fu">plotReducedDim</span>(</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  fergusonSPE[, fergusonSPE<span class="sc">$</span>imageID <span class="sc">%in%</span> someImages],</span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimred =</span> <span class="st">"UMAP"</span>,</span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">colour_by =</span> <span class="st">"imageID"</span></span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># specify a subset of informative markers for UMAP and clustering</span></span>
+<span><span class="va">ct_markers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"podoplanin"</span>, <span class="st">"CD13"</span>, <span class="st">"CD31"</span>,</span>
+<span>                <span class="st">"panCK"</span>, <span class="st">"CD3"</span>, <span class="st">"CD4"</span>, <span class="st">"CD8a"</span>,</span>
+<span>                <span class="st">"CD20"</span>, <span class="st">"CD68"</span>, <span class="st">"CD16"</span>, <span class="st">"CD14"</span>, </span>
+<span>                <span class="st">"HLADR"</span>, <span class="st">"CD66a"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># perform dimension reduction using UMAP</span></span>
+<span><span class="va">fergusonSPE</span> <span class="op">&lt;-</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html">runUMAP</a></span><span class="op">(</span></span>
+<span>  <span class="va">fergusonSPE</span>,</span>
+<span>  subset_row <span class="op">=</span> <span class="va">ct_markers</span>,</span>
+<span>  exprs_values <span class="op">=</span> <span class="st">"counts"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># select a subset of images to plot</span></span>
+<span><span class="va">someImages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">fergusonSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># UMAP by imageID</span></span>
+<span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotReducedDim.html">plotReducedDim</a></span><span class="op">(</span></span>
+<span>  <span class="va">fergusonSPE</span><span class="op">[</span>, <span class="va">fergusonSPE</span><span class="op">$</span><span class="va">imageID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">someImages</span><span class="op">]</span>,</span>
+<span>  dimred <span class="op">=</span> <span class="st">"UMAP"</span>,</span>
+<span>  colour_by <span class="op">=</span> <span class="st">"imageID"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="02-quality_control_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plotUMAP-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>We can observe that from both our density plot and the UMAP, that there exists some level of batch effect in our dataset. <code>simpleSeg</code> also provides functionality for correcting image-level variability, using the <code>normalizeCells()</code> function.</p>
-<p>In the <code>normalizeCells()</code> function, we specify the following parameters. <code>transformation</code> is an optional argument which specifies the function to be applied to the data. We do not apply an arcsinh transformation here, as we already apply a square root transform in the <code>simpleSeg()</code> function. <code>method = c("trim99", "mean", PC1")</code> is an optional argument which specifies the normalisation method/s to be performed. A comprehensive table of methods is provided below. <code>assayIn = "counts"</code> is a required argument which specifies what the assay you’ll be taking the intensity data from is named. In our context, this is called <code>counts</code>.</p>
+<p>The UMAP also indicates that some level of batch effect exists in our dataset.</p>
+<p><code>simpleSeg</code> provides the <code>normalizeCells</code> function for correcting image-level batch effects. We specify the following parameters -</p>
+<ul>
+<li>
+<code>transformation</code> is an optional argument which specifies the function to be applied to the data. We do not apply an arcsinh transformation here, as we already apply a square root transform in the <code>simpleSeg</code> function.</li>
+<li>
+<code>method = c("trim99", "mean", PC1")</code> is an optional argument which specifies the normalisation method(s) to be performed. A comprehensive table of methods is provided below.</li>
+<li>
+<code>assayIn = "counts"</code> is a required argument which specifies the name of the assay that contains our intensity data. In our context, this is called <code>counts</code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># leave out the nuclei markers from our normalisation process</span></span>
+<span><span class="va">useMarkers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fergusonSPE</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fergusonSPE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DNA1"</span>, <span class="st">"DNA2"</span>, <span class="st">"HH3"</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># transform and normalise the marker expression of each cell type</span></span>
+<span><span class="va">fergusonSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/normalizeCells.html">normalizeCells</a></span><span class="op">(</span><span class="va">fergusonSPE</span>,</span>
+<span>                        markers <span class="op">=</span> <span class="va">useMarkers</span>,</span>
+<span>                        transformation <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                        method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"trim99"</span>, <span class="st">"mean"</span>, <span class="st">"PC1"</span><span class="op">)</span>,</span>
+<span>                        assayIn <span class="op">=</span> <span class="st">"counts"</span>,</span>
+<span>                        cores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This modified data is then stored in the <code>norm</code> assay by default, but can be changed using the <code>assayOut</code> parameter.</p>
+<section id="method-parameters" class="level4" data-number="5.2.0.1"><h4 data-number="5.2.0.1" class="anchored" data-anchor-id="method-parameters">
+<span class="header-section-number">5.2.0.1</span> <code>method</code> Parameters</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
-<col style="width: 37%">
-<col style="width: 37%">
+<col style="width: 72%">
+<col style="width: 2%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th>Method</th>
 <th style="text-align: center;">Description</th>
 <th style="text-align: center;"></th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“mean”</span></td>
@@ -475,73 +486,56 @@ Attaching package: 'Biobase'</code></pre>
 </tr>
 </tbody>
 </table>
-<p>This modified data is then stored in the <code>norm</code> assay by default, but can be changed using the <code>assayOut</code> parameter.</p>
+<p>We can then plot the same density curve for the CD3 marker using the normalised data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leave out the nuclei markers from our normalisation process. </span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>useMarkers <span class="ot">&lt;-</span> <span class="fu">rownames</span>(fergusonSPE)[<span class="sc">!</span><span class="fu">rownames</span>(fergusonSPE) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"DNA1"</span>, <span class="st">"DNA2"</span>, <span class="st">"HH3"</span>)]</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform and normalise the marker expression of each cell type.</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>fergusonSPE <span class="ot">&lt;-</span> <span class="fu">normalizeCells</span>(fergusonSPE,</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">markers =</span> useMarkers,</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">transformation =</span> <span class="cn">NULL</span>,</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"trim99"</span>, <span class="st">"mean"</span>, <span class="st">"PC1"</span>),</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">assayIn =</span> <span class="st">"counts"</span>,</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cores =</span> nCores</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We can then plot the same density curve where we can see that this normalised data appears more bimodal where we can at least observe a clear CD3+ peak at 1.00, and a CD3- peak at around 0.3, and the images overlap much more strongly.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot densities of CD3 for each image</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>fergusonSPE <span class="sc">|&gt;</span> </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">join_features</span>(<span class="at">features =</span> <span class="fu">rownames</span>(fergusonSPE), <span class="at">shape =</span> <span class="st">"wide"</span>, <span class="at">assay =</span> <span class="st">"norm"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> CD3, <span class="at">colour =</span> imageID)) <span class="sc">+</span> </span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot densities of CD3 for each image</span></span>
+<span><span class="va">fergusonSPE</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/ttservice/man/join_features.html">join_features</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fergusonSPE</span><span class="op">)</span>, shape <span class="op">=</span> <span class="st">"wide"</span>, assay <span class="op">=</span> <span class="st">"norm"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CD3</span>, colour <span class="op">=</span> <span class="va">imageID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="02-quality_control_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plotCD3normalised-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>We can also visualise the effect of normalisation on the UMAP, where our images now overlap much more strongly with each other.</p>
+<p>Here, we can see that the normalised data appears more bimodal, and we can clearly observe a CD3+ peak at 5.00, and a CD3- peak at around 3.00. Image-level batch effects also appear to have been mitigated.</p>
+<p>We can also visualise the effect of normalisation on the UMAP, which shows that the images now overlap with each other to a much greater extent.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">51773</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform dimension reduction using UMAP.</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>fergusonSPE <span class="ot">&lt;-</span> scater<span class="sc">::</span><span class="fu">runUMAP</span>(</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  fergusonSPE,</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">subset_row =</span> ct_markers,</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">exprs_values =</span> <span class="st">"norm"</span>,</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"normUMAP"</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>someImages <span class="ot">&lt;-</span> <span class="fu">unique</span>(fergusonSPE<span class="sc">$</span>imageID)[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>)]</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># UMAP by imageID.</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>scater<span class="sc">::</span><span class="fu">plotReducedDim</span>(</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  fergusonSPE[, fergusonSPE<span class="sc">$</span>imageID <span class="sc">%in%</span> someImages],</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimred =</span> <span class="st">"normUMAP"</span>,</span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">colour_by =</span> <span class="st">"imageID"</span></span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># perform dimension reduction using UMAP</span></span>
+<span><span class="va">fergusonSPE</span> <span class="op">&lt;-</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html">runUMAP</a></span><span class="op">(</span></span>
+<span>  <span class="va">fergusonSPE</span>,</span>
+<span>  subset_row <span class="op">=</span> <span class="va">ct_markers</span>,</span>
+<span>  exprs_values <span class="op">=</span> <span class="st">"norm"</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">"normUMAP"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">someImages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">fergusonSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># UMAP by imageID</span></span>
+<span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotReducedDim.html">plotReducedDim</a></span><span class="op">(</span></span>
+<span>  <span class="va">fergusonSPE</span><span class="op">[</span>, <span class="va">fergusonSPE</span><span class="op">$</span><span class="va">imageID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">someImages</span><span class="op">]</span>,</span>
+<span>  dimred <span class="op">=</span> <span class="st">"normUMAP"</span>,</span>
+<span>  colour_by <span class="op">=</span> <span class="st">"imageID"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="02-quality_control_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="scmerge-combining-multiple-spatial-datasets" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="scmerge-combining-multiple-spatial-datasets"><span class="header-section-number">2.3</span> scMerge: Combining multiple spatial datasets</h2>
-<p>A common question that pops up when analysing spatial datasets is:</p>
-<p>Can I combine multiple spatial datasets?</p>
-</section>
-<section id="sessioninfo" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="sessioninfo"><span class="header-section-number">2.4</span> sessionInfo</h2>
+</section></section><section id="scmerge-combining-multiple-spatial-datasets" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="scmerge-combining-multiple-spatial-datasets">
+<span class="header-section-number">5.3</span> scMerge: Combining multiple spatial datasets</h2>
+<p>A common question that pops up when analysing spatial datasets is: can I combine multiple spatial datasets?</p>
+</section><section id="sessioninfo" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">5.4</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
@@ -574,7 +568,7 @@ other attached packages:
 [13] dplyr_1.1.4                     tidySingleCellExperiment_1.16.0
 [15] SingleCellExperiment_1.28.1     SummarizedExperiment_1.36.0    
 [17] Biobase_2.66.0                  GenomicRanges_1.58.0           
-[19] GenomeInfoDb_1.42.0             IRanges_2.40.0                 
+[19] GenomeInfoDb_1.42.1             IRanges_2.40.0                 
 [21] S4Vectors_0.44.0                BiocGenerics_0.52.0            
 [23] MatrixGenerics_1.18.0           matrixStats_1.4.1              
 
@@ -585,14 +579,14 @@ loaded via a namespace (and not attached):
  [10] zlibbioc_1.52.0         vctrs_0.6.5             memoise_2.0.1          
  [13] RCurl_1.98-1.16         terra_1.7-83            svgPanZoom_0.3.4       
  [16] htmltools_0.5.8.1       S4Arrays_1.6.0          curl_6.0.1             
- [19] BiocNeighbors_2.0.0     raster_3.6-30           Rhdf5lib_1.28.0        
+ [19] BiocNeighbors_2.0.1     raster_3.6-30           Rhdf5lib_1.28.0        
  [22] SparseArray_1.6.0       rhdf5_2.50.0            htmlwidgets_1.6.4      
  [25] cachem_1.1.0            plotly_4.10.4           mime_0.12              
  [28] lifecycle_1.0.4         pkgconfig_2.0.3         rsvd_1.0.5             
  [31] Matrix_1.7-1            R6_2.5.1                fastmap_1.2.0          
  [34] GenomeInfoDbData_1.2.13 shiny_1.9.1             digest_0.6.37          
  [37] colorspace_2.1-1        AnnotationDbi_1.68.0    irlba_2.3.5.1          
- [40] RSQLite_2.3.7           beachmat_2.22.0         labeling_0.4.3         
+ [40] RSQLite_2.3.9           beachmat_2.22.0         labeling_0.4.3         
  [43] filelock_1.0.3          fansi_1.0.6             nnls_1.6               
  [46] httr_1.4.7              polyclip_1.10-7         abind_1.4-8            
  [49] compiler_4.4.1          bit64_4.5.2             withr_3.0.2            
@@ -601,13 +595,13 @@ loaded via a namespace (and not attached):
  [58] rappdirs_0.3.3          DelayedArray_0.32.0     rjson_0.2.23           
  [61] tools_4.4.1             vipor_0.4.7             beeswarm_0.4.0         
  [64] httpuv_1.6.15           glue_1.8.0              EBImage_4.48.0         
- [67] rhdf5filters_1.18.0     promises_1.3.0          grid_4.4.1             
- [70] generics_0.1.3          gtable_0.3.6            spatstat.data_3.1-2    
- [73] data.table_1.16.2       BiocSingular_1.22.0     ScaledMatrix_1.14.0    
+ [67] rhdf5filters_1.18.0     promises_1.3.2          grid_4.4.1             
+ [70] generics_0.1.3          gtable_0.3.6            spatstat.data_3.1-4    
+ [73] data.table_1.16.4       BiocSingular_1.22.0     ScaledMatrix_1.14.0    
  [76] sp_2.1-4                utf8_1.2.4              XVector_0.46.0         
- [79] RcppAnnoy_0.0.22        spatstat.geom_3.3-3     BiocVersion_3.20.0     
+ [79] RcppAnnoy_0.0.22        spatstat.geom_3.3-4     BiocVersion_3.20.0     
  [82] ggrepel_0.9.6           pillar_1.9.0            stringr_1.5.1          
- [85] later_1.3.2             lattice_0.22-6          bit_4.5.0              
+ [85] later_1.4.1             lattice_0.22-6          bit_4.5.0.1            
  [88] deldir_2.0-4            tidyselect_1.2.1        locfit_1.5-9.10        
  [91] Biostrings_2.74.0       knitr_1.49              gridExtra_2.3          
  [94] svglite_2.1.3           xfun_0.49               shinydashboard_0.7.2   
@@ -625,10 +619,7 @@ loaded via a namespace (and not attached):
 </div>
 
 
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1044,21 +1035,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./01-processing.html" class="pagination-link" aria-label="Processing">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Processing</span></span>
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./01-processing.html" class="pagination-link" aria-label="Cell segmentation and pre-processing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cell segmentation and pre-processing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./03-cell_annotation.html" class="pagination-link" aria-label="Cell Annotation">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Cell Annotation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cell Annotation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-
 
 
 
