@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>10&nbsp; lisaClust: Spatial domains – Spatial analysis playbook</title>
+<title>7&nbsp; scClassify: Cell annotation – Spatial analysis playbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,8 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./06-changes_in_marker_expression.html" rel="next">
-<link href="./04b-cell_localisation_parent.html" rel="prev">
+<link href="./04a-cell_localisation.html" rel="next">
+<link href="./03a-cell_annotation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-cellular_niches.html">Spatial domains</a></li><li class="breadcrumb-item"><a href="./05-cellular_niches.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03b-cell_annotation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -200,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link">
+  <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></span></a>
   </div>
 </li>
@@ -240,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link active">
+  <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></span></a>
   </div>
 </li>
@@ -322,21 +322,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#why-look-at-spatial-domains" id="toc-why-look-at-spatial-domains" class="nav-link active" data-scroll-target="#why-look-at-spatial-domains"><span class="header-section-number">10.1</span> Why look at spatial domains?</a></li>
-  <li>
-<a href="#lisaclust" id="toc-lisaclust" class="nav-link" data-scroll-target="#lisaclust"><span class="header-section-number">10.2</span> lisaClust</a>
-  <ul class="collapse">
-<li><a href="#how-lisaclust-works" id="toc-how-lisaclust-works" class="nav-link" data-scroll-target="#how-lisaclust-works"><span class="header-section-number">10.2.1</span> How lisaClust works</a></li>
-  <li><a href="#case-study-keren" id="toc-case-study-keren" class="nav-link" data-scroll-target="#case-study-keren"><span class="header-section-number">10.2.2</span> Case study: Keren</a></li>
-  </ul>
-</li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">10.3</span> sessionInfo</a></li>
+<li><a href="#using-scclassify" id="toc-using-scclassify" class="nav-link active" data-scroll-target="#using-scclassify"><span class="header-section-number">7.1</span> Using scClassify</a></li>
+  <li><a href="#evaluating-performance" id="toc-evaluating-performance" class="nav-link" data-scroll-target="#evaluating-performance"><span class="header-section-number">7.2</span> Evaluating performance</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">7.3</span> sessionInfo</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-cellular_niches.html">Spatial domains</a></li><li class="breadcrumb-item"><a href="./05-cellular_niches.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03b-cell_annotation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span>
+<span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span>
 </h1>
 </div>
 
@@ -351,107 +345,154 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><section id="why-look-at-spatial-domains" class="level2" data-number="10.1"><h2 data-number="10.1" class="anchored" data-anchor-id="why-look-at-spatial-domains">
-<span class="header-section-number">10.1</span> Why look at spatial domains?</h2>
-<p>Beyond spatial relationships between cell types, imaging datasets also contain another source of rich information - spatial domains. To give an idea of what spatial domains might visually look like, we’ve provided an image on the right, where we can clearly map out our healthy epithelial tissue spatial domain on the left of the image, and our immune and tumour domains on the right of the image. <img src="IMC_colon.png" align="right" style="height: 200px; border: 0px"></p>
-<p>However, spatial domains tend to be highly dependent on the biological question being answered. For example, when your primary tissue of interest are solid tumours, spatial domain analysis can provide insights into proportion of tumour domain vs immune domains, or how tumour domains differ between progressive and non-progressive cancers. Alternatively, if your primary tissue of interest is diabetes, spatial domains can provide insights into marker or cell type differences in your pancreatic islets.</p>
-<p>In this section, we’ll be exploring the use of <code>lisaClust</code> on two different datasets to help inform</p>
+</header><p><a href="https://new.bioconductor.org/packages/release/bioc/html/scClassify.html">scClassify</a> is a supervised multiscale classification framework for scRNAseq data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.</p>
+<p>To demonstrate the use of scClassify, we will use the Stickels 2021 dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the <code>STexampleData</code> package. We will select samples 21-24 for demonstration purposes.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/lisaClust/">lisaClust</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/SydneyBioX/SpatialDatasets">SpatialDatasets</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scClassify</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yanyachen/MLmetrics">MLmetrics</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="lisaclust" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="lisaclust">
-<span class="header-section-number">10.2</span> lisaClust</h2>
-<p>Clustering local indicators of spatial association (LISA) functions is a methodology for identifying consistent spatial organisation of multiple cell-types in an unsupervised way. This can be used to enable the characterization of interactions between multiple cell-types simultaneously and can complement traditional pairwise analysis. In our implementation our LISA curves are a localised summary of an L-function from a Poisson point process model. Our framework <code>lisaClust</code> can be used to provide a high-level summary of cell-type colocalization in high-parameter spatial cytometry data, facilitating the identification of distinct tissue compartments or identification of complex cellular microenvironments.</p>
-<p><img src="lisaClust_fig1.jpg" align="center" style="height: 300px; border: 0px"></p>
-<section id="how-lisaclust-works" class="level3" data-number="10.2.1"><h3 data-number="10.2.1" class="anchored" data-anchor-id="how-lisaclust-works">
-<span class="header-section-number">10.2.1</span> How lisaClust works</h3>
-<p>The workflow that lisaClust uses to identify regions of tissue with similar localisation patterns of cells contains multiple key steps. First, cells are treated as objects and assigned coordinates in an x-y space. Second, distances between all cells are calculated and then, by modeling the cells as a multi-type Poisson point process, the distances are used to calculate local indicators of spatial association (LISA). These LISA curves summarize the spatial association between each cell and a specific cell type over a range of radii, r. The LISA curves are calculated for each cell and cell type and then clustered to assign a region label for each cell.</p>
-</section><section id="case-study-keren" class="level3" data-number="10.2.2"><h3 data-number="10.2.2" class="anchored" data-anchor-id="case-study-keren">
-<span class="header-section-number">10.2.2</span> Case study: Keren</h3>
-<p>We will start by reading in the data from the <code>SpatialDatasets</code> package as a <code>SingleCellExperiment</code> object. Here the data is in a format consistent with that outputted by CellProfiler.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>see ?SpatialDatasets and browseVignettes('SpatialDatasets') for documentation</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>loading from cache</code></pre>
-</div>
-</div>
-<section id="generate-lisa-curves" class="level4" data-number="10.2.2.1"><h4 data-number="10.2.2.1" class="anchored" data-anchor-id="generate-lisa-curves">
-<span class="header-section-number">10.2.2.1</span> Generate LISA curves</h4>
-<p>This data includes annotation of the cell-types of each cell. Hence, we can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the <code>lisaClust</code> function, remembering to specify the <code>imageID</code>, <code>cellType</code>, and <code>spatialCoords</code> columns in <code>colData</code>. For the purpose of demonstration, we will be using only images 5 and 6 of the <code>kerenSPE</code> dataset.</p>
-<div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span><span class="op">[</span>,<span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span> <span class="op">=</span> <span class="fu">STexampleData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/STexampleData/man/STexampleData.html">SlideSeqV2_mouseHPC</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
-<span>  k <span class="op">=</span> <span class="fl">5</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Generating local L-curves.</code></pre>
-</div>
-</div>
-<p>These regions are stored in <code>colData</code> and can be extracted.</p>
-<div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"imageID"</span>, <span class="st">"region"</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># remove missing celltype values</span></span>
+<span><span class="va">stickelsSPE</span> <span class="op">=</span> <span class="va">stickelsSPE</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">stickelsSPE</span><span class="op">$</span><span class="va">celltype</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">stickelsSPE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DataFrame with 20 rows and 2 columns
-          imageID      region
-      &lt;character&gt; &lt;character&gt;
-21154           5    region_5
-21155           5    region_5
-21156           5    region_5
-21157           5    region_1
-21158           5    region_1
-...           ...         ...
-21169           5    region_1
-21170           5    region_1
-21171           5    region_1
-21172           5    region_1
-21173           5    region_1</code></pre>
+<pre><code>class: SpatialExperiment 
+dim: 23264 15003 
+metadata(0):
+assays(1): counts
+rownames(23264): 0610005C13Rik 0610007P14Rik ... n-R5s40 n-R5s95
+rowData names(1): gene_name
+colnames(15003): GATGCGACTCCTCG ACAGGGTTTATCGA ... CGTCGGATGTAGGG
+  GCGCTCAGTGCTCT
+colData names(3): barcode_id sample_id celltype
+reducedDimNames(0):
+mainExpName: NULL
+altExpNames(0):
+spatialCoords names(2) : xcoord ycoord
+imgData names(0):</code></pre>
 </div>
 </div>
-</section><section id="examine-cell-type-enrichment" class="level4" data-number="10.2.2.2"><h4 data-number="10.2.2.2" class="anchored" data-anchor-id="examine-cell-type-enrichment">
-<span class="header-section-number">10.2.2.2</span> Examine cell type enrichment</h4>
-<p><code>lisaClust</code> also provides a convenient function, <code>regionMap</code>, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.</p>
-<p>Here, we clearly see that healthy epithelial and mesenchymal tissue are highly concentrated in region 1, immune cells are concentrated in regions 2 and 4, whilst tumour cells are concentrated in region 3.</p>
-<p>We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter <code>k =</code> in the <code><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust()</a></code> function. For the purposes of demonstration, let’s take a look at the <code>hatchingPlot</code> of these regions.</p>
+<p>The dataset contains 17 unique cell types.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/regionMap.html">regionMap</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"bubble"</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="05-cellular_niches_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span><span class="op">$</span><span class="va">celltype</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "CA3"                   "CA1"                   "Choroid"              
+ [4] "Oligodendrocyte"       "Denate"                "Entorihinal"          
+ [7] "Ependymal"             "Interneuron"           "Astrocyte"            
+[10] "Neuron.Slc17a6"        "Neurogenesis"          "Mural"                
+[13] "Endothelial_Stalk"     "Polydendrocyte"        "Endothelial_Tip"      
+[16] "Microglia_Macrophages" "Cajal_Retzius"        </code></pre>
 </div>
 </div>
-</div>
-</section><section id="plot-identified-regions" class="level4" data-number="10.2.2.3"><h4 data-number="10.2.2.3" class="anchored" data-anchor-id="plot-identified-regions">
-<span class="header-section-number">10.2.2.3</span> Plot identified regions</h4>
-<p>Finally, we can use <code>hatchingPlot</code> to construct a <code>ggplot</code> object where the regions are marked by different hatching patterns. This allows us to visualize the 5 regions and 17 cell-types simultaneously.</p>
+<p>As scClassify requires log-normalised expression data, we will use <code>normalizeCounts</code> from the <code>scuttle</code> package to transform and normalise our expression data.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/hatchingPlot.html">hatchingPlot</a></span><span class="op">(</span><span class="va">kerenSPE</span>, nbp <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Concave windows are temperamental. Try choosing values of window.length &gt; and &lt; 1 if you have problems.</code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># log normalisation</span></span>
+<span><span class="va">norm_assay</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/normalizeCounts.html">normalizeCounts</a></span><span class="op">(</span><span class="va">stickelsSPE</span>, transform <span class="op">=</span> <span class="st">"log"</span>, BPPARAM <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html">MulticoreParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># store normalised expression data in the "norm" slot</span></span>
+<span><span class="fu">assay</span><span class="op">(</span><span class="va">stickelsSPE</span>, <span class="st">"norm"</span><span class="op">)</span> <span class="op">=</span> <span class="va">norm_assay</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="05-cellular_niches_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
-</div>
-</div>
-</section></section></section><section id="sessioninfo" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="sessioninfo">
-<span class="header-section-number">10.3</span> sessionInfo</h2>
+<p>We will first split the dataset into an 80% training or reference dataset and a 20% testing or query dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># split into 80% reference and 20% query</span></span>
+<span><span class="va">ref_idx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">stickelsSPE</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">stickelsSPE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ref_spe</span> <span class="op">=</span> <span class="va">stickelsSPE</span><span class="op">[</span>, <span class="va">ref_idx</span><span class="op">]</span></span>
+<span><span class="va">query_spe</span> <span class="op">=</span> <span class="va">stickelsSPE</span><span class="op">[</span>, <span class="op">-</span><span class="va">ref_idx</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># access expression data as matrix</span></span>
+<span><span class="va">ref_mat</span> <span class="op">=</span> <span class="fu">assay</span><span class="op">(</span><span class="va">ref_spe</span>, <span class="st">"norm"</span><span class="op">)</span></span>
+<span><span class="va">query_mat</span> <span class="op">=</span> <span class="fu">assay</span><span class="op">(</span><span class="va">query_spe</span>, <span class="st">"norm"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="using-scclassify" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="using-scclassify">
+<span class="header-section-number">7.1</span> Using scClassify</h2>
+<p><code>scClassify</code> is the main classification function within scClassify. It requires a reference expression matrix (<code>exprsMat_train</code>) and the corresponding vector of cell type labels as input (<code>cellTypes_train</code>). We then specify our query matrix (<code>exprsMat_test</code>) and the corresponding cell type labels (<code>cellTypes_test</code>) in the form of lists. Below, we have also specified the following customisations for building the model -</p>
+<ul>
+<li>
+<code>tree = HOPACH</code>: use the HOPACH algorithm to build a cell type hierarchy.</li>
+<li>
+<code>algorithm = WKNN</code>: use the weighted KNN model</li>
+<li>
+<code>selectFeatures = c("limma")</code>: identify differentially expressed (DE) genes using <code>limma</code>, which will be used as features to build the WKNN model. Other options to select features include differentially variable (DV) genes, differentially distributed (DD), bimodally distributed (BI) and differentially expressed proportions.</li>
+<li>
+<code>c("pearson", "spearman", "cosine")</code>: use Pearson and Spearman correlation to measure similarity between cells. Other options include Kendall’s correlation, cosine distance, Jaccard distance, Manhattan distance, and weighted rank correlation.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scClassify_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/scClassify.html">scClassify</a></span><span class="op">(</span>exprsMat_train <span class="op">=</span> <span class="va">ref_mat</span>,</span>
+<span>                            cellTypes_train <span class="op">=</span> <span class="va">ref_spe</span><span class="op">$</span><span class="va">celltype</span>,</span>
+<span>                            exprsMat_test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>stickels <span class="op">=</span> <span class="va">query_mat</span><span class="op">)</span>,</span>
+<span>                            cellTypes_test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>stickels <span class="op">=</span> <span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span><span class="op">)</span>,</span>
+<span>                            tree <span class="op">=</span> <span class="st">"HOPACH"</span>,</span>
+<span>                            algorithm <span class="op">=</span> <span class="st">"WKNN"</span>,</span>
+<span>                            selectFeatures <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"limma"</span><span class="op">)</span>,</span>
+<span>                            similarity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pearson"</span>, <span class="st">"spearman"</span><span class="op">)</span>,</span>
+<span>                            returnList <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                            parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                            BPPARAM <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html">MulticoreParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span>
+<span>                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The output is a list containing all model building and testing information. The <code>testRes</code> slot contains the results of testing the model on the query dataset, and the <code>trainRes</code> contains the model built from the reference dataset.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scClassify_res</span><span class="op">$</span><span class="va">trainRes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then examine the cell type tree generated by the reference dataset.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/plotCellTypeTree.html">plotCellTypeTree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/cellTypeTree.html">cellTypeTree</a></span><span class="op">(</span><span class="va">scClassify_res</span><span class="op">$</span><span class="va">trainRes</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The predictions for each cell can be accessed through the <code>ensembleRes</code> slot in the testing results.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred_mat</span> <span class="op">=</span> <span class="va">scClassify_res</span><span class="op">$</span><span class="va">testRes</span><span class="op">$</span><span class="va">stickels</span><span class="op">$</span><span class="va">ensembleRes</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_mat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     cellTypes scores
+ATGGCAGTCCCGCC             CA3      1
+TAACCCCACAAGAA             CA1      1
+AGTTCGATCCTTAT             CA3      1
+AATGAGACTGGTCT             CA3      1
+CGGATGGTTAGCGA             CA3      1
+TTAGGTCTATCCTT Oligodendrocyte      1</code></pre>
+</div>
+</div>
+</section><section id="evaluating-performance" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="evaluating-performance">
+<span class="header-section-number">7.2</span> Evaluating performance</h2>
+<p>We will evaluate scClassify’s performance using 4 metrics - accuracy, precision, recall, and F1 Score.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># accuracy</span></span>
+<span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/Accuracy.html">Accuracy</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6947684</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># precision</span></span>
+<span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/Precision.html">Precision</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8019432</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># recall</span></span>
+<span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/Recall.html">Recall</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8122634</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># recall</span></span>
+<span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/F1_Score.html">F1_Score</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8070703</code></pre>
+</div>
+</div>
+</section><section id="sessioninfo" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">7.3</span> sessionInfo</h2>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
@@ -475,80 +516,76 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] SpatialDatasets_1.4.0       SpatialExperiment_1.16.0   
- [3] ExperimentHub_2.14.0        AnnotationHub_3.14.0       
- [5] BiocFileCache_2.14.0        dbplyr_2.5.0               
- [7] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
- [9] Biobase_2.66.0              GenomicRanges_1.58.0       
-[11] GenomeInfoDb_1.42.1         IRanges_2.40.0             
-[13] S4Vectors_0.44.0            BiocGenerics_0.52.0        
-[15] MatrixGenerics_1.18.0       matrixStats_1.4.1          
-[17] ggplot2_3.5.1               spicyR_1.18.0              
-[19] lisaClust_1.14.4           
+ [1] scuttle_1.16.0              MLmetrics_1.1.3            
+ [3] STexampleData_1.14.0        SpatialExperiment_1.16.0   
+ [5] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
+ [7] Biobase_2.66.0              GenomicRanges_1.58.0       
+ [9] GenomeInfoDb_1.42.1         IRanges_2.40.0             
+[11] S4Vectors_0.44.0            MatrixGenerics_1.18.0      
+[13] matrixStats_1.4.1           ExperimentHub_2.14.0       
+[15] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
+[17] dbplyr_2.5.0                BiocGenerics_0.52.0        
+[19] scClassify_1.18.0          
 
 loaded via a namespace (and not attached):
-  [1] RColorBrewer_1.1-3          rstudioapi_0.17.1          
-  [3] jsonlite_1.8.9              MultiAssayExperiment_1.32.0
-  [5] magrittr_2.0.3              spatstat.utils_3.1-1       
-  [7] magick_2.8.5                farver_2.1.2               
-  [9] nloptr_2.1.1                rmarkdown_2.29             
- [11] zlibbioc_1.52.0             vctrs_0.6.5                
- [13] memoise_2.0.1               minqa_1.2.8                
- [15] spatstat.explore_3.3-3      rstatix_0.7.2              
- [17] htmltools_0.5.8.1           S4Arrays_1.6.0             
- [19] curl_6.0.1                  broom_1.0.7                
- [21] SparseArray_1.6.0           Formula_1.2-5              
- [23] htmlwidgets_1.6.4           plyr_1.8.9                 
- [25] cachem_1.1.0                mime_0.12                  
- [27] lifecycle_1.0.4             pkgconfig_2.0.3            
- [29] Matrix_1.7-1                R6_2.5.1                   
- [31] fastmap_1.2.0               GenomeInfoDbData_1.2.13    
- [33] digest_0.6.37               numDeriv_2016.8-1.1        
- [35] colorspace_2.1-1            AnnotationDbi_1.68.0       
- [37] tensor_1.5                  RSQLite_2.3.9              
- [39] ggpubr_0.6.0                labeling_0.4.3             
- [41] filelock_1.0.3              fansi_1.0.6                
- [43] spatstat.sparse_3.1-0       httr_1.4.7                 
- [45] polyclip_1.10-7             abind_1.4-8                
- [47] mgcv_1.9-1                  compiler_4.4.1             
- [49] bit64_4.5.2                 withr_3.0.2                
- [51] backports_1.5.0             BiocParallel_1.40.0        
- [53] carData_3.0-5               DBI_1.2.3                  
- [55] ggupset_0.4.0               ggforce_0.4.2              
- [57] coxme_2.2-22                ggsignif_0.6.4             
- [59] MASS_7.3-61                 concaveman_1.1.0           
- [61] rappdirs_0.3.3              DelayedArray_0.32.0        
- [63] rjson_0.2.23                tools_4.4.1                
- [65] goftest_1.2-3               glue_1.8.0                 
- [67] nlme_3.1-166                grid_4.4.1                 
- [69] ClassifyR_3.11.4            reshape2_1.4.4             
- [71] generics_0.1.3              gtable_0.3.6               
- [73] spatstat.data_3.1-4         class_7.3-22               
- [75] tidyr_1.3.1                 data.table_1.16.4          
- [77] car_3.1-3                   utf8_1.2.4                 
- [79] XVector_0.46.0              spatstat.geom_3.3-4        
- [81] BiocVersion_3.20.0          pillar_1.9.0               
- [83] stringr_1.5.1               splines_4.4.1              
- [85] dplyr_1.1.4                 tweenr_2.0.3               
- [87] lattice_0.22-6              survival_3.7-0             
- [89] bit_4.5.0.1                 deldir_2.0-4               
- [91] tidyselect_1.2.1            Biostrings_2.74.0          
- [93] knitr_1.49                  V8_6.0.0                   
- [95] xfun_0.49                   pheatmap_1.0.12            
- [97] fftwtools_0.9-11            scam_1.2-17                
- [99] stringi_1.8.4               UCSC.utils_1.2.0           
-[101] yaml_2.3.10                 boot_1.3-31                
-[103] evaluate_1.0.1              codetools_0.2-20           
-[105] tibble_3.2.1                BiocManager_1.30.25        
-[107] cli_3.6.3                   munsell_0.5.1              
-[109] Rcpp_1.0.13-1               spatstat.random_3.3-2      
-[111] png_0.1-8                   bdsmatrix_1.3-7            
-[113] spatstat.univar_3.1-1       parallel_4.4.1             
-[115] ggh4x_0.2.8                 blob_1.2.4                 
-[117] lme4_1.1-35.5               ggthemes_5.1.0             
-[119] lmerTest_3.1-3              scales_1.3.0               
-[121] purrr_1.0.2                 crayon_1.5.3               
-[123] rlang_1.1.4                 KEGGREST_1.46.0            </code></pre>
+  [1] rstudioapi_0.17.1         jsonlite_1.8.9           
+  [3] magrittr_2.0.3            magick_2.8.5             
+  [5] farver_2.1.2              rmarkdown_2.29           
+  [7] zlibbioc_1.52.0           vctrs_0.6.5              
+  [9] memoise_2.0.1             DelayedMatrixStats_1.28.0
+ [11] htmltools_0.5.8.1         S4Arrays_1.6.0           
+ [13] curl_6.0.1                Rhdf5lib_1.28.0          
+ [15] SparseArray_1.6.0         rhdf5_2.50.0             
+ [17] htmlwidgets_1.6.4         plyr_1.8.9               
+ [19] plotly_4.10.4             Cepo_1.12.0              
+ [21] cachem_1.1.0              igraph_2.1.1             
+ [23] mime_0.12                 lifecycle_1.0.4          
+ [25] minpack.lm_1.2-4          pkgconfig_2.0.3          
+ [27] Matrix_1.7-1              R6_2.5.1                 
+ [29] fastmap_1.2.0             GenomeInfoDbData_1.2.13  
+ [31] digest_0.6.37             colorspace_2.1-1         
+ [33] patchwork_1.3.0           AnnotationDbi_1.68.0     
+ [35] RSQLite_2.3.9             beachmat_2.22.0          
+ [37] filelock_1.0.3            fansi_1.0.6              
+ [39] httr_1.4.7                polyclip_1.10-7          
+ [41] abind_1.4-8               mgcv_1.9-1               
+ [43] compiler_4.4.1            proxy_0.4-27             
+ [45] bit64_4.5.2               withr_3.0.2              
+ [47] BiocParallel_1.40.0       viridis_0.6.5            
+ [49] DBI_1.2.3                 HDF5Array_1.34.0         
+ [51] ggforce_0.4.2             MASS_7.3-61              
+ [53] rappdirs_0.3.3            proxyC_0.4.1             
+ [55] DelayedArray_0.32.0       rjson_0.2.23             
+ [57] tools_4.4.1               glue_1.8.0               
+ [59] nlme_3.1-166              rhdf5filters_1.18.0      
+ [61] grid_4.4.1                cluster_2.1.6            
+ [63] reshape2_1.4.4            generics_0.1.3           
+ [65] gtable_0.3.6              tidyr_1.3.1              
+ [67] data.table_1.16.4         tidygraph_1.3.1          
+ [69] utf8_1.2.4                XVector_0.46.0           
+ [71] ggrepel_0.9.6             BiocVersion_3.20.0       
+ [73] pillar_1.9.0              stringr_1.5.1            
+ [75] limma_3.62.1              splines_4.4.1            
+ [77] dplyr_1.1.4               tweenr_2.0.3             
+ [79] lattice_0.22-6            survival_3.7-0           
+ [81] bit_4.5.0.1               tidyselect_1.2.1         
+ [83] Biostrings_2.74.0         knitr_1.49               
+ [85] gridExtra_2.3             xfun_0.49                
+ [87] graphlayouts_1.2.1        mixtools_2.0.0           
+ [89] statmod_1.5.0             stringi_1.8.4            
+ [91] UCSC.utils_1.2.0          lazyeval_0.2.2           
+ [93] yaml_2.3.10               evaluate_1.0.1           
+ [95] codetools_0.2-20          kernlab_0.9-33           
+ [97] ggraph_2.2.1              tibble_3.2.1             
+ [99] BiocManager_1.30.25       cli_3.6.3                
+[101] segmented_2.1-3           munsell_0.5.1            
+[103] Rcpp_1.0.13-1             png_0.1-8                
+[105] parallel_4.4.1            ggplot2_3.5.1            
+[107] hopach_2.66.0             blob_1.2.4               
+[109] sparseMatrixStats_1.18.0  viridisLite_0.4.2        
+[111] scales_1.3.0              purrr_1.0.2              
+[113] crayon_1.5.3              rlang_1.1.4              
+[115] KEGGREST_1.46.0          </code></pre>
 </div>
 </div>
 
@@ -970,13 +1007,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./04b-cell_localisation_parent.html" class="pagination-link" aria-label="Kontextual: Cell localisation with context">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></span>
+      <a href="./03a-cell_annotation.html" class="pagination-link" aria-label="FuseSOM: Cell Annotation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./06-changes_in_marker_expression.html" class="pagination-link" aria-label="Statial: Marker expression">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Statial: Marker expression</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="SpicyR: Cell localisation">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
