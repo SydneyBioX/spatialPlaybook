@@ -1,41 +1,56 @@
 # Quality Control
 
-This section demonstrates how to evaluate the quality of segmentation performed with simpleSeg in the previous step. It also introduces additional functions and packages for data normalisation and transformation to address batch effects.
 
-Steps:
+With cell segmentation complete, we can move on to performing quality control checks. In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining is particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it. The simpleSeg package includes additional functions for detecting batch effects and normalising expression data to minimize their impact.
 
-1.  Evaluate quality of cell segmentation with CellSPA (simpleSeg/cellSPA?)
-2.  How to qc image batch-effect (simpleSeg::normalizeCells)
-3.  How to qc patient batch-effect (simpleSeg::normalizeCells)
-4.  How to qc batch effects (scMerge)
+<!-- Steps: -->
 
-## CellSPA: How do I determine segmentation quality?
+<!-- 1.  Evaluate quality of cell segmentation with CellSPA (simpleSeg/cellSPA?) -->
 
-[CellSPA](https://sydneybiox.github.io/CellSPA/) is an R package that provides an evaluation framework for *in situ* cell segmentation results.
+<!-- 2.  How to qc image batch-effect (simpleSeg::normalizeCells) -->
 
-## simpleSeg: Do my images have a batch effect?
+<!-- 3.  How to qc patient batch-effect (simpleSeg::normalizeCells) -->
 
-In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining is particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it.
+<!-- 4.  How to qc batch effects (scMerge) -->
 
-First, let's load in the images we previously segmented out in the last section. The `SpatialDatasets` package conveniently provides the segmented out images for the HNsCC dataset from Ferguson et al., 2022.
+```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+  library(tidySingleCellExperiment)
+  library(simpleSeg)
+  # library(scMerge)
+  library(scater)
+  library(ggplot2)
+})
+```
 
-```{r 02-loadFergusondata, message=FALSE, warning=FALSE}
+```{r, eval = FALSE}
+# load required libraries
 library(tidySingleCellExperiment)
 library(simpleSeg)
-# library(scMerge)
 library(scater)
 library(ggplot2)
-
-# load in data
-fergusonSPE <- SpatialDatasets::spe_Ferguson_2022()
 ```
 
 ```{r 02-setParam}
+# set parameters
 set.seed(51773)
 nCores <- 10
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 
 theme_set(theme_classic())
+```
+
+<!-- ## CellSPA: How do I determine segmentation quality? -->
+
+<!-- [CellSPA](https://sydneybiox.github.io/CellSPA/) is an R package that provides an evaluation framework for *in situ* cell segmentation results. -->
+
+## simpleSeg: Do my images have a batch effect?
+
+First, let's load in the images we previously segmented out in the last section. The `SpatialDatasets` package conveniently provides the segmented out images for Fergusin 2022 dataset.
+
+```{r warning=FALSE, message=FALSE}
+# load in data
+fergusonSPE <- SpatialDatasets::spe_Ferguson_2022()
 ```
 
 Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:\
@@ -110,12 +125,12 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 
 #### `method` Parameters
 
-| Method                                                     |                                                                                Description                                                                                 |     |
-|------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---:|
-| ["mean"]{style="font-family: 'Courier New', monospace;"}   |                              [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"}                               |     |
-| ["minMax"]{style="font-family: 'Courier New', monospace;"} |                             [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"}                              |     |
-| ["trim99"]{style="font-family: 'Courier New', monospace;"} |                           [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"}                           |     |
-| ["PC1"]{style="font-family: 'Courier New', monospace;"}    | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |     |
+| Method | Description |   |
+|-----------------|:-------------------------------------:|:---------------:|
+| ["mean"]{style="font-family: 'Courier New', monospace;"} | [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"} |  |
+| ["minMax"]{style="font-family: 'Courier New', monospace;"} | [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"} |  |
+| ["trim99"]{style="font-family: 'Courier New', monospace;"} | [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"} |  |
+| ["PC1"]{style="font-family: 'Courier New', monospace;"} | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |  |
 
 We can then plot the same density curve for the CD3 marker using the normalised data.
 
@@ -153,9 +168,9 @@ scater::plotReducedDim(
 )
 ```
 
-## scMerge: Combining multiple spatial datasets
+<!-- ## scMerge: Combining multiple spatial datasets -->
 
-A common question that pops up when analysing spatial datasets is: can I combine multiple spatial datasets?
+<!-- A common question that pops up when analysing spatial datasets is: can I combine multiple spatial datasets? -->
 
 ## sessionInfo
 

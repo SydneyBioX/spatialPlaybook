@@ -2,13 +2,37 @@
 
 When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
 
-Steps:
+<!-- Steps: -->
 
-1.  Introduction to ClassifyR
-2.  Classification of patients by condition
-3.  Classification of patients by survival
-4.  Easy and Hard to classify patients (samplesMetricMap)
-5.  Maximising accuracy during classification (parameter tuning for crossValidate)
+<!-- 1.  Introduction to ClassifyR -->
+<!-- 2.  Classification of patients by condition -->
+<!-- 3.  Classification of patients by survival -->
+<!-- 4.  Easy and Hard to classify patients (samplesMetricMap) -->
+<!-- 5.  Maximising accuracy during classification (parameter tuning for crossValidate) -->
+
+```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+  library(ClassifyR)
+  library(lisaClust)
+  library(Statial)
+  library(spicyR)
+})
+```
+
+```{r, eval = FALSE}
+library(ClassifyR)
+library(lisaClust)
+library(Statial)
+library(spicyR)
+```
+
+```{r 02-setParam}
+set.seed(51773)
+nCores <- 10
+BPPARAM <- simpleSeg:::generateBPParam(nCores)
+
+theme_set(theme_classic())
+```
 
 ## Introduction to `ClassifyR`
 
@@ -18,19 +42,9 @@ Steps:
 -   Repeated $x\%$ test set cross-validation
 -   leave-k-out cross-validation
 
-We will use the Keren 2018 dataset to perform two predictions: 1) predict the patient's tumour type (cold, compartmentalised, or mixed) and 2) predict the patient's survival outcome. 
-
+We will use the Keren 2018 dataset to perform two predictions: 1) predict the patient's tumour type (cold, compartmentalised, or mixed) and 2) predict the patient's survival outcome.
 
 ```{r, message=FALSE,warning=FALSE}
-set.seed(51773)
-
-library(ClassifyR)
-library(lisaClust)
-library(Statial)
-library(spicyR)
-
-BPPARAM <- simpleSeg:::generateBPParam(cores = 10)
-
 # load the Keren 2018 dataset
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
@@ -57,7 +71,6 @@ We will build a list of feature matrices using the features we've generated in t
 kontextMat <- readRDS("data/kontextMat.rds")
 stateMat <- readRDS("data/stateMat.rds")
 ```
-
 
 ```{r}
 data <- list()
@@ -169,7 +182,7 @@ From the graph, we can see that `lisaClust` appears to capture information that 
 
 ## Easy and hard to classify patients
 
-The `samplesMetricMap` function allows the visual comparison of sample-wise error rate or accuracy measures from the cross-validation process. 
+The `samplesMetricMap` function allows the visual comparison of sample-wise error rate or accuracy measures from the cross-validation process.
 
 ### Predicting tumour type
 
@@ -186,6 +199,5 @@ samplesMetricMap(cv,
 ```{r}
 samplesMetricMap(surv_cv, showXtickLabels = FALSE)
 ```
-
 
 ## Maximising accuracy during classification

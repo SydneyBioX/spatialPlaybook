@@ -2,13 +2,45 @@
 
 Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. However, the method by which this is done can differ from study to study. Here, we demonstrate the use of two packages: `FuseSOM` for cell type clustering and `scClassify` for cell type annotation.
 
-Steps:
+<!-- Steps: -->
 
-1.  Clustering vs annotation
-2.  Clustering with FuseSOM
-3.  Cluster annotation with pheatmap
-4.  Cell annotation with scClassify
-5.  Selecting a reference dataset with scClassify
+<!-- 1.  Clustering vs annotation -->
+
+<!-- 2.  Clustering with FuseSOM -->
+
+<!-- 3.  Cluster annotation with pheatmap -->
+
+<!-- 4.  Cell annotation with scClassify -->
+
+<!-- 5.  Selecting a reference dataset with scClassify -->
+
+```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+  library(FuseSOM)
+  library(STexampleData)
+  library(MLmetrics)
+  library(simpleSeg)
+  library(scuttle)
+})
+```
+
+```{r, eval = FALSE}
+# load required libraries
+library(FuseSOM)
+library(STexampleData)
+library(MLmetrics)
+library(simpleSeg)
+library(scuttle)
+```
+
+```{r 02-setParam}
+# set parameters
+set.seed(51773)
+nCores <- 10
+BPPARAM <- simpleSeg:::generateBPParam(nCores)
+
+theme_set(theme_classic())
+```
 
 ## Clustering vs Annotation
 
@@ -23,13 +55,6 @@ Clustering is an unsupervised method of labelling cells. An algorithm identifies
 To demonstrate the functionality of `FuseSOM`, we will use the Risom 2022 dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS). We will be using the markers used in the original study to perform clustering.
 
 ```{r, warning = FALSE, message = FALSE}
-# load FuseSOM
-library(FuseSOM)
-library(STexampleData)
-library(MLmetrics)
-library(simpleSeg)
-library(scuttle)
-
 # load in the data
 data("risom_dat")
 
@@ -201,7 +226,7 @@ pSil
 
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 
-## Choosing between clustering and annotation
+Next, we will demonstrate how `scClassify` can be used for supervised cell annotation.
 
 ## sessionInfo
 

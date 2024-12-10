@@ -1,7 +1,22 @@
 # Statial: Marker expression
 
-```{r, warning=FALSE, message=FALSE}
-# Loading required packages
+```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+  library(Statial)
+  library(spicyR)
+  library(ClassifyR)
+  library(lisaClust)
+  library(dplyr)
+  library(SingleCellExperiment)
+  library(ggplot2)
+  library(ggsurvfit)
+  library(survival)
+  library(tibble)
+  library(treekoR)
+})
+```
+
+```{r, eval = FALSE}
 library(Statial)
 library(spicyR)
 library(ClassifyR)
@@ -13,10 +28,20 @@ library(ggsurvfit)
 library(survival)
 library(tibble)
 library(treekoR)
+```
+
+
+```{r 02-setParam}
+set.seed(51773)
+nCores <- 10
+BPPARAM <- simpleSeg:::generateBPParam(nCores)
 
 theme_set(theme_classic())
-nCores <- 8
 ```
+
+## Statial: Marker means
+
+One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain.
 
 ```{r, include = FALSE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
@@ -27,10 +52,6 @@ kerenSPE <- lisaClust(kerenSPE,
   k = 5
 )
 ```
-
-## Statial: Marker means
-
-One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain.
 
 ```{r, include = FALSE}
 kerenSPE$event = 1 - kerenSPE$Censored

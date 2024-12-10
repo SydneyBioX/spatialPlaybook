@@ -1,17 +1,26 @@
 # Cell segmentation and pre-processing
 
-In this section, we will describe how to read in and pre-process images obtained through various imaging technologies for downstream analysis.
+The typical first step in analyzing spatial data is cell segmentation, which involves identifying and isolating individual cells in each image. This step is essential for assigning cell type labels and evaluating cellular relationships within the tissue.
 
-Steps:
+In this section, we will outline the process of reading and pre-processing images obtained from various imaging technologies to prepare them for downstream analysis. Additionally, we will demonstrate how our simpleSeg package facilitates efficient and straightforward cell segmentation, as well as how to evaluate the quality of the segmentation results.
 
-1.  Reading in data with cytomapper
-2.  Cell segmentation with simpleSeg
-3.  Cell segmentation with BIDCell
-4.  Reading in spot-based data with MoleculeExperiment
+<!-- Steps: -->
 
-## Reading in data with cytomapper
+<!-- 1.  Reading in data with cytomapper -->
+<!-- 2.  Cell segmentation with simpleSeg -->
+<!-- 3.  Cell segmentation with BIDCell -->
+<!-- 4.  Reading in spot-based data with MoleculeExperiment -->
 
-```{r 02-library, message=FALSE,warning=FALSE}
+```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+  library(cytomapper)
+  library(ggplot2)
+  library(simpleSeg)
+})
+```
+
+```{r, eval = FALSE}
+# load required libraries
 library(cytomapper)
 library(ggplot2)
 library(simpleSeg)
@@ -20,18 +29,15 @@ library(simpleSeg)
 We recommend setting the number of cores to enable running code in parallel. Please choose a number that is appropriate for your resources. A minimum of 2 cores is suggested since running this workflow can be computationally intensive.
 
 ```{r 01-setParam}
+# set parameters
 set.seed(51773)
-use_mc <- TRUE
-
-if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
-} else {
-  nCores <- 2
-}
+nCores <- 10
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 
 theme_set(theme_classic())
 ```
+
+## Reading in data with cytomapper
 
 We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the `SpatialDatasets` package. The `loadImages` function form the `cytomapper` package can be used to load all the TIFF images into a `CytoImageList` object and store the images as an h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
 
@@ -59,9 +65,9 @@ When reading the image channels directly from the names of the TIFF images, they
 
 ```{r 01-cleanChannelNames}
 channelNames(images) <- channelNames(images) |>
-                          # Remove preceding letters
+                          # remove preceding letters
                           sub(pattern = ".*_", replacement = "", x = _) |> 
-                          # Remove the .ome
+                          # remove the .ome
                           sub(pattern = ".ome", replacement = "", x = _)
 ```
 
@@ -80,7 +86,7 @@ mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 
 ## Cell segmentation with simpleSeg
 
-A standard pipeline for spatial analysis starts with cell segmentation to isolate and identify the individual cells in each image. The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides functionality for user friendly, watershed based segmentation on multiplexed cellular images based on the intensity of user specified protein marker channels. The main function, `simpleSeg`, can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.
+Next, we can perform our segmentation. The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides functionality for user friendly, watershed based segmentation on multiplexed cellular images based on the intensity of user specified protein marker channels. The main function, `simpleSeg`, can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.
 
 In the particular example below, we have asked `simpleSeg` to do the following:
 
@@ -160,30 +166,30 @@ In particular, the `cellBody` and `watershed` parameters can strongly influence 
 
 #### `cellBody` Parameters
 
-| Method                                                        |                                                                                                      Description                                                                                                      |     |
-|-------------|:---------------------------------------------:|:-----------:|
-| ["distance"]{style="font-family: 'Courier New', monospace;"}  | [Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.]{style="font-family: 'Courier New', monospace;"} |     |
-| ["intensity"]{style="font-family: 'Courier New', monospace;"} |                                                  [Performs watershedding using the intensity of the nuclei marker.]{style="font-family: 'Courier New', monospace;"}                                                   |     |
-| ["combine"]{style="font-family: 'Courier New', monospace;"}   |                                  [Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.]{style="font-family: 'Courier New', monospace;"}                                  |     |
+| Method | Description |   |
+|---------------|:----------------------------------------:|:-------------:|
+| ["distance"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.]{style="font-family: 'Courier New', monospace;"} |  |
+| ["intensity"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding using the intensity of the nuclei marker.]{style="font-family: 'Courier New', monospace;"} |  |
+| ["combine"]{style="font-family: 'Courier New', monospace;"} | [Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.]{style="font-family: 'Courier New', monospace;"} |  |
 
 #### `watershed` Parameters
 
-| Method                                                        |                                                                                                                          Description                                                                                                                          |     |
-|------------|:-----------------------------------------------:|:----------:|
-| ["dilation"]{style="font-family: 'Courier New', monospace;"}  |                                  [Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the `discDize` argument.]{style="font-family: 'Courier New', monospace;"}                                   |     |
-| ["discModel"]{style="font-family: 'Courier New', monospace;"} | [Uses all the markers to predict the presence of dilated 'discs' around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.]{style="font-family: 'Courier New', monospace;"} |     |
-| ["marker"]{style="font-family: 'Courier New', monospace;"}    |                            [The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using `cellBody = "marker name"/"index"`]{style="font-family: 'Courier New', monospace;"}                             |     |
-| ["None"]{style="font-family: 'Courier New', monospace;"}      |                                                                                    [The nuclei mask is returned directly.]{style="font-family: 'Courier New', monospace;"}                                                                                    |     |
+| Method | Description |   |
+|---------------|:-----------------------------------------:|:-------------:|
+| ["dilation"]{style="font-family: 'Courier New', monospace;"} | [Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the `discDize` argument.]{style="font-family: 'Courier New', monospace;"} |  |
+| ["discModel"]{style="font-family: 'Courier New', monospace;"} | [Uses all the markers to predict the presence of dilated 'discs' around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.]{style="font-family: 'Courier New', monospace;"} |  |
+| ["marker"]{style="font-family: 'Courier New', monospace;"} | [The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using `cellBody = "marker name"/"index"`]{style="font-family: 'Courier New', monospace;"} |  |
+| ["None"]{style="font-family: 'Courier New', monospace;"} | [The nuclei mask is returned directly.]{style="font-family: 'Courier New', monospace;"} |  |
 
-## Cell segmentation with BIDCell
+<!-- ## Cell segmentation with BIDCell -->
 
-## Visual comparison of segmentations
+<!-- ## Visual comparison of segmentations -->
 
-plotPixels can plot multiple images \<-- use this to visualise multiple images at once after you have BIDCell ready.
+<!-- plotPixels can plot multiple images \<-- use this to visualise multiple images at once after you have BIDCell ready. -->
 
 ## Summarise cell features
 
-We can use the `measureObjects` from `cytomapper` to calculate the average intensity of each channel within each cell, as well as other morphological features. By default, `measureObjects` function will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns.
+We can use the `measureObjects` from `cytomapper` to calculate the average intensity of each channel within each cell, as well as other morphological features. By default, `measureObjects` will return a `SingleCellExperiment` object, where the channel intensities are stored in the `counts` assay and the spatial location of each cell is stored in `colData` in the `m.cx` and `m.cy` columns.
 
 However, you can also specify `measureObjects` to return a `SpatialExperiment` object by specifying `return_as = "spe"`. In a `SpatialExperiment` object, the spatial location of each cell is stored in the `spatialCoords` slot as `m.cx` and `m.cy`, which simplifies plotting. In this demonstration, we will return a `SpatialExperiment` object.
 
@@ -192,14 +198,16 @@ However, you can also specify `measureObjects` to return a `SpatialExperiment` o
 cells <- cytomapper::measureObjects(masks,
                                     images,
                                     img_id = "imageID",
-                                    return_as = "spe"#,
-                                    #BPPARAM = BPPARAM
+                                    return_as = "spe",
+                                    BPPARAM = BPPARAM
                                     )
 
 spatialCoordsNames(cells) <- c("x", "y")
+
+cells
 ```
 
-Once we have obtained our `SpatialExperiment` object, we can move on to quality control and data transformation and normalisation to address batch effects.
+So far, we have obtained our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a `SpatialExperiment` object. We can now move on to quality control, data transformation, and normalisation to address batch effects.
 
 ## sessionInfo
 

@@ -7,5 +7,3 @@
 Recent advances in highly multiplexed cell imaging technologies—such as PhenoCycler, IMC, CosMx, Xenium, and MERFISH—have fundamentally transformed our ability to study complex cellular relationships within tissues. While traditional immunohistochemistry protocols were limited to visualising cells based on just two or three surface proteins, these cutting-edge technologies can now characterise cells using over 50 proteins or thousands of RNA molecules in situ. This breakthrough enables precise classification of cell subtypes and offers an unprecedented view of cellular heterogeneity in tissue environments.
 
 These technological advancements have driven the development of novel analytical approaches, essential for fully leveraging the potential of these new imaging methods. On this website, we demonstrate how packages in [**scdney**](https://sydneybiox.github.io/scdney/) can provide fresh insights into complex biological systems and diseases.
-
-

@@ -8,13 +8,31 @@ However, spatial domains tend to be highly dependent on the biological question 
 
 In this section, we'll be exploring the use of `lisaClust` on two different datasets to help inform
 
-```{r message=FALSE, warning=FALSE}
-# load required packages
+```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+  library(lisaClust)
+  library(spicyR)
+  library(ggplot2)
+  library(SingleCellExperiment)
+  library(SpatialDatasets)
+})
+```
+
+```{r, eval = FALSE}
 library(lisaClust)
 library(spicyR)
 library(ggplot2)
 library(SingleCellExperiment)
 library(SpatialDatasets)
+```
+
+
+```{r 02-setParam}
+set.seed(51773)
+nCores <- 10
+BPPARAM <- simpleSeg:::generateBPParam(nCores)
+
+theme_set(theme_classic())
 ```
 
 ## lisaClust

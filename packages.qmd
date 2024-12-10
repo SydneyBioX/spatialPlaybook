@@ -18,6 +18,7 @@
             });
     </script>
 ```
+
 ```{r echo=FALSE}
 myCitation <- function (package = "base", lib.loc = NULL, auto = NULL) 
 {
@@ -173,6 +174,7 @@ citation {
 }
 </style>
 ```
+
 ### MoleculeExperiment
 
 `<a href="https://sydneybiox.github.io/MoleculeExperiment/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
@@ -371,11 +373,12 @@ table {
 }
 </style>
 ```
-|       Disease       | Technology |    Title    | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |     |
+
+| Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
-|    Breast cancer    |  MIBI-TOF  | Keren_2018  |              |           |            |      X       |         X         |           X            |     |
-|    Breast cancer    |  MIBI-TOF  | Risom_2022  |      X       |     X     |     X      |      X       |         X         |           X            |     |
-| Mouse organogenesis |  seqFISH   | Lohoff_2022 |              |     X     |            |      X       |                   |                        |     |
+| Breast cancer | MIBI-TOF | Keren_2018 |  |  |  | X | X | X |  |
+| Breast cancer | MIBI-TOF | Risom_2022 | X | X | X | X | X | X |  |
+| Mouse organogenesis | seqFISH | Lohoff_2022 |  | X |  | X |  |  |  |
 
 ```{=html}
 <style>
