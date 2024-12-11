@@ -11,7 +11,7 @@ In this section, we will outline the process of reading and pre-processing image
 <!-- 3.  Cell segmentation with BIDCell -->
 <!-- 4.  Reading in spot-based data with MoleculeExperiment -->
 
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 01-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(cytomapper)
   library(ggplot2)

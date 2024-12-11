@@ -1,8 +1,8 @@
 # SpicyR: Cell localisation
 
-Now that we have finished preprocessing our data, we can now begin analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
+So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
 
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 04a-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(spicyR)
   library(Statial)
@@ -19,6 +19,7 @@ suppressPackageStartupMessages({
 ```
 
 ```{r, eval = FALSE}
+# load required libraries
 library(spicyR)
 library(Statial)
 library(ggplot2)
@@ -32,7 +33,8 @@ library(treekoR)
 library(ggsurvfit)
 ```
 
-```{r 02-setParam}
+```{r 04a-setParam}
+# set parameters
 set.seed(51773)
 nCores <- 10
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
@@ -44,7 +46,7 @@ theme_set(theme_classic())
 
 [spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups. Here, we will use the Keren 2018 dataset to demonstrate the use of `spicyR` The data is stored as a `SpatialExperiment` object within the `SpatialDatasets` package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).
 
-```{r warning=FALSE, message=FALSE}
+```{r 04a-loadKeren, warning=FALSE, message=FALSE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 # remove any missing data in our outcome columns
@@ -88,12 +90,13 @@ The column containing cell type annotations and image IDs can be specified using
 
 We obtain a `spicy` object which details the results of the modelling performed. The `topPairs()` function can be used to obtain the associated coefficients and p-value.
 
-```{r}
+```{r 04a-spicyTestPair}
 spicyTestPair <- spicy(
   kerenSPE,
   condition = "tumour_type",
   from = "CD8_T_cell",
-  to = "Neutrophils"
+  to = "Neutrophils",
+  BPPARAM = BPPARAM
 )
 
 topPairs(spicyTestPair)
@@ -105,10 +108,11 @@ As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils ar
 
 We can perform what we did above for all pairwise combinations of cell types by excluding the `from` and `to` parameters in `spicy()`. Additional covariates can be added using the `covariates` argument.
 
-```{r}
+```{r 04a-spicyTest}
 spicyTest <- spicy(
   kerenSPE,
-  condition = "tumour_type"
+  condition = "tumour_type",
+  BPPARAM = BPPARAM
 )
 
 topPairs(spicyTest)
@@ -118,13 +122,13 @@ Again, we obtain a `spicy` object which outlines the result of the linear models
 
 We can also examine the L-function metrics of individual images by using the convenient `bind()` function on our `spicyTest` results object.
 
-```{r}
+```{r 04a-bind}
 bind(spicyTest)[1:5, 1:5]
 ```
 
 The results can be represented as a bubble plot using the `signifPlot()` function.
 
-```{r}
+```{r 04a-signifPlot}
 signifPlot(
   spicyTest,
   breaks = c(-3, 3, 1),
@@ -137,7 +141,7 @@ Here, we can observe that the most significant relationships occur between macro
 
 To examine a specific cell type-cell type relationship in more detail, we can use `spicyBoxplot()` and specify either `from = "Macrophages"` and `to = "dn_T_CD3"` or `rank = 1`.
 
-```{r}
+```{r 04a-spicyBoxPlot}
 spicyBoxPlot(results = spicyTest, 
              # from = "Macrophages",
              # to = "dn_T_CD3"
@@ -150,7 +154,7 @@ spicyBoxPlot(results = spicyTest,
 
 `spicyR` provides the function `convPairs` for converting a `colPairs` object into an abundance matrix by calculating the average number of nearby cells types for every cell type for a given `k`. For example, if there exists on average 5 neutrophils for every macrophage in image 1, the column `Neutrophil__Macrophage` would have a value of 5 for image 1.
 
-```{r}
+```{r 04a-kNN}
 kerenSPE <- imcRtools::buildSpatialGraph(kerenSPE, 
                                          img_id = "imageID", 
                                          type = "knn", k = 20,
@@ -164,18 +168,19 @@ head(pairAbundances["B_cell__B_cell"])
 
 The custom distance or abundance metrics can then be included in the analysis with the `alternateResult` parameter.
 
-```{r}
+```{r 04a-spicyTestkNN}
 spicyTestColPairs <- spicy(
   kerenSPE,
   condition = "tumour_type",
   alternateResult = pairAbundances,
-  weights = FALSE
+  weights = FALSE,
+  BPPARAM = BPPARAM
 )
 
 topPairs(spicyTestColPairs)
 ```
 
-```{r}
+```{r 04a-signifPlotkNN}
 signifPlot(
   spicyTestColPairs,
   breaks = c(-3, 3, 1),
@@ -184,21 +189,57 @@ signifPlot(
 )
 ```
 
+### Mixed effects modelling
+
+`spicyR` supports mixed effects modelling when multiple images are obtained for each subject. In this case, `subject` is treated as a random effect and `condition` is treated as a fixed effect. To perform mixed effects modelling, we can specify the `subject` parameter in the `spicy()` function.
+
+To demonstrate spicyR's functionality with mixed effects models, we will use the Damond 2019 dataset. 
+
+```{r 04a-mixedEffectModel, eval=FALSE}
+# load in data
+data("diabetesData")
+
+# mixed effects modelling with spicy
+spicyMixedTest <- spicy(
+  diabetesData,
+  condition = "stage",
+  subject = "case",
+  BPPARAM = BPPARAM
+)
+```
+
+As before, we generate a `spicy` results object, and we can use `topPairs` to identify the most significant cell type pairs.
+
+```{r}
+topPairs(spicyMixedTest)
+```
+
+We can use `signifPlot` to visualise the results.
+
+```{r}
+signifPlot(spicyMixedTest,
+           marksToPlot = c("beta", "delta", "B", "Th", "otherimmune", 
+                           "naiveTc", "macrophage", "Tc", "stromal"))
+```
+
+The graph shows a significant decrease in co-localisation between delta and beta cells in the pancreas within the onset diabetes group compared to the non-diabetes group. Additionally, there is a significant increase in co-localisation among certain immune cell groups, including B cells and Th cells, as well as naive Tc cells and other immune cells. These findings align with the results reported in the original study.
+
 ### Performing survival analysis
 
-`spicy()` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy()` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
+`spicy` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
 
 ```{r}
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 ```
 
-We can then perform survival analysis using the `spicy()` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
+We can then perform survival analysis using the `spicy` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
 
-```{r}
+```{r 04a-spicySurvival}
 # Running survival analysis
 spicySurvival = spicy(kerenSPE,
-                      condition = "survival")
+                      condition = "survival",
+                      BPPARAM = BPPARAM)
 
 # top 10 significant pairs
 head(spicySurvival$survivalResults, 10)
@@ -206,11 +247,11 @@ head(spicySurvival$survivalResults, 10)
 
 ### Accounting for tissue inhomogeneity
 
-The `spicy()` function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the `sigma =` parameter within the spicy function. By default, `sigma` is set to `NULL`, and `spicy()` assumes a homogeneous tissue structure.
+The `spicy` function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the `sigma =` parameter within the spicy function. By default, `sigma` is set to `NULL`, and `spicy` assumes a homogeneous tissue structure.
 
-In the example below, we examine the degree of co-localisation between `Keratin_Tumour__Neutrophils` in one image using the `getPairwise()` function, which returns the L-function values for each cell type pair. We set the radius over which the L-function should be calculated (`Rs = 100`) and specify `sigma = NULL`. The calculated L-function is positive, indicating attraction between the two cell types.
+In the example below, we examine the degree of co-localisation between `Keratin_Tumour__Neutrophils` in one image using the `getPairwise` function, which returns the L-function values for each cell type pair. We set the radius over which the L-function should be calculated (`Rs = 100`) and specify `sigma = NULL`. The calculated L-function is positive, indicating attraction between the two cell types.
 
-```{r}
+```{r 04a-sigmanull}
 # filter SPE object to obtain image 24 data
 kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "24"]
 
@@ -224,7 +265,7 @@ pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
 
 When we specify `sigma = 20` and re-calculate the L-function, it indicates that there is no relationship between `Keratin_Tumour` and `Neutrophils`, i.e., there is no major attraction or dispersion, as it now takes into account tissue inhomogeneity.
 
-```{r}
+```{r 04a-sigma20}
 pairwiseAssoc = getPairwise(kerenSubset, 
                             sigma = 20, 
                             Rs = 100) |>
@@ -233,7 +274,7 @@ pairwiseAssoc = getPairwise(kerenSubset,
 pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
 ```
 
-```{r}
+```{r 04a-plotCellTypes}
 # obtain colData for image 24
 cData = colData(kerenSPE) |> as.data.frame() |> 
           dplyr::filter(imageID == "24")
@@ -266,18 +307,6 @@ ggplot() +
 ```
 
 Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the top of the image.
-
-### Mixed effects modelling
-
-`spicyR` supports mixed effects modelling when multiple images are obtained for each subject. In this case, `subject` is treated as a random effect and `condition` is treated as a fixed effect. To perform mixed effects modelling, we can specify the `subject` parameter in the `spicy()` function.
-
-```{r eval=FALSE}
-spicyMixedTest <- spicy(
-  diabetesData,
-  condition = "stage",
-  subject = "case"
-)
-```
 
 ## sessionInfo
 

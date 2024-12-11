@@ -53,3 +53,5 @@ This study uses IMC to map the immune landscape and identify differences between
 This study uses seqFISH to spatially profile the expression of 387 genes in mouse embryos. A comprehensive spatially resolved map of gene expression was created by integrating the seqFISH data with existing scRNAseq data. This integration facilitated the exploration of cellular relationships across different regions of the embryo.
 
 <citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>
+
+<!-- Need to add: Stickles 2021 (used for scClassify) and Damond 2019 (diabetes dataset used for mixed spicyR) -->

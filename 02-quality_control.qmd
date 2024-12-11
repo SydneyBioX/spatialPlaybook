@@ -13,7 +13,7 @@ With cell segmentation complete, we can move on to performing quality control ch
 
 <!-- 4.  How to qc batch effects (scMerge) -->
 
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 02-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(tidySingleCellExperiment)
   library(simpleSeg)
@@ -48,7 +48,7 @@ theme_set(theme_classic())
 
 First, let's load in the images we previously segmented out in the last section. The `SpatialDatasets` package conveniently provides the segmented out images for Fergusin 2022 dataset.
 
-```{r warning=FALSE, message=FALSE}
+```{r 02-loadFerguson, warning=FALSE, message=FALSE}
 # load in data
 fergusonSPE <- SpatialDatasets::spe_Ferguson_2022()
 ```
@@ -147,7 +147,7 @@ Here, we can see that the normalised data appears more bimodal, and we can clear
 
 We can also visualise the effect of normalisation on the UMAP, which shows that the images now overlap with each other to a much greater extent.
 
-```{r}
+```{r 02-normUMAP}
 set.seed(51773)
 
 # perform dimension reduction using UMAP

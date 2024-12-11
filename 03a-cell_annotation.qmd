@@ -1,7 +1,8 @@
 # FuseSOM: Cell Annotation
 
-Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. However, the method by which this is done can differ from study to study. Here, we demonstrate the use of two packages: `FuseSOM` for cell type clustering and `scClassify` for cell type annotation.
+Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.
 
+In this section, we will demonstrate the use of our `FuseSOM` package to perform unsupervised clustering and subsequent manual annotation of the clusters.
 <!-- Steps: -->
 
 <!-- 1.  Clustering vs annotation -->
@@ -14,7 +15,7 @@ Labeling the identity of your cells is a key step in any spatial processing prot
 
 <!-- 5.  Selecting a reference dataset with scClassify -->
 
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 03a-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(FuseSOM)
   library(STexampleData)
@@ -33,7 +34,7 @@ library(simpleSeg)
 library(scuttle)
 ```
 
-```{r 02-setParam}
+```{r 03a-setParam}
 # set parameters
 set.seed(51773)
 nCores <- 10
@@ -54,7 +55,7 @@ Clustering is an unsupervised method of labelling cells. An algorithm identifies
 
 To demonstrate the functionality of `FuseSOM`, we will use the Risom 2022 dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS). We will be using the markers used in the original study to perform clustering.
 
-```{r, warning = FALSE, message = FALSE}
+```{r 03a-loadRisom, warning = FALSE, message = FALSE}
 # load in the data
 data("risom_dat")
 
@@ -77,14 +78,14 @@ risomRes <- runFuseSOM(data = risom_dat, markers = risomMarkers,
 
 Lets look at the distribution of the clusters.
 
-```{r}
+```{r 03a-clustersTable}
 # get the distribution of the clusters
 table(risomRes$clusters)/sum(table(risomRes$clusters))
 ```
 
 It appears that 32% of cells have been assigned to `cluster_1`. Next, lets generate a heatmap of the marker expression for each cluster.
 
-```{r, fig.align='center', fig.height=5, fig.width=6, dev='png'}
+```{r 03a-datHeatmap, fig.align='center', fig.height=5, fig.width=6, dev='png'}
 risomHeat <- FuseSOM::markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = risomRes$clusters, clusterMarkers = TRUE)
 ```
@@ -106,7 +107,7 @@ When the number of expected cell typess or clusters is not known beforehand, the
 
 We run `estimateNumCluster()` and specify `method = c("Discriminant", "Distance")` to use both approaches.
 
-```{r}
+```{r 03a-estimateNumClustersDat}
 # lets estimate the number of clusters using all the methods
 # original clustering has 23 clusters so we will set kseq from 2:25
 # we pass it the SOM model generated in the previous step
@@ -126,7 +127,7 @@ According to the Discriminant method, the optimal number of clusters is 7.
 
 We can use the `optiPlot()` function to generate an elbow plot with the optimal value for the number of clusters for the distance based methods.
 
-```{r}
+```{r 03a-optiPlot}
 # we can plot the results using the optiplot function
 pSlope <- optiPlot(risomKest, method = 'slope')
 pSlope
@@ -149,7 +150,7 @@ The `FuseSOM` algorithm is also equipped to take in a `SingleCellExperiment` obj
 
 First, we create a `SingleCellExperiment` object using the Risom 2022 data.
 
-```{r, message=FALSE, warning=FALSE}
+```{r 03a-risomSCE, message=FALSE, warning=FALSE}
 library(SingleCellExperiment)
 
 # create an SCE object using Risom 2022 data
@@ -162,7 +163,7 @@ sce
 
 Next, we pass it to the `runFuseSOM()` function. Here, we can provide the assay in which the data is stored (`counts`) and specify the column to store the clusters in using `clusterCol = "clusters"`. The `Self Organizing Map` that is generated will be stored in the metadata field.
 
-```{r}
+```{r 03a-fusesomSCE}
 risomRessce <- runFuseSOM(sce, markers = risomMarkers, clusterCol = "clusters",
                           assay = 'counts', numClusters = 23, verbose = FALSE)
 
@@ -176,7 +177,7 @@ If necessary, you can run `runFuseSOM()` with a new cluster number and specify a
 
 Just like before, we can plot a heatmap of the resulting clusters across all markers.
 
-```{r}
+```{r 03a-SCEheatmap}
 data <- risom_dat[, risomMarkers] # get the original data used
 clusters <- colData(risomRessce)$clusters # extract the clusters from the SCE object
 
@@ -189,7 +190,7 @@ risomHeatsce <- markerHeatmap(data = risom_dat, markers = risomMarkers,
 
 Just like before, we will use `estimateNumCluster()` on our Risom `SingleCellExperiment` object.
 
-```{r}
+```{r 03a-estimateNumClustersSCE}
 # lets estimate the number of clusters using all the methods
 # original clustering has 23 clusters so we will set kseq from 2:25
 risomRessce <- estimateNumCluster(data = risomRessce, kSeq = 2:25, 
@@ -209,7 +210,7 @@ metadata(risomRessce)$clusterEstimation$Discriminant
 
 According to the discrminant method, the optimal number of clusters is 10.
 
-```{r}
+```{r 03a-optiPlotSCE}
 # we can plot the results using the optiplot function
 pSlope <- optiPlot(risomRessce, method = 'slope')
 pSlope
@@ -225,8 +226,6 @@ pSil
 ```
 
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
-
-Next, we will demonstrate how `scClassify` can be used for supervised cell annotation.
 
 ## sessionInfo
 
