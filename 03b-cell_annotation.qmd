@@ -111,7 +111,7 @@ plotCellTypeTree(cellTypeTree(scClassify_res$trainRes))
 
 The predictions for each cell can be accessed through the `ensembleRes` slot in the testing results.
 
-```{r, eval = FALSE}
+```{r}
 pred_mat = scClassify_res$testRes$stickels$ensembleRes |> as.data.frame()
 head(pred_mat)
 ```

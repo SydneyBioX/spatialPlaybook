@@ -174,8 +174,12 @@ citation {
 }
 </style>
 ```
+<<<<<<< HEAD
 
 ### MoleculeExperiment
+=======
+## MoleculeExperiment
+>>>>>>> 7c22498 (publish changes)
 
 `<a href="https://sydneybiox.github.io/MoleculeExperiment/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -191,7 +195,7 @@ print(myCitation("MoleculeExperiment"), style = "html")
 
 </font>
 
-### simpleSeg
+## simpleSeg
 
 `<a href="http://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/simpleSeg/SimpleSeg_Hex_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -207,7 +211,7 @@ print(myCitation("simpleSeg"), style = "html")
 
 </font>
 
-### scMerge
+## scMerge
 
 `<a href="https://sydneybiox.github.io/scMerge/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scMerge/scMerge.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -223,7 +227,7 @@ print(myCitation("scMerge"), style = "html")
 
 </font>
 
-### FuseSOM
+## FuseSOM
 
 `<a href="http://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/FuseSOM/fuseSOM_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -239,7 +243,7 @@ print(myCitation("FuseSOM"), style = "html")
 
 </font>
 
-### treekoR
+## treekoR
 
 `<a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/treekoR/treekoR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -255,7 +259,7 @@ print(myCitation("treekoR"), style = "html", url = "")
 
 </font>
 
-### scFeatures
+## scFeatures
 
 `<a href="http://www.bioconductor.org/packages/release/bioc/html/scFeatures.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scFeatures/sticker_version2.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -271,7 +275,7 @@ print(myCitation("scFeatures"), style = "html")
 
 </font>
 
-### scHOT
+## scHOT
 
 `<a href="https://bioconductor.org/packages/release/bioc/html/scHOT.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scHOT/scHOT_hex.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -287,7 +291,7 @@ print(myCitation("scHOT"), style = "html")
 
 </font>
 
-### spicyR
+## spicyR
 
 `<a href="https://ellispatrick.github.io/spicyR/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/spicyR/spicyR_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -303,7 +307,7 @@ print(myCitation("spicyR"), style = "html")
 
 </font>
 
-### Statial
+## Statial
 
 `<a href="https://sydneybiox.github.io/Statial/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/Statial/statial.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -319,7 +323,7 @@ print(myCitation("Statial"), style = "html")
 
 </font>
 
-### lisaClust
+## lisaClust
 
 `<a href="https://ellispatrick.github.io/lisaClust/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/lisaClust/lisaClust_sticker_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -335,7 +339,7 @@ print(myCitation("lisaClust"), style = "html")
 
 </font>
 
-### ClassifyR
+## ClassifyR
 
 `<a href="https://sydneybiox.github.io/ClassifyR/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/ClassifyR/classifyR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -351,6 +355,7 @@ print(myCitation("ClassifyR"), style = "html")
 
 </font>
 
+<<<<<<< HEAD
 This guide presents a comprehensive workflow for analysing spatial omics data, featuring examples sorted by different technologies as described below.
 
 The workflow described here contains 7 major stages:
@@ -388,3 +393,5 @@ citation {
 }
 </style>
 ```
+=======
+>>>>>>> 7c22498 (publish changes)

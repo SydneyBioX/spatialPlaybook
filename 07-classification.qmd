@@ -51,6 +51,10 @@ kerenSPE <- SpatialDatasets::spe_Keren_2018()
 # remove any missing data in our outcome columns
 kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
                                                            "tumour_type")])]
+
+kontextMat <- readRDS("data/kontextMat.rds")
+
+stateMat <- readRDS("data/stateMat.rds")
 ```
 
 ## Classification of patients by condition
@@ -67,7 +71,7 @@ We will build a list of feature matrices using the features we've generated in t
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression (SpatioMark)
 
-```{r, include = FALSE}
+```{r}
 kontextMat <- readRDS("data/kontextMat.rds")
 stateMat <- readRDS("data/stateMat.rds")
 ```
