@@ -174,12 +174,8 @@ citation {
 }
 </style>
 ```
-<<<<<<< HEAD
 
-### MoleculeExperiment
-=======
 ## MoleculeExperiment
->>>>>>> 7c22498 (publish changes)
 
 `<a href="https://sydneybiox.github.io/MoleculeExperiment/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
@@ -393,5 +389,4 @@ citation {
 }
 </style>
 ```
-=======
->>>>>>> 7c22498 (publish changes)
+

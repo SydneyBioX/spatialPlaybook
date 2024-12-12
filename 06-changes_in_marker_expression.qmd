@@ -1,4 +1,4 @@
-# Statial: Marker expression
+# Changes in marker expression
 
 ```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -31,11 +31,16 @@ library(treekoR)
 ```
 
 
-```{r 02-setParam}
+```{r, setParam}
+# set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 

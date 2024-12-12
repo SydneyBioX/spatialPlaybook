@@ -1,4 +1,4 @@
-# FuseSOM: Cell Annotation
+# Unsupervised clustering for cell annotation
 
 Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.
 
@@ -34,12 +34,16 @@ library(simpleSeg)
 library(scuttle)
 ```
 
-```{r 03a-setParam}
+```{r, setParam}
 # set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 
