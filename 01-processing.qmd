@@ -90,6 +90,12 @@ mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 
 ## Cell segmentation with simpleSeg
 
+For the sake of simplicity and efficiency, we will be subsetting our images down to 10 images.
+
+```{r subset}
+images <- images[1:10]
+```
+
 Next, we can perform our segmentation. The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides functionality for user friendly, watershed based segmentation on multiplexed cellular images based on the intensity of user specified protein marker channels. The main function, `simpleSeg`, can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.
 
 In the particular example below, we have asked `simpleSeg` to do the following:
