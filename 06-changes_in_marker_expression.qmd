@@ -1,5 +1,9 @@
 # Changes in marker expression
 
+All of the different spatial metrics we've looked at up until now have been looking at relationships between cell types, without looking much into the marker expressions of each cell type. Typical analyses in single-cell RNA sequencing would involve looking into differentially expressed genes for particular cell types between 2 samples, and we can do the same analyses here. At the same time, we can also look at more complicated analyses incorporating both spatial information and marker expression, to see if we can come up with a more informative metric of changes in cells across different conditions. 
+
+In this chapter, we will take a look into how marker expression changes in distinct cell types across patients, and whether that informs patient survival.
+
 ```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(Statial)
@@ -52,6 +56,7 @@ One of the easiest things to quantify in terms of markers is a marker mean. For 
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 # Removing patients without survival data.
+kerenSPE <- kerenSPE[,!is.na(kerenSPE$`Survival_days_capped*`)]
 
 kerenSPE <- lisaClust(kerenSPE,
   k = 5
@@ -77,7 +82,7 @@ names(kerenSurv) <- survData$imageID
 kerenSurv <- kerenSurv[!is.na(kerenSurv)]
 ```
 
-`Statial` provides functionality to identify the average marker expression of a given cell type in a given region, using the `getMarkerMeans` function. Similar to the analysis above, these features can also be used for survival analysis.
+Our `Statial` package provides functionality to identify the average marker expression of a given cell type in a given region, using the `getMarkerMeans` function. Similar to the analysis above, these features can also be used for survival analysis.
 
 ```{r lisaClust}
 cellTypeRegionMeans <- getMarkerMeans(kerenSPE,
@@ -89,6 +94,43 @@ cellTypeRegionMeans <- getMarkerMeans(kerenSPE,
 survivalResults <- colTest(cellTypeRegionMeans[names(kerenSurv), ], kerenSurv, type = "survival")
 
 head(survivalResults)
+```
+
+```{r, fig.width=5, fig.height=4}
+# Selecting the most significant relationship
+survRelationship <- cellTypeRegionMeans[["B7H3__CD4_T_cell__region_2"]]
+survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression", "Lower expression")
+
+# Plotting Kaplan-Meier curve
+survfit2(kerenSurv ~ survRelationship) |>
+  ggsurvfit() +
+  add_pvalue() +
+  ggtitle("B7H3__CD4_T_cell__region_2")
+```
+
+We can also look at cell types alone, without separating by region.
+
+```{r}
+cellTypeMeans <- getMarkerMeans(kerenSPE,
+  imageID = "imageID",
+  cellType = "cellType"
+)
+
+survivalResults <- colTest(cellTypeMeans[names(kerenSurv), ], kerenSurv, type = "survival")
+
+head(survivalResults)
+```
+
+```{r, fig.width=5, fig.height=4}
+# Selecting the most significant relationship
+survRelationship <- cellTypeMeans[["CD56__Tregs"]]
+survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression", "Lower expression")
+
+# Plotting Kaplan-Meier curve
+survfit2(kerenSurv ~ survRelationship) |>
+  ggsurvfit() +
+  add_pvalue() +
+  ggtitle("CD56__Tregs")
 ```
 
 ## SpatioMark: Identifying continuous changes in cell state
