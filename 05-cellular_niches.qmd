@@ -6,7 +6,7 @@ Beyond spatial relationships between cell types, imaging datasets also contain a
 
 However, spatial domains tend to be highly dependent on the biological question being answered. For example, when your primary tissue of interest are solid tumours, spatial domain analysis can provide insights into proportion of tumour domain vs immune domains, or how tumour domains differ between progressive and non-progressive cancers. Alternatively, if your primary tissue of interest is diabetes, spatial domains can provide insights into marker or cell type differences in your pancreatic islets.
 
-In this section, we'll be exploring the use of `lisaClust` on two different datasets to help inform
+In this section, we'll be exploring the use of `lisaClust` on two different datasets to help predict patient survival.
 
 ```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
