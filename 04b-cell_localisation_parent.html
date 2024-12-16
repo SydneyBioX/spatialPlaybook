@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>9&nbsp; Kontextual: Cell localisation with context – Spatial analysis playbook</title>
+<title>9&nbsp; Cell relationships relative to expected behaviour – Spatial analysis playbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04a-cell_localisation.html">Cell localisation</a></li><li class="breadcrumb-item"><a href="./04b-cell_localisation_parent.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04a-cell_localisation.html">Cell localisation</a></li><li class="breadcrumb-item"><a href="./04b-cell_localisation_parent.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -195,13 +195,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03a-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -218,13 +218,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Changes in marker expression</span></a>
+ <span class="menu-text">Marker expression</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Statial: Marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
   </div>
 </li>
       </ul>
@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
   </div>
 </li>
       </ul>
@@ -336,9 +336,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04a-cell_localisation.html">Cell localisation</a></li><li class="breadcrumb-item"><a href="./04b-cell_localisation_parent.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04a-cell_localisation.html">Cell localisation</a></li><li class="breadcrumb-item"><a href="./04b-cell_localisation_parent.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span>
+<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span>
 </h1>
 </div>
 
@@ -355,8 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header><p>Now that we have finished preprocessing our data, we can now begin analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e.&nbsp;are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: <code>spicyR</code> and <code>Statial</code> for quantifying cell type localisation.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/Statial">Statial</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/drighelli/SpatialExperiment">SpatialExperiment</a></span><span class="op">)</span></span>
@@ -366,14 +365,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">treekoR</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pharmaverse/ggsurvfit">ggsurvfit</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pharmaverse/ggsurvfit">ggsurvfit</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span><span class="va">use_mc</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="load-datasets" class="level2" data-number="9.1"><h2 data-number="9.1" class="anchored" data-anchor-id="load-datasets">
 <span class="header-section-number">9.1</span> Load datasets</h2>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># remove any missing data in our outcome columns</span></span>
 <span><span class="va">kerenSPE</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Censored"</span>, <span class="st">"Survival_days_capped*"</span>,</span>
@@ -389,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>There are two ways to define the cell type hierarchy. First, they can be defined based on our biological understanding of the cell types. We can represent this by creating a named list containing the names of each parent and the associated vector of child cell types.</p>
 <p><em>Note:</em> The <code>all</code> vector must be created to include cell types which do not have a parent e.g.&nbsp;the <em>undefined</em> cell type in this data set.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Examine all cell types in image</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Examine all cell types in image</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Keratin_Tumour" "dn_T_CD3"       "B_cell"         "CD4_T_cell"    
@@ -398,7 +407,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [13] "Neutrophils"    "NK"             "Tumour"         "DC"            
 [17] "Tregs"         </code></pre>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Named list of parents and their child cell types</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Named list of parents and their child cell types</span></span>
 <span><span class="va">biologicalHierarchy</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"tumour"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Keratin_Tumour"</span>, <span class="st">"Tumour"</span><span class="op">)</span>,</span>
 <span>  <span class="st">"tcells"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dn_T_CD3"</span>, <span class="st">"CD4_T_cell"</span>, <span class="st">"CD8_T_cell"</span>, <span class="st">"Tregs"</span><span class="op">)</span>,</span>
@@ -419,7 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Alternatively, you can use the <code>treeKor</code> bioconductor package <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treekoR</a> to define these hierarchies in a data driven way.</p>
 <p><em>Note:</em> These parent populations may not be accurate as we are using a small subset of the data.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate hierarchy using treekoR</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate hierarchy using treekoR</span></span>
 <span><span class="va">kerenTree</span> <span class="op">&lt;-</span> <span class="fu">treekoR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/treekoR/man/getClusterTree.html">getClusterTree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">kerenSPE</span>, <span class="st">"intensities"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                            <span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span>,</span>
 <span>                            hierarchy_method <span class="op">=</span> <span class="st">"hopach"</span>,</span>
@@ -444,7 +453,7 @@ $parent_2
 <span class="header-section-number">9.2.2</span> Application on triple negative breast cancer image</h3>
 <p>Here we examine an image highlighted in the Keren 2018 <a href="https://doi.org/10.1016/j.cell.2018.08.039">manuscript</a> where accounting for context information enabled new conclusions.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Lets define a new cell type vector</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Lets define a new cell type vector</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellTypeNew</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span></span>
 <span></span>
 <span><span class="co"># Select for all cells that express higher than baseline level of p53</span></span>
@@ -482,7 +491,7 @@ $parent_2
 <p>We can calculate a context-aware spatial co-localisation metric using <code>Kontextual</code>. <code>Kontextual</code> accepts a <code>SingleCellExperiment</code> object, a single image, or list of images from a <code>SingleCellExperiment</code> object, which gets passed into the <code>cells</code> argument. The two cell types which will be evaluated are specified in the <code>to</code> and <code>from</code> arguments. A parent population must also be specified in the <code>parent</code> argument. Note the parent cell population must include the <code>to</code> cell type. The argument <code>r</code> will specify the radius which the cell relationship will be evaluated on. <code>Kontextual</code> supports parallel processing, the number of cores can be specified using the <code>cores</code> argument. <code>Kontextual</code> can take a single value or multiple values for each argument and will test all combinations of the arguments specified.</p>
 <p>We can calculate these relationships across all images for a single radius (r = 100).</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p53_Kontextual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p53_Kontextual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
 <span>  r <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  from <span class="op">=</span> <span class="st">"Immune"</span>,</span>
@@ -537,7 +546,7 @@ $parent_2
 <p>The <code>kontextCurve</code> function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.</p>
 <p>As seen in the following plot the L-function produces negative values over a range of radii, indicating that <em>p53+ tumour cells</em> and <em>immune cells</em> are dispersed from one another. However by taking into account the tumour context, <code>Kontextual</code> shows positive values over some radii, indicating localisation between <em>p53+ tumour cells</em> and <em>immune cells</em>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curves</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/kontextCurve.html">kontextCurve</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">curves</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/kontextCurve.html">kontextCurve</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
 <span>  from <span class="op">=</span> <span class="st">"Immune"</span>,</span>
 <span>  to <span class="op">=</span> <span class="st">"p53_Tumour"</span>,</span>
@@ -559,7 +568,7 @@ $parent_2
 <p>Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the <code>parentCombinations</code> function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the <code>parentList</code> argument. As shown below, the output is a data frame specifying the <code>to</code>, <code>from</code>, and <code>parent</code> arguments for <code>Kontextual</code>.</p>
 <p><em>Note:</em> the output of <code>getPhyloParent</code> may also be using the in the <code>parentList</code> argument, for example if you wanted to use the treekoR defined hierarchy instead.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get all relationships between cell types and their parents</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get all relationships between cell types and their parents</span></span>
 <span><span class="va">parentDf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/parentCombinations.html">parentCombinations</a></span><span class="op">(</span></span>
 <span>  all <span class="op">=</span> <span class="va">all</span>,</span>
 <span>  parentList <span class="op">=</span> <span class="va">biologicalHierarchy</span></span>
@@ -569,7 +578,7 @@ $parent_2
 <span class="header-section-number">9.2.3</span> Calculating all pairwise relationships</h3>
 <p>Rather than specifying <code>to</code>, <code>from</code>, and <code>parent</code> in <code>Kontextual</code>, the output from <code>parentCombinations</code> can be inputed into <code>Kontextual</code> using the <code>parentDf</code> argument, to examine all pairwise relationships in the dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Running Kontextual on all relationships across all images.</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Running Kontextual on all relationships across all images.</span></span>
 <span><span class="va">kerenKontextual</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
 <span>  parentDf <span class="op">=</span> <span class="va">parentDf</span>,</span>
@@ -584,7 +593,7 @@ $parent_2
 <p>In addition to this, the Kontextual results must be converted from a <code>data.frame</code> to a wide <code>matrix</code>, this can be done using <code>prepMatrix</code>.</p>
 <p><em>Note:</em>, to extract the original L-function values, specify <code>column = "original"</code> in <code>prepMatrix</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Converting Kontextual result into data matrix</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Converting Kontextual result into data matrix</span></span>
 <span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix</a></span><span class="op">(</span><span class="va">kerenKontextual</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Ensuring rownames of kontextMat match up with the image IDs of the SCE object</span></span>
@@ -595,7 +604,7 @@ $parent_2
 </div>
 <p>Finally, both the <code>SingleCellExperiment</code> object and the Kontextual matrix are passed into the <code>spicy</code> function, with <code>condition = "survival"</code>. The resulting coefficients and p values can be obtained by accessing the <code>survivalResults</code> name.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Running survival analysis</span></span>
@@ -623,7 +632,7 @@ $parent_2
 </div>
 <p>The survival results can also be visualised using the <code>signifPlot</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
@@ -634,7 +643,7 @@ $parent_2
 <p>As we can see from the results, <code>Neutrophils__CD8_T_cell__immune</code> is the one of the most significant pairwise relationships which contributes to patient survival. That is the relationship between neutrophils and CD8 T cells, relative to the parent population of immune cells. We can see that there is a positive coefficient associated with this relationship, which tells us an increase in localisation of these cell types relative to immune cells leads to better survival outcomes for patients.</p>
 <p>The association between <code>Neutrophils__CD8_T_cell__immune</code> and survival can also be visualised on a Kaplan-Meier curve. First, we extract survival data from the <code>SingleCellExperiment</code> object and create a survival vector.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extracting survival data</span></span>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extracting survival data</span></span>
 <span><span class="va">survData</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">colData</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -658,7 +667,7 @@ $parent_2
 <p>Next, we extract the Kontextual values of this relationship across all images. We then determine if neutrophils and CD8 T cells are relatively attracted or avoiding in each image by comparing the Kontextual value in each image to the median Kontextual value.</p>
 <p>Finally, we plot a Kaplan-Meier curve using the <code>ggsurvfit</code> package. As shown below, when neutrophils and CD8 T cells are more localised to one another relative to the immune cell population, patients tend to have better survival outcomes.</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Selecting most significant relationship</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Selecting most significant relationship</span></span>
 <span><span class="va">survRelationship</span> <span class="op">&lt;-</span> <span class="va">kontextMat</span><span class="op">[[</span><span class="st">"Neutrophils__CD8_T_cell__immune"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">survRelationship</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">survRelationship</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">survRelationship</span><span class="op">)</span>, <span class="st">"Localised"</span>, <span class="st">"Dispersed"</span><span class="op">)</span></span>
 <span></span>
@@ -676,7 +685,7 @@ $parent_2
 </section></section><section id="sessioninfo" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">9.3</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
@@ -708,7 +717,7 @@ other attached packages:
 [11] dbplyr_2.5.0                SpatialExperiment_1.16.0   
 [13] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
 [15] Biobase_2.66.0              GenomicRanges_1.58.0       
-[17] GenomeInfoDb_1.42.1         IRanges_2.40.0             
+[17] GenomeInfoDb_1.42.1         IRanges_2.40.1             
 [19] S4Vectors_0.44.0            BiocGenerics_0.52.0        
 [21] MatrixGenerics_1.18.0       matrixStats_1.4.1          
 [23] ggplot2_3.5.1               Statial_1.8.0              
@@ -716,113 +725,115 @@ other attached packages:
 
 loaded via a namespace (and not attached):
   [1] vroom_1.6.5                 tiff_0.1-12                
-  [3] goftest_1.2-3               DT_0.33                    
-  [5] Biostrings_2.74.0           HDF5Array_1.34.0           
-  [7] TH.data_1.1-2               vctrs_0.6.5                
-  [9] spatstat.random_3.3-2       digest_0.6.37              
- [11] png_0.1-8                   shape_1.4.6.1              
- [13] proxy_0.4-27                ggrepel_0.9.6              
- [15] deldir_2.0-4                magick_2.8.5               
- [17] MASS_7.3-61                 reshape2_1.4.4             
- [19] httpuv_1.6.15               foreach_1.5.2              
- [21] withr_3.0.2                 ggfun_0.1.8                
- [23] xfun_0.49                   ggpubr_0.6.0               
- [25] memoise_2.0.1               RTriangle_1.6-0.14         
- [27] cytomapper_1.18.0           ggbeeswarm_0.7.2           
- [29] RProtoBufLib_2.18.0         systemfonts_1.1.0          
- [31] tidytree_0.4.6              zoo_1.8-12                 
- [33] GlobalOptions_0.1.2         Formula_1.2-5              
- [35] KEGGREST_1.46.0             promises_1.3.2             
- [37] httr_1.4.7                  rstatix_0.7.2              
- [39] rhdf5filters_1.18.0         rhdf5_2.50.0               
- [41] rstudioapi_0.17.1           UCSC.utils_1.2.0           
- [43] units_0.8-5                 generics_0.1.3             
- [45] concaveman_1.1.0            curl_6.0.1                 
- [47] zlibbioc_1.52.0             ggraph_2.2.1               
- [49] polyclip_1.10-7             GenomeInfoDbData_1.2.13    
- [51] SparseArray_1.6.0           fftwtools_0.9-11           
- [53] xtable_1.8-4                stringr_1.5.1              
- [55] doParallel_1.0.17           evaluate_1.0.1             
- [57] S4Arrays_1.6.0              hms_1.1.3                  
- [59] colorspace_2.1-1            filelock_1.0.3             
- [61] spatstat.data_3.1-4         magrittr_2.0.3             
- [63] readr_2.1.5                 later_1.4.1                
- [65] viridis_0.6.5               ggtree_3.14.0              
- [67] lattice_0.22-6              spatstat.geom_3.3-4        
- [69] XML_3.99-0.17               scuttle_1.16.0             
- [71] ggupset_0.4.0               class_7.3-22               
- [73] svgPanZoom_0.3.4            pillar_1.9.0               
- [75] nlme_3.1-166                iterators_1.0.14           
- [77] EBImage_4.48.0              compiler_4.4.1             
- [79] beachmat_2.22.0             stringi_1.8.4              
- [81] sf_1.0-19                   tensor_1.5                 
- [83] minqa_1.2.8                 ClassifyR_3.11.4           
- [85] plyr_1.8.9                  crayon_1.5.3               
- [87] abind_1.4-8                 gridGraphics_0.5-1         
- [89] locfit_1.5-9.10             sp_2.1-4                   
- [91] graphlayouts_1.2.1          bit_4.5.0.1                
- [93] terra_1.7-83                sandwich_3.1-1             
- [95] codetools_0.2-20            multcomp_1.4-26            
- [97] e1071_1.7-16                GetoptLong_1.0.5           
- [99] plotly_4.10.4               mime_0.12                  
-[101] MultiAssayExperiment_1.32.0 splines_4.4.1              
-[103] circlize_0.4.16             Rcpp_1.0.13-1              
-[105] knitr_1.49                  blob_1.2.4                 
-[107] utf8_1.2.4                  clue_0.3-66                
-[109] BiocVersion_3.20.0          lme4_1.1-35.5              
-[111] fs_1.6.5                    nnls_1.6                   
-[113] ggplotify_0.1.2             ggsignif_0.6.4             
-[115] Matrix_1.7-1                scam_1.2-17                
-[117] statmod_1.5.0               tzdb_0.4.0                 
-[119] svglite_2.1.3               tweenr_2.0.3               
-[121] pkgconfig_2.0.3             pheatmap_1.0.12            
-[123] tools_4.4.1                 cachem_1.1.0               
-[125] RSQLite_2.3.9               viridisLite_0.4.2          
-[127] DBI_1.2.3                   numDeriv_2016.8-1.1        
-[129] fastmap_1.2.0               rmarkdown_2.29             
-[131] scales_1.3.0                grid_4.4.1                 
-[133] shinydashboard_0.7.2        broom_1.0.7                
-[135] patchwork_1.3.0             BiocManager_1.30.25        
-[137] carData_3.0-5               farver_2.1.2               
-[139] tidygraph_1.3.1             mgcv_1.9-1                 
-[141] yaml_2.3.10                 ggthemes_5.1.0             
-[143] cli_3.6.3                   purrr_1.0.2                
-[145] hopach_2.66.0               lifecycle_1.0.4            
-[147] mvtnorm_1.3-2               backports_1.5.0            
-[149] BiocParallel_1.40.0         cytolib_2.18.0             
-[151] gtable_0.3.6                rjson_0.2.23               
-[153] parallel_4.4.1              ape_5.8                    
-[155] limma_3.62.1                jsonlite_1.8.9             
-[157] edgeR_4.4.1                 bitops_1.0-9               
-[159] bit64_4.5.2                 Rtsne_0.17                 
-[161] FlowSOM_2.14.0              yulab.utils_0.1.8          
-[163] spatstat.utils_3.1-1        BiocNeighbors_2.0.1        
-[165] ranger_0.17.0               flowCore_2.18.0            
-[167] bdsmatrix_1.3-7             spatstat.univar_3.1-1      
-[169] lazyeval_0.2.2              shiny_1.9.1                
-[171] ConsensusClusterPlus_1.70.0 htmltools_0.5.8.1          
-[173] diffcyt_1.26.0              rappdirs_0.3.3             
-[175] distances_0.1.11            glue_1.8.0                 
-[177] XVector_0.46.0              RCurl_1.98-1.16            
-[179] treeio_1.30.0               classInt_0.4-10            
-[181] coxme_2.2-22                jpeg_0.1-10                
-[183] gridExtra_2.3               boot_1.3-31                
-[185] igraph_2.1.1                R6_2.5.1                   
-[187] tidyr_1.3.1                 ggiraph_0.8.11             
-[189] labeling_0.4.3              ggh4x_0.2.8                
-[191] cluster_2.1.6               Rhdf5lib_1.28.0            
-[193] aplot_0.2.3                 nloptr_2.1.1               
-[195] DelayedArray_0.32.0         tidyselect_1.2.1           
-[197] vipor_0.4.7                 ggforce_0.4.2              
-[199] raster_3.6-30               car_3.1-3                  
-[201] AnnotationDbi_1.68.0        munsell_0.5.1              
-[203] KernSmooth_2.23-24          data.table_1.16.4          
-[205] htmlwidgets_1.6.4           ComplexHeatmap_2.22.0      
-[207] RColorBrewer_1.1-3          rlang_1.1.4                
-[209] spatstat.sparse_3.1-0       spatstat.explore_3.3-3     
-[211] lmerTest_3.1-3              uuid_1.2-1                 
-[213] colorRamps_2.3.4            ggnewscale_0.5.0           
-[215] fansi_1.0.6                 beeswarm_0.4.0             </code></pre>
+  [3] dcanr_1.22.0                goftest_1.2-3              
+  [5] DT_0.33                     Biostrings_2.74.0          
+  [7] HDF5Array_1.34.0            TH.data_1.1-2              
+  [9] vctrs_0.6.5                 spatstat.random_3.3-2      
+ [11] digest_0.6.37               png_0.1-8                  
+ [13] shape_1.4.6.1               proxy_0.4-27               
+ [15] ggrepel_0.9.6               deldir_2.0-4               
+ [17] magick_2.8.5                MASS_7.3-61                
+ [19] reshape2_1.4.4              httpuv_1.6.15              
+ [21] foreach_1.5.2               withr_3.0.2                
+ [23] ggfun_0.1.8                 xfun_0.49                  
+ [25] ggpubr_0.6.0                doRNG_1.8.6                
+ [27] memoise_2.0.1               RTriangle_1.6-0.14         
+ [29] cytomapper_1.18.0           ggbeeswarm_0.7.2           
+ [31] RProtoBufLib_2.18.0         systemfonts_1.1.0          
+ [33] tidytree_0.4.6              zoo_1.8-12                 
+ [35] GlobalOptions_0.1.2         Formula_1.2-5              
+ [37] KEGGREST_1.46.0             promises_1.3.2             
+ [39] httr_1.4.7                  rstatix_0.7.2              
+ [41] rhdf5filters_1.18.0         rhdf5_2.50.1               
+ [43] UCSC.utils_1.2.0            units_0.8-5                
+ [45] generics_0.1.3              concaveman_1.1.0           
+ [47] curl_6.0.1                  zlibbioc_1.52.0            
+ [49] ggraph_2.2.1                polyclip_1.10-7            
+ [51] GenomeInfoDbData_1.2.13     SparseArray_1.6.0          
+ [53] fftwtools_0.9-11            xtable_1.8-4               
+ [55] stringr_1.5.1               doParallel_1.0.17          
+ [57] evaluate_1.0.1              S4Arrays_1.6.0             
+ [59] hms_1.1.3                   colorspace_2.1-1           
+ [61] filelock_1.0.3              spatstat.data_3.1-4        
+ [63] magrittr_2.0.3              readr_2.1.5                
+ [65] later_1.4.1                 viridis_0.6.5              
+ [67] ggtree_3.14.0               lattice_0.22-6             
+ [69] spatstat.geom_3.3-4         XML_3.99-0.17              
+ [71] scuttle_1.16.0              ggupset_0.4.0              
+ [73] class_7.3-22                svgPanZoom_0.3.4           
+ [75] pillar_1.9.0                simpleSeg_1.8.0            
+ [77] nlme_3.1-166                iterators_1.0.14           
+ [79] EBImage_4.48.0              compiler_4.4.1             
+ [81] beachmat_2.22.0             stringi_1.8.4              
+ [83] sf_1.0-19                   tensor_1.5                 
+ [85] minqa_1.2.8                 ClassifyR_3.11.6           
+ [87] plyr_1.8.9                  crayon_1.5.3               
+ [89] abind_1.4-8                 gridGraphics_0.5-1         
+ [91] locfit_1.5-9.10             sp_2.1-4                   
+ [93] graphlayouts_1.2.1          bit_4.5.0.1                
+ [95] terra_1.8-5                 sandwich_3.1-1             
+ [97] codetools_0.2-20            multcomp_1.4-26            
+ [99] e1071_1.7-16                GetoptLong_1.0.5           
+[101] plotly_4.10.4               mime_0.12                  
+[103] MultiAssayExperiment_1.32.0 splines_4.4.1              
+[105] circlize_0.4.16             Rcpp_1.0.13-1              
+[107] knitr_1.49                  blob_1.2.4                 
+[109] utf8_1.2.4                  clue_0.3-66                
+[111] BiocVersion_3.20.0          lme4_1.1-35.5              
+[113] fs_1.6.5                    nnls_1.6                   
+[115] ggplotify_0.1.2             ggsignif_0.6.4             
+[117] Matrix_1.7-1                scam_1.2-17                
+[119] statmod_1.5.0               tzdb_0.4.0                 
+[121] svglite_2.1.3               tweenr_2.0.3               
+[123] pkgconfig_2.0.3             pheatmap_1.0.12            
+[125] tools_4.4.1                 cachem_1.1.0               
+[127] RSQLite_2.3.9               viridisLite_0.4.2          
+[129] DBI_1.2.3                   numDeriv_2016.8-1.1        
+[131] fastmap_1.2.0               rmarkdown_2.29             
+[133] scales_1.3.0                grid_4.4.1                 
+[135] shinydashboard_0.7.2        broom_1.0.7                
+[137] patchwork_1.3.0             BiocManager_1.30.25        
+[139] carData_3.0-5               farver_2.1.2               
+[141] tidygraph_1.3.1             mgcv_1.9-1                 
+[143] yaml_2.3.10                 ggthemes_5.1.0             
+[145] cli_3.6.3                   purrr_1.0.2                
+[147] hopach_2.66.0               lifecycle_1.0.4            
+[149] mvtnorm_1.3-2               backports_1.5.0            
+[151] BiocParallel_1.40.0         cytolib_2.18.0             
+[153] gtable_0.3.6                rjson_0.2.23               
+[155] parallel_4.4.1              ape_5.8                    
+[157] limma_3.62.1                jsonlite_1.8.9             
+[159] edgeR_4.4.1                 bitops_1.0-9               
+[161] bit64_4.5.2                 Rtsne_0.17                 
+[163] FlowSOM_2.14.0              yulab.utils_0.1.8          
+[165] spatstat.utils_3.1-1        BiocNeighbors_2.0.1        
+[167] ranger_0.17.0               flowCore_2.18.0            
+[169] bdsmatrix_1.3-7             spatstat.univar_3.1-1      
+[171] lazyeval_0.2.2              shiny_1.9.1                
+[173] ConsensusClusterPlus_1.70.0 htmltools_0.5.8.1          
+[175] diffcyt_1.26.0              rappdirs_0.3.3             
+[177] distances_0.1.11            glue_1.8.0                 
+[179] XVector_0.46.0              RCurl_1.98-1.16            
+[181] treeio_1.30.0               classInt_0.4-10            
+[183] coxme_2.2-22                jpeg_0.1-10                
+[185] gridExtra_2.3               boot_1.3-31                
+[187] igraph_2.1.2                R6_2.5.1                   
+[189] tidyr_1.3.1                 ggiraph_0.8.11             
+[191] labeling_0.4.3              ggh4x_0.2.8                
+[193] cluster_2.1.6               rngtools_1.5.2             
+[195] Rhdf5lib_1.28.0             aplot_0.2.3                
+[197] nloptr_2.1.1                DelayedArray_0.32.0        
+[199] tidyselect_1.2.1            vipor_0.4.7                
+[201] ggforce_0.4.2               raster_3.6-30              
+[203] car_3.1-3                   AnnotationDbi_1.68.0       
+[205] munsell_0.5.1               KernSmooth_2.23-24         
+[207] data.table_1.16.4           htmlwidgets_1.6.4          
+[209] ComplexHeatmap_2.22.0       RColorBrewer_1.1-3         
+[211] rlang_1.1.4                 spatstat.sparse_3.1-0      
+[213] spatstat.explore_3.3-3      lmerTest_3.1-3             
+[215] uuid_1.2-1                  colorRamps_2.3.4           
+[217] ggnewscale_0.5.0            fansi_1.0.6                
+[219] beeswarm_0.4.0             </code></pre>
 </div>
 </div>
 
@@ -1244,13 +1255,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="SpicyR: Cell localisation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span>
+      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="Cell localisation between pairs of cell types">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./05-cellular_niches.html" class="pagination-link" aria-label="lisaClust: Spatial domains">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./05-cellular_niches.html" class="pagination-link" aria-label="Identifying spatial domains with unsupervised clustering">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

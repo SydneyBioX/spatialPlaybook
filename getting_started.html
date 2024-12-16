@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -195,13 +195,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03a-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -218,13 +218,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Changes in marker expression</span></a>
+ <span class="menu-text">Marker expression</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Statial: Marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
   </div>
 </li>
       </ul>
@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
   </div>
 </li>
       </ul>
@@ -353,16 +353,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header><p>If you are new to spatial omics data and would like to jump into some analysis, this page is a great place to start.</p>
 <section id="what-technologies-is-our-software-applicable-to" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="what-technologies-is-our-software-applicable-to">
 <span class="header-section-number">3.1</span> What technologies is our software applicable to?</h2>
-<p>Please check out our <a href="https://sydneybiox.github.io/scdney/">scdney</a> suite of packages for analysing many different types of single cell resolution assays. This website focuses specifically on single cell resolution assays that have spatial context. That is, each of the cells has an x-y coordinate. Technologies that generate this type of data include Imaging Mass Cytometry, MIBI-TOF, Xenium, CosMx, and MERFISH.</p>
+<p>Our suite of packages is geared towards analysing single-cell resolution assays, and the workflow described here focuses on single-cell resolution assays that have spatial context, i.e., each of the cells has an x-y coordinate. Technologies that generate this type of data include Imaging Mass Cytometry, MIBI-TOF, Xenium, CosMx, and MERFISH.</p>
+<p>Please check out our <a href="https://sydneybiox.github.io/scdney/">scdney</a> suite of packages for how to analyse many different types of single cell resolution assays.</p>
 </section><section id="using-our-packages" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="using-our-packages">
 <span class="header-section-number">3.2</span> Using our packages</h2>
-<p>Its important to know that our packages are interoperable with many other awesome packages out there. We highly recommend that you reflect on your needs or what you would like to find in <em>your data</em>, and then choose the analytical methods that will be most appropriate for <em>your data</em>.</p>
+<p>It is important to know that our packages are interoperable with many other awesome packages out there. We highly recommend that you reflect on your needs or what you would like to find in <em>your data</em>, and then choose the analytical methods that will be most appropriate for <em>your data</em>.</p>
 <p>To get started with our packages, we recommend that you read the descriptions of our packages on the <a href="./packages.html">Software page</a>. Clicking on the beautiful hex stickers will take you to the package vignettes that will explain their functionality in depth.</p>
-<p>We also recommend that you browse our analysis examples in the case studies chapter. Here you will find the application of combinations of our packages to answer multi-compenent questions on a diverse range of spatially-resolved single-cell assays. When you are reading these, keep the assay in mind for context but also be cognisant that the majority of the analytical approaches that are demonstrated will apply to many different assays.</p>
-<p>In saying this, interoperability, the key linking object between many of the packages is a <code>SpatialExperiment</code> object from the <a href="https://www.bioconductor.org/packages/release/bioc/html/SpatialExperiment.html">SpatialExperiment</a>.</p>
+<p>We also recommend that you browse our analysis examples in the case studies chapter. Here, you will find the application of combinations of our packages to answer multi-component questions on a diverse range of spatially-resolved single-cell assays. While reading this, keep the specific assay in mind for context, but also recognize that most of the demonstrated analytical approaches can be applied to a wide range of assays.</p>
 </section><section id="spatialexperiment" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="spatialexperiment">
 <span class="header-section-number">3.3</span> SpatialExperiment</h2>
-<p>With interoperability as a focus, the key linking object between many of the packages demonstrated on this website is a <code>SpatialExperiment</code> object from the <a href="https://www.bioconductor.org/packages/release/bioc/html/SpatialExperiment.html">SpatialExperiment</a>.</p>
+<p>In keeping with interoperability, we use the <code>SpatialExperiment</code> object from the <a href="https://www.bioconductor.org/packages/release/bioc/html/SpatialExperiment.html">SpatialExperiment</a> package as the central linking framework across many of the packages.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>The <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/SpatialExperiment/inst/doc/SpatialExperiment.html">vignette</a> for the SpatialExperiment package explains how to turn a <code>matrix</code> or <code>data.frame</code> into a <code>SpatialExperiment</code>.</p></li>
 <li><p>If you have a .csv file or a .xlsx file, this can be read into R using <code>read_csv()</code> and <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx()</a></code> from the <code>readxl</code> package and converted into a <code>matrix</code> or <code>data.frame</code>. You could also use <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> or <code><a href="https://rdrr.io/r/utils/read.table.html">read.delim()</a></code> in base R.</p></li>
 <li><p>If you have a <code>Seurat</code> object, you can convert this to a <code>SingleCellExperiment</code> using the <code><a href="https://satijalab.org/seurat/reference/as.SingleCellExperiment.html">as.SingleCellExperiment()</a></code> function or back again using <code><a href="https://mojaveazure.github.io/seurat-object/reference/as.Seurat.html">as.Seurat()</a></code>.</p></li>
-<li><p>A <code>SpatialExperiment</code> object is pretty much just a <code>SingleCellExperiment</code> but with spatial coordinates stored in <code>spatialCoords()</code>. You will see many people analysing spatial data with a <code>SingleCellExperiment</code> with the spatial coordinates stored in the <code>colData</code>. Most of our packages are accepting of this approach.</p></li>
+<li><p>A <code>SpatialExperiment</code> object is very similar to a <code>SingleCellExperiment</code> but with spatial coordinates stored in the <code>spatialCoords()</code> slot. Many people analyse spatial data using a <code>SingleCellExperiment</code> object with the spatial coordinates stored in <code>colData</code>. Most of our packages are accepting of this approach.</p></li>
 <li><p>For visualisations, we recommend duplicating your <code>spatialCoords()</code> in the <code>reducedDim()</code> slot and in the <code>colData</code>.</p></li>
 </ul>
 

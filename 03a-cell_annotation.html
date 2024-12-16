@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>6&nbsp; FuseSOM: Cell Annotation – Spatial analysis playbook</title>
+<title>6&nbsp; Unsupervised clustering for cell annotation – Spatial analysis playbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03a-cell_annotation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03a-cell_annotation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -195,13 +195,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03a-cell_annotation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -218,13 +218,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Changes in marker expression</span></a>
+ <span class="menu-text">Marker expression</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Statial: Marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
   </div>
 </li>
       </ul>
@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
   </div>
 </li>
       </ul>
@@ -332,14 +332,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" id="toc-using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects"><span class="header-section-number">6.2.4</span> Using <code>FuseSOM</code> to estimate the number of clusters for <code>SingleCellExperiment</code> objects</a></li>
   </ul>
 </li>
-  <li><a href="#choosing-between-clustering-and-annotation" id="toc-choosing-between-clustering-and-annotation" class="nav-link" data-scroll-target="#choosing-between-clustering-and-annotation"><span class="header-section-number">6.3</span> Choosing between clustering and annotation</a></li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">6.4</span> sessionInfo</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">6.3</span> sessionInfo</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03a-cell_annotation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03a-cell_annotation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span>
+<span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span>
 </h1>
 </div>
 
@@ -354,15 +353,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. However, the method by which this is done can differ from study to study. Here, we demonstrate the use of two packages: <code>FuseSOM</code> for cell type clustering and <code>scClassify</code> for cell type annotation.</p>
-<p>Steps:</p>
-<ol type="1">
-<li>Clustering vs annotation</li>
-<li>Clustering with FuseSOM</li>
-<li>Cluster annotation with pheatmap</li>
-<li>Cell annotation with scClassify</li>
-<li>Selecting a reference dataset with scClassify</li>
-</ol>
+</header><p>Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.</p>
+<p>In this section, we will demonstrate the use of our <code>FuseSOM</code> package to perform unsupervised clustering and subsequent manual annotation of the clusters. <!-- Steps: --></p>
+<!-- 1.  Clustering vs annotation -->
+<!-- 2.  Clustering with FuseSOM -->
+<!-- 3.  Cluster annotation with pheatmap -->
+<!-- 4.  Cell annotation with scClassify -->
+<!-- 5.  Selecting a reference dataset with scClassify -->
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required libraries</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">FuseSOM</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yanyachen/MLmetrics">MLmetrics</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/simpleSeg/">simpleSeg</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span><span class="va">use_mc</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="clustering-vs-annotation" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="clustering-vs-annotation">
 <span class="header-section-number">6.1</span> Clustering vs Annotation</h2>
 <p>Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses the reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of both <code>FuseSOM</code> and <code>scClassify</code>, and then discuss how to choose between clustering and annotation.</p>
@@ -373,14 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">6.2.1</span> <code>FuseSOM</code> Matrix Input</h3>
 <p>To demonstrate the functionality of <code>FuseSOM</code>, we will use the Risom 2022 dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS). We will be using the markers used in the original study to perform clustering.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load FuseSOM</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">FuseSOM</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yanyachen/MLmetrics">MLmetrics</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/simpleSeg/">simpleSeg</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># load in the data</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in the data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"risom_dat"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># define the markers of interest</span></span>
@@ -394,42 +405,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Now that we have loaded the data and defined the markers of interest, we can run the <code>FuseSOM</code> algorithm using the <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> function. We specify the number of clusters to be 23 based on prior domain knowledge. The output contains the cluster labels as well as the <code>Self Organizing Map</code> model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risom_dat</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, </span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risom_dat</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, </span>
 <span>                        numClusters <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>You have provided a dataset of class data.frame</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Everything looks good. Now running the FuseSOM algorithm</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Generating the Self Organizing Map Grid</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Optimal Grid Size is: 8</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Running the Self Organizing Map Model</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Clustering the Prototypes</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required namespace: fastcluster</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Mapping Clusters to the Original Data</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The Prototypes have been Clustered and Mapped Successfully</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The FuseSOM algorithm has completed successfully</code></pre>
-</div>
 </div>
 <p>Lets look at the distribution of the clusters.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get the distribution of the clusters</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get the distribution of the clusters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">risomRes</span><span class="op">$</span><span class="va">clusters</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">risomRes</span><span class="op">$</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -445,18 +426,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>It appears that 32% of cells have been assigned to <code>cluster_1</code>. Next, lets generate a heatmap of the marker expression for each cluster.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomHeat</span> <span class="op">&lt;-</span> <span class="fu">FuseSOM</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/markerHeatmap.html">markerHeatmap</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risom_dat</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>,</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomHeat</span> <span class="op">&lt;-</span> <span class="fu">FuseSOM</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/markerHeatmap.html">markerHeatmap</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risom_dat</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>,</span>
 <span>                            clusters <span class="op">=</span> <span class="va">risomRes</span><span class="op">$</span><span class="va">clusters</span>, clusterMarkers <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-datHeatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
-<ul>
-<li>few comments analysing heatmap?</li>
-</ul></section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
+<div class="question">
+<p><strong>What we’re looking for</strong></p>
+<ol type="1">
+<li>Are we seeing exclusivity amongst markers which are biologically exclusive? E.g. we don’t expect to see a CD3+ (T cell marker) and CD68+ (Macrophage marker) cluster.</li>
+<li>Can we tease out cell types given the markers?</li>
+</ol>
+</div>
+</section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
 <span class="header-section-number">6.2.2</span> Using <code>FuseSOM</code> to estimate the number of clusters</h3>
 <p>When the number of expected cell typess or clusters is not known beforehand, the <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:</p>
 <ol type="1">
@@ -477,21 +463,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>We run <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> and specify <code>method = c("Discriminant", "Distance")</code> to use both approaches.</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
 <span><span class="co"># original clustering has 23 clusters so we will set kseq from 2:25</span></span>
 <span><span class="co"># we pass it the SOM model generated in the previous step</span></span>
 <span><span class="va">risomKest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risomRes</span><span class="op">$</span><span class="va">model</span>, kSeq <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">25</span>, </span>
 <span>                                  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Discriminant"</span>, <span class="st">"Distance"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Computing the Number of Clusters using Discriminant Analysis</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Computing The Number Of Clusters Using Distance Analysis</code></pre>
-</div>
 </div>
 <p>We can then use this result to determine the best number of clusters for this dataset based on the different metrics.</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># what is the best number of clusters determined by the discriminant method?</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># what is the best number of clusters determined by the discriminant method?</span></span>
 <span><span class="va">risomKest</span><span class="op">$</span><span class="va">Discriminant</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7</code></pre>
@@ -500,44 +480,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>According to the Discriminant method, the optimal number of clusters is 7.</p>
 <p>We can use the <code><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot()</a></code> function to generate an elbow plot with the optimal value for the number of clusters for the distance based methods.</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
 <span><span class="va">pSlope</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'slope'</span><span class="op">)</span></span>
 <span><span class="va">pSlope</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlot-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'jump'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'jump'</span><span class="op">)</span></span>
 <span><span class="va">pJump</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlot-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'wcd'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'wcd'</span><span class="op">)</span></span>
 <span><span class="va">pWcd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlot-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'gap'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'gap'</span><span class="op">)</span></span>
 <span><span class="va">pGap</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlot-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'silhouette'</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'silhouette'</span><span class="op">)</span></span>
 <span><span class="va">pSil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlot-5.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -548,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <code>FuseSOM</code> algorithm is also equipped to take in a <code>SingleCellExperiment</code> object as input. The results of the pipeline will be written to either the metada or the colData fields.</p>
 <p>First, we create a <code>SingleCellExperiment</code> object using the Risom 2022 data.</p>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create an SCE object using Risom 2022 data</span></span>
 <span><span class="va">colDat</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">)</span>, <span class="va">risomMarkers</span><span class="op">)</span><span class="op">]</span></span>
@@ -572,7 +552,7 @@ altExpNames(0):</code></pre>
 </div>
 <p>Next, we pass it to the <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> function. Here, we can provide the assay in which the data is stored (<code>counts</code>) and specify the column to store the clusters in using <code>clusterCol = "clusters"</code>. The <code>Self Organizing Map</code> that is generated will be stored in the metadata field.</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRessce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span><span class="va">sce</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, clusterCol <span class="op">=</span> <span class="st">"clusters"</span>,</span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRessce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span><span class="va">sce</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, clusterCol <span class="op">=</span> <span class="st">"clusters"</span>,</span>
 <span>                          assay <span class="op">=</span> <span class="st">'counts'</span>, numClusters <span class="op">=</span> <span class="fl">23</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class SingleCellExperiment</code></pre>
@@ -601,11 +581,11 @@ altExpNames(0):</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>The FuseSOM algorithm has completed successfully</code></pre>
 </div>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "X"        "clusters"</code></pre>
 </div>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SOM"</code></pre>
 </div>
@@ -614,7 +594,7 @@ altExpNames(0):</code></pre>
 <p>If necessary, you can run <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> with a new cluster number and specify a new <code>clusterCol</code>. If <code>clusterCol</code> contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current <code>clusters</code> column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.</p>
 <p>Just like before, we can plot a heatmap of the resulting clusters across all markers.</p>
 <div class="cell">
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="va">risomMarkers</span><span class="op">]</span> <span class="co"># get the original data used</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="va">risomMarkers</span><span class="op">]</span> <span class="co"># get the original data used</span></span>
 <span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">$</span><span class="va">clusters</span> <span class="co"># extract the clusters from the SCE object</span></span>
 <span></span>
 <span><span class="co"># generate the heatmap</span></span>
@@ -622,7 +602,7 @@ altExpNames(0):</code></pre>
 <span>                            clusters <span class="op">=</span> <span class="va">clusters</span>, clusterMarkers <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-SCEheatmap-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -631,7 +611,7 @@ altExpNames(0):</code></pre>
 <span class="header-section-number">6.2.4</span> Using <code>FuseSOM</code> to estimate the number of clusters for <code>SingleCellExperiment</code> objects</h3>
 <p>Just like before, we will use <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> on our Risom <code>SingleCellExperiment</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
 <span><span class="co"># original clustering has 23 clusters so we will set kseq from 2:25</span></span>
 <span><span class="va">risomRessce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risomRessce</span>, kSeq <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">25</span>, </span>
 <span>                                  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Discriminant"</span>, <span class="st">"Distance"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -644,7 +624,7 @@ altExpNames(0):</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>Now Computing The Number Of Clusters Using Distance Analysis</code></pre>
 </div>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SOM"               "clusterEstimation"</code></pre>
 </div>
@@ -652,7 +632,7 @@ altExpNames(0):</code></pre>
 <p>The metadata now contains a <code>clusterEstimation</code> field which holds the results from the <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> function.</p>
 <p>We can assess the results of cluster estimation as below.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># what is the best number of clusters determined by the discriminant method?</span></span>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># what is the best number of clusters determined by the discriminant method?</span></span>
 <span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">$</span><span class="va">clusterEstimation</span><span class="op">$</span><span class="va">Discriminant</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7</code></pre>
@@ -660,70 +640,75 @@ altExpNames(0):</code></pre>
 </div>
 <p>According to the discrminant method, the optimal number of clusters is 10.</p>
 <div class="cell">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
 <span><span class="va">pSlope</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'slope'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSlope</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSlope</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'jump'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'jump'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'wcd'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'wcd'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-13-3.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'gap'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'gap'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-13-4.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'silhouette'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'silhouette'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-13-5.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-5.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
+</div>
+<div class="question">
+<p><strong>What we’re looking for</strong></p>
+<ol type="1">
+<li>We’re generally looking for the <code>k</code> before the point of greatest inflection.</li>
+<li>There can be several options of <code>k</code> if there are several points of inflection. Choose the <code>k</code> which best reflects the number of clusters you expect to get from the tissue.</li>
+</ol>
 </div>
 <p>Again, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters with 24 clusters. The <code>Gap</code> method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
-</section></section><section id="choosing-between-clustering-and-annotation" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="choosing-between-clustering-and-annotation">
-<span class="header-section-number">6.3</span> Choosing between clustering and annotation</h2>
-</section><section id="sessioninfo" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="sessioninfo">
-<span class="header-section-number">6.4</span> sessionInfo</h2>
+</section></section><section id="sessioninfo" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">6.3</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
@@ -747,16 +732,17 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] scuttle_1.16.0              simpleSeg_1.8.0            
- [3] MLmetrics_1.1.3             STexampleData_1.14.0       
- [5] SpatialExperiment_1.16.0    SingleCellExperiment_1.28.1
- [7] SummarizedExperiment_1.36.0 Biobase_2.66.0             
- [9] GenomicRanges_1.58.0        GenomeInfoDb_1.42.1        
-[11] IRanges_2.40.0              S4Vectors_0.44.0           
-[13] MatrixGenerics_1.18.0       matrixStats_1.4.1          
-[15] ExperimentHub_2.14.0        AnnotationHub_3.14.0       
-[17] BiocFileCache_2.14.0        dbplyr_2.5.0               
-[19] BiocGenerics_0.52.0         FuseSOM_1.8.0              
+ [1] ggplot2_3.5.1               scuttle_1.16.0             
+ [3] simpleSeg_1.8.0             MLmetrics_1.1.3            
+ [5] STexampleData_1.14.0        SpatialExperiment_1.16.0   
+ [7] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
+ [9] Biobase_2.66.0              GenomicRanges_1.58.0       
+[11] GenomeInfoDb_1.42.1         IRanges_2.40.1             
+[13] S4Vectors_0.44.0            MatrixGenerics_1.18.0      
+[15] matrixStats_1.4.1           ExperimentHub_2.14.0       
+[17] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
+[19] dbplyr_2.5.0                BiocGenerics_0.52.0        
+[21] FuseSOM_1.8.0              
 
 loaded via a namespace (and not attached):
   [1] splines_4.4.1            later_1.4.1              bitops_1.0-9            
@@ -769,7 +755,7 @@ loaded via a namespace (and not attached):
  [22] DBI_1.2.3                RColorBrewer_1.1-3       abind_1.4-8             
  [25] zlibbioc_1.52.0          purrr_1.0.2              RCurl_1.98-1.16         
  [28] nnet_7.3-19              yulab.utils_0.1.8        rappdirs_0.3.3          
- [31] GenomeInfoDbData_1.2.13  spatstat.utils_3.1-1     terra_1.7-83            
+ [31] GenomeInfoDbData_1.2.13  spatstat.utils_3.1-1     terra_1.8-5             
  [34] pheatmap_1.0.12          vegan_2.6-8              svglite_2.1.3           
  [37] permute_0.9-7            codetools_0.2-20         DelayedArray_0.32.0     
  [40] tidyselect_1.2.1         raster_3.6-30            farver_2.1.2            
@@ -790,28 +776,27 @@ loaded via a namespace (and not attached):
  [85] modeltools_0.2-23        blob_1.2.4               XVector_0.46.0          
  [88] htmltools_0.5.8.1        carData_3.0-5            fftwtools_0.9-11        
  [91] scales_1.3.0             png_0.1-8                spatstat.univar_3.1-1   
- [94] knitr_1.49               rstudioapi_0.17.1        rjson_0.2.23            
- [97] nlme_3.1-166             curl_6.0.1               proxy_0.4-27            
-[100] cachem_1.1.0             rhdf5_2.50.0             stringr_1.5.1           
-[103] BiocVersion_3.20.0       parallel_4.4.1           vipor_0.4.7             
-[106] AnnotationDbi_1.68.0     pillar_1.9.0             grid_4.4.1              
-[109] vctrs_0.6.5              promises_1.3.2           ggpubr_0.6.0            
-[112] car_3.1-3                beachmat_2.22.0          xtable_1.8-4            
-[115] cluster_2.1.6            princurve_2.1.6          beeswarm_0.4.0          
-[118] evaluate_1.0.1           magick_2.8.5             cli_3.6.3               
-[121] locfit_1.5-9.10          compiler_4.4.1           rlang_1.1.4             
-[124] crayon_1.5.3             analogue_0.17-7          ggsignif_0.6.4          
-[127] labeling_0.4.3           mclust_6.1.1             fs_1.6.5                
-[130] ggbeeswarm_0.7.2         stringi_1.8.4            psych_2.4.6.26          
-[133] deldir_2.0-4             viridisLite_0.4.2        BiocParallel_1.40.0     
-[136] nnls_1.6                 FCPS_1.3.4               cytomapper_1.18.0       
-[139] munsell_0.5.1            Biostrings_2.74.0        tiff_0.1-12             
-[142] coop_0.6-3               profileModel_0.6.1       spatstat.geom_3.3-4     
-[145] Matrix_1.7-1             bit64_4.5.2              ggplot2_3.5.1           
-[148] Rhdf5lib_1.28.0          fpc_2.2-13               KEGGREST_1.46.0         
-[151] shiny_1.9.1              brglm_0.7.2              kernlab_0.9-33          
-[154] broom_1.0.7              memoise_2.0.1            DEoptimR_1.1-3-1        
-[157] bit_4.5.0.1             </code></pre>
+ [94] knitr_1.49               rjson_0.2.23             nlme_3.1-166            
+ [97] curl_6.0.1               proxy_0.4-27             cachem_1.1.0            
+[100] rhdf5_2.50.1             stringr_1.5.1            BiocVersion_3.20.0      
+[103] parallel_4.4.1           vipor_0.4.7              AnnotationDbi_1.68.0    
+[106] pillar_1.9.0             grid_4.4.1               vctrs_0.6.5             
+[109] promises_1.3.2           ggpubr_0.6.0             car_3.1-3               
+[112] beachmat_2.22.0          xtable_1.8-4             cluster_2.1.6           
+[115] princurve_2.1.6          beeswarm_0.4.0           evaluate_1.0.1          
+[118] magick_2.8.5             cli_3.6.3                locfit_1.5-9.10         
+[121] compiler_4.4.1           rlang_1.1.4              crayon_1.5.3            
+[124] analogue_0.17-7          ggsignif_0.6.4           labeling_0.4.3          
+[127] mclust_6.1.1             fs_1.6.5                 ggbeeswarm_0.7.2        
+[130] stringi_1.8.4            psych_2.4.6.26           deldir_2.0-4            
+[133] viridisLite_0.4.2        BiocParallel_1.40.0      nnls_1.6                
+[136] FCPS_1.3.4               cytomapper_1.18.0        munsell_0.5.1           
+[139] Biostrings_2.74.0        tiff_0.1-12              coop_0.6-3              
+[142] profileModel_0.6.1       spatstat.geom_3.3-4      Matrix_1.7-1            
+[145] bit64_4.5.2              Rhdf5lib_1.28.0          fpc_2.2-13              
+[148] KEGGREST_1.46.0          shiny_1.9.1              brglm_0.7.2             
+[151] kernlab_0.9-33           broom_1.0.7              memoise_2.0.1           
+[154] DEoptimR_1.1-3-1         bit_4.5.0.1             </code></pre>
 </div>
 </div>
 
@@ -1238,8 +1223,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03b-cell_annotation.html" class="pagination-link" aria-label="scClassify: Cell annotation">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03b-cell_annotation.html" class="pagination-link" aria-label="Supervised cell annotation with a reference">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

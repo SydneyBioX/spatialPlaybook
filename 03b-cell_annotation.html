@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>7&nbsp; scClassify: Cell annotation – Spatial analysis playbook</title>
+<title>7&nbsp; Supervised cell annotation with a reference – Spatial analysis playbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03b-cell_annotation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03b-cell_annotation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -195,13 +195,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03a-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span></a>
   </div>
 </li>
       </ul>
@@ -218,13 +218,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Kontextual: Cell localisation with context</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lisaClust: Spatial domains</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Changes in marker expression</span></a>
+ <span class="menu-text">Marker expression</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -258,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Statial: Marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
   </div>
 </li>
       </ul>
@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
   </div>
 </li>
       </ul>
@@ -322,15 +322,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#using-scclassify" id="toc-using-scclassify" class="nav-link active" data-scroll-target="#using-scclassify"><span class="header-section-number">7.1</span> Using scClassify</a></li>
-  <li><a href="#evaluating-performance" id="toc-evaluating-performance" class="nav-link" data-scroll-target="#evaluating-performance"><span class="header-section-number">7.2</span> Evaluating performance</a></li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">7.3</span> sessionInfo</a></li>
+<li>
+<a href="#scclassify-cell-annotation" id="toc-scclassify-cell-annotation" class="nav-link active" data-scroll-target="#scclassify-cell-annotation"><span class="header-section-number">8</span> scClassify: Cell annotation</a>
+  <ul class="collapse">
+<li><a href="#using-scclassify" id="toc-using-scclassify" class="nav-link" data-scroll-target="#using-scclassify"><span class="header-section-number">8.1</span> Using scClassify</a></li>
+  <li><a href="#evaluating-performance" id="toc-evaluating-performance" class="nav-link" data-scroll-target="#evaluating-performance"><span class="header-section-number">8.2</span> Evaluating performance</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">8.3</span> sessionInfo</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03b-cell_annotation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03a-cell_annotation.html">Cell annotation</a></li><li class="breadcrumb-item"><a href="./03b-cell_annotation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">7</span>&nbsp; <span class="chapter-title">scClassify: Cell annotation</span>
+<span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span>
 </h1>
 </div>
 
@@ -345,16 +350,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p><a href="https://new.bioconductor.org/packages/release/bioc/html/scClassify.html">scClassify</a> is a supervised multiscale classification framework for scRNAseq data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.</p>
-<p>To demonstrate the use of scClassify, we will use the Stickels 2021 dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the <code>STexampleData</code> package. We will select samples 21-24 for demonstration purposes.</p>
+</header><p>The other approach to identifying cell types involves using an annotated reference dataset to assign labels for a query dataset. In this section, we will demonstrate how <code>scClassify</code> can be used for supervised cell type annotation.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scClassify</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required libraries</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scClassify</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lmweber/STexampleData">STexampleData</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yanyachen/MLmetrics">MLmetrics</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scuttle</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span> <span class="op">=</span> <span class="fu">STexampleData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/STexampleData/man/STexampleData.html">SlideSeqV2_mouseHPC</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set parameters</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<span><span class="va">use_mc</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="scclassify-cell-annotation" class="level1" data-number="8"><h1 data-number="8">
+<span class="header-section-number">8</span> scClassify: Cell annotation</h1>
+<p><a href="https://new.bioconductor.org/packages/release/bioc/html/scClassify.html">scClassify</a> is a supervised multiscale classification framework for scRNAseq data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.</p>
+<p>To demonstrate the use of scClassify, we will use the Stickels 2021 dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the <code>STexampleData</code> package.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span> <span class="op">=</span> <span class="fu">STexampleData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/STexampleData/man/STexampleData.html">SlideSeqV2_mouseHPC</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># remove missing celltype values</span></span>
 <span><span class="va">stickelsSPE</span> <span class="op">=</span> <span class="va">stickelsSPE</span><span class="op">[</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">stickelsSPE</span><span class="op">$</span><span class="va">celltype</span><span class="op">)</span><span class="op">]</span></span>
@@ -378,7 +400,7 @@ imgData names(0):</code></pre>
 </div>
 <p>The dataset contains 17 unique cell types.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span><span class="op">$</span><span class="va">celltype</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span><span class="op">$</span><span class="va">celltype</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "CA3"                   "CA1"                   "Choroid"              
  [4] "Oligodendrocyte"       "Denate"                "Entorihinal"          
@@ -390,7 +412,7 @@ imgData names(0):</code></pre>
 </div>
 <p>As scClassify requires log-normalised expression data, we will use <code>normalizeCounts</code> from the <code>scuttle</code> package to transform and normalise our expression data.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># log normalisation</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># log normalisation</span></span>
 <span><span class="va">norm_assay</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/normalizeCounts.html">normalizeCounts</a></span><span class="op">(</span><span class="va">stickelsSPE</span>, transform <span class="op">=</span> <span class="st">"log"</span>, BPPARAM <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html">MulticoreParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># store normalised expression data in the "norm" slot</span></span>
@@ -398,7 +420,7 @@ imgData names(0):</code></pre>
 </div>
 <p>We will first split the dataset into an 80% training or reference dataset and a 20% testing or query dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># split into 80% reference and 20% query</span></span>
 <span><span class="va">ref_idx</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">stickelsSPE</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.8</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">stickelsSPE</span><span class="op">)</span><span class="op">)</span></span>
@@ -409,8 +431,8 @@ imgData names(0):</code></pre>
 <span><span class="va">ref_mat</span> <span class="op">=</span> <span class="fu">assay</span><span class="op">(</span><span class="va">ref_spe</span>, <span class="st">"norm"</span><span class="op">)</span></span>
 <span><span class="va">query_mat</span> <span class="op">=</span> <span class="fu">assay</span><span class="op">(</span><span class="va">query_spe</span>, <span class="st">"norm"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="using-scclassify" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="using-scclassify">
-<span class="header-section-number">7.1</span> Using scClassify</h2>
+<section id="using-scclassify" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="using-scclassify">
+<span class="header-section-number">8.1</span> Using scClassify</h2>
 <p><code>scClassify</code> is the main classification function within scClassify. It requires a reference expression matrix (<code>exprsMat_train</code>) and the corresponding vector of cell type labels as input (<code>cellTypes_train</code>). We then specify our query matrix (<code>exprsMat_test</code>) and the corresponding cell type labels (<code>cellTypes_test</code>) in the form of lists. Below, we have also specified the following customisations for building the model -</p>
 <ul>
 <li>
@@ -423,7 +445,7 @@ imgData names(0):</code></pre>
 <code>c("pearson", "spearman", "cosine")</code>: use Pearson and Spearman correlation to measure similarity between cells. Other options include Kendall’s correlation, cosine distance, Jaccard distance, Manhattan distance, and weighted rank correlation.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scClassify_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/scClassify.html">scClassify</a></span><span class="op">(</span>exprsMat_train <span class="op">=</span> <span class="va">ref_mat</span>,</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scClassify_res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/scClassify.html">scClassify</a></span><span class="op">(</span>exprsMat_train <span class="op">=</span> <span class="va">ref_mat</span>,</span>
 <span>                            cellTypes_train <span class="op">=</span> <span class="va">ref_spe</span><span class="op">$</span><span class="va">celltype</span>,</span>
 <span>                            exprsMat_test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>stickels <span class="op">=</span> <span class="va">query_mat</span><span class="op">)</span>,</span>
 <span>                            cellTypes_test <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>stickels <span class="op">=</span> <span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span><span class="op">)</span>,</span>
@@ -433,20 +455,20 @@ imgData names(0):</code></pre>
 <span>                            similarity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pearson"</span>, <span class="st">"spearman"</span><span class="op">)</span>,</span>
 <span>                            returnList <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                            parallel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                            BPPARAM <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html">MulticoreParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span>
+<span>                            BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span>,</span>
 <span>                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The output is a list containing all model building and testing information. The <code>testRes</code> slot contains the results of testing the model on the query dataset, and the <code>trainRes</code> contains the model built from the reference dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scClassify_res</span><span class="op">$</span><span class="va">trainRes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scClassify_res</span><span class="op">$</span><span class="va">trainRes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then examine the cell type tree generated by the reference dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/plotCellTypeTree.html">plotCellTypeTree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/cellTypeTree.html">cellTypeTree</a></span><span class="op">(</span><span class="va">scClassify_res</span><span class="op">$</span><span class="va">trainRes</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/plotCellTypeTree.html">plotCellTypeTree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/scClassify/man/cellTypeTree.html">cellTypeTree</a></span><span class="op">(</span><span class="va">scClassify_res</span><span class="op">$</span><span class="va">trainRes</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The predictions for each cell can be accessed through the <code>ensembleRes</code> slot in the testing results.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred_mat</span> <span class="op">=</span> <span class="va">scClassify_res</span><span class="op">$</span><span class="va">testRes</span><span class="op">$</span><span class="va">stickels</span><span class="op">$</span><span class="va">ensembleRes</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred_mat</span> <span class="op">=</span> <span class="va">scClassify_res</span><span class="op">$</span><span class="va">testRes</span><span class="op">$</span><span class="va">stickels</span><span class="op">$</span><span class="va">ensembleRes</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_mat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     cellTypes scores
@@ -458,41 +480,42 @@ CGGATGGTTAGCGA             CA3      1
 TTAGGTCTATCCTT Oligodendrocyte      1</code></pre>
 </div>
 </div>
-</section><section id="evaluating-performance" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="evaluating-performance">
-<span class="header-section-number">7.2</span> Evaluating performance</h2>
+</section><section id="evaluating-performance" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="evaluating-performance">
+<span class="header-section-number">8.2</span> Evaluating performance</h2>
 <p>We will evaluate scClassify’s performance using 4 metrics - accuracy, precision, recall, and F1 Score.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># accuracy</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># accuracy</span></span>
 <span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/Accuracy.html">Accuracy</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6947684</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># precision</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># precision</span></span>
 <span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/Precision.html">Precision</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8019432</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># recall</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># recall</span></span>
 <span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/Recall.html">Recall</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8122634</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># recall</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># F1 Score</span></span>
 <span><span class="fu">MLmetrics</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MLmetrics/man/F1_Score.html">F1_Score</a></span><span class="op">(</span><span class="va">query_spe</span><span class="op">$</span><span class="va">celltype</span>, <span class="va">pred_mat</span><span class="op">$</span><span class="va">cellTypes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8070703</code></pre>
 </div>
 </div>
-</section><section id="sessioninfo" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="sessioninfo">
-<span class="header-section-number">7.3</span> sessionInfo</h2>
+<!-- ## Choosing between clustering and annotation -->
+</section><section id="sessioninfo" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">8.3</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
@@ -516,81 +539,95 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] scuttle_1.16.0              MLmetrics_1.1.3            
- [3] STexampleData_1.14.0        SpatialExperiment_1.16.0   
- [5] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
- [7] Biobase_2.66.0              GenomicRanges_1.58.0       
- [9] GenomeInfoDb_1.42.1         IRanges_2.40.0             
-[11] S4Vectors_0.44.0            MatrixGenerics_1.18.0      
-[13] matrixStats_1.4.1           ExperimentHub_2.14.0       
-[15] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
-[17] dbplyr_2.5.0                BiocGenerics_0.52.0        
-[19] scClassify_1.18.0          
+ [1] ggplot2_3.5.1               scuttle_1.16.0             
+ [3] MLmetrics_1.1.3             STexampleData_1.14.0       
+ [5] SpatialExperiment_1.16.0    SingleCellExperiment_1.28.1
+ [7] SummarizedExperiment_1.36.0 Biobase_2.66.0             
+ [9] GenomicRanges_1.58.0        GenomeInfoDb_1.42.1        
+[11] IRanges_2.40.1              S4Vectors_0.44.0           
+[13] MatrixGenerics_1.18.0       matrixStats_1.4.1          
+[15] ExperimentHub_2.14.0        AnnotationHub_3.14.0       
+[17] BiocFileCache_2.14.0        dbplyr_2.5.0               
+[19] BiocGenerics_0.52.0         scClassify_1.18.0          
 
 loaded via a namespace (and not attached):
-  [1] rstudioapi_0.17.1         jsonlite_1.8.9           
-  [3] magrittr_2.0.3            magick_2.8.5             
-  [5] farver_2.1.2              rmarkdown_2.29           
-  [7] zlibbioc_1.52.0           vctrs_0.6.5              
-  [9] memoise_2.0.1             DelayedMatrixStats_1.28.0
- [11] htmltools_0.5.8.1         S4Arrays_1.6.0           
- [13] curl_6.0.1                Rhdf5lib_1.28.0          
- [15] SparseArray_1.6.0         rhdf5_2.50.0             
- [17] htmlwidgets_1.6.4         plyr_1.8.9               
- [19] plotly_4.10.4             Cepo_1.12.0              
- [21] cachem_1.1.0              igraph_2.1.1             
- [23] mime_0.12                 lifecycle_1.0.4          
- [25] minpack.lm_1.2-4          pkgconfig_2.0.3          
- [27] Matrix_1.7-1              R6_2.5.1                 
- [29] fastmap_1.2.0             GenomeInfoDbData_1.2.13  
- [31] digest_0.6.37             colorspace_2.1-1         
- [33] patchwork_1.3.0           AnnotationDbi_1.68.0     
- [35] RSQLite_2.3.9             beachmat_2.22.0          
- [37] filelock_1.0.3            fansi_1.0.6              
- [39] httr_1.4.7                polyclip_1.10-7          
- [41] abind_1.4-8               mgcv_1.9-1               
- [43] compiler_4.4.1            proxy_0.4-27             
- [45] bit64_4.5.2               withr_3.0.2              
- [47] BiocParallel_1.40.0       viridis_0.6.5            
- [49] DBI_1.2.3                 HDF5Array_1.34.0         
- [51] ggforce_0.4.2             MASS_7.3-61              
- [53] rappdirs_0.3.3            proxyC_0.4.1             
- [55] DelayedArray_0.32.0       rjson_0.2.23             
- [57] tools_4.4.1               glue_1.8.0               
- [59] nlme_3.1-166              rhdf5filters_1.18.0      
- [61] grid_4.4.1                cluster_2.1.6            
- [63] reshape2_1.4.4            generics_0.1.3           
- [65] gtable_0.3.6              tidyr_1.3.1              
- [67] data.table_1.16.4         tidygraph_1.3.1          
- [69] utf8_1.2.4                XVector_0.46.0           
- [71] ggrepel_0.9.6             BiocVersion_3.20.0       
- [73] pillar_1.9.0              stringr_1.5.1            
- [75] limma_3.62.1              splines_4.4.1            
- [77] dplyr_1.1.4               tweenr_2.0.3             
- [79] lattice_0.22-6            survival_3.7-0           
- [81] bit_4.5.0.1               tidyselect_1.2.1         
- [83] Biostrings_2.74.0         knitr_1.49               
- [85] gridExtra_2.3             xfun_0.49                
- [87] graphlayouts_1.2.1        mixtools_2.0.0           
- [89] statmod_1.5.0             stringi_1.8.4            
- [91] UCSC.utils_1.2.0          lazyeval_0.2.2           
- [93] yaml_2.3.10               evaluate_1.0.1           
- [95] codetools_0.2-20          kernlab_0.9-33           
- [97] ggraph_2.2.1              tibble_3.2.1             
- [99] BiocManager_1.30.25       cli_3.6.3                
-[101] segmented_2.1-3           munsell_0.5.1            
-[103] Rcpp_1.0.13-1             png_0.1-8                
-[105] parallel_4.4.1            ggplot2_3.5.1            
-[107] hopach_2.66.0             blob_1.2.4               
-[109] sparseMatrixStats_1.18.0  viridisLite_0.4.2        
-[111] scales_1.3.0              purrr_1.0.2              
-[113] crayon_1.5.3              rlang_1.1.4              
-[115] KEGGREST_1.46.0          </code></pre>
+  [1] splines_4.4.1             later_1.4.1              
+  [3] bitops_1.0-9              filelock_1.0.3           
+  [5] tibble_3.2.1              svgPanZoom_0.3.4         
+  [7] polyclip_1.10-7           minpack.lm_1.2-4         
+  [9] lifecycle_1.0.4           lattice_0.22-6           
+ [11] MASS_7.3-61               magrittr_2.0.3           
+ [13] limma_3.62.1              plotly_4.10.4            
+ [15] rmarkdown_2.29            yaml_2.3.10              
+ [17] httpuv_1.6.15             sp_2.1-4                 
+ [19] DBI_1.2.3                 RColorBrewer_1.1-3       
+ [21] abind_1.4-8               zlibbioc_1.52.0          
+ [23] purrr_1.0.2               mixtools_2.0.0           
+ [25] ggraph_2.2.1              RCurl_1.98-1.16          
+ [27] tweenr_2.0.3              rappdirs_0.3.3           
+ [29] GenomeInfoDbData_1.2.13   ggrepel_0.9.6            
+ [31] spatstat.utils_3.1-1      terra_1.8-5              
+ [33] simpleSeg_1.8.0           svglite_2.1.3            
+ [35] DelayedMatrixStats_1.28.0 codetools_0.2-20         
+ [37] DelayedArray_0.32.0       ggforce_0.4.2            
+ [39] tidyselect_1.2.1          raster_3.6-30            
+ [41] UCSC.utils_1.2.0          farver_2.1.2             
+ [43] viridis_0.6.5             jsonlite_1.8.9           
+ [45] hopach_2.66.0             tidygraph_1.3.1          
+ [47] survival_3.7-0            systemfonts_1.1.0        
+ [49] segmented_2.1-3           tools_4.4.1              
+ [51] Rcpp_1.0.13-1             glue_1.8.0               
+ [53] gridExtra_2.3             SparseArray_1.6.0        
+ [55] xfun_0.49                 mgcv_1.9-1               
+ [57] EBImage_4.48.0            dplyr_1.1.4              
+ [59] HDF5Array_1.34.0          shinydashboard_0.7.2     
+ [61] withr_3.0.2               BiocManager_1.30.25      
+ [63] fastmap_1.2.0             rhdf5filters_1.18.0      
+ [65] fansi_1.0.6               digest_0.6.37            
+ [67] R6_2.5.1                  mime_0.12                
+ [69] colorspace_2.1-1          spatstat.data_3.1-4      
+ [71] jpeg_0.1-10               RSQLite_2.3.9            
+ [73] utf8_1.2.4                tidyr_1.3.1              
+ [75] generics_0.1.3            data.table_1.16.4        
+ [77] graphlayouts_1.2.1        httr_1.4.7               
+ [79] htmlwidgets_1.6.4         S4Arrays_1.6.0           
+ [81] pkgconfig_2.0.3           gtable_0.3.6             
+ [83] blob_1.2.4                XVector_0.46.0           
+ [85] htmltools_0.5.8.1         fftwtools_0.9-11         
+ [87] scales_1.3.0              png_0.1-8                
+ [89] spatstat.univar_3.1-1     knitr_1.49               
+ [91] reshape2_1.4.4            rjson_0.2.23             
+ [93] nlme_3.1-166              curl_6.0.1               
+ [95] proxy_0.4-27              cachem_1.1.0             
+ [97] rhdf5_2.50.1              stringr_1.5.1            
+ [99] BiocVersion_3.20.0        parallel_4.4.1           
+[101] vipor_0.4.7               AnnotationDbi_1.68.0     
+[103] pillar_1.9.0              grid_4.4.1               
+[105] proxyC_0.4.1              vctrs_0.6.5              
+[107] promises_1.3.2            beachmat_2.22.0          
+[109] xtable_1.8-4              cluster_2.1.6            
+[111] beeswarm_0.4.0            evaluate_1.0.1           
+[113] magick_2.8.5              cli_3.6.3                
+[115] locfit_1.5-9.10           compiler_4.4.1           
+[117] rlang_1.1.4               crayon_1.5.3             
+[119] plyr_1.8.9                ggbeeswarm_0.7.2         
+[121] stringi_1.8.4             deldir_2.0-4             
+[123] viridisLite_0.4.2         BiocParallel_1.40.0      
+[125] nnls_1.6                  cytomapper_1.18.0        
+[127] munsell_0.5.1             Biostrings_2.74.0        
+[129] lazyeval_0.2.2            tiff_0.1-12              
+[131] spatstat.geom_3.3-4       Matrix_1.7-1             
+[133] patchwork_1.3.0           sparseMatrixStats_1.18.0 
+[135] bit64_4.5.2               Rhdf5lib_1.28.0          
+[137] KEGGREST_1.46.0           statmod_1.5.0            
+[139] shiny_1.9.1               kernlab_0.9-33           
+[141] igraph_2.1.2              memoise_2.0.1            
+[143] Cepo_1.12.0               bit_4.5.0.1              </code></pre>
 </div>
 </div>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1007,13 +1044,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./03a-cell_annotation.html" class="pagination-link" aria-label="FuseSOM: Cell Annotation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">FuseSOM: Cell Annotation</span></span>
+      <a href="./03a-cell_annotation.html" class="pagination-link" aria-label="Unsupervised clustering for cell annotation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="SpicyR: Cell localisation">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SpicyR: Cell localisation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="Cell localisation between pairs of cell types">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
