@@ -8,6 +8,7 @@ suppressPackageStartupMessages({
   library(STexampleData)
   library(MLmetrics)
   library(scuttle)
+  library(ggplot2)
 })
 ```
 
@@ -17,6 +18,7 @@ library(scClassify)
 library(STexampleData)
 library(MLmetrics)
 library(scuttle)
+library(ggplot2)
 ```
 
 ```{r, setParam}

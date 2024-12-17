@@ -198,7 +198,7 @@ signifPlot(
 
 To demonstrate spicyR's functionality with mixed effects models, we will use the Damond 2019 dataset. 
 
-```{r 04a-mixedEffectModel, eval=FALSE}
+```{r 04a-mixedEffectModel}
 # load in data
 data("diabetesData")
 

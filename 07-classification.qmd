@@ -16,6 +16,7 @@ suppressPackageStartupMessages({
   library(lisaClust)
   library(Statial)
   library(spicyR)
+  library(ggplot2)
 })
 ```
 
@@ -24,6 +25,7 @@ library(ClassifyR)
 library(lisaClust)
 library(Statial)
 library(spicyR)
+library(ggplot2)
 ```
 
 ```{r, setParam}

@@ -1,5 +1,23 @@
 # Cell segmentation and pre-processing
 
+```{r, include = FALSE}
+knitr::knit_hooks$set(time_it = local({
+  now <- NULL
+  function(before, options) {
+    if (before) {
+      # record the current time before each chunk
+      now <<- Sys.time()
+    } else {
+      # calculate the time difference after a chunk
+      res <- difftime(Sys.time(), now, units = "secs")
+      # return a character string to show the time
+      paste("Time for this code chunk to run:", round(res,
+        2), "seconds")
+    }
+  }
+}))
+```
+
 The typical first step in analyzing spatial data is cell segmentation, which involves identifying and isolating individual cells in each image. This step is essential for assigning cell type labels and evaluating cellular relationships within the tissue.
 
 In this section, we will outline the process of reading and pre-processing images obtained from various imaging technologies to prepare them for downstream analysis. Additionally, we will demonstrate how our simpleSeg package facilitates efficient and straightforward cell segmentation, as well as how to evaluate the quality of the segmentation results.
@@ -47,7 +65,7 @@ We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-pro
 
 We will also assign the metadata columns of the `CytoImageList` object using the `mcols` function.
 
-```{r 01-loadImages}
+```{r 01-loadImages, time_it = TRUE}
 pathToZip <- SpatialDatasets::Ferguson_Images()
 pathToImages <- "data/processing/images"
 unzip(pathToZip, exdir = "data/processing/images")
@@ -109,7 +127,7 @@ In the particular example below, we have asked `simpleSeg` to do the following:
 
 There are many other parameters that can be specified in simpleSeg (`smooth`, `watershed`, `tolerance`, and `ext`), and we encourage the user to select the best parameters which suit their biological context.
 
-```{r 01-simpleSeg}
+```{r 01-simpleSeg, time_it = TRUE}
 masks <- simpleSeg(images,
                    nucleus = c("HH3"),
                    pca = TRUE,
@@ -170,9 +188,19 @@ plotPixels(image = images["F3"],
            ))
 ```
 
+::: question
+**Critical thinking**
+
+1.  Is there any information we're not capturing with this segmentation?
+2.  What parameters might you change to improve the segmentation?
+3.  What are some intrinsic limitations of the simpleSeg method?
+:::
+
 Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This suggests that we might need to increase the `discSize` or other parameters of `simpleSeg`.
 
 In particular, the `cellBody` and `watershed` parameters can strongly influence the way cells are segmented using `simpleSeg`. We have provided further details on how the user may specify cell body identification and watershedding in the tables below.
+
+As `simpleSeg` is a nuclei-based dilation method, it suffers from tissues where cells might be multi-nucleated, or where cells have non-circular or elliptical morphologies. For tissues where you might expect these cells, it may be preferable to choose a different segmentation method. 
 
 #### `cellBody` Parameters
 
@@ -203,7 +231,7 @@ We can use the `measureObjects` from `cytomapper` to calculate the average inten
 
 However, you can also specify `measureObjects` to return a `SpatialExperiment` object by specifying `return_as = "spe"`. In a `SpatialExperiment` object, the spatial location of each cell is stored in the `spatialCoords` slot as `m.cx` and `m.cy`, which simplifies plotting. In this demonstration, we will return a `SpatialExperiment` object.
 
-```{r 01-measureObjects}
+```{r 01-measureObjects, time_it = TRUE}
 # summarise the expression of each marker in each cell
 cells <- cytomapper::measureObjects(masks,
                                     images,
