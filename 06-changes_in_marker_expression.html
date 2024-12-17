@@ -376,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -720,9 +720,9 @@ $scatter</code></pre>
 <div class="cell">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcContamination.html">calcContamination</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Growing trees.. Progress: 28%. Estimated remaining time: 1 minute, 22 seconds.
-Growing trees.. Progress: 58%. Estimated remaining time: 45 seconds.
-Growing trees.. Progress: 87%. Estimated remaining time: 14 seconds.</code></pre>
+<pre><code>Growing trees.. Progress: 29%. Estimated remaining time: 1 minute, 18 seconds.
+Growing trees.. Progress: 59%. Estimated remaining time: 43 seconds.
+Growing trees.. Progress: 89%. Estimated remaining time: 11 seconds.</code></pre>
 </div>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stateChangesCorrected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcStateChanges.html">calcStateChanges</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
@@ -984,7 +984,7 @@ loaded via a namespace (and not attached):
 [125] lme4_1.1-35.5               fastmap_1.2.0              
 [127] rlang_1.1.4                 GlobalOptions_0.1.2        
 [129] htmlwidgets_1.6.4           ggthemes_5.1.0             
-[131] UCSC.utils_1.2.0            shiny_1.9.1                
+[131] UCSC.utils_1.2.0            shiny_1.10.0               
 [133] ggh4x_0.2.8                 farver_2.1.2               
 [135] zoo_1.8-12                  jsonlite_1.8.9             
 [137] RCurl_1.98-1.16             magrittr_2.0.3             

@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -404,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="co"># assign metadata columns</span></span>
 <span><span class="fu">mcols</span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run: 78.31 seconds</p>
+<p>Time for this code chunk to run with 40 cores: 73.99 seconds</p>
 </div>
 <p>When reading the image channels directly from the names of the TIFF images, they will often need to be cleaned for ease of downstream processing. The channel names can be accessed from the <code>CytoImageList</code> object using the <code>channelNames</code> function.</p>
 <div class="cell">
@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                   tissue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"panCK"</span>, <span class="st">"CD45"</span>, <span class="st">"HH3"</span><span class="op">)</span>,</span>
 <span>                   cores <span class="op">=</span> <span class="va">nCores</span></span>
 <span>                   <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run: 47.92 seconds</p>
+<p>Time for this code chunk to run with 40 cores: 44.22 seconds</p>
 </div>
 <section id="visualise-separation" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="visualise-separation">
 <span class="header-section-number">4.2.1</span> Visualise separation</h3>
@@ -505,7 +505,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>           display <span class="op">=</span> <span class="st">"single"</span>,</span>
 <span>           colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>HH3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span><span class="op">)</span>,</span>
 <span>                         CD31 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
-<span>                         FX111A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"green"</span><span class="op">)</span> <span class="op">)</span>,</span>
+<span>                         FX111A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"green"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>           legend <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>           bcg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>             HH3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
@@ -519,13 +519,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="question">
+<div class="callout callout-style-default callout-tip callout-titled" title="What to look for and change to obtain an ideal segmentation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What to look for and change to obtain an ideal segmentation
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><strong>Critical thinking</strong></p>
 <ol type="1">
-<li>Is there any information we’re not capturing with this segmentation?</li>
-<li>What parameters might you change to improve the segmentation?</li>
-<li>What are some intrinsic limitations of the simpleSeg method?</li>
+<li>Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transform to improve the thresholding of the nuclei marker. You could also try using <code>pca = TRUE</code> which will borrow information across the markers to help find the nuclei.</li>
+<li>How much of the cell body is the segmentation missing? Try increasing the dilation around the nucleus by setting <code>discSize = 7</code>.</li>
+<li>Are the segmentations capturing neighbouring cells? Try decreasing the dilation to limit lateral spillover of marker signal by setting <code>discSize = 2</code>.</li>
 </ol>
+</div>
 </div>
 <p>Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This suggests that we might need to increase the <code>discSize</code> or other parameters of <code>simpleSeg</code>.</p>
 <p>In particular, the <code>cellBody</code> and <code>watershed</code> parameters can strongly influence the way cells are segmented using <code>simpleSeg</code>. We have provided further details on how the user may specify cell body identification and watershedding in the tables below.</p>
@@ -627,7 +637,7 @@ altExpNames(0):
 spatialCoords names(2) : x y
 imgData names(1): sample_id</code></pre>
 </div>
-<p>Time for this code chunk to run: 80.61 seconds</p>
+<p>Time for this code chunk to run with 40 cores: 73.95 seconds</p>
 </div>
 <p>So far, we have obtained our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a <code>SpatialExperiment</code> object. We can now move on to quality control, data transformation, and normalisation to address batch effects.</p>
 </section><section id="sessioninfo" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sessioninfo">
@@ -689,7 +699,7 @@ loaded via a namespace (and not attached):
  [52] tidyselect_1.2.1        yaml_2.3.10             abind_1.4-8            
  [55] viridis_0.6.5           codetools_0.2-20        curl_6.0.1             
  [58] lattice_0.22-6          tibble_3.2.1            KEGGREST_1.46.0        
- [61] shiny_1.9.1             withr_3.0.2             evaluate_1.0.1         
+ [61] shiny_1.10.0            withr_3.0.2             evaluate_1.0.1         
  [64] polyclip_1.10-7         Biostrings_2.74.0       filelock_1.0.3         
  [67] BiocManager_1.30.25     pillar_1.9.0            generics_0.1.3         
  [70] sp_2.1-4                RCurl_1.98-1.16         BiocVersion_3.20.0     

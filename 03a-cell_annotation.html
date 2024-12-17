@@ -328,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
 <li><a href="#fusesom-matrix-input" id="toc-fusesom-matrix-input" class="nav-link" data-scroll-target="#fusesom-matrix-input"><span class="header-section-number">6.2.1</span> <code>FuseSOM</code> Matrix Input</a></li>
   <li><a href="#using-fusesom-to-estimate-the-number-of-clusters" id="toc-using-fusesom-to-estimate-the-number-of-clusters" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters"><span class="header-section-number">6.2.2</span> Using <code>FuseSOM</code> to estimate the number of clusters</a></li>
-  <li><a href="#fusesom-with-single-cell-epxeriment-object-as-input" id="toc-fusesom-with-single-cell-epxeriment-object-as-input" class="nav-link" data-scroll-target="#fusesom-with-single-cell-epxeriment-object-as-input"><span class="header-section-number">6.2.3</span> <code>FuseSOM</code> with Single Cell Epxeriment object as input</a></li>
+  <li><a href="#fusesom-with-single-cell-experiment-object-as-input" id="toc-fusesom-with-single-cell-experiment-object-as-input" class="nav-link" data-scroll-target="#fusesom-with-single-cell-experiment-object-as-input"><span class="header-section-number">6.2.3</span> <code>FuseSOM</code> with Single Cell Experiment object as input</a></li>
   <li><a href="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" id="toc-using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects"><span class="header-section-number">6.2.4</span> Using <code>FuseSOM</code> to estimate the number of clusters for <code>SingleCellExperiment</code> objects</a></li>
   </ul>
 </li>
@@ -376,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="op">}</span></span>
 <span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -435,12 +435,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="question">
-<p><strong>What we’re looking for</strong></p>
-<ol type="1">
-<li>Are we seeing exclusivity amongst markers which are biologically exclusive? E.g. we don’t expect to see a CD3+ (T cell marker) and CD68+ (Macrophage marker) cluster.</li>
-<li>Can we tease out cell types given the markers?</li>
-</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Common problems with clustering">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Common problems with clustering
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>How do I identify imperfect clustering?</strong> 1. Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g.&nbsp;CD4 2. If we instead see “smearing” of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalization issue.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Remedying imperfect clustering">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remedying imperfect clustering
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imperfect clustering can stem from many issues: the 3 most common are outlined below: 1. Imperfect segmentation - excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimizing the upstream segmentation algorithm. 2. Imperfect normalization - excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g.&nbsp;extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect. 3. Imperfect clustering - choosing a <code>k</code> that’s too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</p>
+</div>
 </div>
 </section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
 <span class="header-section-number">6.2.2</span> Using <code>FuseSOM</code> to estimate the number of clusters</h3>
@@ -523,8 +542,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>From the plots, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters. The <code>Gap</code> statistic is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
-</section><section id="fusesom-with-single-cell-epxeriment-object-as-input" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="fusesom-with-single-cell-epxeriment-object-as-input">
-<span class="header-section-number">6.2.3</span> <code>FuseSOM</code> with Single Cell Epxeriment object as input</h3>
+</section><section id="fusesom-with-single-cell-experiment-object-as-input" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="fusesom-with-single-cell-experiment-object-as-input">
+<span class="header-section-number">6.2.3</span> <code>FuseSOM</code> with Single Cell Experiment object as input</h3>
 <p>The <code>FuseSOM</code> algorithm is also equipped to take in a <code>SingleCellExperiment</code> object as input. The results of the pipeline will be written to either the metada or the colData fields.</p>
 <p>First, we create a <code>SingleCellExperiment</code> object using the Risom 2022 data.</p>
 <div class="cell">
@@ -532,16 +551,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="co"># create an SCE object using Risom 2022 data</span></span>
 <span><span class="va">colDat</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">)</span>, <span class="va">risomMarkers</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html">SingleCellExperiment</a></span><span class="op">(</span>assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">)</span><span class="op">)</span>,</span>
+<span><span class="va">sce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html">SingleCellExperiment</a></span><span class="op">(</span>assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"CellType"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                                 colData <span class="op">=</span> <span class="va">colDat</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sce</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SingleCellExperiment 
-dim: 23 69672 
+dim: 22 69672 
 metadata(0):
 assays(1): counts
-rownames(23): CD45 SMA ... CD44 CellType
+rownames(22): CD45 SMA ... P63 CD44
 rowData names(0):
 colnames: NULL
 colData names(1): X
@@ -553,39 +572,13 @@ altExpNames(0):</code></pre>
 <p>Next, we pass it to the <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> function. Here, we can provide the assay in which the data is stored (<code>counts</code>) and specify the column to store the clusters in using <code>clusterCol = "clusters"</code>. The <code>Self Organizing Map</code> that is generated will be stored in the metadata field.</p>
 <div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRessce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span><span class="va">sce</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, clusterCol <span class="op">=</span> <span class="st">"clusters"</span>,</span>
-<span>                          assay <span class="op">=</span> <span class="st">'counts'</span>, numClusters <span class="op">=</span> <span class="fl">23</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>You have provided a dataset of class SingleCellExperiment</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Everything looks good. Now running the FuseSOM algorithm</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Generating the Self Organizing Map Grid</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Optimal Grid Size is: 8</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Running the Self Organizing Map Model</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Clustering the Prototypes</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Mapping Clusters to the Original Data</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The Prototypes have been Clustered and Mapped Successfully</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The FuseSOM algorithm has completed successfully</code></pre>
-</div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                          assay <span class="op">=</span> <span class="st">'counts'</span>, numClusters <span class="op">=</span> <span class="fl">23</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "X"        "clusters"</code></pre>
 </div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SOM"</code></pre>
 </div>
@@ -594,7 +587,7 @@ altExpNames(0):</code></pre>
 <p>If necessary, you can run <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> with a new cluster number and specify a new <code>clusterCol</code>. If <code>clusterCol</code> contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current <code>clusters</code> column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.</p>
 <p>Just like before, we can plot a heatmap of the resulting clusters across all markers.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="va">risomMarkers</span><span class="op">]</span> <span class="co"># get the original data used</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="va">risomMarkers</span><span class="op">]</span> <span class="co"># get the original data used</span></span>
 <span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">$</span><span class="va">clusters</span> <span class="co"># extract the clusters from the SCE object</span></span>
 <span></span>
 <span><span class="co"># generate the heatmap</span></span>
@@ -607,11 +600,32 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 </div>
+<p>Or we can directly plot from the SCE using the <code>scater</code> package.</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise marker expression in each cluster.</span></span>
+<span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotGroupedHeatmap.html">plotGroupedHeatmap</a></span><span class="op">(</span></span>
+<span>  <span class="va">risomRessce</span>,</span>
+<span>  features <span class="op">=</span> <span class="va">risomMarkers</span>,</span>
+<span>  group <span class="op">=</span> <span class="st">"clusters"</span>,</span>
+<span>  exprs_values <span class="op">=</span> <span class="st">"counts"</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  zlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  block <span class="op">=</span> <span class="st">"clusters"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section><section id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="level3" data-number="6.2.4"><h3 data-number="6.2.4" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects">
 <span class="header-section-number">6.2.4</span> Using <code>FuseSOM</code> to estimate the number of clusters for <code>SingleCellExperiment</code> objects</h3>
 <p>Just like before, we will use <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> on our Risom <code>SingleCellExperiment</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
 <span><span class="co"># original clustering has 23 clusters so we will set kseq from 2:25</span></span>
 <span><span class="va">risomRessce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risomRessce</span>, kSeq <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">25</span>, </span>
 <span>                                  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Discriminant"</span>, <span class="st">"Distance"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -624,7 +638,7 @@ altExpNames(0):</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>Now Computing The Number Of Clusters Using Distance Analysis</code></pre>
 </div>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SOM"               "clusterEstimation"</code></pre>
 </div>
@@ -632,7 +646,7 @@ altExpNames(0):</code></pre>
 <p>The metadata now contains a <code>clusterEstimation</code> field which holds the results from the <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> function.</p>
 <p>We can assess the results of cluster estimation as below.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># what is the best number of clusters determined by the discriminant method?</span></span>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># what is the best number of clusters determined by the discriminant method?</span></span>
 <span><span class="fu">metadata</span><span class="op">(</span><span class="va">risomRessce</span><span class="op">)</span><span class="op">$</span><span class="va">clusterEstimation</span><span class="op">$</span><span class="va">Discriminant</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7</code></pre>
@@ -640,56 +654,56 @@ altExpNames(0):</code></pre>
 </div>
 <p>According to the discrminant method, the optimal number of clusters is 10.</p>
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
 <span><span class="va">pSlope</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'slope'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSlope</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSlope</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'jump'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'jump'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pJump</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'wcd'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'wcd'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pWcd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'gap'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'gap'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pGap</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'silhouette'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'silhouette'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>You have provided a dataset of class: SingleCellExperiment</code></pre>
 </div>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pSil</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-optiPlotSCE-5.png" class="img-fluid figure-img" width="672"></p>
@@ -697,18 +711,27 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 </div>
-<div class="question">
-<p><strong>What we’re looking for</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="FAQ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+FAQ
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol type="1">
-<li>We’re generally looking for the <code>k</code> before the point of greatest inflection.</li>
-<li>There can be several options of <code>k</code> if there are several points of inflection. Choose the <code>k</code> which best reflects the number of clusters you expect to get from the tissue.</li>
+<li>How do we choose our <code>k</code>? We’re generally looking for the <code>k</code> before the point of greatest inflection.</li>
+<li>Is there one best choice for <code>k</code>? There can be several options of <code>k</code> if there are several points of inflection. Choose the <code>k</code> which best reflects the number of clusters you expect to get from the tissue.</li>
 </ol>
+</div>
 </div>
 <p>Again, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters with 24 clusters. The <code>Gap</code> method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
 </section></section><section id="sessioninfo" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">6.3</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: x86_64-pc-linux-gnu
@@ -755,48 +778,50 @@ loaded via a namespace (and not attached):
  [22] DBI_1.2.3                RColorBrewer_1.1-3       abind_1.4-8             
  [25] zlibbioc_1.52.0          purrr_1.0.2              RCurl_1.98-1.16         
  [28] nnet_7.3-19              yulab.utils_0.1.8        rappdirs_0.3.3          
- [31] GenomeInfoDbData_1.2.13  spatstat.utils_3.1-1     terra_1.8-5             
- [34] pheatmap_1.0.12          vegan_2.6-8              svglite_2.1.3           
- [37] permute_0.9-7            codetools_0.2-20         DelayedArray_0.32.0     
- [40] tidyselect_1.2.1         raster_3.6-30            farver_2.1.2            
- [43] UCSC.utils_1.2.0         viridis_0.6.5            jsonlite_1.8.9          
- [46] Formula_1.2-5            systemfonts_1.1.0        tools_4.4.1             
- [49] Rcpp_1.0.13-1            glue_1.8.0               mnormt_2.1.1            
- [52] gridExtra_2.3            SparseArray_1.6.0        xfun_0.49               
- [55] mgcv_1.9-1               EBImage_4.48.0           dplyr_1.1.4             
- [58] HDF5Array_1.34.0         withr_3.0.2              shinydashboard_0.7.2    
- [61] BiocManager_1.30.25      fastmap_1.2.0            rhdf5filters_1.18.0     
- [64] fansi_1.0.6              digest_0.6.37            R6_2.5.1                
- [67] mime_0.12                gridGraphics_0.5-1       DataVisualizations_1.3.2
- [70] colorspace_2.1-1         spatstat.data_3.1-4      jpeg_0.1-10             
- [73] RSQLite_2.3.9            diptest_0.77-1           utf8_1.2.4              
- [76] tidyr_1.3.1              generics_0.1.3           robustbase_0.99-4-1     
- [79] class_7.3-22             httr_1.4.7               htmlwidgets_1.6.4       
- [82] S4Arrays_1.6.0           pkgconfig_2.0.3          gtable_0.3.6            
- [85] modeltools_0.2-23        blob_1.2.4               XVector_0.46.0          
- [88] htmltools_0.5.8.1        carData_3.0-5            fftwtools_0.9-11        
- [91] scales_1.3.0             png_0.1-8                spatstat.univar_3.1-1   
- [94] knitr_1.49               rjson_0.2.23             nlme_3.1-166            
- [97] curl_6.0.1               proxy_0.4-27             cachem_1.1.0            
-[100] rhdf5_2.50.1             stringr_1.5.1            BiocVersion_3.20.0      
-[103] parallel_4.4.1           vipor_0.4.7              AnnotationDbi_1.68.0    
-[106] pillar_1.9.0             grid_4.4.1               vctrs_0.6.5             
-[109] promises_1.3.2           ggpubr_0.6.0             car_3.1-3               
-[112] beachmat_2.22.0          xtable_1.8-4             cluster_2.1.6           
-[115] princurve_2.1.6          beeswarm_0.4.0           evaluate_1.0.1          
-[118] magick_2.8.5             cli_3.6.3                locfit_1.5-9.10         
-[121] compiler_4.4.1           rlang_1.1.4              crayon_1.5.3            
-[124] analogue_0.17-7          ggsignif_0.6.4           labeling_0.4.3          
-[127] mclust_6.1.1             fs_1.6.5                 ggbeeswarm_0.7.2        
-[130] stringi_1.8.4            psych_2.4.6.26           deldir_2.0-4            
-[133] viridisLite_0.4.2        BiocParallel_1.40.0      nnls_1.6                
-[136] FCPS_1.3.4               cytomapper_1.18.0        munsell_0.5.1           
-[139] Biostrings_2.74.0        tiff_0.1-12              coop_0.6-3              
-[142] profileModel_0.6.1       spatstat.geom_3.3-4      Matrix_1.7-1            
-[145] bit64_4.5.2              Rhdf5lib_1.28.0          fpc_2.2-13              
-[148] KEGGREST_1.46.0          shiny_1.9.1              brglm_0.7.2             
-[151] kernlab_0.9-33           broom_1.0.7              memoise_2.0.1           
-[154] DEoptimR_1.1-3-1         bit_4.5.0.1             </code></pre>
+ [31] GenomeInfoDbData_1.2.13  ggrepel_0.9.6            irlba_2.3.5.1           
+ [34] spatstat.utils_3.1-1     terra_1.8-5              pheatmap_1.0.12         
+ [37] vegan_2.6-8              svglite_2.1.3            permute_0.9-7           
+ [40] codetools_0.2-20         DelayedArray_0.32.0      tidyselect_1.2.1        
+ [43] raster_3.6-30            farver_2.1.2             UCSC.utils_1.2.0        
+ [46] ScaledMatrix_1.14.0      viridis_0.6.5            jsonlite_1.8.9          
+ [49] BiocNeighbors_2.0.1      Formula_1.2-5            scater_1.34.0           
+ [52] systemfonts_1.1.0        tools_4.4.1              Rcpp_1.0.13-1           
+ [55] glue_1.8.0               mnormt_2.1.1             gridExtra_2.3           
+ [58] SparseArray_1.6.0        xfun_0.49                mgcv_1.9-1              
+ [61] EBImage_4.48.0           dplyr_1.1.4              HDF5Array_1.34.0        
+ [64] withr_3.0.2              shinydashboard_0.7.2     BiocManager_1.30.25     
+ [67] fastmap_1.2.0            rhdf5filters_1.18.0      fansi_1.0.6             
+ [70] rsvd_1.0.5               digest_0.6.37            R6_2.5.1                
+ [73] mime_0.12                gridGraphics_0.5-1       DataVisualizations_1.3.2
+ [76] colorspace_2.1-1         spatstat.data_3.1-4      jpeg_0.1-10             
+ [79] RSQLite_2.3.9            diptest_0.77-1           utf8_1.2.4              
+ [82] tidyr_1.3.1              generics_0.1.3           robustbase_0.99-4-1     
+ [85] class_7.3-22             httr_1.4.7               htmlwidgets_1.6.4       
+ [88] S4Arrays_1.6.0           pkgconfig_2.0.3          gtable_0.3.6            
+ [91] modeltools_0.2-23        blob_1.2.4               XVector_0.46.0          
+ [94] htmltools_0.5.8.1        carData_3.0-5            fftwtools_0.9-11        
+ [97] scales_1.3.0             png_0.1-8                spatstat.univar_3.1-1   
+[100] knitr_1.49               rjson_0.2.23             nlme_3.1-166            
+[103] curl_6.0.1               proxy_0.4-27             cachem_1.1.0            
+[106] rhdf5_2.50.1             stringr_1.5.1            BiocVersion_3.20.0      
+[109] parallel_4.4.1           vipor_0.4.7              AnnotationDbi_1.68.0    
+[112] pillar_1.9.0             grid_4.4.1               vctrs_0.6.5             
+[115] promises_1.3.2           ggpubr_0.6.0             BiocSingular_1.22.0     
+[118] car_3.1-3                beachmat_2.22.0          xtable_1.8-4            
+[121] cluster_2.1.6            princurve_2.1.6          beeswarm_0.4.0          
+[124] evaluate_1.0.1           magick_2.8.5             cli_3.6.3               
+[127] locfit_1.5-9.10          compiler_4.4.1           rlang_1.1.4             
+[130] crayon_1.5.3             analogue_0.17-7          ggsignif_0.6.4          
+[133] labeling_0.4.3           mclust_6.1.1             fs_1.6.5                
+[136] ggbeeswarm_0.7.2         stringi_1.8.4            psych_2.4.6.26          
+[139] deldir_2.0-4             viridisLite_0.4.2        BiocParallel_1.40.0     
+[142] nnls_1.6                 FCPS_1.3.4               cytomapper_1.18.0       
+[145] munsell_0.5.1            Biostrings_2.74.0        tiff_0.1-12             
+[148] coop_0.6-3               profileModel_0.6.1       spatstat.geom_3.3-4     
+[151] Matrix_1.7-1             bit64_4.5.2              Rhdf5lib_1.28.0         
+[154] fpc_2.2-13               KEGGREST_1.46.0          shiny_1.10.0            
+[157] brglm_0.7.2              kernlab_0.9-33           broom_1.0.7             
+[160] memoise_2.0.1            DEoptimR_1.1-3-1         bit_4.5.0.1             </code></pre>
 </div>
 </div>
 
