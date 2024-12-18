@@ -54,7 +54,7 @@ theme_set(theme_classic())
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 # remove any missing data in our outcome columns
-# kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
+kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
                                                            "tumour_type")])]
 ```
 
