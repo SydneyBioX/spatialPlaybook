@@ -50,7 +50,7 @@ theme_set(theme_classic())
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 # remove any missing data in our outcome columns
-kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
+# kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
                                                            "tumour_type")])]
 ```
 
@@ -193,7 +193,7 @@ signifPlot(
 
 `spicyR` supports mixed effects modelling when multiple images are obtained for each subject. In this case, `subject` is treated as a random effect and `condition` is treated as a fixed effect. To perform mixed effects modelling, we can specify the `subject` parameter in the `spicy()` function.
 
-To demonstrate spicyR's functionality with mixed effects models, we will use the Damond 2019 dataset. 
+To demonstrate spicyR's functionality with mixed effects models, we will use the Damond 2019 dataset.
 
 ```{r 04a-mixedEffectModel, eval=FALSE}
 # load in data
@@ -253,7 +253,7 @@ In the example below, we examine the degree of co-localisation between `Keratin_
 
 ```{r 04a-sigmanull}
 # filter SPE object to obtain image 24 data
-kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "24"]
+kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "1"]
 
 pairwiseAssoc = getPairwise(kerenSubset, 
                             sigma = NULL, 
@@ -268,45 +268,23 @@ When we specify `sigma = 20` and re-calculate the L-function, it indicates that 
 ```{r 04a-sigma20}
 pairwiseAssoc = getPairwise(kerenSubset, 
                             sigma = 20, 
-                            Rs = 100) |>
-  as.data.frame()
+                            Rs = 100) |> as.data.frame()
 
 pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
 ```
 
-```{r 04a-plotCellTypes}
-# obtain colData for image 24
-cData = colData(kerenSPE) |> as.data.frame() |> 
-          dplyr::filter(imageID == "24")
+To understand why this might be happening, we can take a closer look at the relationship between `Keratin_Tumour` and `Neutrophils`. The `plotImage` function allows us to plot any two cell types for a specific image. Below, we plot image 24 for the `Keratin_Tumour__Neutrophils` relationship by specifying `from = Keratin_Tumour` and `to` = `Neutrophils`.
 
-# obtain cells present in image 24
-coords = spatialCoords(kerenSPE) |> as.data.frame()
-coords$cellID = rownames(coords)
-coords = coords |> dplyr::filter(cellID %in% cData$CellID)
-
-cData$X = coords$x
-cData$Y = coords$y
-
-cData = cData |> 
-  dplyr::mutate(cellTypeNew = ifelse(cellType %in% c("Keratin_Tumour", "Neutrophils"), 
-                                     cellType, "Other"))
-
- pal = setNames(c("#d6b11c", "#850f07"), 
-                c("Keratin_Tumour", "Neutrophils"))
-
-ggplot() +
-    stat_density_2d(data = cData, aes(x = X, y = Y, fill = after_stat(density)), 
-                    geom = "raster", 
-                    contour = FALSE) +
-    geom_point(data = cData |> filter(cellType != "Other"),
-               aes(x = X, y = Y, colour = cellTypeNew), size = 1) +
-    scale_color_manual(values = pal) +
-    scale_fill_distiller(palette = "Blues", direction = 1) +
-    theme_classic() +
-    labs(title = "image ID: 24")
+```{r include = FALSE}
+# needs to be removed 
+devtools::load_all("../spicyR")
 ```
 
-Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the top of the image.
+```{r 04a-plotCellTypes}
+plotImage(kerenSPE, imageToPlot = "24", from = "Keratin_Tumour", to = "Neutrophils")
+```
+
+Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the bottom of the image.
 
 ## sessionInfo
 
