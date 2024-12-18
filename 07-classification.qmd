@@ -1,4 +1,4 @@
-# Classification
+# Finding associations between clinical variables and spatial features
 
 When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
 
@@ -16,6 +16,7 @@ suppressPackageStartupMessages({
   library(lisaClust)
   library(Statial)
   library(spicyR)
+  library(ggplot2)
 })
 ```
 
@@ -24,13 +25,19 @@ library(ClassifyR)
 library(lisaClust)
 library(Statial)
 library(spicyR)
+library(ggplot2)
 ```
 
-```{r 02-setParam}
+```{r, setParam}
+# set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 
@@ -51,6 +58,10 @@ kerenSPE <- SpatialDatasets::spe_Keren_2018()
 # remove any missing data in our outcome columns
 kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
                                                            "tumour_type")])]
+
+kontextMat <- readRDS("data/kontextMat.rds")
+
+stateMat <- readRDS("data/stateMat.rds")
 ```
 
 ## Classification of patients by condition
@@ -67,7 +78,7 @@ We will build a list of feature matrices using the features we've generated in t
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression (SpatioMark)
 
-```{r, include = FALSE}
+```{r}
 kontextMat <- readRDS("data/kontextMat.rds")
 stateMat <- readRDS("data/stateMat.rds")
 ```

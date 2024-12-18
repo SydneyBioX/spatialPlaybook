@@ -31,7 +31,7 @@ book:
     - part: "Spatial domains"
       contents:
         - 05-cellular_niches.qmd
-    - part: "Changes in marker expression"
+    - part: "Marker expression"
       contents:
         - 06-changes_in_marker_expression.qmd
     - part: "Classification"

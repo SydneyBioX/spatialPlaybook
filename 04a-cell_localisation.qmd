@@ -1,4 +1,4 @@
-# SpicyR: Cell localisation
+# Cell localisation between pairs of cell types
 
 So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
 
@@ -33,12 +33,16 @@ library(treekoR)
 library(ggsurvfit)
 ```
 
-```{r 04a-setParam}
+```{r, setParam}
 # set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 
@@ -183,7 +187,6 @@ topPairs(spicyTestColPairs)
 ```{r 04a-signifPlotkNN}
 signifPlot(
   spicyTestColPairs,
-  breaks = c(-3, 3, 1),
   marksToPlot = c("Macrophages", "dn_T_CD3", "CD4_T_cell", 
                   "B_cell", "DC_or_Mono", "Neutrophils", "CD8_T_cell")
 )
@@ -195,7 +198,7 @@ signifPlot(
 
 To demonstrate spicyR's functionality with mixed effects models, we will use the Damond 2019 dataset.
 
-```{r 04a-mixedEffectModel, eval=FALSE}
+```{r 04a-mixedEffectModel}
 # load in data
 data("diabetesData")
 

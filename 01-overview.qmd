@@ -1,4 +1,4 @@
-# Overview
+# Introduction
 
 This page contains examples of how to different types of analysis. We have sorted these by technology, however we recommend focusing more on the questions that can be asked, rather than the technologies that were use to address them.
 
@@ -40,12 +40,12 @@ A MIBI-TOF data profiling the spatial landscape of ductal carcinoma in situ (DCI
 
 <citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
 
-## seqFISH
+<!-- ## seqFISH -->
 
-[SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities, such as imaging the transcriptome and proteins
+<!-- [SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities, such as imaging the transcriptome and proteins -->
 
-### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd)
+<!-- ### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd) -->
 
-We use our package [scHOT](https://www.bioconductor.org/packages/release/bioc/html/scHOT.html) to analyse [Lohoff et al's](https://www.nature.com/articles/s41587-021-01006-2) study of early mouse organogenesis that was performed using a seqFISH. This analysis was adapted from a workshop that Shila and Ellis deliver as an introduction to spatial data analysis and in addition to scHOT, covers basic manipulation and visualisation of `SpatialExperiment` objects.
+<!-- We use our package [scHOT](https://www.bioconductor.org/packages/release/bioc/html/scHOT.html) to analyse [Lohoff et al's](https://www.nature.com/articles/s41587-021-01006-2) study of early mouse organogenesis that was performed using a seqFISH. This analysis was adapted from a workshop that Shila and Ellis deliver as an introduction to spatial data analysis and in addition to scHOT, covers basic manipulation and visualisation of `SpatialExperiment` objects. -->
 
-<citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation>
+<!-- <citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation> -->

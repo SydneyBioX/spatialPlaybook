@@ -175,9 +175,10 @@ citation {
 </style>
 ```
 
-### MoleculeExperiment
+## MoleculeExperiment
 
-`<a href="https://sydneybiox.github.io/MoleculeExperiment/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://sydneybiox.github.io/MoleculeExperiment/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("MoleculeExperiment", fields = "Description")))
@@ -191,9 +192,9 @@ print(myCitation("MoleculeExperiment"), style = "html")
 
 </font>
 
-### simpleSeg
+## simpleSeg
 
-`<a href="http://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/simpleSeg/SimpleSeg_Hex_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="http://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/simpleSeg/SimpleSeg_Hex_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("simpleSeg", fields = "Description")))
@@ -207,9 +208,10 @@ print(myCitation("simpleSeg"), style = "html")
 
 </font>
 
-### scMerge
+## scMerge
 
-`<a href="https://sydneybiox.github.io/scMerge/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scMerge/scMerge.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://sydneybiox.github.io/scMerge/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scMerge/scMerge.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("scMerge", fields = "Description")))
@@ -223,9 +225,9 @@ print(myCitation("scMerge"), style = "html")
 
 </font>
 
-### FuseSOM
+## FuseSOM
 
-`<a href="http://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/FuseSOM/fuseSOM_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="http://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/FuseSOM/fuseSOM_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("FuseSOM", fields = "Description")))
@@ -239,9 +241,9 @@ print(myCitation("FuseSOM"), style = "html")
 
 </font>
 
-### treekoR
+## treekoR
 
-`<a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/treekoR/treekoR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/treekoR/treekoR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("treekoR", fields = "Description")))
@@ -255,9 +257,9 @@ print(myCitation("treekoR"), style = "html", url = "")
 
 </font>
 
-### scFeatures
+## scFeatures
 
-`<a href="http://www.bioconductor.org/packages/release/bioc/html/scFeatures.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scFeatures/sticker_version2.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="http://www.bioconductor.org/packages/release/bioc/html/scFeatures.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scFeatures/sticker_version2.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("scFeatures", fields = "Description")))
@@ -271,9 +273,9 @@ print(myCitation("scFeatures"), style = "html")
 
 </font>
 
-### scHOT
+## scHOT
 
-`<a href="https://bioconductor.org/packages/release/bioc/html/scHOT.html"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scHOT/scHOT_hex.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://bioconductor.org/packages/release/bioc/html/scHOT.html"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scHOT/scHOT_hex.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("scHOT", fields = "Description")))
@@ -287,9 +289,9 @@ print(myCitation("scHOT"), style = "html")
 
 </font>
 
-### spicyR
+## spicyR
 
-`<a href="https://ellispatrick.github.io/spicyR/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/spicyR/spicyR_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://ellispatrick.github.io/spicyR/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/spicyR/spicyR_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("spicyR", fields = "Description")))
@@ -303,9 +305,9 @@ print(myCitation("spicyR"), style = "html")
 
 </font>
 
-### Statial
+## Statial
 
-`<a href="https://sydneybiox.github.io/Statial/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/Statial/statial.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://sydneybiox.github.io/Statial/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/Statial/statial.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("Statial", fields = "Description")))
@@ -319,9 +321,9 @@ print(myCitation("Statial"), style = "html")
 
 </font>
 
-### lisaClust
+## lisaClust
 
-`<a href="https://ellispatrick.github.io/lisaClust/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/lisaClust/lisaClust_sticker_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://ellispatrick.github.io/lisaClust/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/lisaClust/lisaClust_sticker_ai_standard.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("lisaClust", fields = "Description")))
@@ -335,9 +337,9 @@ print(myCitation("lisaClust"), style = "html")
 
 </font>
 
-### ClassifyR
+## ClassifyR
 
-`<a href="https://sydneybiox.github.io/ClassifyR/"`{=html}<img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/ClassifyR/classifyR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
+<a href="https://sydneybiox.github.io/ClassifyR/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/ClassifyR/classifyR.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("ClassifyR", fields = "Description")))
@@ -388,3 +390,4 @@ citation {
 }
 </style>
 ```
+

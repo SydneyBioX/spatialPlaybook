@@ -1,4 +1,4 @@
-# FuseSOM: Cell Annotation
+# Unsupervised clustering for cell annotation
 
 Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.
 
@@ -22,6 +22,7 @@ suppressPackageStartupMessages({
   library(MLmetrics)
   library(simpleSeg)
   library(scuttle)
+  library(ggplot2)
 })
 ```
 
@@ -32,14 +33,19 @@ library(STexampleData)
 library(MLmetrics)
 library(simpleSeg)
 library(scuttle)
+library(ggplot2)
 ```
 
-```{r 03a-setParam}
+```{r, setParam}
 # set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 
@@ -71,7 +77,7 @@ names(risom_dat)[names(risom_dat) == 'manual_gating_phenotype'] <- 'CellType'
 
 Now that we have loaded the data and defined the markers of interest, we can run the `FuseSOM` algorithm using the `runFuseSOM()` function. We specify the number of clusters to be 23 based on prior domain knowledge. The output contains the cluster labels as well as the `Self Organizing Map` model.
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 risomRes <- runFuseSOM(data = risom_dat, markers = risomMarkers, 
                         numClusters = 23)
 ```
@@ -90,7 +96,12 @@ risomHeat <- FuseSOM::markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = risomRes$clusters, clusterMarkers = TRUE)
 ```
 
--   few comments analysing heatmap?
+::: question
+**What we're looking for**
+
+1.  Are we seeing exclusivity amongst markers which are biologically exclusive? E.g. we don't expect to see a CD3+ (T cell marker) and CD68+ (Macrophage marker) cluster.
+2.  Can we tease out cell types given the markers?
+:::
 
 ### Using `FuseSOM` to estimate the number of clusters
 
@@ -107,7 +118,7 @@ When the number of expected cell typess or clusters is not known beforehand, the
 
 We run `estimateNumCluster()` and specify `method = c("Discriminant", "Distance")` to use both approaches.
 
-```{r 03a-estimateNumClustersDat}
+```{r 03a-estimateNumClustersDat, message=FALSE, warning=FALSE}
 # lets estimate the number of clusters using all the methods
 # original clustering has 23 clusters so we will set kseq from 2:25
 # we pass it the SOM model generated in the previous step
@@ -224,6 +235,13 @@ pSil <- optiPlot(risomRessce, method = 'silhouette')
 pSil
 
 ```
+
+::: question
+**What we're looking for**
+
+1.  We're generally looking for the `k` before the point of greatest inflection.
+2.  There can be several options of `k` if there are several points of inflection. Choose the `k` which best reflects the number of clusters you expect to get from the tissue.
+:::
 
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 

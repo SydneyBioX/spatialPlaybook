@@ -1,6 +1,5 @@
 # Quality Control
 
-
 With cell segmentation complete, we can move on to performing quality control checks. In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining is particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it. The simpleSeg package includes additional functions for detecting batch effects and normalising expression data to minimize their impact.
 
 <!-- Steps: -->
@@ -31,12 +30,16 @@ library(scater)
 library(ggplot2)
 ```
 
-```{r 02-setParam}
+```{r, setParam}
 # set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 
@@ -46,7 +49,7 @@ theme_set(theme_classic())
 
 ## simpleSeg: Do my images have a batch effect?
 
-First, let's load in the images we previously segmented out in the last section. The `SpatialDatasets` package conveniently provides the segmented out images for Fergusin 2022 dataset.
+First, let's load in the images we previously segmented out in the last section. The `SpatialDatasets` package conveniently provides the segmented out images for the Ferguson 2022 dataset.
 
 ```{r 02-loadFerguson, warning=FALSE, message=FALSE}
 # load in data
@@ -68,6 +71,13 @@ fergusonSPE |>
   geom_density() + 
   theme(legend.position = "none")
 ```
+
+::: question
+**What we're looking for**
+
+1.  Can we clearly identify the peaks which constitute CD3+ and CD3- cells?
+2.  Do they appear to be largely consistent across images?
+:::
 
 Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effect, where across images, the intensity peaks differ drastically.
 
@@ -125,12 +135,12 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 
 #### `method` Parameters
 
-| Method | Description |   |
-|-----------------|:-------------------------------------:|:---------------:|
-| ["mean"]{style="font-family: 'Courier New', monospace;"} | [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"} |  |
-| ["minMax"]{style="font-family: 'Courier New', monospace;"} | [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"} |  |
-| ["trim99"]{style="font-family: 'Courier New', monospace;"} | [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"} |  |
-| ["PC1"]{style="font-family: 'Courier New', monospace;"} | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |  |
+| Method                                                     |                                                                                Description                                                                                 |     |
+|------------------|:-----------------------------------:|:----------------:|
+| ["mean"]{style="font-family: 'Courier New', monospace;"}   |                              [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"}                               |     |
+| ["minMax"]{style="font-family: 'Courier New', monospace;"} |                             [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"}                              |     |
+| ["trim99"]{style="font-family: 'Courier New', monospace;"} |                           [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"}                           |     |
+| ["PC1"]{style="font-family: 'Courier New', monospace;"}    | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |     |
 
 We can then plot the same density curve for the CD3 marker using the normalised data.
 
@@ -142,6 +152,13 @@ fergusonSPE |>
   geom_density() + 
   theme(legend.position = "none")
 ```
+
+::: question
+**What we're looking for**
+
+1.  Can we see that distinct cell types cluster together?
+2.  Can we see the images don't cluster out separately?
+:::
 
 Here, we can see that the normalised data appears more bimodal, and we can clearly observe a CD3+ peak at 5.00, and a CD3- peak at around 3.00. Image-level batch effects also appear to have been mitigated.
 

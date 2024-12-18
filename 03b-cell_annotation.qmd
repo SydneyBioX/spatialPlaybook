@@ -1,4 +1,4 @@
-# Cell Annotation
+# Supervised cell annotation with a reference
 
 The other approach to identifying cell types involves using an annotated reference dataset to assign labels for a query dataset. In this section, we will demonstrate how `scClassify` can be used for supervised cell type annotation.
 
@@ -8,6 +8,7 @@ suppressPackageStartupMessages({
   library(STexampleData)
   library(MLmetrics)
   library(scuttle)
+  library(ggplot2)
 })
 ```
 
@@ -17,14 +18,19 @@ library(scClassify)
 library(STexampleData)
 library(MLmetrics)
 library(scuttle)
+library(ggplot2)
 ```
 
-```{r 03b-setParam}
+```{r, setParam}
 # set parameters
 set.seed(51773)
-nCores <- 10
+use_mc <- TRUE
+if (use_mc) {
+  nCores <- max(parallel::detectCores()/2, 1)
+} else {
+  nCores <- 2
+}
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
-
 theme_set(theme_classic())
 ```
 
@@ -111,7 +117,7 @@ plotCellTypeTree(cellTypeTree(scClassify_res$trainRes))
 
 The predictions for each cell can be accessed through the `ensembleRes` slot in the testing results.
 
-```{r, eval = FALSE}
+```{r}
 pred_mat = scClassify_res$testRes$stickels$ensembleRes |> as.data.frame()
 head(pred_mat)
 ```
