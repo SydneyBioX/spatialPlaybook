@@ -59,6 +59,8 @@ kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival
 
 `Kontextual` is a method for performing inference on cell localisation which explicitly defines the contexts in which spatial relationships between cells can be identified and interpreted. These contexts may represent landmarks, spatial domains, or groups of functionally similar cells which are consistent across regions. By modelling spatial relationships between cells relative to these contexts, `Kontextual` produces robust spatial quantifications that are not confounded by biases such as the choice of region to image and the tissue structure present in the images. The `Kontextual` function is available in the [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package.
 
+<img src="images/kontextual_fig1.png" align="center" style="height: 300px; border: 0px"/>
+
 In this example we demonstrate how cell type hierarchies can be used as a means to derive appropriate "contexts" for the evaluation of cell localisation. We then demonstrate the types of conclusions which `Kontextual` enables.
 
 ### Using cell type hierarchies to define a "context"

@@ -48,7 +48,11 @@ theme_set(theme_classic())
 
 ## Quantifying cell type co-localisation with spicyR
 
-[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups. Here, we will use the Keren 2018 dataset to demonstrate the use of `spicyR` The data is stored as a `SpatialExperiment` object within the `SpatialDatasets` package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).
+[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups. 
+
+<img src="images/spicyR_fig1.jpeg" align="center" style="height: 300px; border: 0px"/>
+
+Here, we will use the Keren 2018 dataset to demonstrate the use of `spicyR`. The data is stored as a `SpatialExperiment` object within the `SpatialDatasets` package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).
 
 ```{r 04a-loadKeren, warning=FALSE, message=FALSE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
