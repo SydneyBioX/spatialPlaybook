@@ -42,7 +42,7 @@ use_mc <- TRUE
 if (use_mc) {
   nCores <- max(parallel::detectCores()/2, 1)
 } else {
-  nCores <- 2
+  nCores <- 1
 }
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 theme_set(theme_classic())

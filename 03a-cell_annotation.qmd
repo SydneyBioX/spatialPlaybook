@@ -43,7 +43,7 @@ use_mc <- TRUE
 if (use_mc) {
   nCores <- max(parallel::detectCores()/2, 1)
 } else {
-  nCores <- 2
+  nCores <- 1
 }
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 theme_set(theme_classic())
@@ -96,11 +96,21 @@ risomHeat <- FuseSOM::markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = risomRes$clusters, clusterMarkers = TRUE)
 ```
 
-::: question
-**What we're looking for**
+::: {.callout-tip title="Common problems with clustering"}
+**How do I identify imperfect clustering?**
 
-1.  Are we seeing exclusivity amongst markers which are biologically exclusive? E.g. we don't expect to see a CD3+ (T cell marker) and CD68+ (Macrophage marker) cluster.
-2.  Can we tease out cell types given the markers?
+
+1.    Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g. CD4
+2.    If we instead see "smearing" of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalization issue.
+:::
+
+::: {.callout-tip title="Remedying imperfect clustering"}
+**Three common issues which cause imperfect clustering have been outlined below:**
+
+
+1.    **Imperfect segmentation** - excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimizing the upstream segmentation algorithm.
+2.    **Imperfect normalization** - excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g. extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.
+3.    **Imperfect clustering** - choosing a `k` that's too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal `k` based on an elbow plot described below.
 :::
 
 ### Using `FuseSOM` to estimate the number of clusters
@@ -155,7 +165,7 @@ pSil
 
 From the plots, we see that the `Jump` statistic almost perfectly captures the correct number of clusters. The `Gap` statistic is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 
-### `FuseSOM` with Single Cell Epxeriment object as input
+### `FuseSOM` with Single Cell Experiment object as input
 
 The `FuseSOM` algorithm is also equipped to take in a `SingleCellExperiment` object as input. The results of the pipeline will be written to either the metada or the colData fields.
 
@@ -166,7 +176,7 @@ library(SingleCellExperiment)
 
 # create an SCE object using Risom 2022 data
 colDat <- risom_dat[, setdiff(colnames(risom_dat), risomMarkers)]
-sce <- SingleCellExperiment(assays = list(counts = t(risom_dat)),
+sce <- SingleCellExperiment(assays = list(counts = t(risom_dat[, names(risom_dat) != "CellType"])),
                                  colData = colDat)
 
 sce
@@ -174,7 +184,7 @@ sce
 
 Next, we pass it to the `runFuseSOM()` function. Here, we can provide the assay in which the data is stored (`counts`) and specify the column to store the clusters in using `clusterCol = "clusters"`. The `Self Organizing Map` that is generated will be stored in the metadata field.
 
-```{r 03a-fusesomSCE}
+```{r 03a-fusesomSCE, message=FALSE, warning=FALSE}
 risomRessce <- runFuseSOM(sce, markers = risomMarkers, clusterCol = "clusters",
                           assay = 'counts', numClusters = 23, verbose = FALSE)
 
@@ -195,6 +205,22 @@ clusters <- colData(risomRessce)$clusters # extract the clusters from the SCE ob
 # generate the heatmap
 risomHeatsce <- markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = clusters, clusterMarkers = TRUE)
+```
+Or we can directly plot from the SCE using the `scater` package.
+
+```{r}
+# Visualise marker expression in each cluster.
+scater::plotGroupedHeatmap(
+  risomRessce,
+  features = risomMarkers,
+  group = "clusters",
+  exprs_values = "counts",
+  center = TRUE,
+  scale = TRUE,
+  zlim = c(-3, 3),
+  cluster_rows = FALSE,
+  block = "clusters"
+)
 ```
 
 ### Using `FuseSOM` to estimate the number of clusters for `SingleCellExperiment` objects
@@ -236,11 +262,9 @@ pSil
 
 ```
 
-::: question
-**What we're looking for**
-
-1.  We're generally looking for the `k` before the point of greatest inflection.
-2.  There can be several options of `k` if there are several points of inflection. Choose the `k` which best reflects the number of clusters you expect to get from the tissue.
+::: {.callout-tip title="FAQ"}
+1.  How do we choose our `k`? We're generally looking for the `k` before the point of greatest inflection.
+2.  Is there one best choice for `k`? There can be several options of `k` if there are several points of inflection. Choose the `k` which best reflects the number of clusters you expect to get from the tissue.
 :::
 
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.

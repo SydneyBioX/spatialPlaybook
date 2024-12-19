@@ -2,6 +2,31 @@
 
 Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on Bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
 
+
+```{=html}
+<style>
+table {
+  font-size: 9pt;
+  padding: 1px;
+}
+</style>
+```
+
+| Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| Breast cancer | MIBI-TOF | Keren_2018 |  |  |  | X | X | X |  |
+| Breast cancer | MIBI-TOF | Risom_2022 | X | X | X | X | X | X |  |
+| Mouse organogenesis | seqFISH | Lohoff_2022 |  | X |  | X |  |  |  |
+
+```{=html}
+<style>
+citation {
+  font-size: 9pt;
+  font-style: italic;
+}
+</style>
+```
+
 ## Spatial Proteomics - MIBI-TOF
 
 MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$.

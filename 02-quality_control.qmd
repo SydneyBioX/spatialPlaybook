@@ -37,7 +37,7 @@ use_mc <- TRUE
 if (use_mc) {
   nCores <- max(parallel::detectCores()/2, 1)
 } else {
-  nCores <- 2
+  nCores <- 1
 }
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 theme_set(theme_classic())
@@ -72,11 +72,11 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
-::: question
+::: {.callout-note}
 **What we're looking for**
 
-1.  Can we clearly identify the peaks which constitute CD3+ and CD3- cells?
-2.  Do they appear to be largely consistent across images?
+1.  Do the CD3+ and CD3- peaks clearly separate out in the density plot? To ensure that downstream clustering goes smoothly, we want our cell type specific markers to show 2 distinct peaks representing our CD3+ and CD3- cells. If we see 3 or more peaks where we don't expect, this might be an indicator that further normalization is required.
+2.  Are our CD3+ and CD3- peaks consistent across our images? We want to make sure that our density plots for CD3 are largely the same across images so that a CD3+ cell in 1 image is equivalent to a CD3+ cell in another image.
 :::
 
 Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effect, where across images, the intensity peaks differ drastically.
@@ -153,11 +153,11 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
-::: question
-**What we're looking for**
+::: {.callout-note}
+**Questions revisited**
 
-1.  Can we see that distinct cell types cluster together?
-2.  Can we see the images don't cluster out separately?
+1.  Do the CD3+ and CD3- peaks clearly separate out in the density plot? If not, we can try optimizing the transform if the distribution looks heavily skewed. 
+2.  Are our CD3+ and CD3- peaks consistent across our images? We can try to be more stringent in our normalization, such as by removing the 1st PC (`method = c(..., "PC1")`) or scaling the values for all images between 0 and 1 (`method = c(..., "minMax")`).
 :::
 
 Here, we can see that the normalised data appears more bimodal, and we can clearly observe a CD3+ peak at 5.00, and a CD3- peak at around 3.00. Image-level batch effects also appear to have been mitigated.

@@ -11,8 +11,7 @@ knitr::knit_hooks$set(time_it = local({
       # calculate the time difference after a chunk
       res <- difftime(Sys.time(), now, units = "secs")
       # return a character string to show the time
-      paste("Time for this code chunk to run:", round(res,
-        2), "seconds")
+      paste("Time for this code chunk to run with ", nCores, " cores: ", round(res, 2), " seconds")
     }
   }
 }))
@@ -53,7 +52,7 @@ use_mc <- TRUE
 if (use_mc) {
   nCores <- max(parallel::detectCores()/2, 1)
 } else {
-  nCores <- 2
+  nCores <- 1
 }
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 theme_set(theme_classic())
@@ -179,7 +178,7 @@ plotPixels(image = images["F3"],
            display = "single",
            colour = list(HH3 = c("black","blue"),
                          CD31 = c("black", "red"),
-                         FX111A = c("black", "green") ),
+                         FX111A = c("black", "green")),
            legend = NULL,
            bcg = list(
              HH3 = c(1, 1, 2),
@@ -188,12 +187,12 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-::: question
+::: {.callout-tip title="What to look for and change to obtain an ideal segmentation"}
 **Critical thinking**
 
-1.  Is there any information we're not capturing with this segmentation?
-2.  What parameters might you change to improve the segmentation?
-3.  What are some intrinsic limitations of the simpleSeg method?
+1.    Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transform to improve the thresholding of the nuclei marker. You could also try using `pca = TRUE` which will borrow information across the markers to help find the nuclei.
+2.    How much of the cell body is the segmentation missing? Try increasing the dilation around the nucleus by setting `discSize = 7`.
+3.    Are the segmentations capturing neighbouring cells? Try decreasing the dilation to limit lateral spillover of marker signal by setting `discSize = 2`.
 :::
 
 Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This suggests that we might need to increase the `discSize` or other parameters of `simpleSeg`.
