@@ -445,7 +445,11 @@ Common problems with clustering
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>How do I identify imperfect clustering?</strong> 1. Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g.&nbsp;CD4 2. If we instead see “smearing” of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalization issue.</p>
+<p><strong>How do I identify imperfect clustering?</strong></p>
+<ol type="1">
+<li>Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g.&nbsp;CD4</li>
+<li>If we instead see “smearing” of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalization issue.</li>
+</ol>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Remedying imperfect clustering">
@@ -458,7 +462,15 @@ Remedying imperfect clustering
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Imperfect clustering can stem from many issues: the 3 most common are outlined below: 1. Imperfect segmentation - excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimizing the upstream segmentation algorithm. 2. Imperfect normalization - excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g.&nbsp;extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect. 3. Imperfect clustering - choosing a <code>k</code> that’s too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</p>
+<p><strong>Imperfect clustering can stem from many issues: the 3 most common are outlined below:</strong></p>
+<ol type="1">
+<li>
+<strong>Imperfect segmentation</strong> - excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimizing the upstream segmentation algorithm.</li>
+<li>
+<strong>Imperfect normalization</strong> - excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g.&nbsp;extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.</li>
+<li>
+<strong>Imperfect clustering</strong> - choosing a <code>k</code> that’s too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</li>
+</ol>
 </div>
 </div>
 </section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">

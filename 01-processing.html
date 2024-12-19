@@ -404,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="co"># assign metadata columns</span></span>
 <span><span class="fu">mcols</span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 40 cores: 73.99 seconds</p>
+<p>Time for this code chunk to run with 40 cores: 69.52 seconds</p>
 </div>
 <p>When reading the image channels directly from the names of the TIFF images, they will often need to be cleaned for ease of downstream processing. The channel names can be accessed from the <code>CytoImageList</code> object using the <code>channelNames</code> function.</p>
 <div class="cell">
@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                   tissue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"panCK"</span>, <span class="st">"CD45"</span>, <span class="st">"HH3"</span><span class="op">)</span>,</span>
 <span>                   cores <span class="op">=</span> <span class="va">nCores</span></span>
 <span>                   <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 40 cores: 44.22 seconds</p>
+<p>Time for this code chunk to run with 40 cores: 44.47 seconds</p>
 </div>
 <section id="visualise-separation" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="visualise-separation">
 <span class="header-section-number">4.2.1</span> Visualise separation</h3>
@@ -637,7 +637,7 @@ altExpNames(0):
 spatialCoords names(2) : x y
 imgData names(1): sample_id</code></pre>
 </div>
-<p>Time for this code chunk to run with 40 cores: 73.95 seconds</p>
+<p>Time for this code chunk to run with 40 cores: 74.32 seconds</p>
 </div>
 <p>So far, we have obtained our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a <code>SpatialExperiment</code> object. We can now move on to quality control, data transformation, and normalisation to address batch effects.</p>
 </section><section id="sessioninfo" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sessioninfo">
@@ -696,24 +696,25 @@ loaded via a namespace (and not attached):
  [43] R6_2.5.1                RColorBrewer_1.1-3      spatstat.data_3.1-4    
  [46] spatstat.univar_3.1-1   Rcpp_1.0.13-1           knitr_1.49             
  [49] httpuv_1.6.15           Matrix_1.7-1            nnls_1.6               
- [52] tidyselect_1.2.1        yaml_2.3.10             abind_1.4-8            
- [55] viridis_0.6.5           codetools_0.2-20        curl_6.0.1             
- [58] lattice_0.22-6          tibble_3.2.1            KEGGREST_1.46.0        
- [61] shiny_1.10.0            withr_3.0.2             evaluate_1.0.1         
- [64] polyclip_1.10-7         Biostrings_2.74.0       filelock_1.0.3         
- [67] BiocManager_1.30.25     pillar_1.9.0            generics_0.1.3         
- [70] sp_2.1-4                RCurl_1.98-1.16         BiocVersion_3.20.0     
- [73] munsell_0.5.1           scales_1.3.0            xtable_1.8-4           
- [76] glue_1.8.0              tools_4.4.1             locfit_1.5-9.10        
- [79] rhdf5_2.50.1            grid_4.4.1              AnnotationDbi_1.68.0   
- [82] colorspace_2.1-1        GenomeInfoDbData_1.2.13 raster_3.6-30          
- [85] beeswarm_0.4.0          HDF5Array_1.34.0        vipor_0.4.7            
- [88] cli_3.6.3               rappdirs_0.3.3          fansi_1.0.6            
- [91] S4Arrays_1.6.0          viridisLite_0.4.2       svglite_2.1.3          
- [94] dplyr_1.1.4             gtable_0.3.6            digest_0.6.37          
- [97] SparseArray_1.6.0       rjson_0.2.23            htmlwidgets_1.6.4      
-[100] memoise_2.0.1           htmltools_0.5.8.1       lifecycle_1.0.4        
-[103] httr_1.4.7              mime_0.12               bit64_4.5.2            </code></pre>
+ [52] tidyselect_1.2.1        yaml_2.3.10             rstudioapi_0.17.1      
+ [55] abind_1.4-8             viridis_0.6.5           codetools_0.2-20       
+ [58] curl_6.0.1              lattice_0.22-6          tibble_3.2.1           
+ [61] KEGGREST_1.46.0         shiny_1.10.0            withr_3.0.2            
+ [64] evaluate_1.0.1          polyclip_1.10-7         Biostrings_2.74.0      
+ [67] filelock_1.0.3          BiocManager_1.30.25     pillar_1.9.0           
+ [70] generics_0.1.3          sp_2.1-4                RCurl_1.98-1.16        
+ [73] BiocVersion_3.20.0      munsell_0.5.1           scales_1.3.0           
+ [76] xtable_1.8-4            glue_1.8.0              tools_4.4.1            
+ [79] locfit_1.5-9.10         rhdf5_2.50.1            grid_4.4.1             
+ [82] AnnotationDbi_1.68.0    colorspace_2.1-1        GenomeInfoDbData_1.2.13
+ [85] raster_3.6-30           beeswarm_0.4.0          HDF5Array_1.34.0       
+ [88] vipor_0.4.7             cli_3.6.3               rappdirs_0.3.3         
+ [91] fansi_1.0.6             S4Arrays_1.6.0          viridisLite_0.4.2      
+ [94] svglite_2.1.3           dplyr_1.1.4             gtable_0.3.6           
+ [97] digest_0.6.37           SparseArray_1.6.0       rjson_0.2.23           
+[100] htmlwidgets_1.6.4       memoise_2.0.1           htmltools_0.5.8.1      
+[103] lifecycle_1.0.4         httr_1.4.7              mime_0.12              
+[106] bit64_4.5.2            </code></pre>
 </div>
 </div>
 
