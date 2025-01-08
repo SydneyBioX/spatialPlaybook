@@ -1,5 +1,22 @@
 # Cell localisation between pairs of cell types
 
+```{r, include = FALSE}
+knitr::knit_hooks$set(time_it = local({
+  now <- NULL
+  function(before, options) {
+    if (before) {
+      # record the current time before each chunk
+      now <<- Sys.time()
+    } else {
+      # calculate the time difference after a chunk
+      res <- difftime(Sys.time(), now, units = "secs")
+      # return a character string to show the time
+      paste("Time for this code chunk to run with ", nCores, " cores: ", round(res, 2), " seconds")
+    }
+  }
+}))
+```
+
 So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
 
 ```{r 04a-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
@@ -48,7 +65,7 @@ theme_set(theme_classic())
 
 ## Quantifying cell type co-localisation with spicyR
 
-[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups. 
+[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups.
 
 <img src="images/spicyR_fig1.jpeg" align="center" style="height: 300px; border: 0px"/>
 
@@ -92,13 +109,13 @@ where $u$ is the sum is taken over a discrete range of $r$ between $r_{\text{min
 
 Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy()` function, where we specify the `condition` parameter.
 
-In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy()` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy()` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-funcion can be specified using the `Rs` argument. Small radii will examine local spatial relationships, whereas larger radii will examine global spatial relationships. By default, `spicy()` calculates the L-function over a range of radii.
+In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy()` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy()` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the `Rs` argument. By default, `spicy()` calculates the L-function over a range of radii.
 
 The column containing cell type annotations and image IDs can be specified using the `cellType` and `imageID` arguments respectively. By default, `spicy` uses the columns named `cellType` and `imageID`.
 
 We obtain a `spicy` object which details the results of the modelling performed. The `topPairs()` function can be used to obtain the associated coefficients and p-value.
 
-```{r 04a-spicyTestPair}
+```{r 04a-spicyTestPair, time_it = TRUE}
 spicyTestPair <- spicy(
   kerenSPE,
   condition = "tumour_type",
@@ -112,11 +129,17 @@ topPairs(spicyTestPair)
 
 As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.
 
+::: callout-tip
+*How do we select an optimal value for `Rs?`*
+1. The choice of `Rs` will depend on the degree of co-localistion we expect to see and the biological conntext. Choosing a small value of Rs is optimal for examining local spatial relationships, and larger values of `Rs` will reveal global spatial relationships.
+2. When the degree of localistion is unknown, it is best to choose a range of radii to define the co-localisation statistic to capture both local and global relationships.
+:::
+
 ### Test for changes in localisation for all pairwise cell combinations
 
 We can perform what we did above for all pairwise combinations of cell types by excluding the `from` and `to` parameters in `spicy()`. Additional covariates can be added using the `covariates` argument.
 
-```{r 04a-spicyTest}
+```{r 04a-spicyTest, time_it = TRUE}
 spicyTest <- spicy(
   kerenSPE,
   condition = "tumour_type",
@@ -145,7 +168,7 @@ signifPlot(
 )
 ```
 
-Here, we can observe that the most significant relationships occur between macrophages and double negative CD3 T cells, suggesting that the two cell types are far more dispersed in compartmentalised tumours compared to cold tumours.
+Here, we can observe that the most significant relationships occur between macrophages and double negative CD3 T cells, suggesting that the two cell types are far more dispersed in compartmentalised tumours compared to cold tumours. 
 
 To examine a specific cell type-cell type relationship in more detail, we can use `spicyBoxplot()` and specify either `from = "Macrophages"` and `to = "dn_T_CD3"` or `rank = 1`.
 
@@ -202,7 +225,7 @@ signifPlot(
 
 To demonstrate spicyR's functionality with mixed effects models, we will use the Damond 2019 dataset.
 
-```{r 04a-mixedEffectModel}
+```{r 04a-mixedEffectModel, time_it = TRUE}
 # load in data
 data("diabetesData")
 
@@ -242,7 +265,7 @@ kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 
 We can then perform survival analysis using the `spicy` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
 
-```{r 04a-spicySurvival}
+```{r 04a-spicySurvival, time_it = TRUE}
 # Running survival analysis
 spicySurvival = spicy(kerenSPE,
                       condition = "survival",
@@ -260,7 +283,7 @@ In the example below, we examine the degree of co-localisation between `Keratin_
 
 ```{r 04a-sigmanull}
 # filter SPE object to obtain image 24 data
-kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "1"]
+kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "24"]
 
 pairwiseAssoc = getPairwise(kerenSubset, 
                             sigma = NULL, 

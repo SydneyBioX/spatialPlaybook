@@ -1,8 +1,26 @@
 # Unsupervised clustering for cell annotation
 
+```{r, include = FALSE}
+knitr::knit_hooks$set(time_it = local({
+  now <- NULL
+  function(before, options) {
+    if (before) {
+      # record the current time before each chunk
+      now <<- Sys.time()
+    } else {
+      # calculate the time difference after a chunk
+      res <- difftime(Sys.time(), now, units = "secs")
+      # return a character string to show the time
+      paste("Time for this code chunk to run with ", nCores, " cores: ", round(res, 2), " seconds")
+    }
+  }
+}))
+```
+
 Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.
 
 In this section, we will demonstrate the use of our `FuseSOM` package to perform unsupervised clustering and subsequent manual annotation of the clusters.
+
 <!-- Steps: -->
 
 <!-- 1.  Clustering vs annotation -->
@@ -51,11 +69,13 @@ theme_set(theme_classic())
 
 ## Clustering vs Annotation
 
-Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses the reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of both `FuseSOM` and `scClassify`, and then discuss how to choose between clustering and annotation.
+Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses the reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of our packages to perform both clustering and annotation, and then discuss how to choose between the two approaches.
 
 ## Clustering with FuseSOM
 
 [FuseSOM](https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html) is an unsupervised clustering tool for highly multiplexed in situ imaging cytometry assays. It combines a `Self Organiszing Map` architecture and a `MultiView` integration of correlation-based metrics for robustness and high accuracy. It has been streamlined to accept multiple data structures including `SingleCellExperiment` objects, `SpatialExperiment` objects, and `DataFrames`.
+
+<img src="images/FuseSOM_fig1.jpeg" align="center" style="height:200px; border: 0px"/>
 
 ### `FuseSOM` Matrix Input
 
@@ -77,7 +97,7 @@ names(risom_dat)[names(risom_dat) == 'manual_gating_phenotype'] <- 'CellType'
 
 Now that we have loaded the data and defined the markers of interest, we can run the `FuseSOM` algorithm using the `runFuseSOM()` function. We specify the number of clusters to be 23 based on prior domain knowledge. The output contains the cluster labels as well as the `Self Organizing Map` model.
 
-```{r, message=FALSE, warning=FALSE}
+```{r 03a-runFuseSOM, message=FALSE, warning=FALSE}
 risomRes <- runFuseSOM(data = risom_dat, markers = risomMarkers, 
                         numClusters = 23)
 ```
@@ -99,23 +119,21 @@ risomHeat <- FuseSOM::markerHeatmap(data = risom_dat, markers = risomMarkers,
 ::: {.callout-tip title="Common problems with clustering"}
 **How do I identify imperfect clustering?**
 
-
-1.    Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g. CD4
-2.    If we instead see "smearing" of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalization issue.
+1.  Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g., CD4 being expressed in T cells exclusively.
+2.  If we instead see "smearing" of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalisation issue.
 :::
 
 ::: {.callout-tip title="Remedying imperfect clustering"}
 **Three common issues which cause imperfect clustering have been outlined below:**
 
-
-1.    **Imperfect segmentation** - excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimizing the upstream segmentation algorithm.
-2.    **Imperfect normalization** - excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g. extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.
-3.    **Imperfect clustering** - choosing a `k` that's too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal `k` based on an elbow plot described below.
+1.  **Imperfect segmentation**: excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimising the upstream segmentation algorithm.
+2.  **Imperfect normalization**: excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g. extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.
+3.  **Imperfect clustering**: choosing a `k` that's too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal `k` based on an elbow plot described below.
 :::
 
 ### Using `FuseSOM` to estimate the number of clusters
 
-When the number of expected cell typess or clusters is not known beforehand, the `estimateNumCluster()` function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:
+When the number of expected cell types or clusters is not known beforehand, the `estimateNumCluster` function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:
 
 1.  Discriminant based method:
     -   A method developed in house based on discriminant based maximum clusterability projection pursuit
@@ -126,7 +144,7 @@ When the number of expected cell typess or clusters is not known beforehand, the
     -   The Within Cluster Dissimilarity Statistic
     -   The Silhouette Statistic
 
-We run `estimateNumCluster()` and specify `method = c("Discriminant", "Distance")` to use both approaches.
+We run `estimateNumCluster` and specify `method = c("Discriminant", "Distance")` to use both approaches.
 
 ```{r 03a-estimateNumClustersDat, message=FALSE, warning=FALSE}
 # lets estimate the number of clusters using all the methods
@@ -134,7 +152,6 @@ We run `estimateNumCluster()` and specify `method = c("Discriminant", "Distance"
 # we pass it the SOM model generated in the previous step
 risomKest <- estimateNumCluster(data = risomRes$model, kSeq = 2:25, 
                                   method = c("Discriminant", "Distance"))
-
 ```
 
 We can then use this result to determine the best number of clusters for this dataset based on the different metrics.
@@ -146,7 +163,7 @@ risomKest$Discriminant
 
 According to the Discriminant method, the optimal number of clusters is 7.
 
-We can use the `optiPlot()` function to generate an elbow plot with the optimal value for the number of clusters for the distance based methods.
+We can use the `optiPlot()` function to generate an elbow plot with the optimal number of clusters for the distance based methods.
 
 ```{r 03a-optiPlot}
 # we can plot the results using the optiplot function
@@ -165,9 +182,14 @@ pSil
 
 From the plots, we see that the `Jump` statistic almost perfectly captures the correct number of clusters. The `Gap` statistic is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 
+::: {.callout-tip title="FAQ"}
+1.  How do we choose our `k`? We're generally looking for the `k` before the point of greatest inflection.
+2.  Is there one best choice for `k`? There can be several options of `k` if there are several points of inflection. Choose the `k` which best reflects the number of clusters you expect to get from the tissue.
+:::
+
 ### `FuseSOM` with Single Cell Experiment object as input
 
-The `FuseSOM` algorithm is also equipped to take in a `SingleCellExperiment` object as input. The results of the pipeline will be written to either the metada or the colData fields.
+The `FuseSOM` algorithm is also equipped to take in a `SingleCellExperiment` object as input. The results of the pipeline will be written to either the `metadata` or the `colData` fields.
 
 First, we create a `SingleCellExperiment` object using the Risom 2022 data.
 
@@ -182,7 +204,7 @@ sce <- SingleCellExperiment(assays = list(counts = t(risom_dat[, names(risom_dat
 sce
 ```
 
-Next, we pass it to the `runFuseSOM()` function. Here, we can provide the assay in which the data is stored (`counts`) and specify the column to store the clusters in using `clusterCol = "clusters"`. The `Self Organizing Map` that is generated will be stored in the metadata field.
+Next, we pass it to the `runFuseSOM` function. Here, we can provide the assay in which the data is stored (`counts`) and specify the column to store the clusters in using `clusterCol = "clusters"`. The `Self Organizing Map` that is generated will be stored in the metadata field.
 
 ```{r 03a-fusesomSCE, message=FALSE, warning=FALSE}
 risomRessce <- runFuseSOM(sce, markers = risomMarkers, clusterCol = "clusters",
@@ -194,11 +216,11 @@ names(metadata(risomRessce))
 
 Notice how the there is now a `clusters` column in the `colData` and a SOM field in the metadata.
 
-If necessary, you can run `runFuseSOM()` with a new cluster number and specify a new `clusterCol`. If `clusterCol` contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current `clusters` column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.
+If necessary, you can run `runFuseSOM` with a new cluster number and specify a new `clusterCol`. If `clusterCol` contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current `clusters` column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.
 
 Just like before, we can plot a heatmap of the resulting clusters across all markers.
 
-```{r 03a-SCEheatmap}
+```{r 03a-SCEheatmap, fig.height = 10}
 data <- risom_dat[, risomMarkers] # get the original data used
 clusters <- colData(risomRessce)$clusters # extract the clusters from the SCE object
 
@@ -206,9 +228,10 @@ clusters <- colData(risomRessce)$clusters # extract the clusters from the SCE ob
 risomHeatsce <- markerHeatmap(data = risom_dat, markers = risomMarkers,
                             clusters = clusters, clusterMarkers = TRUE)
 ```
+
 Or we can directly plot from the SCE using the `scater` package.
 
-```{r}
+```{r 03a-scaterHeatmap, fig.height = 10}
 # Visualise marker expression in each cluster.
 scater::plotGroupedHeatmap(
   risomRessce,
@@ -225,7 +248,7 @@ scater::plotGroupedHeatmap(
 
 ### Using `FuseSOM` to estimate the number of clusters for `SingleCellExperiment` objects
 
-Just like before, we will use `estimateNumCluster()` on our Risom `SingleCellExperiment` object.
+Just like before, we will use `estimateNumCluster` on our Risom `SingleCellExperiment` object.
 
 ```{r 03a-estimateNumClustersSCE}
 # lets estimate the number of clusters using all the methods
@@ -245,7 +268,7 @@ We can assess the results of cluster estimation as below.
 metadata(risomRessce)$clusterEstimation$Discriminant 
 ```
 
-According to the discrminant method, the optimal number of clusters is 10.
+According to the discrminant method, the optimal number of clusters is 7.
 
 ```{r 03a-optiPlotSCE}
 # we can plot the results using the optiplot function
@@ -261,11 +284,6 @@ pSil <- optiPlot(risomRessce, method = 'silhouette')
 pSil
 
 ```
-
-::: {.callout-tip title="FAQ"}
-1.  How do we choose our `k`? We're generally looking for the `k` before the point of greatest inflection.
-2.  Is there one best choice for `k`? There can be several options of `k` if there are several points of inflection. Choose the `k` which best reflects the number of clusters you expect to get from the tissue.
-:::
 
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 

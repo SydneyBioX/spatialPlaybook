@@ -24,8 +24,11 @@ In this section, we will outline the process of reading and pre-processing image
 <!-- Steps: -->
 
 <!-- 1.  Reading in data with cytomapper -->
+
 <!-- 2.  Cell segmentation with simpleSeg -->
+
 <!-- 3.  Cell segmentation with BIDCell -->
+
 <!-- 4.  Reading in spot-based data with MoleculeExperiment -->
 
 ```{r 01-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
@@ -60,7 +63,7 @@ theme_set(theme_classic())
 
 ## Reading in data with cytomapper
 
-We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the `SpatialDatasets` package. The `loadImages` function form the `cytomapper` package can be used to load all the TIFF images into a `CytoImageList` object and store the images as an h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
+We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the `SpatialDatasets` package. The `loadImages` function from the `cytomapper` package can be used to load all the TIFF images into a `CytoImageList` object and store the images as an h5 file on-disk in a temporary directory using the `h5FilesPath = HDF5Array::getHDF5DumpDir()` parameter.
 
 We will also assign the metadata columns of the `CytoImageList` object using the `mcols` function.
 
@@ -118,13 +121,13 @@ Next, we can perform our segmentation. The [simpleSeg](https://www.bioconductor.
 In the particular example below, we have asked `simpleSeg` to do the following:
 
 -   `nucleus = c("HH3")`: trace out the nuclei signal in the images using the HH3 channel.
--   `pca = TRUE`: segment out the nuclei mask using a principal component analysis of all channels and using the principal components most aligned with the nuclei channel, in this case, HH3.
+-   `pca = TRUE`: segment out the nuclei mask using principal component analysis of all channels and using the principal components most aligned with the nuclei channel (in this case, HH3).
 -   `cellBody = "dilate"`: use a dilation strategy of segmentation, expanding out from the nucleus by a specified `discSize`. In this case, `discSize = 3`, which means simpleSeg dilates out from the nucleus by 3 pixels.
 -   `sizeSelection = 20`: ensure that only cells with a size greater than 20 pixels will be used.
 -   `transform = "sqrt"`: perform square root transformation on each of the channels prior to segmentation.
 -   `tissue = c("panCK", "CD45", "HH3")`: use the specified tissue mask to filter out all background noise outside the tissue mask. This allows us to ignore background noise which happens outside of the tumour core.
 
-There are many other parameters that can be specified in simpleSeg (`smooth`, `watershed`, `tolerance`, and `ext`), and we encourage the user to select the best parameters which suit their biological context.
+There are many other parameters that can be specified in `simpleSeg` (`smooth`, `watershed`, `tolerance`, and `ext`), and we encourage the user to select the parameters which best suit their biological context.
 
 ```{r 01-simpleSeg, time_it = TRUE}
 masks <- simpleSeg(images,
@@ -187,24 +190,24 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-::: {.callout-tip title="What to look for and change to obtain an ideal segmentation"}
-**Critical thinking**
+::: callout-tip
+**What to look for and change to obtain an ideal segmentation**
 
-1.    Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transform to improve the thresholding of the nuclei marker. You could also try using `pca = TRUE` which will borrow information across the markers to help find the nuclei.
-2.    How much of the cell body is the segmentation missing? Try increasing the dilation around the nucleus by setting `discSize = 7`.
-3.    Are the segmentations capturing neighbouring cells? Try decreasing the dilation to limit lateral spillover of marker signal by setting `discSize = 2`.
+1.  Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transform to improve the thresholding of the nuclei marker. You could also try using `pca = TRUE` which will borrow information across the markers to help find the nuclei.
+2.  How much of the cell body is the segmentation missing? Try increasing the dilation around the nucleus by setting `discSize = 7`.
+3.  Are the segmentations capturing neighbouring cells? Try decreasing the dilation to limit lateral spillover of marker signal by setting `discSize = 2`.
 :::
 
 Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This suggests that we might need to increase the `discSize` or other parameters of `simpleSeg`.
 
 In particular, the `cellBody` and `watershed` parameters can strongly influence the way cells are segmented using `simpleSeg`. We have provided further details on how the user may specify cell body identification and watershedding in the tables below.
 
-As `simpleSeg` is a nuclei-based dilation method, it suffers from tissues where cells might be multi-nucleated, or where cells have non-circular or elliptical morphologies. For tissues where you might expect these cells, it may be preferable to choose a different segmentation method. 
+As `simpleSeg` is a nuclei-based dilation method, it suffers from tissues where cells might be multi-nucleated, or where cells have non-circular or elliptical morphologies. For tissues where you might expect these cells, it may be preferable to choose a different segmentation method.
 
 #### `cellBody` Parameters
 
 | Method | Description |   |
-|---------------|:----------------------------------------:|:-------------:|
+|------------------------|:----------------------:|:----------------------:|
 | ["distance"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["intensity"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding using the intensity of the nuclei marker.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["combine"]{style="font-family: 'Courier New', monospace;"} | [Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.]{style="font-family: 'Courier New', monospace;"} |  |
@@ -212,7 +215,7 @@ As `simpleSeg` is a nuclei-based dilation method, it suffers from tissues where 
 #### `watershed` Parameters
 
 | Method | Description |   |
-|---------------|:-----------------------------------------:|:-------------:|
+|------------------------|:----------------------:|:----------------------:|
 | ["dilation"]{style="font-family: 'Courier New', monospace;"} | [Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the `discDize` argument.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["discModel"]{style="font-family: 'Courier New', monospace;"} | [Uses all the markers to predict the presence of dilated 'discs' around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.]{style="font-family: 'Courier New', monospace;"} |  |
 | ["marker"]{style="font-family: 'Courier New', monospace;"} | [The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using `cellBody = "marker name"/"index"`]{style="font-family: 'Courier New', monospace;"} |  |
@@ -236,8 +239,7 @@ cells <- cytomapper::measureObjects(masks,
                                     images,
                                     img_id = "imageID",
                                     return_as = "spe",
-                                    BPPARAM = BPPARAM
-                                    )
+                                    BPPARAM = BPPARAM)
 
 spatialCoordsNames(cells) <- c("x", "y")
 

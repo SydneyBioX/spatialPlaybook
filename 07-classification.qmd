@@ -5,9 +5,13 @@ When it comes to biological datasets, the end goal is either mechanistic or tran
 <!-- Steps: -->
 
 <!-- 1.  Introduction to ClassifyR -->
+
 <!-- 2.  Classification of patients by condition -->
+
 <!-- 3.  Classification of patients by survival -->
+
 <!-- 4.  Easy and Hard to classify patients (samplesMetricMap) -->
+
 <!-- 5.  Maximising accuracy during classification (parameter tuning for crossValidate) -->
 
 ```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
@@ -60,13 +64,20 @@ kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival
                                                            "tumour_type")])]
 
 kontextMat <- readRDS("data/kontextMat.rds")
-
 stateMat <- readRDS("data/stateMat.rds")
 ```
 
 ## Classification of patients by condition
 
-We will use the Keren 2018 dataset to classify a patient's tumour into one of three types: cold, compartmentalised, and mixed.
+We will use the Keren 2018 dataset to classify a patient's tumour into one of two types: compartmentalised and mixed. First, we will filter out all cases which had cold tumours.
+
+```{r}
+# filter out cold tumours
+kerenSPE = kerenSPE[, colData(kerenSPE)$tumour_type != "cold"]
+kontextMat = kontextMat[rownames(kontextMat) %in% unique(kerenSPE$imageID), ]
+stateMat = stateMat[rownames(kontextMat) %in% unique(kerenSPE$imageID), ]
+```
+
 
 We will build a list of feature matrices using the features we've generated in the previous chapters:
 
@@ -77,11 +88,6 @@ We will build a list of feature matrices using the features we've generated in t
 5.  Marker means in each cell type (Statial)
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression (SpatioMark)
-
-```{r}
-kontextMat <- readRDS("data/kontextMat.rds")
-stateMat <- readRDS("data/stateMat.rds")
-```
 
 ```{r}
 data <- list()
@@ -136,7 +142,7 @@ cv = crossValidate(measurements = data,
                    outcome = outcome,
                    nFolds = 5,
                    nRepeats = 50,
-                   nCores = 10)
+                   nCores = nCores)
 ```
 
 We can use `performancePlot` to visualise performance metrics for all our features. Here, we visualise the AUC for each of the six feature matrices we tested. Additional performance metrics can be specified in the `metric` argument.
@@ -154,9 +160,9 @@ From the graph, both `lisaClust` and `proportions` appear to capture information
 
 ## Classification of patients by survival
 
-`crossValidate` also has the capacity to test classification performance for a survival outcome. In this case, `outcome` must be a `Surv` object of the same length as the number of samples in the feature matrix and should information about the time and censoring of the samples. Alternatively, we can specify `outcome` to be a `character` of length 2 or 3 that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.
+`crossValidate` also has the capacity to test classification performance for a survival outcome. In this case, `outcome` must be a `Surv` object of the same length as the number of samples in the feature matrix and should contain information about the time and censoring of the samples. Alternatively, we can specify `outcome` to be a `character` of length 2 or 3 that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.
 
-We will first add a `survival` column to the `kerenSPE` object, and remove any rows that contain missing survival data.
+We will first add a `survival` column to the `kerenSPE` object.
 
 ```{r}
 # create a Surv object named "survival"
@@ -169,8 +175,6 @@ names(surv_outcome) = kerenSPE$imageID[!duplicated(kerenSPE$imageID)]
 
 surv_outcome
 ```
-
-Next, we filter `data` to ensure the image IDs it contains are consistent with those in `surv_outcome`.
 
 We can then run `crossValidate` and specify the outcome to be `surv_outcome`, and use `performancePlot` to visualise the performance of the cross-validation. Since we are performing survival analysis, we will specify `metric = "C-index"`.
 

@@ -1,6 +1,23 @@
 # Supervised cell annotation with a reference
 
-The other approach to identifying cell types involves using an annotated reference dataset to assign labels for a query dataset. In this section, we will demonstrate how `scClassify` can be used for supervised cell type annotation.
+```{r, include = FALSE}
+knitr::knit_hooks$set(time_it = local({
+  now <- NULL
+  function(before, options) {
+    if (before) {
+      # record the current time before each chunk
+      now <<- Sys.time()
+    } else {
+      # calculate the time difference after a chunk
+      res <- difftime(Sys.time(), now, units = "secs")
+      # return a character string to show the time
+      paste("Time for this code chunk to run with ", nCores, " cores: ", round(res, 2), " seconds")
+    }
+  }
+}))
+```
+
+The other approach to identifying cell types involves using an annotated reference dataset to assign labels for a query dataset. In this section, we will demonstrate how our package `scClassify` can be used for supervised cell type annotation.
 
 ```{r 03b-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -8,6 +25,8 @@ suppressPackageStartupMessages({
   library(STexampleData)
   library(MLmetrics)
   library(scuttle)
+  library(scater)
+  library(caret)
   library(ggplot2)
 })
 ```
@@ -18,6 +37,8 @@ library(scClassify)
 library(STexampleData)
 library(MLmetrics)
 library(scuttle)
+library(scater)
+library(caret)
 library(ggplot2)
 ```
 
@@ -36,15 +57,14 @@ theme_set(theme_classic())
 
 # scClassify: Cell annotation
 
-[scClassify](https://new.bioconductor.org/packages/release/bioc/html/scClassify.html) is a supervised multiscale classification framework for scRNAseq data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.
+[scClassify](https://new.bioconductor.org/packages/release/bioc/html/scClassify.html) is a supervised multiscale classification framework for single-cell data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.
+
+<img src="images/scClassify_fig1.png" align="center" style="height:310px; border: 0px"/>
 
 To demonstrate the use of scClassify, we will use the Stickels 2021 dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the `STexampleData` package.
 
 ```{r 03b-loadStickels, warning = FALSE, message = FALSE}
 stickelsSPE = STexampleData::SlideSeqV2_mouseHPC()
-
-# remove missing celltype values
-stickelsSPE = stickelsSPE[, !is.na(stickelsSPE$celltype)]
 stickelsSPE
 ```
 
@@ -58,10 +78,11 @@ As scClassify requires log-normalised expression data, we will use `normalizeCou
 
 ```{r 03b-logNormalisation}
 # log normalisation
-norm_assay = normalizeCounts(stickelsSPE, transform = "log", BPPARAM = BiocParallel::MulticoreParam(workers = 8))
+norm_assay = normalizeCounts(stickelsSPE, transform = "log", 
+                             BPPARAM = BPPARAM)
 
 # store normalised expression data in the "norm" slot
-assay(stickelsSPE, "norm") = norm_assay
+assay(stickelsSPE, "norm", withDimnames = FALSE) = norm_assay
 ```
 
 We will first split the dataset into an 80% training or reference dataset and a 20% testing or query dataset.
@@ -70,13 +91,13 @@ We will first split the dataset into an 80% training or reference dataset and a 
 set.seed(51773)
 
 # split into 80% reference and 20% query
-ref_idx = sample(seq_len(ncol(stickelsSPE)), size = 0.8 * ncol(stickelsSPE))
+ref_idx = sample(seq_len(ncol(stickelsSPE)), size = 0.7 * ncol(stickelsSPE))
 ref_spe = stickelsSPE[, ref_idx]
 query_spe = stickelsSPE[, -ref_idx]
 
 # access expression data as matrix
-ref_mat = assay(ref_spe, "norm")
-query_mat = assay(query_spe, "norm")
+ref_mat = assay(ref_spe, "norm") |> as.matrix()
+query_mat = assay(query_spe, "norm") |> as.matrix()
 ```
 
 ## Using scClassify
@@ -85,10 +106,10 @@ query_mat = assay(query_spe, "norm")
 
 -   `tree = HOPACH`: use the HOPACH algorithm to build a cell type hierarchy.
 -   `algorithm = WKNN`: use the weighted KNN model
--   `selectFeatures = c("limma")`: identify differentially expressed (DE) genes using `limma`, which will be used as features to build the WKNN model. Other options to select features include differentially variable (DV) genes, differentially distributed (DD), bimodally distributed (BI) and differentially expressed proportions.
+-   `selectFeatures = c("limma")`: identify differentially expressed (DE) genes using `limma`, which will be used as features to build the weighted KNN model. Other options to select features include differentially variable (DV) genes, differentially distributed (DD), bimodally distributed (BI) and differentially expressed proportions.
 -   `c("pearson", "spearman", "cosine")`: use Pearson and Spearman correlation to measure similarity between cells. Other options include Kendall's correlation, cosine distance, Jaccard distance, Manhattan distance, and weighted rank correlation.
 
-```{r 03b-scClassify, warning = FALSE, message=FALSE}
+```{r 03b-scClassify, warning = FALSE, message=FALSE, time_it = TRUE}
 scClassify_res = scClassify(exprsMat_train = ref_mat,
                             cellTypes_train = ref_spe$celltype,
                             exprsMat_test = list(stickels = query_mat),
@@ -103,49 +124,70 @@ scClassify_res = scClassify(exprsMat_train = ref_mat,
                             verbose = FALSE)
 ```
 
-The output is a list containing all model building and testing information. The `testRes` slot contains the results of testing the model on the query dataset, and the `trainRes` contains the model built from the reference dataset.
+The output is a list containing all model building and testing information. The `testRes` slot contains the results of testing the model on the query dataset, and the `trainRes` slot contains the model built from the reference dataset.
 
 ```{r, eval = FALSE}
 scClassify_res$trainRes
 ```
 
-We can then examine the cell type tree generated by the reference dataset.
+<!-- We can then examine the cell type tree generated by the reference dataset. -->
 
-```{r 03b-plotCellTypeTree, eval = FALSE}
-plotCellTypeTree(cellTypeTree(scClassify_res$trainRes))
+```{r 03b-plotCellTypeTree, include = FALSE}
+cellTypeTree(scClassify_res$trainRes) |> plotCellTypeTree()
 ```
 
 The predictions for each cell can be accessed through the `ensembleRes` slot in the testing results.
 
 ```{r}
-pred_mat = scClassify_res$testRes$stickels$ensembleRes |> as.data.frame()
+pred_mat = scClassify_res$testRes$human$ensembleRes |> as.data.frame()
 head(pred_mat)
 ```
 
 ## Evaluating performance
 
-We will evaluate scClassify's performance using 4 metrics - accuracy, precision, recall, and F1 Score.
+```{r}
+# convert predictions to factor
+pred_mat$cellTypes = as.factor(pred_mat$cellTypes)
 
-```{r 03b-accuracy}
-# accuracy
-MLmetrics::Accuracy(query_spe$celltype, pred_mat$cellTypes)
+# ensure both ground truth and predictions have the same levels
+combined_levels = union(levels(pred_mat$cellTypes), levels(query_spe$celltype))
+levels(query_spe$celltype) = combined_levels
+levels(pred_mat$cellTypes) = combined_levels
+
+conf_matrix = confusionMatrix(data = pred_mat$cellTypes,
+                reference = query_spe$celltypes)
+
+conf_matrix$overall
 ```
 
-```{r 03b-precision}
-# precision
-MLmetrics::Precision(query_spe$celltype, pred_mat$cellTypes)
+```{r}
+recall = MLmetrics::Recall(y_pred = pred_mat$cellTypes,
+                                 y_true = query_spe$celltype)
+precision = MLmetrics::Precision(y_pred = pred_mat$cellTypes,
+                                   y_true = query_spe$celltype)
+f1_score = MLmetrics::F1_Score(y_pred = pred_mat$cellTypes,
+                                 y_true = query_spe$celltype)
+
+cat("Recall:", recall, "\n")
+cat("Precision:", precision, "\n")
+cat("F1-Score:", f1_score, "\n")
+
 ```
 
-```{r 03b-recall}
-# recall
-MLmetrics::Recall(query_spe$celltype, pred_mat$cellTypes)
-```
+```{r}
+results = data.frame(trueLabel = query_spe$celltype,
+                     predictedLabel = pred_mat$cellTypes)
 
-```{r 03b-f1score}
-# F1 Score
-MLmetrics::F1_Score(query_spe$celltype, pred_mat$cellTypes)
-```
+results = dplyr::mutate(results, classification = dplyr::case_when(
+  predictedLabel != trueLabel ~ "incorrectly classified",
+  predictedLabel == trueLabel ~ "correctly classified",
+  predictedLabel == "unassigned" ~ "incorrectly unassigned"
+))
 
+ggplot(results, aes(x = trueLabel, fill = classification)) + 
+  geom_bar(position = "fill")
+
+```
 
 <!-- ## Choosing between clustering and annotation -->
 
