@@ -17,7 +17,7 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: `spicyR` and `Statial` for quantifying cell type localisation.
+So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e. are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of our `spicyR` packaege for quantifying cell type localisation.
 
 ```{r 04a-loadLibraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -65,7 +65,7 @@ theme_set(theme_classic())
 
 ## Quantifying cell type co-localisation with spicyR
 
-[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups.
+[spicyR](https://www.bioconductor.org/packages/release/bioc/html/spicyR.html) provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in this co-localisation metric across different disease states or groups.
 
 <img src="images/spicyR_fig1.jpeg" align="center" style="height: 300px; border: 0px"/>
 
@@ -107,13 +107,13 @@ where $u$ is the sum is taken over a discrete range of $r$ between $r_{\text{min
 
 ### Test for changes in localisation for a specific pair of cells
 
-Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy()` function, where we specify the `condition` parameter.
+Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy` function, where we specify the `condition` parameter.
 
-In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy()` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy()` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the `Rs` argument. By default, `spicy()` calculates the L-function over a range of radii.
+In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the `Rs` argument. By default, `spicyx` calculates the L-function over a range of radii.
 
 The column containing cell type annotations and image IDs can be specified using the `cellType` and `imageID` arguments respectively. By default, `spicy` uses the columns named `cellType` and `imageID`.
 
-We obtain a `spicy` object which details the results of the modelling performed. The `topPairs()` function can be used to obtain the associated coefficients and p-value.
+We obtain a `spicy` object which details the results of the modelling performed. The `topPairs` function can be used to obtain the associated coefficients and p-value.
 
 ```{r 04a-spicyTestPair, time_it = TRUE}
 spicyTestPair <- spicy(
@@ -137,7 +137,7 @@ As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils ar
 
 ### Test for changes in localisation for all pairwise cell combinations
 
-We can perform what we did above for all pairwise combinations of cell types by excluding the `from` and `to` parameters in `spicy()`. Additional covariates can be added using the `covariates` argument.
+We can perform what we did above for all pairwise combinations of cell types by excluding the `from` and `to` parameters in `spicy`. Additional covariates can be added using the `covariates` argument.
 
 ```{r 04a-spicyTest, time_it = TRUE}
 spicyTest <- spicy(
@@ -149,15 +149,15 @@ spicyTest <- spicy(
 topPairs(spicyTest)
 ```
 
-Again, we obtain a `spicy` object which outlines the result of the linear models performed for each pairwise combination of cell types.
+Again, we obtain a `spicy` object which outlines the result of the linear models performed for each pairwise combination of cell types. 
 
-We can also examine the L-function metrics of individual images by using the convenient `bind()` function on our `spicyTest` results object.
+We can also examine the L-function metrics of individual images by using the convenient `bind` function on our `spicyTest` results object.
 
 ```{r 04a-bind}
 bind(spicyTest)[1:5, 1:5]
 ```
 
-The results can be represented as a bubble plot using the `signifPlot()` function.
+The results can be represented as a bubble plot using the `signifPlot` function.
 
 ```{r 04a-signifPlot}
 signifPlot(
@@ -273,6 +273,52 @@ spicySurvival = spicy(kerenSPE,
 
 # top 10 significant pairs
 head(spicySurvival$survivalResults, 10)
+```
+
+```{r}
+signifPlot(spicySurvival,
+           marksToPlot = c("Tumour", "Tregs", "NK", "Neutrophils", "Mono_or_Neu", 
+                           "Macrophages", "Keratin_Tumour", "dn_T_CD3", "DC_or_Mono",
+                           "DC", "CD8_T_cell", "CD4_T_cell", "B_cell"))
+```
+
+From the table and the graph above, we can see that the coefficient for `Tumour__CD8_T_cell` is negative, indicating that dispersion between the two cell types is associated with a better prognosis for the patient. We can also see that localisation between most immune cell types (`Neutrophils__CD8_T_cell`, `Tregs__CD4_T_cell`, `dn_T_CD3__CD4_T_cell`) is associated with worse outcomes for the patient. 
+
+We can examine the relationship for one pair of cell types (`Tumour__CD8_T_cell`) more closely using a Kaplan-Meier curve. Below, we extract the survival data from `kerenSPE` and create a `Surv` object.
+
+```{r}
+# extracting survival data
+survData <- kerenSPE |>
+  colData() |>
+  data.frame() |>
+  select(imageID, survival) |>
+  unique()
+
+# creating survival vector
+kerenSurv <- survData$survival
+names(kerenSurv) <- survData$imageID
+
+kerenSurv
+```
+
+We can then convert our L-function metrics into a binary metric with two categories: Localised and Dispersed, and plot a Kaplan-Meier curve to view its relationship to survival probability.
+
+```{r}
+# obtain L-function values for a specific cell type
+# and convert into localised/dispersed based on the median
+survRelationship = bind(spicySurvival)[["Tumour__CD8_T_cell"]]
+survRelationship = ifelse(survRelationship > median(survRelationship, na.rm = TRUE),
+                          "Localised", "Dispersed")
+
+# ensuring consistency and removing missing values
+names(survRelationship) = names(kerenSurv)
+survRelationship = survRelationship[!is.na(names(survRelationship))]
+kerenSurv = kerenSurv[names(kerenSurv) %in% names(survRelationship)]
+
+# plotting Kaplan-Meier curve
+survfit2(kerenSurv ~ survRelationship) |>
+  ggsurvfit() +
+  ggtitle("Tumour__CD8_T_cell")
 ```
 
 ### Accounting for tissue inhomogeneity
