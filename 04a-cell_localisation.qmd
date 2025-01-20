@@ -131,7 +131,7 @@ As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils ar
 
 ::: callout-tip
 *How do we select an optimal value for `Rs?`*
-1. The choice of `Rs` will depend on the degree of co-localistion we expect to see and the biological conntext. Choosing a small value of Rs is optimal for examining local spatial relationships, and larger values of `Rs` will reveal global spatial relationships.
+1. The choice of `Rs` will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of Rs is optimal for examining local spatial relationships, and larger values of `Rs` will reveal global spatial relationships.
 2. When the degree of localistion is unknown, it is best to choose a range of radii to define the co-localisation statistic to capture both local and global relationships.
 :::
 
@@ -256,14 +256,16 @@ The graph shows a significant decrease in co-localisation between delta and beta
 
 ### Performing survival analysis
 
-`spicy` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
+`spicy` can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. `spicy` fits a Cox proportional hazards model to assess the risk of death with the L-function as the explanatory variable. If there are multiple images provided per subject, `spicy` fits a Cox mixed effects model instead.
+
+`spicy` requires the `SingleCellExperiment` object being used to contain a column called `survival` as a `Surv` object.
 
 ```{r}
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 ```
 
-We can then perform survival analysis using the `spicy` function by specifying `condition = "survival"`. We can then access the corresponding coefficients and p-values by accessing the `survivalResults` slot in the `spicy` results object.
+We can then perform survival analysis using the `spicy` function by specifying `condition = "survival"`. The corresponding coefficients and p-values can be accessed through the `survivalResults` slot in the `spicy` results object. 
 
 ```{r 04a-spicySurvival, time_it = TRUE}
 # Running survival analysis
@@ -282,7 +284,7 @@ signifPlot(spicySurvival,
                            "DC", "CD8_T_cell", "CD4_T_cell", "B_cell"))
 ```
 
-From the table and the graph above, we can see that the coefficient for `Tumour__CD8_T_cell` is negative, indicating that dispersion between the two cell types is associated with a better prognosis for the patient. We can also see that localisation between most immune cell types (`Neutrophils__CD8_T_cell`, `Tregs__CD4_T_cell`, `dn_T_CD3__CD4_T_cell`) is associated with worse outcomes for the patient. 
+From the table and the graph above, we can see that the coefficient for `Tumour__CD8_T_cell` is negative, indicating that localisation between the two cell types is associated with a better prognosis for the patient. We can also see that localisation between most immune cell types (`Neutrophils__CD8_T_cell`, `Tregs__CD4_T_cell`, `dn_T_CD3__CD4_T_cell`) is associated with worse outcomes for the patient. 
 
 We can examine the relationship for one pair of cell types (`Tumour__CD8_T_cell`) more closely using a Kaplan-Meier curve. Below, we extract the survival data from `kerenSPE` and create a `Surv` object.
 
@@ -361,6 +363,81 @@ plotImage(kerenSPE, imageToPlot = "24", from = "Keratin_Tumour", to = "Neutrophi
 ```
 
 Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the bottom of the image.
+
+### Adjusting for cell count
+
+The L-function (and by extension, the co-localisation score) is sensitive to the number of cells in an image. Too few cells can cause the L-function to become unstable and obscure meaningful spatial relationships. The issue is particularly pronounced when there is a skewed ratio of cell types in an image. 
+
+<!--In the plot below, we can see that the variance of the co-localisation metric is greater when the number of cells is low, and becomes more stable as the number of cells increases.-->
+
+```{r 04a-LfuncStability, include = FALSE}
+# obtain number of cells per image
+nCells = spicyTest$nCells |> as.vector() |> rep(17)
+
+# obtain co-localisation scores for every cell type pair
+l_func = bind(spicyTest)[, 3:291] |> as.vector() |> unlist() |> unname()
+
+ggplot() +
+  geom_point(aes(x = nCells, y = l_func), size = 0.5) +
+  labs(x = "Number of cells", y = "Co-localisation metric")
+```
+
+
+To address this issue, spicyR uses a shape constrained generalised additive model (GAM) to model the co-localisation metric $u$ as a function of the number of cells per cell type. The inverse of this fitted curve is used to generate weights which are applied to each image. Images with fewer cells have a lower weight. spicyR can perform image weighting in two ways: by fitting the GAM on the scores from all cell types at once, or by fitting the GAM on each pair of cell types. To perform image weighting by cell type pair, set `weightsByPair = TRUE` when using `spicy`.
+
+From the boxplot below, we can identify images that may have very few cells or a skewed cell type distribution. For consistency, we will use the cell type pair `Macrophages__dn_T_CD3`, which showed significant differences in co-localisation between cold and compartmentalised tumours in our initial analysis.
+
+```{r 04a-spicyBoxplot2}
+spicyBoxPlot(spicyTest,
+             from = "Macrophages",
+             to = "dn_T_CD3")
+```
+
+Using the graph, we can filter for compartmentalised images that had an L-function value greater than 20 and examine the structure of these images. 
+
+```{r}
+bind(spicyTest) |> 
+  dplyr::select(c(imageID, condition, Macrophages__dn_T_CD3)) |>
+  # filter for compartmenatalised images with L-function > 20 (an outlier)
+  dplyr::filter(condition == "compartmentalised" & Macrophages__dn_T_CD3 > 20)
+```
+
+We can use `plotImage` to examine image 34 more closely.
+
+```{r 04a-plotImage34}
+plotImage(kerenSPE, imageToPlot = 34, from = "Macrophages", to = "dn_T_CD3")
+```
+
+The value of the L-function tells us that there is localisation between macrophages and double
+negative CD3 T cells in this image. However, when we examine the image in question, it appears that
+the number of `dn_T_CD3` cells is low compared to the number of `Macrophages`. The L-function is therefore not capturing the full context of the spatial relationship.
+
+We can repeat the process above for mixed tumours.
+
+```{r}
+bind(spicyTest) |> 
+  dplyr::select(c(imageID, condition, Macrophages__dn_T_CD3)) |>
+  dplyr::filter(condition == "mixed" & Macrophages__dn_T_CD3 > 20)
+```
+
+Here, three images have high L-function values. We will examine image 33.
+
+```{r 04a-plotImage33}
+plotImage(kerenSPE, imageToPlot = 33, from = "Macrophages", to = "dn_T_CD3")
+```
+
+As before, we can see that the number of `dn_T_CD3` cells is low, driving the L-function up even though
+true localisation may not be occurring. 
+
+::: callout-tip
+*How do we distinguish "good" images from "bad" ones?*
+1. Typically, images with very few cells can skew the L-function, and make it appear as though there is localization or dispersion when, in reality, no significant spatial pattern exists. These images usually have very high or very low L-function values compared to other images in the same group.
+2. Skewed images must be further examined to understand the reason behind the abnormal L-function values. Factors such as imaging artifacts, poor segmentation, or uneven cell distribution could contribute to this skew. 
+3. In contrast, good quality images typically exhibit a more balanced ratio of cell types and a consistent number of cells across images.
+:::
+
+In the next section, we will demonstrate how and why we can derive spatial contexts within tissue samples to 
+produce robust spatial quantifications.
 
 ## sessionInfo
 
