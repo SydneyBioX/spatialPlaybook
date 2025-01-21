@@ -258,7 +258,7 @@ In ClassifyR, tuning is performed by providing a variable called `tuneParams` to
 
 ```{r}
 # create a vector of costs for SVM
-tuneList <- list(cost = c(0.01, 0.1, 1, 10))
+tuneList <- list(cost = c(0.1, 0.2))
 
 # set cross-validation parameters
 crossValParams <- CrossValParams(permutations = 5, tuneMode = "Resubstitution")
@@ -272,13 +272,12 @@ SVMparams <- ModellingParams(trainParams = TrainParams("SVM", kernel = "linear",
 
 Once we've specified our parameters of interest, we can use the `runTests` function to perform classification schemes. `runTests` allows greater control over all aspects of cross-validation compared to `crossValidate`. `runTests` requires a single matrix of observations and features to be passed to `measurements`.
 
-```{r}
-SVMresults <- runTests(data$lisaClust |> as.matrix(), 
-                       surv_outcome, crossValParams, SVMparams)
+```{r eval = FALSE}
+SVMresults <- runTests(data$lisaClust, outcome, crossValParams, SVMparams)
 ```
-The index of chosen of the parameters, as well as all combinations of parameters and their associated performance metric, are stored for every validation, and can be accessed with the tunedParameters function.
+The index of chosen of the parameters, as well as all combinations of parameters and their associated performance metric, are stored for every validation, and can be accessed with the `tunedParameters` function.
 
-```{r}
+```{r eval = FALSE}
 tunedParameters(SVMresults)[1:5]
 ```
 
