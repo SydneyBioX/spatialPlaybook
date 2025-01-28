@@ -21,7 +21,6 @@ To get started with our packages, we recommend that you read the descriptions of
 
 We also recommend that you browse our analysis examples in the case studies chapter. Here, you will find the application of combinations of our packages to answer multi-component questions on a diverse range of spatially-resolved single-cell assays. While reading this, keep the specific assay in mind for context, but also recognize that most of the demonstrated analytical approaches can be applied to a wide range of assays.
 
-
 ## SpatialExperiment
 
 In keeping with interoperability, we use the `SpatialExperiment` object from the [SpatialExperiment](https://www.bioconductor.org/packages/release/bioc/html/SpatialExperiment.html) package as the central linking framework across many of the packages.
@@ -38,8 +37,7 @@ library(readxl)
 library(Seurat)
 ```
 
-
-### Creating a SpatialExperiment
+### Creating a SpatialExperiment object
 
 -   The [vignette](https://www.bioconductor.org/packages/release/bioc/vignettes/SpatialExperiment/inst/doc/SpatialExperiment.html) for the SpatialExperiment package explains how to turn a `matrix` or `data.frame` into a `SpatialExperiment`.
 
@@ -50,3 +48,43 @@ library(Seurat)
 -   A `SpatialExperiment` object is very similar to a `SingleCellExperiment` but with spatial coordinates stored in the `spatialCoords()` slot. Many people analyse spatial data using a `SingleCellExperiment` object with the spatial coordinates stored in `colData`. Most of our packages are accepting of this approach.
 
 -   For visualisations, we recommend duplicating your `spatialCoords()` in the `reducedDim()` slot and in the `colData`.
+
+### Installing packages
+
+To get started with the workflow, you can install the following Bioconductor packages:
+
+```{r install packages, eval = FALSE}
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(version = "3.20")
+
+# Bioconductor packages
+BiocManager::install(c("SingleCellExperiment",
+                       "SpatialExperiment",
+                       "tidySingleCellExperiment",
+                       "SpatialDatasets",
+                       "cytomapper",
+                       "simpleSeg",
+                       "scater",
+                       "FuseSOM",
+                       "STexampleData",
+                       "scuttle",
+                       "scClassify",
+                       "spicyR",
+                       "Statial",
+                       "imcRtools",
+                       "treekoR",
+                       "lisaClust",
+                       "ClassifyR"))
+
+
+# other packages
+install.packages(c("dplyr",
+                   "ggplot2",
+                   "MLmetrics",
+                   "survival",
+                   "tibble",
+                   "ggsurvfit",
+                   "ggpubr"))
+```
+
