@@ -17,7 +17,6 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-
 When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
 
 <!-- Steps: -->
@@ -98,14 +97,13 @@ stateMat = stateMat[rownames(stateMat) %in% unique(kerenSPE$imageID), ]
 
 We will build a list of feature matrices using the features we've generated in the previous chapters:
 
-1. Cell type proportions (FuseSOM)
-2. Co-localisation between pairs of cell types using the L-function (spicyR)
-3. Cell type co-localisation with respect to a parent population using `Kontextual` (Statial)
-4. Regions of co-localisation, or spatial domains (lisaClust)
-5. Marker means in each cell type (Statial)
-6. Marker means in each cell type in each region (Statial)
-7. Proximity-associated changes in marker expression using SpatioMark (Statial)
-
+1.  Cell type proportions (FuseSOM)
+2.  Co-localisation between pairs of cell types using the L-function (spicyR)
+3.  Cell type co-localisation with respect to a parent population using `Kontextual` (Statial)
+4.  Regions of co-localisation, or spatial domains (lisaClust)
+5.  Marker means in each cell type (Statial)
+6.  Marker means in each cell type in each region (Statial)
+7.  Proximity-associated changes in marker expression using SpatioMark (Statial)
 
 ```{r time_it = TRUE}
 data <- list()
@@ -228,11 +226,11 @@ samplesMetricMap(cv,
                                       c("#FFFFFF", "#E1BFC4", "#C37F8A", "#A53F4F", "#880015")))
 ```
 
-The benefit of this plot is that it allows the easy identification of samples which are hard to classify and could be explained by considering additional information about them. For example, patient 34 and patient 13 show low accuracy. 
+The benefit of this plot is that it allows the easy identification of samples which are hard to classify and could be explained by considering additional information about them. For example, patient 34 and patient 13 show low accuracy.
 
 ### Predicting survival outcomes
 
-We can also use `sampleMetricMap` to identify samples that were difficult to classify with respect to a survival outcome. 
+We can also use `sampleMetricMap` to identify samples that were difficult to classify with respect to a survival outcome.
 
 ```{r fig.width = 12}
 samplesMetricMap(surv_cv)
@@ -248,11 +246,11 @@ As a result, some level of parameter tuning is always involved, even when the fe
 
 In ClassifyR, tuning is performed by providing a variable called `tuneParams` to the `SelectParams` or `TrainParams` constructors. There are five constructors in ClassifyR -
 
-- `CrossValParams`: create an object to store parameters for cross-validation
-- `ModellingParams`: create an object to store parameters for data modelling
-- `SelectParams`: create an object to store parameters for feature selection
-- `TrainParams`: create an object to store parameters for classifier training
-- `PredictParams`: create an object to store parameters for making predictions
+-   `CrossValParams`: create an object to store parameters for cross-validation
+-   `ModellingParams`: create an object to store parameters for data modelling
+-   `SelectParams`: create an object to store parameters for feature selection
+-   `TrainParams`: create an object to store parameters for classifier training
+-   `PredictParams`: create an object to store parameters for making predictions
 
 `tuneParams` is a named list, where each name corresponds to a tuning variable, except for one named `performanceType`, which specifies the performance metric to optimise. Any non-sample-specific performance metric calculated by `calcCVperformance` can be used for this optimisation.
 
@@ -275,12 +273,13 @@ Once we've specified our parameters of interest, we can use the `runTests` funct
 ```{r eval = FALSE}
 SVMresults <- runTests(data$lisaClust, outcome, crossValParams, SVMparams)
 ```
+
 The index of chosen of the parameters, as well as all combinations of parameters and their associated performance metric, are stored for every validation, and can be accessed with the `tunedParameters` function.
 
 ```{r eval = FALSE}
 tunedParameters(SVMresults)[1:5]
 ```
 
-In this way, we can predict clinical outcomes, identify samples that are hard to classify, and perform fine-grained parameter tuning to improve classifier performance. 
+In this way, we can predict clinical outcomes, identify samples that are hard to classify, and perform fine-grained parameter tuning to improve classifier performance.
 
-In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies. 
+In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies.
