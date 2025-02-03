@@ -8,9 +8,7 @@ Recent advances in highly multiplexed cell imaging technologies—such as PhenoC
 
 These technological advancements have driven the development of novel analytical approaches, essential for fully leveraging the potential of these new imaging methods. On this website, we demonstrate how packages in [**scdney**](https://sydneybiox.github.io/scdney/) can provide fresh insights into complex biological systems and diseases.
 
-This guide presents a comprehensive workflow for analysing spatial omics data, featuring examples sorted by different technologies as described below.
-
-The workflow described here contains 7 major stages:
+This guide presents a comprehensive workflow for analysing spatial omics data, featuring examples sorted by different imaging technologies. The workflow described here contains 7 major stages:
 
 1.  Cell segmentation and pre-processing
 2.  Quality control and normalisation

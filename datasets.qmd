@@ -1,6 +1,6 @@
 # Datasets
 
-Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our [SpatialDatasets](https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html) package on Bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
+Through the course of this spatialPlaybook, we will take advantage of several different publicly available spatial datasets that are listed below. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.
 
 ```{=html}
 <style>
@@ -12,10 +12,12 @@ table {
 ```
 
 | Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| Breast cancer | MIBI-TOF | Keren_2018 |  |  |  | X | X | X |  |
-| Breast cancer | MIBI-TOF | Risom_2022 | X | X | X | X | X | X |  |
-| Mouse organogenesis | seqFISH | Lohoff_2022 |  | X |  | X |  |  |  |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| Head and neck squamous cutaneous cell carcinoma | IMC | Ferguson 2022 | X |  | X | X | X |  |  |
+| Breast cancer | MIBI-TOF | Risom 2022 | X | X | X | X | X | X |  |
+| Mouse embryogenesis | Slide-seq | Stickels 2021 | X | X | X | X |  |  |  |
+| Breast cancer | MIBI-TOF | Keren 2018 | X |  | X | X | X | X |  |
+| Type 1 diabetes | IMC | Damond 2019 | X |  |  | X |  |  |  |
 
 ```{=html}
 <style>
@@ -26,21 +28,39 @@ citation {
 </style>
 ```
 
-## Spatial Proteomics - MIBI-TOF
+## Spatial Proteomics
 
-MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about $1mm^2$ at resolutions down to $260nm$.
+### IMC
 
-### [Triple Negative Breast Cancer - Keren_2018](datasets/Keren_2018/Keren_2018.qmd)
+Imaging Mass Cytometry (IMC) is a high-resolution, multiplexed imaging technique that combines laser ablation with mass cytometry to visualize metal-tagged antibodies in tissue sections or cell samples. Using a pulsed laser, IMC systematically ablates the sample, releasing metal isotopes that are then analysed by time-of-flight mass spectrometry. This allows for the simultaneous detection of **40+ biomarkers** at subcellular resolution, typically around **1 µm**, without the spectral overlap issues found in fluorescence-based imaging.
 
-This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer using MIBI-TOF. The dataset captures high-resolution, spatially resolved data on 17 distinct cell populations, immune composition, checkpoint protein expression, and tumor-immune interactions.
+#### Head and neck cutaneous squamous cell carcinoma (Ferguson 2022)
 
-<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
+Squamous cell carcinoma (SCC) is the second most common skin cancer, with high-risk head and neck SCC (HNcSCC) being aggressive and prone to recurrence or metastasis, particularly in immunosuppressed patients. This study used IMC to profile the tumour microenvironment of 31 patients to identify cellular interactions that were associated with tumour progression. A panel of **36 markers** was used, and patients were classified into one of two categories: non-progressors (NP) for those that were negative for metastases and progressors (P) that were positive for metastases. The study identified early immune responses that were crucial in controlling tumour progression and improving patient prognosis.
 
-### Ductal carcinoma in situ - Risom_2022
+<citation> Ferguson et al. (2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. ([DOI](https://doi.org/10.1158/1078-0432.CCR-22-1332))</citation>
 
-This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma *in situ* (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A 37-plex antibody staining panel was used to capture spatial relationships that provided insight into the dynamics of the tumour microenvironment during the transition from normal breast tissue to DCIS and IBC.
+#### Type 1 diabetes progression (Damond 2019)
+
+Type 1 diabetes (T1D) results from the autoimmune destruction of insulin-producing β cells. This study analysed pancreatic tissue obtained from 12 patients at 3 different stages of diabetes: non-diabetic, early onset, and long-term using a 35-plex antibody panel. Analysis revealed key cellular movements that preceded the destruction of insulin-producing β cells, highlighting potential targets for future therapies and treatments.
+
+<citation> Damond et al. (2019). A Map of Human Type 1 Diabetes Progression by Imaging Mass Cytometry. Cell Metabolism, 29(3), 755-768.e5. ([DOI](https://doi.org/10.1016/j.cmet.2018.11.014))</citation>
+
+### MIBI-TOF
+
+MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an imaging technique that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies, providing a highly detailed and multiplexed view of tissue architecture and protein expression. MIBI-TOF can capture image fields of around **1 mm²** with exceptional spatial resolution, reaching down to **260 nm**.
+
+#### Ductal carcinoma in situ (Risom 2022)
+
+Ductal carcinoma in situ (DCIS) is a pre-invasive lesion considered a precursor to invasive breast cancer (IBC). This study utilized MIBI-TOF with **a 37-plex** antibody panel to analyze spatial relationships within the Washington University Resource Archival Human Breast Tissue (RAHBT) cohort. The findings identified key drivers of IBC relapse and emphasized the critical role of the tumour microenvironment in influencing disease progression.
 
 <citation> Risom et al. (2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 ([DOI](https://doi.org/10.1016/j.cell.2021.12.023)) </citation>
+
+#### Triple Negative Breast Cancer (Keren 2018)
+
+This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer (a particularly aggressive form of cancer) using MIBI-TOF. The dataset captures high-resolution, spatially resolved data on 17 distinct cell populations, immune composition, checkpoint protein expression, and tumor-immune interactions. Patients were classified into three categories based on the type of tumour: cold (no immune cell infiltration), compartmentalised (immune cells spatially separated from tumor cells), and mixed (immune cells mixed with tumor cells).
+
+<citation> Keren et al. (2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. ([DOI](https://doi.org/10.1016/j.cell.2018.08.039)) </citation>
 
 <!-- ## Spatial Proteomics - CODEX -->
 
@@ -62,12 +82,6 @@ This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma *i
 
 <!-- <citation> Ali et al. (2020). Imaging mass cytometry and multiplatform genomics define the phenogenomic landscape of breast cancer. Nature Cancer, 1, 163-175. ([DOI](https://doi.org/10.1038/s43018-020-0026-6))</citation> -->
 
-### Head and neck squamous cell carcinoma - Ferguson_2022
-
-This study uses IMC to map the immune landscape and identify differences between high-risk primary head and neck cancer (HNcSCC) tumors that did not progress and those that developed metastases (progressing tumours). The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our workflow to reach a similar conclusion.
-
-<citation> Ferguson et al. (2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. ([DOI](https://doi.org/10.1158/1078-0432.CCR-22-1332))</citation>
-
 <!-- ## Spatial Transcriptomics - seqFISH -->
 
 <!-- [SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities. -->
@@ -79,3 +93,5 @@ This study uses IMC to map the immune landscape and identify differences between
 <!-- <citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation> -->
 
 <!-- Need to add: Stickles 2021 (used for scClassify) and Damond 2019 (diabetes dataset used for mixed spicyR) -->
+
+In the following section, we provide a quick guide to help you get started with performing spatial analysis.
