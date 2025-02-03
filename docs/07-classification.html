@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>12&nbsp; Finding associations between clinical variables and spatial features – Spatial analysis playbook</title>
 <style>
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-170b004f012a46b9cbeed28c5f085629.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -357,7 +357,7 @@ window.Quarto = {
   <li><a href="#predicting-survival-outcomes" id="toc-predicting-survival-outcomes" class="nav-link" data-scroll-target="#predicting-survival-outcomes"><span class="header-section-number">12.4.2</span> Predicting survival outcomes</a></li>
   </ul>
 </li>
-  <li><a href="#maximising-accuracy-during-classification" id="toc-maximising-accuracy-during-classification" class="nav-link" data-scroll-target="#maximising-accuracy-during-classification"><span class="header-section-number">12.5</span> Maximising accuracy during classification</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">12.5</span> sessionInfo</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -407,13 +407,13 @@ window.Quarto = {
 <section id="introduction-to-classifyr" class="level2" data-number="12.1"><h2 data-number="12.1" class="anchored" data-anchor-id="introduction-to-classifyr">
 <span class="header-section-number">12.1</span> Introduction to <code>ClassifyR</code>
 </h2>
-<p><a href="https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html">ClassifyR</a> provides a structured pipeline for cross-validated classification. Classification is viewed in terms of four stages: data transformation, feature selection, classifier training, and prediction. The driver functions crossValidate and runTests implements varieties of cross-validation. They are:</p>
+<p><a href="https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html">ClassifyR</a> provides a structured pipeline for cross-validated classification. Classification is viewed in terms of four stages: data transformation, feature selection, classifier training, and prediction. The driver functions <code>crossValidate</code> and <code>runTests</code> implements varieties of cross-validation. They are:</p>
 <ul>
 <li>Permutation of the order of samples followed by k-fold cross-validation</li>
 <li>Repeated <span class="math inline">\(x\%\)</span> test set cross-validation</li>
 <li>leave-k-out cross-validation</li>
 </ul>
-<p>We will use the Keren 2018 dataset to perform two predictions: 1) predict the patient’s tumour type (cold, compartmentalised, or mixed) and 2) predict the patient’s survival outcome.</p>
+<p>We will use the Keren 2018 dataset to perform two predictions: 1) predict the patient’s tumour type (compartmentalised or mixed) and 2) predict the patient’s survival outcome.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load the Keren 2018 dataset</span></span>
 <span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -422,28 +422,34 @@ window.Quarto = {
 <span><span class="va">kerenSPE</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Censored"</span>, <span class="st">"Survival_days_capped*"</span>,</span>
 <span>                                                           <span class="st">"tumour_type"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
+<span><span class="co"># read in pre-saved results from Kontextual and SpatioMark</span></span>
 <span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/kontextMat.rds"</span><span class="op">)</span></span>
-<span></span>
 <span><span class="va">stateMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/stateMat.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="classification-of-patients-by-condition" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="classification-of-patients-by-condition">
 <span class="header-section-number">12.2</span> Classification of patients by condition</h2>
-<p>We will use the Keren 2018 dataset to classify a patient’s tumour into one of three types: cold, compartmentalised, and mixed.</p>
+<p>We will use the Keren 2018 dataset to classify a patient’s tumour into one of two types: compartmentalised and mixed. First, we will filter out all cases which had cold tumours.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter out cold tumours</span></span>
+<span><span class="va">kerenSPE</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">$</span><span class="va">tumour_type</span> <span class="op">!=</span> <span class="st">"cold"</span><span class="op">]</span></span>
+<span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">tumour_type</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">tumour_type</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Factor-class.html">levels</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">tumour_type</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mixed"</span>, <span class="st">"compartmentalised"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">kontextMat</span> <span class="op">=</span> <span class="va">kontextMat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">kontextMat</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">stateMat</span> <span class="op">=</span> <span class="va">stateMat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">stateMat</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>We will build a list of feature matrices using the features we’ve generated in the previous chapters:</p>
 <ol type="1">
 <li>Cell type proportions (FuseSOM)</li>
-<li>Cell type co-localistion using the L-function (spicyR)</li>
-<li>Cell type co-localisation with respect to a parent (Kontextual)</li>
-<li>Spatial domains (lisaClust)</li>
+<li>Co-localisation between pairs of cell types using the L-function (spicyR)</li>
+<li>Cell type co-localisation with respect to a parent population using <code>Kontextual</code> (Statial)</li>
+<li>Regions of co-localisation, or spatial domains (lisaClust)</li>
 <li>Marker means in each cell type (Statial)</li>
 <li>Marker means in each cell type in each region (Statial)</li>
-<li>Proximity-associated changes in marker expression (SpatioMark)</li>
+<li>Proximity-associated changes in marker expression using SpatioMark (Statial)</li>
 </ol>
-<div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/kontextMat.rds"</span><span class="op">)</span></span>
-<span><span class="va">stateMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/stateMat.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
+<div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Cell type proportions (FuseSOM)</span></span>
@@ -451,87 +457,78 @@ window.Quarto = {
 <span></span>
 <span><span class="co"># Cell localisation (spicyR)</span></span>
 <span><span class="va">data</span><span class="op">[[</span><span class="st">"spicyR"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
-<span>                                BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span>
+<span>                                BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Cell localisation with respect to a parent (Kontextual)</span></span>
 <span><span class="va">data</span><span class="op">[[</span><span class="st">"Kontextual"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">kontextMat</span></span>
 <span></span>
 <span><span class="co"># Spatial Domains (lisaClust)</span></span>
-<span><span class="va">data</span><span class="op">[[</span><span class="st">"lisaClust"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getProp.html">getProp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="st">"region"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">data</span><span class="op">[[</span><span class="st">"lisaClust"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getProp.html">getProp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>, k <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                                         BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span>, <span class="st">"region"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Generating local L-curves.</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Quick-TRANSfer stage steps exceeded maximum (= 9513800)</code></pre>
-</div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Marker means in each cell type (Statial)</span></span>
-<span><span class="va">data</span><span class="op">[[</span><span class="st">"celltypeMarkerMeans"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/getMarkerMeans.html">getMarkerMeans</a></span><span class="op">(</span><span class="va">kerenSPE</span>, imageID <span class="op">=</span> <span class="st">"imageID"</span>,</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Marker means in each cell type (Statial)</span></span>
+<span><span class="va">data</span><span class="op">[[</span><span class="st">"cellTypeMarkerMeans"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/getMarkerMeans.html">getMarkerMeans</a></span><span class="op">(</span><span class="va">kerenSPE</span>, imageID <span class="op">=</span> <span class="st">"imageID"</span>,</span>
 <span>                                        cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
 <span>                                        region <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Marker means in each cell type in each region (Statial)</span></span>
-<span><span class="va">data</span><span class="op">[[</span><span class="st">"regionMarkerMeans"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/getMarkerMeans.html">getMarkerMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>, k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, </span>
+<span><span class="va">data</span><span class="op">[[</span><span class="st">"regionMarkerMeans"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/getMarkerMeans.html">getMarkerMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>, k <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                                                        BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span>, </span>
 <span>                                        imageID <span class="op">=</span> <span class="st">"imageID"</span>,</span>
 <span>                                        cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
 <span>                                        region <span class="op">=</span> <span class="st">"region"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Generating local L-curves.</code></pre>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Proximity-associated changes in marker expression (SpatioMark)</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Proximity-associated changes in marker expression (SpatioMark)</span></span>
 <span><span class="va">data</span><span class="op">[[</span><span class="st">"SpatioMark"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">stateMat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Time for this code chunk to run with 5.5 cores: 59.02 seconds</p>
 </div>
 <p>We will then generate a factor vector of our outcome variable.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># outcome vector</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># outcome vector</span></span>
 <span><span class="va">outcome</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">tumour_type</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">outcome</span>, <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                1                 2                 3                 4 
-            mixed             mixed compartmentalised compartmentalised 
+compartmentalised compartmentalised             mixed             mixed 
                 5 
-compartmentalised 
-Levels: cold compartmentalised mixed</code></pre>
+            mixed 
+Levels: mixed compartmentalised</code></pre>
 </div>
 </div>
 <p><code>ClassifyR</code> provides a convenient function, <code>crossValidate</code>, to build and test models. <code>crossValidate</code> must be supplied with <code>measurements</code>, a simple tabular data container or a list-like structure of such related tabular data on common samples. It can be in the form of a <code>matrix</code>, <code>data.frame</code>, <code>DataFrame</code>, <code>MultiAssayExperiment</code> or a list of <code>data.frames</code>.</p>
-<p><code>crossValidate</code> must also be supplied with <code>outcome</code>, which represents the prediction to be made. <code>outcome</code> can be either a factor containing the class labels for each observation, or a <code>character</code> of length 1 that matches a column name in a data frame which holds the classes. If a <code>character</code> is provided, <code>crossValidate</code> will automatically remove the classes before training.</p>
-<p>By default, <code>crossValidate</code> will build and train a random forest. Alternative classifiers can be specified using the <code>classifier</code> argument. To view all available feature selection and classification approaches, use the <code><a href="https://sydneybiox.github.io/ClassifyR/reference/available.html">available()</a></code> function.</p>
-<div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># perform 50 repeats of 5-fold cross-validation</span></span>
+<p><code>crossValidate</code> must also be supplied with <code>outcome</code>, which represents the prediction to be made. <code>outcome</code> can be either a factor containing the class labels for each observation, or a <code>character</code> of length 1 that matches a column name in <code>measurements</code> which holds the classes. If a <code>character</code> is provided, <code>crossValidate</code> will automatically remove the classes before training.</p>
+<p>By default, <code>crossValidate</code> will build and train a random forest. Alternative classifiers can be specified using the <code>classifier</code> argument. To view all available feature selection and classification approaches, use the <code>available</code> function.</p>
+<div class="cell" data-time_it="true">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># perform 50 repeats of 5-fold cross-validation</span></span>
 <span><span class="va">cv</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/crossValidate.html">crossValidate</a></span><span class="op">(</span>measurements <span class="op">=</span> <span class="va">data</span>,</span>
 <span>                   outcome <span class="op">=</span> <span class="va">outcome</span>,</span>
 <span>                   nFolds <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                   nRepeats <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>                   nCores <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                   nCores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Time for this code chunk to run with 5.5 cores: 35.78 seconds</p>
 </div>
-<p>We can use <code>performancePlot</code> to visualise performance metrics for all our features. Here, we visualise the AUC for each of the six feature matrices we tested. Additional performance metrics can be specified in the <code>metric</code> argument.</p>
+<p>We can use <code>performancePlot</code> to visualise performance metrics for all our features. Here, we visualise the AUC for each of the seven feature matrices we tested. Additional performance metrics can be specified in the <code>metric</code> argument.</p>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/performancePlot.html">performancePlot</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/performancePlot.html">performancePlot</a></span><span class="op">(</span></span>
 <span>  <span class="va">cv</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"AUC"</span>,</span>
 <span>  characteristicsList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Assay Name"</span><span class="op">)</span>,</span>
 <span>  orderingList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Assay Name"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"proportions"</span>, <span class="st">"spicyR"</span>, <span class="st">"lisaClust"</span>, <span class="st">"Kontextual"</span>, <span class="st">"celltypeMarkerMeans"</span>, <span class="st">"regionMarkerMeans"</span>, <span class="st">"SpatioMark"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in .local(results, ...): AUC not found in all elements of results.
-Calculating it now.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="07-classification_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
-</div>
-</div>
 </div>
 <p>From the graph, both <code>lisaClust</code> and <code>proportions</code> appear to capture information which is predictive of the tumour type of patients.</p>
 </section><section id="classification-of-patients-by-survival" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="classification-of-patients-by-survival">
 <span class="header-section-number">12.3</span> Classification of patients by survival</h2>
-<p><code>crossValidate</code> also has the capacity to test classification performance for a survival outcome. In this case, <code>outcome</code> must be a <code>Surv</code> object of the same length as the number of samples in the feature matrix and should information about the time and censoring of the samples. Alternatively, we can specify <code>outcome</code> to be a <code>character</code> of length 2 or 3 that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.</p>
-<p>We will first add a <code>survival</code> column to the <code>kerenSPE</code> object, and remove any rows that contain missing survival data.</p>
+<p><code>crossValidate</code> also has the capacity to test classification performance for a survival outcome. In this case, <code>outcome</code> must be a <code>Surv</code> object of the same length as the number of samples in the feature matrix and should contain information about the time and censoring of the samples. Alternatively, we can specify <code>outcome</code> to be a <code>character</code> of length 2 or 3 that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.</p>
+<p>We will first add a <code>survival</code> column to the <code>kerenSPE</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a Surv object named "survival"</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a Surv object named "survival"</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
 <span></span>
@@ -543,55 +540,29 @@ Calculating it now.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>    1     2     3     4     5     6     7     8     9    10    11    12    13 
  2612   745 3130+ 2523+ 1683+ 2275+   584   946 3767+ 3822+ 3774+ 4353+  1072 
-   14    15    16    17    18    19    20    21    23    24    25    26    27 
-4145+  1754   530  2842 5063+ 3725+ 4761+   635    91   194 4785+ 4430+  3658 
-   28    29    31    32    33    34    35    36    37    39    40    41 
-3767+  1319  1009 1568+ 1738+ 2832+ 2759+ 3063+ 2853+ 2096+  3573 3355+ </code></pre>
+   14    16    17    18    20    21    23    27    28    29    31    32    33 
+4145+   530  2842 5063+ 4761+   635    91  3658 3767+  1319  1009 1568+ 1738+ 
+   34    35    36    37    39    40    41 
+2832+ 2759+ 3063+ 2853+ 2096+  3573 3355+ </code></pre>
 </div>
 </div>
-<p>Next, we filter <code>data</code> to ensure the image IDs it contains are consistent with those in <code>surv_outcome</code>.</p>
 <p>We can then run <code>crossValidate</code> and specify the outcome to be <code>surv_outcome</code>, and use <code>performancePlot</code> to visualise the performance of the cross-validation. Since we are performing survival analysis, we will specify <code>metric = "C-index"</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># perform 50 repeats of 5-fold cross-validation</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># perform 50 repeats of 5-fold cross-validation</span></span>
 <span><span class="va">surv_cv</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/crossValidate.html">crossValidate</a></span><span class="op">(</span>measurements <span class="op">=</span> <span class="va">data</span>,</span>
 <span>                   outcome <span class="op">=</span> <span class="va">surv_outcome</span>,</span>
 <span>                   nFolds <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                   nRepeats <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>                   nCores <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in coxph.fit(X, Y, istrat, offset, init, control, weights = weights, :
-Ran out of iterations and did not converge</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in coxph.fit(X, Y, istrat, offset, init, control, weights = weights, :
-one or more coefficients may be infinite</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in coxph.fit(X, Y, istrat, offset, init, control, weights = weights, :
-Ran out of iterations and did not converge</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in coxph.fit(X, Y, istrat, offset, init, control, weights = weights, :
-one or more coefficients may be infinite</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in coxph.fit(X, Y, istrat, offset, init, control, weights = weights, :
-Ran out of iterations and did not converge
-Warning in coxph.fit(X, Y, istrat, offset, init, control, weights = weights, :
-Ran out of iterations and did not converge</code></pre>
-</div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/performancePlot.html">performancePlot</a></span><span class="op">(</span><span class="va">surv_cv</span>,</span>
+<span>                   nCores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/performancePlot.html">performancePlot</a></span><span class="op">(</span><span class="va">surv_cv</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"C-index"</span>,</span>
 <span>  characteristicsList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Assay Name"</span><span class="op">)</span>,</span>
 <span>  orderingList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Assay Name"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"proportions"</span>, <span class="st">"spicyR"</span>, <span class="st">"lisaClust"</span>, <span class="st">"Kontextual"</span>, <span class="st">"celltypeMarkerMeans"</span>, <span class="st">"regionMarkerMeans"</span>, <span class="st">"SpatioMark"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in .local(results, ...): C-index not found in all elements of results.
-Calculating it now.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="07-classification_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="1152"></p>
+<figure class="figure"><p><img src="07-classification_files/figure-html/survival cv-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -603,11 +574,10 @@ Calculating it now.</code></pre>
 <section id="predicting-tumour-type" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="predicting-tumour-type">
 <span class="header-section-number">12.4.1</span> Predicting tumour type</h3>
 <div class="cell">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">cv</span>,  </span>
-<span>                 classColours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#3F48CC"</span>, <span class="st">"#880015"</span>, <span class="st">"#00b409"</span><span class="op">)</span>,</span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">cv</span>,  </span>
+<span>                 classColours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#3F48CC"</span>, <span class="st">"#880015"</span><span class="op">)</span>,</span>
 <span>                 metricColours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#CFD1F2"</span>, <span class="st">"#9FA3E5"</span>, <span class="st">"#6F75D8"</span>, <span class="st">"#3F48CC"</span><span class="op">)</span>,</span>
-<span>                                      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#E1BFC4"</span>, <span class="st">"#C37F8A"</span>, <span class="st">"#A53F4F"</span>, <span class="st">"#880015"</span><span class="op">)</span>,</span>
-<span>                                      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#c1ffc4"</span>, <span class="st">"#88ff8e"</span>, <span class="st">"#5aff62"</span>, <span class="st">"#00b409"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                                      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#E1BFC4"</span>, <span class="st">"#C37F8A"</span>, <span class="st">"#A53F4F"</span>, <span class="st">"#880015"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in .local(results, ...): Sample Accuracy not found in all elements of
 results. Calculating it now.</code></pre>
@@ -618,7 +588,7 @@ results. Calculating it now.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="07-classification_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="1440"></p>
+<figure class="figure"><p><img src="07-classification_files/figure-html/samplesMetricMap-1.png" class="img-fluid figure-img" width="1440"></p>
 </figure>
 </div>
 </div>
@@ -626,20 +596,22 @@ results. Calculating it now.</code></pre>
 <pre><code>TableGrob (2 x 1) "arrange": 2 grobs
   z     cells    name                grob
 1 1 (2-2,1-1) arrange      gtable[layout]
-2 2 (1-1,1-1) arrange text[GRID.text.417]</code></pre>
+2 2 (1-1,1-1) arrange text[GRID.text.306]</code></pre>
 </div>
 </div>
+<p>The benefit of this plot is that it allows the easy identification of samples which are hard to classify and could be explained by considering additional information about them. For example, patient 34 and patient 13 show low accuracy.</p>
 </section><section id="predicting-survival-outcomes" class="level3" data-number="12.4.2"><h3 data-number="12.4.2" class="anchored" data-anchor-id="predicting-survival-outcomes">
 <span class="header-section-number">12.4.2</span> Predicting survival outcomes</h3>
+<p>We can also use <code>sampleMetricMap</code> to identify samples that were difficult to classify with respect to a survival outcome.</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">surv_cv</span>, showXtickLabels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">surv_cv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in .local(results, ...): Sample C-index not found in all elements of
 results. Calculating it now.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="07-classification_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="07-classification_files/figure-html/samplesMetricMap survival-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -647,11 +619,106 @@ results. Calculating it now.</code></pre>
 <pre><code>TableGrob (2 x 1) "arrange": 2 grobs
   z     cells    name                grob
 1 1 (2-2,1-1) arrange      gtable[layout]
-2 2 (1-1,1-1) arrange text[GRID.text.563]</code></pre>
+2 2 (1-1,1-1) arrange text[GRID.text.458]</code></pre>
 </div>
 </div>
-</section></section><section id="maximising-accuracy-during-classification" class="level2" data-number="12.5"><h2 data-number="12.5" class="anchored" data-anchor-id="maximising-accuracy-during-classification">
-<span class="header-section-number">12.5</span> Maximising accuracy during classification</h2>
+<p>In this way, we can use ClassifyR to predict clinical outcomes and identify samples or patients that are hard to classify with respect to an outcome of interest.</p>
+<p>In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies.</p>
+</section></section><section id="sessioninfo" class="level2" data-number="12.5"><h2 data-number="12.5" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">12.5</span> sessionInfo</h2>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.4.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Australia/Sydney
+tzcode source: internal
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] SpatialDatasets_1.4.0       SpatialExperiment_1.16.0   
+ [3] SingleCellExperiment_1.28.1 ExperimentHub_2.14.0       
+ [5] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
+ [7] dbplyr_2.5.0                ggplot2_3.5.1              
+ [9] spicyR_1.18.0               Statial_1.8.0              
+[11] lisaClust_1.14.4            ClassifyR_3.10.5           
+[13] survival_3.7-0              BiocParallel_1.40.0        
+[15] MultiAssayExperiment_1.32.0 SummarizedExperiment_1.36.0
+[17] Biobase_2.66.0              GenomicRanges_1.58.0       
+[19] GenomeInfoDb_1.42.0         IRanges_2.40.0             
+[21] MatrixGenerics_1.18.0       matrixStats_1.4.1          
+[23] S4Vectors_0.44.0            BiocGenerics_0.52.0        
+[25] generics_0.1.3             
+
+loaded via a namespace (and not attached):
+  [1] splines_4.4.1           later_1.4.1             filelock_1.0.3         
+  [4] bitops_1.0-9            svgPanZoom_0.3.4        tibble_3.2.1           
+  [7] polyclip_1.10-7         XML_3.99-0.17           lifecycle_1.0.4        
+ [10] rstatix_0.7.2           lattice_0.22-6          MASS_7.3-61            
+ [13] backports_1.5.0         magrittr_2.0.3          limma_3.62.1           
+ [16] plotly_4.10.4           rmarkdown_2.29          yaml_2.3.10            
+ [19] httpuv_1.6.15           doRNG_1.8.6.1           sp_2.1-4               
+ [22] dcanr_1.22.0            spatstat.sparse_3.1-0   DBI_1.2.3              
+ [25] minqa_1.2.8             RColorBrewer_1.1-3      abind_1.4-8            
+ [28] zlibbioc_1.52.0         purrr_1.0.2             RCurl_1.98-1.16        
+ [31] rappdirs_0.3.3          tweenr_2.0.3            GenomeInfoDbData_1.2.13
+ [34] spatstat.utils_3.1-1    terra_1.7-78            genefilter_1.88.0      
+ [37] pheatmap_1.0.12         goftest_1.2-3           simpleSeg_1.8.0        
+ [40] annotate_1.84.0         spatstat.random_3.3-2   svglite_2.1.3          
+ [43] codetools_0.2-20        DelayedArray_0.32.0     ggforce_0.4.2          
+ [46] tidyselect_1.2.1        raster_3.6-30           UCSC.utils_1.2.0       
+ [49] farver_2.1.2            viridis_0.6.5           lme4_1.1-35.5          
+ [52] spatstat.explore_3.3-3  jsonlite_1.8.9          Formula_1.2-5          
+ [55] iterators_1.0.14        systemfonts_1.1.0       foreach_1.5.2          
+ [58] tools_4.4.1             Rcpp_1.0.13-1           glue_1.8.0             
+ [61] gridExtra_2.3           SparseArray_1.6.0       xfun_0.49              
+ [64] ranger_0.17.0           mgcv_1.9-1              ggthemes_5.1.0         
+ [67] EBImage_4.48.0          dplyr_1.1.4             HDF5Array_1.34.0       
+ [70] scam_1.2-17             shinydashboard_0.7.2    withr_3.0.2            
+ [73] numDeriv_2016.8-1.1     BiocManager_1.30.25     fastmap_1.2.0          
+ [76] ggh4x_0.2.8             boot_1.3-31             rhdf5filters_1.18.0    
+ [79] fansi_1.0.6             digest_0.6.37           R6_2.5.1               
+ [82] mime_0.12               colorspace_2.1-1        tensor_1.5             
+ [85] RSQLite_2.3.8           jpeg_0.1-10             spatstat.data_3.1-4    
+ [88] utf8_1.2.4              tidyr_1.3.1             data.table_1.16.2      
+ [91] class_7.3-22            httr_1.4.7              htmlwidgets_1.6.4      
+ [94] S4Arrays_1.6.0          pkgconfig_2.0.3         gtable_0.3.6           
+ [97] blob_1.2.4              XVector_0.46.0          htmltools_0.5.8.1      
+[100] carData_3.0-5           fftwtools_0.9-11        scales_1.3.0           
+[103] ggupset_0.4.0           png_0.1-8               spatstat.univar_3.1-1  
+[106] knitr_1.49              reshape2_1.4.4          rjson_0.2.23           
+[109] curl_6.0.1              nlme_3.1-166            nloptr_2.1.1           
+[112] bdsmatrix_1.3-7         cachem_1.1.0            rhdf5_2.50.0           
+[115] stringr_1.5.1           BiocVersion_3.20.0      vipor_0.4.7            
+[118] parallel_4.4.1          concaveman_1.1.0        AnnotationDbi_1.68.0   
+[121] pillar_1.9.0            grid_4.4.1              vctrs_0.6.5            
+[124] coxme_2.2-22            promises_1.3.2          ggpubr_0.6.0           
+[127] car_3.1-3               xtable_1.8-4            beeswarm_0.4.0         
+[130] evaluate_1.0.1          magick_2.8.5            cli_3.6.3              
+[133] locfit_1.5-9.10         compiler_4.4.1          rlang_1.1.4            
+[136] crayon_1.5.3            rngtools_1.5.2          ggsignif_0.6.4         
+[139] labeling_0.4.3          plyr_1.8.9              ggbeeswarm_0.7.2       
+[142] stringi_1.8.4           nnls_1.6                viridisLite_0.4.2      
+[145] deldir_2.0-4            cytomapper_1.18.0       Biostrings_2.74.0      
+[148] lmerTest_3.1-3          munsell_0.5.1           lazyeval_0.2.2         
+[151] tiff_0.1-12             spatstat.geom_3.3-4     Matrix_1.7-1           
+[154] bit64_4.5.2             Rhdf5lib_1.28.0         KEGGREST_1.46.0        
+[157] statmod_1.5.0           shiny_1.9.1             memoise_2.0.1          
+[160] igraph_2.1.1            broom_1.0.7             bit_4.5.0              </code></pre>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

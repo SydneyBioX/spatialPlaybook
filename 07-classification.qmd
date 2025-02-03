@@ -1,6 +1,6 @@
 # Finding associations between clinical variables and spatial features
 
-```{r, include = FALSE}
+```{r code chunk timing, include = FALSE}
 knitr::knit_hooks$set(time_it = local({
   now <- NULL
   function(before, options) {
@@ -41,7 +41,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-```{r, eval = FALSE}
+```{r libraries, eval = FALSE}
 library(ClassifyR)
 library(lisaClust)
 library(Statial)
@@ -49,7 +49,7 @@ library(spicyR)
 library(ggplot2)
 ```
 
-```{r, setParam}
+```{r set parameters}
 # set parameters
 set.seed(51773)
 use_mc <- TRUE
@@ -72,7 +72,7 @@ theme_set(theme_classic())
 
 We will use the Keren 2018 dataset to perform two predictions: 1) predict the patient's tumour type (compartmentalised or mixed) and 2) predict the patient's survival outcome.
 
-```{r, message=FALSE,warning=FALSE}
+```{r load keren dataset, message=FALSE,warning=FALSE}
 # load the Keren 2018 dataset
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
@@ -80,17 +80,22 @@ kerenSPE <- SpatialDatasets::spe_Keren_2018()
 kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
                                                            "tumour_type")])]
 
+# read in pre-saved results from Kontextual and SpatioMark
 kontextMat <- readRDS("data/kontextMat.rds")
 stateMat <- readRDS("data/stateMat.rds")
 ```
 
 ## Classification of patients by condition
 
-We will use the Keren 2018 dataset to classify a patient's tumour into one of two types: compartmentalised and mixed. First, we will filter out all cases which had cold tumours.
+We will use the Keren 2018 dataset to classify a patient's tumour into one of two types: compartmentalised and mixed. First, we will filter out all cases which had cold tumours, as there are only 5 of them.
 
-```{r}
+```{r filter out cold tumours}
 # filter out cold tumours
 kerenSPE = kerenSPE[, colData(kerenSPE)$tumour_type != "cold"]
+kerenSPE$tumour_type = droplevels(kerenSPE$tumour_type)
+levels(kerenSPE$tumour_type) = c("mixed", "compartmentalised")
+
+
 kontextMat = kontextMat[rownames(kontextMat) %in% unique(kerenSPE$imageID), ]
 stateMat = stateMat[rownames(stateMat) %in% unique(kerenSPE$imageID), ]
 ```
@@ -105,7 +110,7 @@ We will build a list of feature matrices using the features we've generated in t
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression using SpatioMark (Statial)
 
-```{r time_it = TRUE}
+```{r create feature matrix, time_it = TRUE}
 data <- list()
 
 # Cell type proportions (FuseSOM)
@@ -123,7 +128,7 @@ data[["lisaClust"]] <- getProp(lisaClust(kerenSPE, k = 5,
                                          BPPARAM = BPPARAM), "region")
 
 # Marker means in each cell type (Statial)
-data[["celltypeMarkerMeans"]] <- getMarkerMeans(kerenSPE, imageID = "imageID",
+data[["cellTypeMarkerMeans"]] <- getMarkerMeans(kerenSPE, imageID = "imageID",
                                         cellType = "cellType",
                                         region = "cellType")
 
@@ -140,7 +145,7 @@ data[["SpatioMark"]] <- stateMat
 
 We will then generate a factor vector of our outcome variable.
 
-```{r}
+```{r outcome vector}
 # outcome vector
 outcome = kerenSPE$tumour_type[!duplicated(kerenSPE$imageID)]
 names(outcome) = kerenSPE$imageID[!duplicated(kerenSPE$imageID)]
@@ -154,7 +159,7 @@ head(outcome, 5)
 
 By default, `crossValidate` will build and train a random forest. Alternative classifiers can be specified using the `classifier` argument. To view all available feature selection and classification approaches, use the `available` function.
 
-```{r eval = F, time_it = TRUE}
+```{r cv, warning = FALSE, message = FALSE, time_it = TRUE}
 # perform 50 repeats of 5-fold cross-validation
 cv = crossValidate(measurements = data,
                    outcome = outcome,
@@ -165,7 +170,7 @@ cv = crossValidate(measurements = data,
 
 We can use `performancePlot` to visualise performance metrics for all our features. Here, we visualise the AUC for each of the seven feature matrices we tested. Additional performance metrics can be specified in the `metric` argument.
 
-```{r eval = F, fig.width = 12, fig.height = 6}
+```{r performancePlot, eval = F, fig.width = 12, fig.height = 6}
 performancePlot(
   cv,
   metric = "AUC",
@@ -182,7 +187,7 @@ From the graph, both `lisaClust` and `proportions` appear to capture information
 
 We will first add a `survival` column to the `kerenSPE` object.
 
-```{r}
+```{r survival setup}
 # create a Surv object named "survival"
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
@@ -196,7 +201,7 @@ surv_outcome
 
 We can then run `crossValidate` and specify the outcome to be `surv_outcome`, and use `performancePlot` to visualise the performance of the cross-validation. Since we are performing survival analysis, we will specify `metric = "C-index"`.
 
-```{r fig.width = 12, fig.height = 6, warning = FALSE, message = FALSE}
+```{r survival cv, fig.width = 12, fig.height = 6, warning = FALSE, message = FALSE}
 # perform 50 repeats of 5-fold cross-validation
 surv_cv = crossValidate(measurements = data,
                    outcome = surv_outcome,
@@ -219,67 +224,31 @@ The `samplesMetricMap` function allows the visual comparison of sample-wise erro
 
 ### Predicting tumour type
 
-```{r, eval = F, fig.width=15}
+```{r samplesMetricMap, warning = FALSE, message = FALSE, fig.width=15}
 samplesMetricMap(cv,  
                  classColours = c("#3F48CC", "#880015"),
                  metricColours = list(c("#FFFFFF", "#CFD1F2", "#9FA3E5", "#6F75D8", "#3F48CC"),
                                       c("#FFFFFF", "#E1BFC4", "#C37F8A", "#A53F4F", "#880015")))
 ```
 
-The benefit of this plot is that it allows the easy identification of samples which are hard to classify and could be explained by considering additional information about them. For example, patient 34 and patient 13 show low accuracy.
+The benefit of this plot is that it allows the easy identification of samples which are hard to classify and could be explained by considering additional information about them. For example, samples 36 and 13 were difficult to classify across all feature metrics. We can appreciate that overall, we were better at identifying compartmentalised tumours compared to mixed tumours. Both cell type proportions (FuseSOM) and cell type co-localisation (spicyR) performed comparatively well at classifying patients on the basis of tumour type.
 
 ### Predicting survival outcomes
 
 We can also use `sampleMetricMap` to identify samples that were difficult to classify with respect to a survival outcome.
 
-```{r fig.width = 12}
+```{r samplesMetricMap survival, warning = FALSE, message = FALSE, fig.width = 12}
 samplesMetricMap(surv_cv)
 ```
 
-## Maximising accuracy during classification
+Here, we can see that most methods performed the same, but lisaClust performed particularly well for samples 31-20. However, we had difficulty in predicting the outcome for sample 35.
 
-Some feature ranking methods and classifiers allow for the adjustment of tuning parameters that control aspects of the model's learning process. For example, in a linear Support Vector Machine (SVM), the tuning parameter is the cost, which determines the penalty for misclassifications. Higher cost values increase the penalty, leading to fewer misclassifications.
-
-In addition to parameter tuning, feature selection is performed by ranking features and testing a range of top-ranked features to identify the optimal subset for the best performance. This range is defined by the nFeatures list element, while the performance evaluation metric, such as Balanced Accuracy, is specified by the performanceType list element.
-
-As a result, some level of parameter tuning is always involved, even when the feature ranking or classifier function itself does not have explicit tuning parameters.
-
-In ClassifyR, tuning is performed by providing a variable called `tuneParams` to the `SelectParams` or `TrainParams` constructors. There are five constructors in ClassifyR -
-
--   `CrossValParams`: create an object to store parameters for cross-validation
--   `ModellingParams`: create an object to store parameters for data modelling
--   `SelectParams`: create an object to store parameters for feature selection
--   `TrainParams`: create an object to store parameters for classifier training
--   `PredictParams`: create an object to store parameters for making predictions
-
-`tuneParams` is a named list, where each name corresponds to a tuning variable, except for one named `performanceType`, which specifies the performance metric to optimise. Any non-sample-specific performance metric calculated by `calcCVperformance` can be used for this optimisation.
-
-```{r}
-# create a vector of costs for SVM
-tuneList <- list(cost = c(0.1, 0.2))
-
-# set cross-validation parameters
-crossValParams <- CrossValParams(permutations = 5, tuneMode = "Resubstitution")
-
-# set modelling parameters
-SVMparams <- ModellingParams(trainParams = TrainParams("SVM", kernel = "linear", 
-                                                       tuneParams = tuneList),
-                             predictParams = PredictParams("SVM"))
-
-```
-
-Once we've specified our parameters of interest, we can use the `runTests` function to perform classification schemes. `runTests` allows greater control over all aspects of cross-validation compared to `crossValidate`. `runTests` requires a single matrix of observations and features to be passed to `measurements`.
-
-```{r eval = FALSE}
-SVMresults <- runTests(data$lisaClust, outcome, crossValParams, SVMparams)
-```
-
-The index of chosen of the parameters, as well as all combinations of parameters and their associated performance metric, are stored for every validation, and can be accessed with the `tunedParameters` function.
-
-```{r eval = FALSE}
-tunedParameters(SVMresults)[1:5]
-```
-
-In this way, we can predict clinical outcomes, identify samples that are hard to classify, and perform fine-grained parameter tuning to improve classifier performance.
+In this way, we can use ClassifyR to predict clinical outcomes and identify samples or patients that are hard to classify with respect to an outcome of interest.
 
 In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies.
+
+## sessionInfo
+
+```{r sessionInfo}
+sessionInfo()
+```
