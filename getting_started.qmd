@@ -64,6 +64,7 @@ BiocManager::install(c("SingleCellExperiment",
                        "tidySingleCellExperiment",
                        "SpatialDatasets",
                        "cytomapper",
+                       "EBImage",
                        "simpleSeg",
                        "scater",
                        "FuseSOM",
@@ -88,3 +89,4 @@ install.packages(c("dplyr",
                    "ggpubr"))
 ```
 
+We can now move on to the first stage of the spatial analysis pipeline.
