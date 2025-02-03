@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>4&nbsp; Cell segmentation and pre-processing – Spatial analysis playbook</title>
 <style>
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="reading-in-data-with-cytomapper" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="reading-in-data-with-cytomapper">
 <span class="header-section-number">4.1</span> Reading in data with cytomapper</h2>
-<p>We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the <code>SpatialDatasets</code> package. The <code>loadImages</code> function form the <code>cytomapper</code> package can be used to load all the TIFF images into a <code>CytoImageList</code> object and store the images as an h5 file on-disk in a temporary directory using the <code>h5FilesPath = HDF5Array::getHDF5DumpDir()</code> parameter.</p>
+<p>We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the <code>SpatialDatasets</code> package. The <code>loadImages</code> function from the <code>cytomapper</code> package can be used to load all the TIFF images into a <code>CytoImageList</code> object and store the images as an h5 file on-disk in a temporary directory using the <code>h5FilesPath = HDF5Array::getHDF5DumpDir()</code> parameter.</p>
 <p>We will also assign the metadata columns of the <code>CytoImageList</code> object using the <code>mcols</code> function.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToZip</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">Ferguson_Images</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -404,7 +404,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="co"># assign metadata columns</span></span>
 <span><span class="fu">mcols</span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 40 cores: 69.52 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 142.33 seconds</p>
 </div>
 <p>When reading the image channels directly from the names of the TIFF images, they will often need to be cleaned for ease of downstream processing. The channel names can be accessed from the <code>CytoImageList</code> object using the <code>channelNames</code> function.</p>
 <div class="cell">
@@ -437,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>
 <code>nucleus = c("HH3")</code>: trace out the nuclei signal in the images using the HH3 channel.</li>
 <li>
-<code>pca = TRUE</code>: segment out the nuclei mask using a principal component analysis of all channels and using the principal components most aligned with the nuclei channel, in this case, HH3.</li>
+<code>pca = TRUE</code>: segment out the nuclei mask using principal component analysis of all channels and using the principal components most aligned with the nuclei channel (in this case, HH3).</li>
 <li>
 <code>cellBody = "dilate"</code>: use a dilation strategy of segmentation, expanding out from the nucleus by a specified <code>discSize</code>. In this case, <code>discSize = 3</code>, which means simpleSeg dilates out from the nucleus by 3 pixels.</li>
 <li>
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>
 <code>tissue = c("panCK", "CD45", "HH3")</code>: use the specified tissue mask to filter out all background noise outside the tissue mask. This allows us to ignore background noise which happens outside of the tumour core.</li>
 </ul>
-<p>There are many other parameters that can be specified in simpleSeg (<code>smooth</code>, <code>watershed</code>, <code>tolerance</code>, and <code>ext</code>), and we encourage the user to select the best parameters which suit their biological context.</p>
+<p>There are many other parameters that can be specified in <code>simpleSeg</code> (<code>smooth</code>, <code>watershed</code>, <code>tolerance</code>, and <code>ext</code>), and we encourage the user to select the parameters which best suit their biological context.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">masks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/simpleSeg.html">simpleSeg</a></span><span class="op">(</span><span class="va">images</span>,</span>
 <span>                   nucleus <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span><span class="op">)</span>,</span>
@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                   tissue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"panCK"</span>, <span class="st">"CD45"</span>, <span class="st">"HH3"</span><span class="op">)</span>,</span>
 <span>                   cores <span class="op">=</span> <span class="va">nCores</span></span>
 <span>                   <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 40 cores: 44.47 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 56.79 seconds</p>
 </div>
 <section id="visualise-separation" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="visualise-separation">
 <span class="header-section-number">4.2.1</span> Visualise separation</h3>
@@ -519,17 +519,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="What to look for and change to obtain an ideal segmentation">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What to look for and change to obtain an ideal segmentation
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Critical thinking</strong></p>
+<p><strong>What to look for and change to obtain an ideal segmentation</strong></p>
 <ol type="1">
 <li>Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transform to improve the thresholding of the nuclei marker. You could also try using <code>pca = TRUE</code> which will borrow information across the markers to help find the nuclei.</li>
 <li>How much of the cell body is the segmentation missing? Try increasing the dilation around the nucleus by setting <code>discSize = 7</code>.</li>
@@ -544,9 +544,9 @@ What to look for and change to obtain an ideal segmentation
 <span class="header-section-number">4.2.2.1</span> <code>cellBody</code> Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 58%">
-<col style="width: 20%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead><tr class="header">
 <th>Method</th>
@@ -574,9 +574,9 @@ What to look for and change to obtain an ideal segmentation
 <span class="header-section-number">4.2.2.2</span> <code>watershed</code> Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 58%">
-<col style="width: 20%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead><tr class="header">
 <th>Method</th>
@@ -616,15 +616,14 @@ What to look for and change to obtain an ideal segmentation
 <span>                                    <span class="va">images</span>,</span>
 <span>                                    img_id <span class="op">=</span> <span class="st">"imageID"</span>,</span>
 <span>                                    return_as <span class="op">=</span> <span class="st">"spe"</span>,</span>
-<span>                                    BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span></span>
-<span>                                    <span class="op">)</span></span>
+<span>                                    BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">spatialCoordsNames</span><span class="op">(</span><span class="va">cells</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cells</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SpatialExperiment 
-dim: 36 37941 
+dim: 36 37953 
 metadata(0):
 assays(1): counts
 rownames(36): panCK CD20 ... DNA1 DNA2
@@ -637,7 +636,7 @@ altExpNames(0):
 spatialCoords names(2) : x y
 imgData names(1): sample_id</code></pre>
 </div>
-<p>Time for this code chunk to run with 40 cores: 74.32 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 51.84 seconds</p>
 </div>
 <p>So far, we have obtained our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a <code>SpatialExperiment</code> object. We can now move on to quality control, data transformation, and normalisation to address batch effects.</p>
 </section><section id="sessioninfo" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sessioninfo">
@@ -646,21 +645,18 @@ imgData names(1): sample_id</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
-Platform: x86_64-pc-linux-gnu
-Running under: Debian GNU/Linux 12 (bookworm)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.21.so;  LAPACK version 3.11.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 time zone: Australia/Sydney
-tzcode source: system (glibc)
+tzcode source: internal
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
@@ -673,39 +669,39 @@ other attached packages:
  [7] simpleSeg_1.8.0             ggplot2_3.5.1              
  [9] cytomapper_1.18.0           SingleCellExperiment_1.28.1
 [11] SummarizedExperiment_1.36.0 Biobase_2.66.0             
-[13] GenomicRanges_1.58.0        GenomeInfoDb_1.42.1        
-[15] IRanges_2.40.1              S4Vectors_0.44.0           
+[13] GenomicRanges_1.58.0        GenomeInfoDb_1.42.0        
+[15] IRanges_2.40.0              S4Vectors_0.44.0           
 [17] BiocGenerics_0.52.0         MatrixGenerics_1.18.0      
 [19] matrixStats_1.4.1           EBImage_4.48.0             
 
 loaded via a namespace (and not attached):
   [1] DBI_1.2.3               bitops_1.0-9            deldir_2.0-4           
   [4] gridExtra_2.3           rlang_1.1.4             magrittr_2.0.3         
-  [7] svgPanZoom_0.3.4        shinydashboard_0.7.2    RSQLite_2.3.9          
+  [7] svgPanZoom_0.3.4        shinydashboard_0.7.2    RSQLite_2.3.8          
  [10] compiler_4.4.1          spatstat.geom_3.3-4     png_0.1-8              
  [13] systemfonts_1.1.0       fftwtools_0.9-11        vctrs_0.6.5            
  [16] pkgconfig_2.0.3         crayon_1.5.3            fastmap_1.2.0          
  [19] magick_2.8.5            XVector_0.46.0          utf8_1.2.4             
  [22] promises_1.3.2          rmarkdown_2.29          UCSC.utils_1.2.0       
- [25] ggbeeswarm_0.7.2        purrr_1.0.2             bit_4.5.0.1            
+ [25] ggbeeswarm_0.7.2        purrr_1.0.2             bit_4.5.0              
  [28] xfun_0.49               cachem_1.1.0            zlibbioc_1.52.0        
  [31] jsonlite_1.8.9          blob_1.2.4              later_1.4.1            
  [34] rhdf5filters_1.18.0     DelayedArray_0.32.0     spatstat.utils_3.1-1   
  [37] Rhdf5lib_1.28.0         BiocParallel_1.40.0     jpeg_0.1-10            
- [40] tiff_0.1-12             terra_1.8-5             parallel_4.4.1         
+ [40] tiff_0.1-12             terra_1.7-78            parallel_4.4.1         
  [43] R6_2.5.1                RColorBrewer_1.1-3      spatstat.data_3.1-4    
  [46] spatstat.univar_3.1-1   Rcpp_1.0.13-1           knitr_1.49             
  [49] httpuv_1.6.15           Matrix_1.7-1            nnls_1.6               
  [52] tidyselect_1.2.1        yaml_2.3.10             rstudioapi_0.17.1      
  [55] abind_1.4-8             viridis_0.6.5           codetools_0.2-20       
  [58] curl_6.0.1              lattice_0.22-6          tibble_3.2.1           
- [61] KEGGREST_1.46.0         shiny_1.10.0            withr_3.0.2            
+ [61] KEGGREST_1.46.0         shiny_1.9.1             withr_3.0.2            
  [64] evaluate_1.0.1          polyclip_1.10-7         Biostrings_2.74.0      
  [67] filelock_1.0.3          BiocManager_1.30.25     pillar_1.9.0           
  [70] generics_0.1.3          sp_2.1-4                RCurl_1.98-1.16        
  [73] BiocVersion_3.20.0      munsell_0.5.1           scales_1.3.0           
  [76] xtable_1.8-4            glue_1.8.0              tools_4.4.1            
- [79] locfit_1.5-9.10         rhdf5_2.50.1            grid_4.4.1             
+ [79] locfit_1.5-9.10         rhdf5_2.50.0            grid_4.4.1             
  [82] AnnotationDbi_1.68.0    colorspace_2.1-1        GenomeInfoDbData_1.2.13
  [85] raster_3.6-30           beeswarm_0.4.0          HDF5Array_1.34.0       
  [88] vipor_0.4.7             cli_3.6.3               rappdirs_0.3.3         
@@ -801,6 +797,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -911,6 +909,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

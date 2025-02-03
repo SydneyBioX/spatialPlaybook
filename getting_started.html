@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>3&nbsp; Getting Started – Spatial analysis playbook</title>
 <style>
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -327,7 +327,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li>
 <a href="#spatialexperiment" id="toc-spatialexperiment" class="nav-link" data-scroll-target="#spatialexperiment"><span class="header-section-number">3.3</span> SpatialExperiment</a>
   <ul class="collapse">
-<li><a href="#creating-a-spatialexperiment" id="toc-creating-a-spatialexperiment" class="nav-link" data-scroll-target="#creating-a-spatialexperiment"><span class="header-section-number">3.3.1</span> Creating a SpatialExperiment</a></li>
+<li><a href="#creating-a-spatialexperiment-object" id="toc-creating-a-spatialexperiment-object" class="nav-link" data-scroll-target="#creating-a-spatialexperiment-object"><span class="header-section-number">3.3.1</span> Creating a SpatialExperiment object</a></li>
+  <li><a href="#installing-packages" id="toc-installing-packages" class="nav-link" data-scroll-target="#installing-packages"><span class="header-section-number">3.3.2</span> Installing packages</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -367,15 +368,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="creating-a-spatialexperiment" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="creating-a-spatialexperiment">
-<span class="header-section-number">3.3.1</span> Creating a SpatialExperiment</h3>
+<section id="creating-a-spatialexperiment-object" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="creating-a-spatialexperiment-object">
+<span class="header-section-number">3.3.1</span> Creating a SpatialExperiment object</h3>
 <ul>
 <li><p>The <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/SpatialExperiment/inst/doc/SpatialExperiment.html">vignette</a> for the SpatialExperiment package explains how to turn a <code>matrix</code> or <code>data.frame</code> into a <code>SpatialExperiment</code>.</p></li>
 <li><p>If you have a .csv file or a .xlsx file, this can be read into R using <code>read_csv()</code> and <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx()</a></code> from the <code>readxl</code> package and converted into a <code>matrix</code> or <code>data.frame</code>. You could also use <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> or <code><a href="https://rdrr.io/r/utils/read.table.html">read.delim()</a></code> in base R.</p></li>
 <li><p>If you have a <code>Seurat</code> object, you can convert this to a <code>SingleCellExperiment</code> using the <code><a href="https://satijalab.org/seurat/reference/as.SingleCellExperiment.html">as.SingleCellExperiment()</a></code> function or back again using <code><a href="https://mojaveazure.github.io/seurat-object/reference/as.Seurat.html">as.Seurat()</a></code>.</p></li>
 <li><p>A <code>SpatialExperiment</code> object is very similar to a <code>SingleCellExperiment</code> but with spatial coordinates stored in the <code>spatialCoords()</code> slot. Many people analyse spatial data using a <code>SingleCellExperiment</code> object with the spatial coordinates stored in <code>colData</code>. Most of our packages are accepting of this approach.</p></li>
 <li><p>For visualisations, we recommend duplicating your <code>spatialCoords()</code> in the <code>reducedDim()</code> slot and in the <code>colData</code>.</p></li>
-</ul>
+</ul></section><section id="installing-packages" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="installing-packages">
+<span class="header-section-number">3.3.2</span> Installing packages</h3>
+<p>To get started with the workflow, you can install the following Bioconductor packages:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://bioconductor.github.io/BiocManager/">"BiocManager"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span>version <span class="op">=</span> <span class="st">"3.20"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Bioconductor packages</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SingleCellExperiment"</span>,</span>
+<span>                       <span class="st">"SpatialExperiment"</span>,</span>
+<span>                       <span class="st">"tidySingleCellExperiment"</span>,</span>
+<span>                       <span class="st">"SpatialDatasets"</span>,</span>
+<span>                       <span class="st">"cytomapper"</span>,</span>
+<span>                       <span class="st">"simpleSeg"</span>,</span>
+<span>                       <span class="st">"scater"</span>,</span>
+<span>                       <span class="st">"FuseSOM"</span>,</span>
+<span>                       <span class="st">"STexampleData"</span>,</span>
+<span>                       <span class="st">"scuttle"</span>,</span>
+<span>                       <span class="st">"scClassify"</span>,</span>
+<span>                       <span class="st">"spicyR"</span>,</span>
+<span>                       <span class="st">"Statial"</span>,</span>
+<span>                       <span class="st">"imcRtools"</span>,</span>
+<span>                       <span class="st">"treekoR"</span>,</span>
+<span>                       <span class="st">"lisaClust"</span>,</span>
+<span>                       <span class="st">"ClassifyR"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># other packages</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dplyr"</span>,</span>
+<span>                   <span class="st">"ggplot2"</span>,</span>
+<span>                   <span class="st">"MLmetrics"</span>,</span>
+<span>                   <span class="st">"survival"</span>,</span>
+<span>                   <span class="st">"tibble"</span>,</span>
+<span>                   <span class="st">"ggsurvfit"</span>,</span>
+<span>                   <span class="st">"ggpubr"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -460,6 +497,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -570,6 +609,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

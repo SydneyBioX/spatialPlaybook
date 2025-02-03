@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>8&nbsp; Cell localisation between pairs of cell types – Spatial analysis playbook</title>
 <style>
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -357,6 +357,7 @@ window.Quarto = {
   <li><a href="#mixed-effects-modelling" id="toc-mixed-effects-modelling" class="nav-link" data-scroll-target="#mixed-effects-modelling"><span class="header-section-number">8.1.5</span> Mixed effects modelling</a></li>
   <li><a href="#performing-survival-analysis" id="toc-performing-survival-analysis" class="nav-link" data-scroll-target="#performing-survival-analysis"><span class="header-section-number">8.1.6</span> Performing survival analysis</a></li>
   <li><a href="#accounting-for-tissue-inhomogeneity" id="toc-accounting-for-tissue-inhomogeneity" class="nav-link" data-scroll-target="#accounting-for-tissue-inhomogeneity"><span class="header-section-number">8.1.7</span> Accounting for tissue inhomogeneity</a></li>
+  <li><a href="#adjusting-for-cell-count" id="toc-adjusting-for-cell-count" class="nav-link" data-scroll-target="#adjusting-for-cell-count"><span class="header-section-number">8.1.8</span> Adjusting for cell count</a></li>
   </ul>
 </li>
   <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">8.2</span> sessionInfo</a></li>
@@ -380,7 +381,7 @@ window.Quarto = {
   
 
 
-</header><p>So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e.&nbsp;are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of two packages: <code>spicyR</code> and <code>Statial</code> for quantifying cell type localisation.</p>
+</header><p>So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e.&nbsp;are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of our <code>spicyR</code> packaege for quantifying cell type localisation.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required libraries</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
@@ -409,7 +410,7 @@ window.Quarto = {
 </div>
 <section id="quantifying-cell-type-co-localisation-with-spicyr" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="quantifying-cell-type-co-localisation-with-spicyr">
 <span class="header-section-number">8.1</span> Quantifying cell type co-localisation with spicyR</h2>
-<p><a href="https://www.bioconductor.org/packages/release/bioc/html/spicyR.html">spicyR</a> provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in the co-localisation metric across different disease states or groups.</p>
+<p><a href="https://www.bioconductor.org/packages/release/bioc/html/spicyR.html">spicyR</a> provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in this co-localisation metric across different disease states or groups.</p>
 <p><img src="images/spicyR_fig1.jpeg" align="center" style="height: 300px; border: 0px"></p>
 <p>Here, we will use the Keren 2018 dataset to demonstrate the use of <code>spicyR</code>. The data is stored as a <code>SpatialExperiment</code> object within the <code>SpatialDatasets</code> package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).</p>
 <div class="cell">
@@ -438,11 +439,11 @@ u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experiment
 <p>where <span class="math inline">\(u\)</span> is the sum is taken over a discrete range of <span class="math inline">\(r\)</span> between <span class="math inline">\(r_{\text{min}}\)</span> and <span class="math inline">\(r_{\text{max}}\)</span>. Differences of the statistic <span class="math inline">\(u\)</span> between two conditions is modelled using a weighted linear model.</p>
 </section><section id="test-for-changes-in-localisation-for-a-specific-pair-of-cells" class="level3" data-number="8.1.2"><h3 data-number="8.1.2" class="anchored" data-anchor-id="test-for-changes-in-localisation-for-a-specific-pair-of-cells">
 <span class="header-section-number">8.1.2</span> Test for changes in localisation for a specific pair of cells</h3>
-<p>Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code> function, where we specify the <code>condition</code> parameter.</p>
-<p>In this example, we want to see whether or not neutrophils (<code>to</code>) tend to be found around CD8 T cells (<code>from</code>) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our <code>condition</code> factor. <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code> will choose the first level of the factor as the base condition and the second level as the comparison condition. <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code> will also naturally coerce the <code>condition</code> column into a factor if it is not already a factor. The radius over which to calculate the L-funcion can be specified using the <code>Rs</code> argument. Small radii will examine local spatial relationships, whereas larger radii will examine global spatial relationships. By default, <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code> calculates the L-function over a range of radii.</p>
+<p>Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the <code>spicy</code> function, where we specify the <code>condition</code> parameter.</p>
+<p>In this example, we want to see whether or not neutrophils (<code>to</code>) tend to be found around CD8 T cells (<code>from</code>) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our <code>condition</code> factor. <code>spicy</code> will choose the first level of the factor as the base condition and the second level as the comparison condition. <code>spicy</code> will also naturally coerce the <code>condition</code> column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the <code>Rs</code> argument. By default, <code>spicyx</code> calculates the L-function over a range of radii.</p>
 <p>The column containing cell type annotations and image IDs can be specified using the <code>cellType</code> and <code>imageID</code> arguments respectively. By default, <code>spicy</code> uses the columns named <code>cellType</code> and <code>imageID</code>.</p>
-<p>We obtain a <code>spicy</code> object which details the results of the modelling performed. The <code><a href="https://sydneybiox.github.io/spicyR/reference/topPairs.html">topPairs()</a></code> function can be used to obtain the associated coefficients and p-value.</p>
-<div class="cell">
+<p>We obtain a <code>spicy</code> object which details the results of the modelling performed. The <code>topPairs</code> function can be used to obtain the associated coefficients and p-value.</p>
+<div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spicyTestPair</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span></span>
 <span>  <span class="va">kerenSPE</span>,</span>
 <span>  condition <span class="op">=</span> <span class="st">"tumour_type"</span>,</span>
@@ -458,12 +459,26 @@ CD8_T_cell__Neutrophils  -91.5703     94.5402 0.0006792206 0.0006792206
                               from          to
 CD8_T_cell__Neutrophils CD8_T_cell Neutrophils</code></pre>
 </div>
+<p>Time for this code chunk to run with 5.5 cores: 2.44 seconds</p>
 </div>
 <p>As the <code>coefficient</code> in <code>spicyTestPair</code> is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>How do we select an optimal value for <code>Rs?</code></em> 1. The choice of <code>Rs</code> will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of Rs is optimal for examining local spatial relationships, and larger values of <code>Rs</code> will reveal global spatial relationships. 2. When the degree of localistion is unknown, it is best to choose a range of radii to define the co-localisation statistic to capture both local and global relationships.</p>
+</div>
+</div>
 </section><section id="test-for-changes-in-localisation-for-all-pairwise-cell-combinations" class="level3" data-number="8.1.3"><h3 data-number="8.1.3" class="anchored" data-anchor-id="test-for-changes-in-localisation-for-all-pairwise-cell-combinations">
 <span class="header-section-number">8.1.3</span> Test for changes in localisation for all pairwise cell combinations</h3>
-<p>We can perform what we did above for all pairwise combinations of cell types by excluding the <code>from</code> and <code>to</code> parameters in <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code>. Additional covariates can be added using the <code>covariates</code> argument.</p>
-<div class="cell">
+<p>We can perform what we did above for all pairwise combinations of cell types by excluding the <code>from</code> and <code>to</code> parameters in <code>spicy</code>. Additional covariates can be added using the <code>covariates</code> argument.</p>
+<div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spicyTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span></span>
 <span>  <span class="va">kerenSPE</span>,</span>
 <span>  condition <span class="op">=</span> <span class="st">"tumour_type"</span>,</span>
@@ -495,9 +510,10 @@ dn_T_CD3__Neutrophils       dn_T_CD3 Neutrophils
 dn_T_CD3__dn_T_CD3          dn_T_CD3    dn_T_CD3
 Macrophages__Macrophages Macrophages Macrophages</code></pre>
 </div>
+<p>Time for this code chunk to run with 5.5 cores: 9.9 seconds</p>
 </div>
 <p>Again, we obtain a <code>spicy</code> object which outlines the result of the linear models performed for each pairwise combination of cell types.</p>
-<p>We can also examine the L-function metrics of individual images by using the convenient <code><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind()</a></code> function on our <code>spicyTest</code> results object.</p>
+<p>We can also examine the L-function metrics of individual images by using the convenient <code>bind</code> function on our <code>spicyTest</code> results object.</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -515,7 +531,7 @@ Macrophages__Macrophages Macrophages Macrophages</code></pre>
 5               -20.816783             -38.138076</code></pre>
 </div>
 </div>
-<p>The results can be represented as a bubble plot using the <code><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot()</a></code> function.</p>
+<p>The results can be represented as a bubble plot using the <code>signifPlot</code> function.</p>
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span></span>
 <span>  <span class="va">spicyTest</span>,</span>
@@ -630,7 +646,7 @@ CD4_T_cell__DC                 CD4_T_cell          DC</code></pre>
 <span class="header-section-number">8.1.5</span> Mixed effects modelling</h3>
 <p><code>spicyR</code> supports mixed effects modelling when multiple images are obtained for each subject. In this case, <code>subject</code> is treated as a random effect and <code>condition</code> is treated as a fixed effect. To perform mixed effects modelling, we can specify the <code>subject</code> parameter in the <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code> function.</p>
 <p>To demonstrate spicyR’s functionality with mixed effects models, we will use the Damond 2019 dataset.</p>
-<div class="cell">
+<div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"diabetesData"</span><span class="op">)</span></span>
 <span></span>
@@ -641,6 +657,7 @@ CD4_T_cell__DC                 CD4_T_cell          DC</code></pre>
 <span>  subject <span class="op">=</span> <span class="st">"case"</span>,</span>
 <span>  BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Time for this code chunk to run with 5.5 cores: 129.59 seconds</p>
 </div>
 <p>As before, we generate a <code>spicy</code> results object, and we can use <code>topPairs</code> to identify the most significant cell type pairs.</p>
 <div class="cell">
@@ -649,13 +666,13 @@ CD4_T_cell__DC                 CD4_T_cell          DC</code></pre>
 <pre><code>                         intercept coefficient      p.value adj.pvalue
 beta__delta           6.081500e+01  -15.433244 0.0006616410 0.09171134
 delta__beta           6.090722e+01  -15.276364 0.0007164949 0.09171134
-B__Th                -2.978769e-15   10.480124 0.0127535339 0.42316692
+B__Th                -4.680923e-15   10.480124 0.0127535339 0.42316692
 delta__delta          7.021912e+01  -16.358092 0.0155005315 0.42316692
-Th__B                 4.272622e-16   10.003451 0.0173028442 0.42316692
-B__unknown           -2.099887e-16    4.584274 0.0182158635 0.42316692
-otherimmune__naiveTc -3.179087e+00   11.944638 0.0200345922 0.42316692
+Th__B                 1.281787e-15   10.003451 0.0173028442 0.42316692
+B__unknown            2.309876e-15    4.584274 0.0182158635 0.42316692
+otherimmune__naiveTc -3.179087e+00   11.944638 0.0200230308 0.42316692
 unknown__macrophage   4.339584e+00   -5.274671 0.0222620877 0.42316692
-unknown__B           -3.663571e-15    4.680750 0.0244004305 0.42316692
+unknown__B           -1.508529e-15    4.680750 0.0244004305 0.42316692
 macrophage__unknown   4.305429e+00   -4.886438 0.0249693456 0.42316692
                             from         to
 beta__delta                 beta      delta
@@ -677,7 +694,7 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <span>                           <span class="st">"naiveTc"</span>, <span class="st">"macrophage"</span>, <span class="st">"Tc"</span>, <span class="st">"stromal"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -685,13 +702,14 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <p>The graph shows a significant decrease in co-localisation between delta and beta cells in the pancreas within the onset diabetes group compared to the non-diabetes group. Additionally, there is a significant increase in co-localisation among certain immune cell groups, including B cells and Th cells, as well as naive Tc cells and other immune cells. These findings align with the results reported in the original study.</p>
 </section><section id="performing-survival-analysis" class="level3" data-number="8.1.6"><h3 data-number="8.1.6" class="anchored" data-anchor-id="performing-survival-analysis">
 <span class="header-section-number">8.1.6</span> Performing survival analysis</h3>
-<p><code>spicy</code> can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. <code>spicy</code> requires the <code>SingleCellExperiment</code> object being used to contain a column called <code>survival</code> as a <code>Surv</code> object.</p>
+<p><code>spicy</code> can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. <code>spicy</code> fits a Cox proportional hazards model to assess the risk of death with the L-function as the explanatory variable. If there are multiple images provided per subject, <code>spicy</code> fits a Cox mixed effects model instead.</p>
+<p><code>spicy</code> requires the <code>SingleCellExperiment</code> object being used to contain a column called <code>survival</code> as a <code>Surv</code> object.</p>
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can then perform survival analysis using the <code>spicy</code> function by specifying <code>condition = "survival"</code>. We can then access the corresponding coefficients and p-values by accessing the <code>survivalResults</code> slot in the <code>spicy</code> results object.</p>
-<div class="cell">
+<p>We can then perform survival analysis using the <code>spicy</code> function by specifying <code>condition = "survival"</code>. The corresponding coefficients and p-values can be accessed through the <code>survivalResults</code> slot in the <code>spicy</code> results object.</p>
+<div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Running survival analysis</span></span>
 <span><span class="va">spicySurvival</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
 <span>                      condition <span class="op">=</span> <span class="st">"survival"</span>,</span>
@@ -714,14 +732,75 @@ macrophage__unknown   macrophage    unknown</code></pre>
  9 dn_T_CD3__CD4_T_cell    0.00841 0.00354 0.000925  
 10 DC__Other_Immune       -0.0288  0.0123  0.00105   </code></pre>
 </div>
+<p>Time for this code chunk to run with 5.5 cores: 9.66 seconds</p>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">spicySurvival</span>,</span>
+<span>           marksToPlot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>, <span class="st">"Tregs"</span>, <span class="st">"NK"</span>, <span class="st">"Neutrophils"</span>, <span class="st">"Mono_or_Neu"</span>, </span>
+<span>                           <span class="st">"Macrophages"</span>, <span class="st">"Keratin_Tumour"</span>, <span class="st">"dn_T_CD3"</span>, <span class="st">"DC_or_Mono"</span>,</span>
+<span>                           <span class="st">"DC"</span>, <span class="st">"CD8_T_cell"</span>, <span class="st">"CD4_T_cell"</span>, <span class="st">"B_cell"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>From the table and the graph above, we can see that the coefficient for <code>Tumour__CD8_T_cell</code> is negative, indicating that localisation between the two cell types is associated with a better prognosis for the patient. We can also see that localisation between most immune cell types (<code>Neutrophils__CD8_T_cell</code>, <code>Tregs__CD4_T_cell</code>, <code>dn_T_CD3__CD4_T_cell</code>) is associated with worse outcomes for the patient.</p>
+<p>We can examine the relationship for one pair of cell types (<code>Tumour__CD8_T_cell</code>) more closely using a Kaplan-Meier curve. Below, we extract the survival data from <code>kerenSPE</code> and create a <code>Surv</code> object.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># extracting survival data</span></span>
+<span><span class="va">survData</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">colData</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">imageID</span>, <span class="va">survival</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># creating survival vector</span></span>
+<span><span class="va">kerenSurv</span> <span class="op">&lt;-</span> <span class="va">survData</span><span class="op">$</span><span class="va">survival</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">kerenSurv</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">survData</span><span class="op">$</span><span class="va">imageID</span></span>
+<span></span>
+<span><span class="va">kerenSurv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    1     2     3     4     5     6     7     8     9    10    11    12    13 
+ 2612   745 3130+ 2523+ 1683+ 2275+   584   946 3767+ 3822+ 3774+ 4353+  1072 
+   14    15    16    17    18    19    20    21    23    24    25    26    27 
+4145+  1754   530  2842 5063+ 3725+ 4761+   635    91   194 4785+ 4430+  3658 
+   28    29    31    32    33    34    35    36    37    39    40    41 
+3767+  1319  1009 1568+ 1738+ 2832+ 2759+ 3063+ 2853+ 2096+  3573 3355+ </code></pre>
+</div>
+</div>
+<p>We can then convert our L-function metrics into a binary metric with two categories: Localised and Dispersed, and plot a Kaplan-Meier curve to view its relationship to survival probability.</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># obtain L-function values for a specific cell type</span></span>
+<span><span class="co"># and convert into localised/dispersed based on the median</span></span>
+<span><span class="va">survRelationship</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicySurvival</span><span class="op">)</span><span class="op">[[</span><span class="st">"Tumour__CD8_T_cell"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">survRelationship</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">survRelationship</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">survRelationship</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>                          <span class="st">"Localised"</span>, <span class="st">"Dispersed"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ensuring consistency and removing missing values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">survRelationship</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">kerenSurv</span><span class="op">)</span></span>
+<span><span class="va">survRelationship</span> <span class="op">=</span> <span class="va">survRelationship</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">survRelationship</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">kerenSurv</span> <span class="op">=</span> <span class="va">kerenSurv</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">kerenSurv</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">survRelationship</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># plotting Kaplan-Meier curve</span></span>
+<span><span class="fu"><a href="http://www.danieldsjoberg.com/ggsurvfit/reference/survfit2.html">survfit2</a></span><span class="op">(</span><span class="va">kerenSurv</span> <span class="op">~</span> <span class="va">survRelationship</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="http://www.danieldsjoberg.com/ggsurvfit/reference/ggsurvfit.html">ggsurvfit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Tumour__CD8_T_cell"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section><section id="accounting-for-tissue-inhomogeneity" class="level3" data-number="8.1.7"><h3 data-number="8.1.7" class="anchored" data-anchor-id="accounting-for-tissue-inhomogeneity">
 <span class="header-section-number">8.1.7</span> Accounting for tissue inhomogeneity</h3>
 <p>The <code>spicy</code> function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the <code>sigma =</code> parameter within the spicy function. By default, <code>sigma</code> is set to <code>NULL</code>, and <code>spicy</code> assumes a homogeneous tissue structure.</p>
 <p>In the example below, we examine the degree of co-localisation between <code>Keratin_Tumour__Neutrophils</code> in one image using the <code>getPairwise</code> function, which returns the L-function values for each cell type pair. We set the radius over which the L-function should be calculated (<code>Rs = 100</code>) and specify <code>sigma = NULL</code>. The calculated L-function is positive, indicating attraction between the two cell types.</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter SPE object to obtain image 24 data</span></span>
-<span><span class="va">kerenSubset</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">$</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"1"</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter SPE object to obtain image 24 data</span></span>
+<span><span class="va">kerenSubset</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">$</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"24"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">pairwiseAssoc</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSubset</span>, </span>
 <span>                            sigma <span class="op">=</span> <span class="cn">NULL</span>, </span>
@@ -730,177 +809,267 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <span></span>
 <span><span class="va">pairwiseAssoc</span><span class="op">[[</span><span class="st">"Keratin_Tumour__Neutrophils"</span><span class="op">]</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -5.837485</code></pre>
+<pre><code>[1] 10.88892</code></pre>
 </div>
 </div>
 <p>When we specify <code>sigma = 20</code> and re-calculate the L-function, it indicates that there is no relationship between <code>Keratin_Tumour</code> and <code>Neutrophils</code>, i.e., there is no major attraction or dispersion, as it now takes into account tissue inhomogeneity.</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pairwiseAssoc</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSubset</span>, </span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pairwiseAssoc</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSubset</span>, </span>
 <span>                            sigma <span class="op">=</span> <span class="fl">20</span>, </span>
 <span>                            Rs <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pairwiseAssoc</span><span class="op">[[</span><span class="st">"Keratin_Tumour__Neutrophils"</span><span class="op">]</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.962962</code></pre>
+<pre><code>[1] 0.9024836</code></pre>
 </div>
 </div>
 <p>To understand why this might be happening, we can take a closer look at the relationship between <code>Keratin_Tumour</code> and <code>Neutrophils</code>. The <code>plotImage</code> function allows us to plot any two cell types for a specific image. Below, we plot image 24 for the <code>Keratin_Tumour__Neutrophils</code> relationship by specifying <code>from = Keratin_Tumour</code> and <code>to</code> = <code>Neutrophils</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="st">"24"</span>, from <span class="op">=</span> <span class="st">"Keratin_Tumour"</span>, to <span class="op">=</span> <span class="st">"Neutrophils"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="st">"24"</span>, from <span class="op">=</span> <span class="st">"Keratin_Tumour"</span>, to <span class="op">=</span> <span class="st">"Neutrophils"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotCellTypes-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the bottom of the image.</p>
+</section><section id="adjusting-for-cell-count" class="level3" data-number="8.1.8"><h3 data-number="8.1.8" class="anchored" data-anchor-id="adjusting-for-cell-count">
+<span class="header-section-number">8.1.8</span> Adjusting for cell count</h3>
+<p>The L-function (and by extension, the co-localisation score) is sensitive to the number of cells in an image. Too few cells can cause the L-function to become unstable and obscure meaningful spatial relationships. The issue is particularly pronounced when there is a skewed ratio of cell types in an image.</p>
+<!--In the plot below, we can see that the variance of the co-localisation metric is greater when the number of cells is low, and becomes more stable as the number of cells increases.-->
+<p>To address this issue, spicyR uses a shape constrained generalised additive model (GAM) to model the co-localisation metric <span class="math inline">\(u\)</span> as a function of the number of cells per cell type. The inverse of this fitted curve is used to generate weights which are applied to each image. Images with fewer cells have a lower weight. spicyR can perform image weighting in two ways: by fitting the GAM on the scores from all cell types at once, or by fitting the GAM on each pair of cell types. To perform image weighting by cell type pair, set <code>weightsByPair = TRUE</code> when using <code>spicy</code>.</p>
+<p>From the boxplot below, we can identify images that may have very few cells or a skewed cell type distribution. For consistency, we will use the cell type pair <code>Macrophages__dn_T_CD3</code>, which showed significant differences in co-localisation between cold and compartmentalised tumours in our initial analysis.</p>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>,</span>
+<span>             from <span class="op">=</span> <span class="st">"Macrophages"</span>,</span>
+<span>             to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-spicyBoxplot2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Using the graph, we can filter for compartmentalised images that had an L-function value greater than 20 and examine the structure of these images.</p>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">imageID</span>, <span class="va">condition</span>, <span class="va">Macrophages__dn_T_CD3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="co"># filter for compartmenatalised images with L-function &gt; 20 (an outlier)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"compartmentalised"</span> <span class="op">&amp;</span> <span class="va">Macrophages__dn_T_CD3</span> <span class="op">&gt;</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  imageID         condition Macrophages__dn_T_CD3
+1      34 compartmentalised              34.12149</code></pre>
+</div>
+</div>
+<p>We can use <code>plotImage</code> to examine image 34 more closely.</p>
+<div class="cell">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="fl">34</span>, from <span class="op">=</span> <span class="st">"Macrophages"</span>, to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotImage34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The value of the L-function tells us that there is localisation between macrophages and double negative CD3 T cells in this image. However, when we examine the image in question, it appears that the number of <code>dn_T_CD3</code> cells is low compared to the number of <code>Macrophages</code>. The L-function is therefore not capturing the full context of the spatial relationship.</p>
+<p>We can repeat the process above for mixed tumours.</p>
+<div class="cell">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">imageID</span>, <span class="va">condition</span>, <span class="va">Macrophages__dn_T_CD3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"mixed"</span> <span class="op">&amp;</span> <span class="va">Macrophages__dn_T_CD3</span> <span class="op">&gt;</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  imageID condition Macrophages__dn_T_CD3
+1      14     mixed              38.71105
+2      23     mixed              46.91940
+3      33     mixed              36.41111</code></pre>
+</div>
+</div>
+<p>Here, three images have high L-function values. We will examine image 33.</p>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="fl">33</span>, from <span class="op">=</span> <span class="st">"Macrophages"</span>, to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotImage33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As before, we can see that the number of <code>dn_T_CD3</code> cells is low, driving the L-function up even though true localisation may not be occurring.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>How do we distinguish “good” images from “bad” ones?</em> 1. Typically, images with very few cells can skew the L-function, and make it appear as though there is localization or dispersion when, in reality, no significant spatial pattern exists. These images usually have very high or very low L-function values compared to other images in the same group. 2. Skewed images must be further examined to understand the reason behind the abnormal L-function values. Factors such as imaging artifacts, poor segmentation, or uneven cell distribution could contribute to this skew. 3. In contrast, good quality images typically exhibit a more balanced ratio of cell types and a consistent number of cells across images.</p>
+</div>
+</div>
+<p>In the next section, we will demonstrate how and why we can derive spatial contexts within tissue samples to produce robust spatial quantifications.</p>
 </section></section><section id="sessioninfo" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">8.2</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
-Platform: x86_64-pc-linux-gnu
-Running under: Debian GNU/Linux 12 (bookworm)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.21.so;  LAPACK version 3.11.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 time zone: Australia/Sydney
-tzcode source: system (glibc)
+tzcode source: internal
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] ggsurvfit_1.1.0             treekoR_1.14.0             
- [3] tibble_3.2.1                survival_3.7-0             
- [5] dplyr_1.1.4                 imcRtools_1.12.0           
- [7] SpatialDatasets_1.4.0       ExperimentHub_2.14.0       
- [9] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
-[11] dbplyr_2.5.0                SpatialExperiment_1.16.0   
-[13] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
-[15] Biobase_2.66.0              GenomicRanges_1.58.0       
-[17] GenomeInfoDb_1.42.1         IRanges_2.40.1             
-[19] S4Vectors_0.44.0            BiocGenerics_0.52.0        
-[21] MatrixGenerics_1.18.0       matrixStats_1.4.1          
-[23] ggplot2_3.5.1               Statial_1.8.0              
-[25] spicyR_1.18.0              
+ [1] spicyR_1.19.3               testthat_3.2.1.1           
+ [3] ggsurvfit_1.1.0             treekoR_1.14.0             
+ [5] tibble_3.2.1                survival_3.7-0             
+ [7] dplyr_1.1.4                 imcRtools_1.12.0           
+ [9] SpatialDatasets_1.4.0       ExperimentHub_2.14.0       
+[11] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
+[13] dbplyr_2.5.0                SpatialExperiment_1.16.0   
+[15] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
+[17] Biobase_2.66.0              GenomicRanges_1.58.0       
+[19] GenomeInfoDb_1.42.0         IRanges_2.40.0             
+[21] S4Vectors_0.44.0            BiocGenerics_0.52.0        
+[23] MatrixGenerics_1.18.0       matrixStats_1.4.1          
+[25] ggplot2_3.5.1               Statial_1.8.0              
 
 loaded via a namespace (and not attached):
-  [1] vroom_1.6.5                 tiff_0.1-12                
-  [3] dcanr_1.22.0                goftest_1.2-3              
-  [5] DT_0.33                     Biostrings_2.74.0          
-  [7] HDF5Array_1.34.0            TH.data_1.1-2              
-  [9] vctrs_0.6.5                 spatstat.random_3.3-2      
- [11] digest_0.6.37               png_0.1-8                  
- [13] shape_1.4.6.1               proxy_0.4-27               
- [15] ggrepel_0.9.6               deldir_2.0-4               
- [17] magick_2.8.5                MASS_7.3-61                
- [19] reshape2_1.4.4              httpuv_1.6.15              
- [21] foreach_1.5.2               withr_3.0.2                
- [23] ggfun_0.1.8                 xfun_0.49                  
- [25] ggpubr_0.6.0                doRNG_1.8.6                
- [27] memoise_2.0.1               RTriangle_1.6-0.14         
- [29] cytomapper_1.18.0           ggbeeswarm_0.7.2           
- [31] RProtoBufLib_2.18.0         systemfonts_1.1.0          
- [33] tidytree_0.4.6              zoo_1.8-12                 
- [35] GlobalOptions_0.1.2         Formula_1.2-5              
- [37] KEGGREST_1.46.0             promises_1.3.2             
- [39] httr_1.4.7                  rstatix_0.7.2              
- [41] rhdf5filters_1.18.0         rhdf5_2.50.1               
- [43] UCSC.utils_1.2.0            units_0.8-5                
- [45] generics_0.1.3              concaveman_1.1.0           
- [47] curl_6.0.1                  zlibbioc_1.52.0            
- [49] ggraph_2.2.1                polyclip_1.10-7            
- [51] GenomeInfoDbData_1.2.13     SparseArray_1.6.0          
- [53] fftwtools_0.9-11            xtable_1.8-4               
- [55] stringr_1.5.1               doParallel_1.0.17          
- [57] evaluate_1.0.1              S4Arrays_1.6.0             
- [59] hms_1.1.3                   colorspace_2.1-1           
- [61] filelock_1.0.3              spatstat.data_3.1-4        
- [63] magrittr_2.0.3              readr_2.1.5                
- [65] later_1.4.1                 viridis_0.6.5              
- [67] ggtree_3.14.0               lattice_0.22-6             
- [69] spatstat.geom_3.3-4         XML_3.99-0.17              
- [71] scuttle_1.16.0              ggupset_0.4.0              
- [73] class_7.3-22                svgPanZoom_0.3.4           
- [75] pillar_1.9.0                simpleSeg_1.8.0            
- [77] nlme_3.1-166                iterators_1.0.14           
- [79] EBImage_4.48.0              compiler_4.4.1             
- [81] beachmat_2.22.0             stringi_1.8.4              
- [83] sf_1.0-19                   tensor_1.5                 
- [85] minqa_1.2.8                 ClassifyR_3.11.6           
- [87] plyr_1.8.9                  crayon_1.5.3               
- [89] abind_1.4-8                 gridGraphics_0.5-1         
- [91] locfit_1.5-9.10             sp_2.1-4                   
- [93] graphlayouts_1.2.1          bit_4.5.0.1                
- [95] terra_1.8-5                 sandwich_3.1-1             
- [97] codetools_0.2-20            multcomp_1.4-26            
- [99] e1071_1.7-16                GetoptLong_1.0.5           
-[101] plotly_4.10.4               mime_0.12                  
-[103] MultiAssayExperiment_1.32.0 splines_4.4.1              
-[105] circlize_0.4.16             Rcpp_1.0.13-1              
-[107] knitr_1.49                  blob_1.2.4                 
-[109] utf8_1.2.4                  clue_0.3-66                
-[111] BiocVersion_3.20.0          lme4_1.1-35.5              
-[113] fs_1.6.5                    nnls_1.6                   
-[115] ggplotify_0.1.2             ggsignif_0.6.4             
-[117] Matrix_1.7-1                scam_1.2-17                
-[119] statmod_1.5.0               tzdb_0.4.0                 
-[121] svglite_2.1.3               tweenr_2.0.3               
-[123] pkgconfig_2.0.3             pheatmap_1.0.12            
-[125] tools_4.4.1                 cachem_1.1.0               
-[127] RSQLite_2.3.9               viridisLite_0.4.2          
-[129] DBI_1.2.3                   numDeriv_2016.8-1.1        
-[131] fastmap_1.2.0               rmarkdown_2.29             
-[133] scales_1.3.0                grid_4.4.1                 
-[135] shinydashboard_0.7.2        broom_1.0.7                
-[137] patchwork_1.3.0             BiocManager_1.30.25        
-[139] carData_3.0-5               farver_2.1.2               
-[141] tidygraph_1.3.1             mgcv_1.9-1                 
-[143] yaml_2.3.10                 ggthemes_5.1.0             
-[145] cli_3.6.3                   purrr_1.0.2                
-[147] hopach_2.66.0               lifecycle_1.0.4            
-[149] mvtnorm_1.3-2               backports_1.5.0            
-[151] BiocParallel_1.40.0         cytolib_2.18.0             
-[153] gtable_0.3.6                rjson_0.2.23               
-[155] parallel_4.4.1              ape_5.8                    
-[157] limma_3.62.1                jsonlite_1.8.9             
-[159] edgeR_4.4.1                 bitops_1.0-9               
-[161] bit64_4.5.2                 Rtsne_0.17                 
-[163] FlowSOM_2.14.0              yulab.utils_0.1.8          
-[165] spatstat.utils_3.1-1        BiocNeighbors_2.0.1        
-[167] ranger_0.17.0               flowCore_2.18.0            
-[169] bdsmatrix_1.3-7             spatstat.univar_3.1-1      
-[171] lazyeval_0.2.2              shiny_1.10.0               
-[173] ConsensusClusterPlus_1.70.0 htmltools_0.5.8.1          
-[175] diffcyt_1.26.0              rappdirs_0.3.3             
-[177] distances_0.1.11            glue_1.8.0                 
-[179] XVector_0.46.0              RCurl_1.98-1.16            
-[181] treeio_1.30.0               classInt_0.4-10            
-[183] coxme_2.2-22                jpeg_0.1-10                
-[185] gridExtra_2.3               boot_1.3-31                
-[187] igraph_2.1.2                R6_2.5.1                   
-[189] tidyr_1.3.1                 ggiraph_0.8.11             
-[191] labeling_0.4.3              ggh4x_0.2.8                
-[193] cluster_2.1.6               rngtools_1.5.2             
-[195] Rhdf5lib_1.28.0             aplot_0.2.3                
-[197] nloptr_2.1.1                DelayedArray_0.32.0        
-[199] tidyselect_1.2.1            vipor_0.4.7                
-[201] ggforce_0.4.2               raster_3.6-30              
-[203] car_3.1-3                   AnnotationDbi_1.68.0       
-[205] munsell_0.5.1               KernSmooth_2.23-24         
-[207] data.table_1.16.4           htmlwidgets_1.6.4          
-[209] ComplexHeatmap_2.22.0       RColorBrewer_1.1-3         
-[211] rlang_1.1.4                 spatstat.sparse_3.1-0      
-[213] spatstat.explore_3.3-3      lmerTest_3.1-3             
-[215] uuid_1.2-1                  colorRamps_2.3.4           
-[217] ggnewscale_0.5.0            fansi_1.0.6                
-[219] beeswarm_0.4.0             </code></pre>
+  [1] vroom_1.6.5                 urlchecker_1.0.1           
+  [3] tiff_0.1-12                 dcanr_1.22.0               
+  [5] goftest_1.2-3               DT_0.33                    
+  [7] Biostrings_2.74.0           HDF5Array_1.34.0           
+  [9] TH.data_1.1-2               vctrs_0.6.5                
+ [11] spatstat.random_3.3-2       digest_0.6.37              
+ [13] png_0.1-8                   shape_1.4.6.1              
+ [15] proxy_0.4-27                ggrepel_0.9.6              
+ [17] deldir_2.0-4                magick_2.8.5               
+ [19] MASS_7.3-61                 reshape2_1.4.4             
+ [21] httpuv_1.6.15               foreach_1.5.2              
+ [23] withr_3.0.2                 ggfun_0.1.7                
+ [25] xfun_0.49                   ellipsis_0.3.2             
+ [27] ggpubr_0.6.0                doRNG_1.8.6.1              
+ [29] memoise_2.0.1               RTriangle_1.6-0.14         
+ [31] cytomapper_1.18.0           ggbeeswarm_0.7.2           
+ [33] RProtoBufLib_2.18.0         profvis_0.4.0              
+ [35] systemfonts_1.1.0           tidytree_0.4.6             
+ [37] zoo_1.8-12                  GlobalOptions_0.1.2        
+ [39] Formula_1.2-5               KEGGREST_1.46.0            
+ [41] promises_1.3.2              httr_1.4.7                 
+ [43] rstatix_0.7.2               rhdf5filters_1.18.0        
+ [45] rhdf5_2.50.0                rstudioapi_0.17.1          
+ [47] miniUI_0.1.1.1              UCSC.utils_1.2.0           
+ [49] units_0.8-5                 generics_0.1.3             
+ [51] concaveman_1.1.0            curl_6.0.1                 
+ [53] zlibbioc_1.52.0             ggraph_2.2.1               
+ [55] polyclip_1.10-7             GenomeInfoDbData_1.2.13    
+ [57] SparseArray_1.6.0           fftwtools_0.9-11           
+ [59] desc_1.4.3                  xtable_1.8-4               
+ [61] stringr_1.5.1               doParallel_1.0.17          
+ [63] evaluate_1.0.1              S4Arrays_1.6.0             
+ [65] hms_1.1.3                   colorspace_2.1-1           
+ [67] filelock_1.0.3              spatstat.data_3.1-4        
+ [69] magrittr_2.0.3              readr_2.1.5                
+ [71] later_1.4.1                 viridis_0.6.5              
+ [73] ggtree_3.14.0               lattice_0.22-6             
+ [75] spatstat.geom_3.3-4         XML_3.99-0.17              
+ [77] scuttle_1.16.0              ggupset_0.4.0              
+ [79] class_7.3-22                svgPanZoom_0.3.4           
+ [81] pillar_1.9.0                simpleSeg_1.8.0            
+ [83] nlme_3.1-166                iterators_1.0.14           
+ [85] EBImage_4.48.0              compiler_4.4.1             
+ [87] beachmat_2.22.0             stringi_1.8.4              
+ [89] sf_1.0-19                   devtools_2.4.5             
+ [91] tensor_1.5                  minqa_1.2.8                
+ [93] ClassifyR_3.10.5            plyr_1.8.9                 
+ [95] crayon_1.5.3                abind_1.4-8                
+ [97] gridGraphics_0.5-1          locfit_1.5-9.10            
+ [99] sp_2.1-4                    graphlayouts_1.2.1         
+[101] bit_4.5.0                   terra_1.7-78               
+[103] sandwich_3.1-1              codetools_0.2-20           
+[105] multcomp_1.4-26             e1071_1.7-16               
+[107] GetoptLong_1.0.5            plotly_4.10.4              
+[109] mime_0.12                   MultiAssayExperiment_1.32.0
+[111] splines_4.4.1               circlize_0.4.16            
+[113] Rcpp_1.0.13-1               knitr_1.49                 
+[115] blob_1.2.4                  utf8_1.2.4                 
+[117] clue_0.3-66                 BiocVersion_3.20.0         
+[119] lme4_1.1-35.5               fs_1.6.5                   
+[121] nnls_1.6                    pkgbuild_1.4.5             
+[123] ggplotify_0.1.2             ggsignif_0.6.4             
+[125] Matrix_1.7-1                scam_1.2-17                
+[127] statmod_1.5.0               tzdb_0.4.0                 
+[129] svglite_2.1.3               tweenr_2.0.3               
+[131] pkgconfig_2.0.3             pheatmap_1.0.12            
+[133] tools_4.4.1                 cachem_1.1.0               
+[135] RSQLite_2.3.8               viridisLite_0.4.2          
+[137] DBI_1.2.3                   numDeriv_2016.8-1.1        
+[139] fastmap_1.2.0               rmarkdown_2.29             
+[141] scales_1.3.0                grid_4.4.1                 
+[143] usethis_3.1.0               shinydashboard_0.7.2       
+[145] broom_1.0.7                 patchwork_1.3.0            
+[147] BiocManager_1.30.25         carData_3.0-5              
+[149] farver_2.1.2                tidygraph_1.3.1            
+[151] mgcv_1.9-1                  yaml_2.3.10                
+[153] ggthemes_5.1.0              cli_3.6.3                  
+[155] purrr_1.0.2                 hopach_2.66.0              
+[157] lifecycle_1.0.4             mvtnorm_1.3-2              
+[159] sessioninfo_1.2.2           backports_1.5.0            
+[161] BiocParallel_1.40.0         cytolib_2.18.0             
+[163] gtable_0.3.6                rjson_0.2.23               
+[165] parallel_4.4.1              ape_5.8                    
+[167] limma_3.62.1                jsonlite_1.8.9             
+[169] edgeR_4.4.0                 bitops_1.0-9               
+[171] bit64_4.5.2                 brio_1.1.5                 
+[173] Rtsne_0.17                  FlowSOM_2.14.0             
+[175] yulab.utils_0.1.8           spatstat.utils_3.1-1       
+[177] BiocNeighbors_2.0.0         ranger_0.17.0              
+[179] flowCore_2.18.0             bdsmatrix_1.3-7            
+[181] spatstat.univar_3.1-1       lazyeval_0.2.2             
+[183] shiny_1.9.1                 ConsensusClusterPlus_1.70.0
+[185] htmltools_0.5.8.1           diffcyt_1.26.0             
+[187] rappdirs_0.3.3              distances_0.1.11           
+[189] glue_1.8.0                  XVector_0.46.0             
+[191] RCurl_1.98-1.16             rprojroot_2.0.4            
+[193] treeio_1.30.0               classInt_0.4-10            
+[195] coxme_2.2-22                jpeg_0.1-10                
+[197] gridExtra_2.3               boot_1.3-31                
+[199] igraph_2.1.1                R6_2.5.1                   
+[201] tidyr_1.3.1                 ggiraph_0.8.11             
+[203] labeling_0.4.3              ggh4x_0.2.8                
+[205] cluster_2.1.6               rngtools_1.5.2             
+[207] pkgload_1.4.0               Rhdf5lib_1.28.0            
+[209] aplot_0.2.3                 nloptr_2.1.1               
+[211] DelayedArray_0.32.0         tidyselect_1.2.1           
+[213] vipor_0.4.7                 ggforce_0.4.2              
+[215] raster_3.6-30               car_3.1-3                  
+[217] AnnotationDbi_1.68.0        munsell_0.5.1              
+[219] KernSmooth_2.23-24          data.table_1.16.2          
+[221] htmlwidgets_1.6.4           ComplexHeatmap_2.22.0      
+[223] RColorBrewer_1.1-3          rlang_1.1.4                
+[225] spatstat.sparse_3.1-0       spatstat.explore_3.3-3     
+[227] remotes_2.5.0               lmerTest_3.1-3             
+[229] uuid_1.2-1                  colorRamps_2.3.4           
+[231] ggnewscale_0.5.0            fansi_1.0.6                
+[233] beeswarm_0.4.0             </code></pre>
 </div>
 </div>
 
@@ -987,6 +1156,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1097,6 +1268,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

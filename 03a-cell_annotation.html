@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>6&nbsp; Unsupervised clustering for cell annotation – Spatial analysis playbook</title>
 <style>
@@ -67,10 +67,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-19fe84b14861edf6ae29e3008defacb0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -354,7 +354,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><p>Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.</p>
-<p>In this section, we will demonstrate the use of our <code>FuseSOM</code> package to perform unsupervised clustering and subsequent manual annotation of the clusters. <!-- Steps: --></p>
+<p>In this section, we will demonstrate the use of our <code>FuseSOM</code> package to perform unsupervised clustering and subsequent manual annotation of the clusters.</p>
+<!-- Steps: -->
 <!-- 1.  Clustering vs annotation -->
 <!-- 2.  Clustering with FuseSOM -->
 <!-- 3.  Cluster annotation with pheatmap -->
@@ -383,10 +384,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="clustering-vs-annotation" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="clustering-vs-annotation">
 <span class="header-section-number">6.1</span> Clustering vs Annotation</h2>
-<p>Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses the reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of both <code>FuseSOM</code> and <code>scClassify</code>, and then discuss how to choose between clustering and annotation.</p>
+<p>Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses the reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of our packages to perform both clustering and annotation, and then discuss how to choose between the two approaches.</p>
 </section><section id="clustering-with-fusesom" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="clustering-with-fusesom">
 <span class="header-section-number">6.2</span> Clustering with FuseSOM</h2>
 <p><a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html">FuseSOM</a> is an unsupervised clustering tool for highly multiplexed in situ imaging cytometry assays. It combines a <code>Self Organiszing Map</code> architecture and a <code>MultiView</code> integration of correlation-based metrics for robustness and high accuracy. It has been streamlined to accept multiple data structures including <code>SingleCellExperiment</code> objects, <code>SpatialExperiment</code> objects, and <code>DataFrames</code>.</p>
+<p><img src="images/FuseSOM_fig1.jpeg" align="center" style="height:200px; border: 0px"></p>
 <section id="fusesom-matrix-input" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="fusesom-matrix-input">
 <span class="header-section-number">6.2.1</span> <code>FuseSOM</code> Matrix Input</h3>
 <p>To demonstrate the functionality of <code>FuseSOM</code>, we will use the Risom 2022 dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS). We will be using the markers used in the original study to perform clustering.</p>
@@ -447,8 +449,8 @@ Common problems with clustering
 <div class="callout-body-container callout-body">
 <p><strong>How do I identify imperfect clustering?</strong></p>
 <ol type="1">
-<li>Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g.&nbsp;CD4</li>
-<li>If we instead see “smearing” of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalization issue.</li>
+<li>Do our cell-type specific markers clearly separate out by cluster? We expect to see discrete expression of our markers in specific cell types, e.g., CD4 being expressed in T cells exclusively.</li>
+<li>If we instead see “smearing” of our markers across clusters, where several clusters express high levels of a cell type specific marker such as CD4, it is likely a normalisation issue.</li>
 </ol>
 </div>
 </div>
@@ -465,17 +467,17 @@ Remedying imperfect clustering
 <p><strong>Three common issues which cause imperfect clustering have been outlined below:</strong></p>
 <ol type="1">
 <li>
-<strong>Imperfect segmentation</strong> - excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimizing the upstream segmentation algorithm.</li>
+<strong>Imperfect segmentation</strong>: excessive lateral marker spill over can severely impact downstream clustering, as cell type specific markers leak into nearby cells. This should largely be diagnosed in the segmentation step and will need to be fixed by optimising the upstream segmentation algorithm.</li>
 <li>
-<strong>Imperfect normalization</strong> - excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g.&nbsp;extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.</li>
+<strong>Imperfect normalization</strong>: excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g.&nbsp;extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.</li>
 <li>
-<strong>Imperfect clustering</strong> - choosing a <code>k</code> that’s too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</li>
+<strong>Imperfect clustering</strong>: choosing a <code>k</code> that’s too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</li>
 </ol>
 </div>
 </div>
 </section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
 <span class="header-section-number">6.2.2</span> Using <code>FuseSOM</code> to estimate the number of clusters</h3>
-<p>When the number of expected cell typess or clusters is not known beforehand, the <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:</p>
+<p>When the number of expected cell types or clusters is not known beforehand, the <code>estimateNumCluster</code> function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:</p>
 <ol type="1">
 <li>Discriminant based method:
 <ul>
@@ -492,7 +494,7 @@ Remedying imperfect clustering
 </ul>
 </li>
 </ol>
-<p>We run <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> and specify <code>method = c("Discriminant", "Distance")</code> to use both approaches.</p>
+<p>We run <code>estimateNumCluster</code> and specify <code>method = c("Discriminant", "Distance")</code> to use both approaches.</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
 <span><span class="co"># original clustering has 23 clusters so we will set kseq from 2:25</span></span>
@@ -509,7 +511,7 @@ Remedying imperfect clustering
 </div>
 </div>
 <p>According to the Discriminant method, the optimal number of clusters is 7.</p>
-<p>We can use the <code><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot()</a></code> function to generate an elbow plot with the optimal value for the number of clusters for the distance based methods.</p>
+<p>We can use the <code><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot()</a></code> function to generate an elbow plot with the optimal number of clusters for the distance based methods.</p>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
 <span><span class="va">pSlope</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomKest</span>, method <span class="op">=</span> <span class="st">'slope'</span><span class="op">)</span></span>
@@ -554,9 +556,25 @@ Remedying imperfect clustering
 </div>
 </div>
 <p>From the plots, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters. The <code>Gap</code> statistic is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="FAQ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+FAQ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>How do we choose our <code>k</code>? We’re generally looking for the <code>k</code> before the point of greatest inflection.</li>
+<li>Is there one best choice for <code>k</code>? There can be several options of <code>k</code> if there are several points of inflection. Choose the <code>k</code> which best reflects the number of clusters you expect to get from the tissue.</li>
+</ol>
+</div>
+</div>
 </section><section id="fusesom-with-single-cell-experiment-object-as-input" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="fusesom-with-single-cell-experiment-object-as-input">
 <span class="header-section-number">6.2.3</span> <code>FuseSOM</code> with Single Cell Experiment object as input</h3>
-<p>The <code>FuseSOM</code> algorithm is also equipped to take in a <code>SingleCellExperiment</code> object as input. The results of the pipeline will be written to either the metada or the colData fields.</p>
+<p>The <code>FuseSOM</code> algorithm is also equipped to take in a <code>SingleCellExperiment</code> object as input. The results of the pipeline will be written to either the <code>metadata</code> or the <code>colData</code> fields.</p>
 <p>First, we create a <code>SingleCellExperiment</code> object using the Risom 2022 data.</p>
 <div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span></span>
@@ -581,7 +599,7 @@ mainExpName: NULL
 altExpNames(0):</code></pre>
 </div>
 </div>
-<p>Next, we pass it to the <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> function. Here, we can provide the assay in which the data is stored (<code>counts</code>) and specify the column to store the clusters in using <code>clusterCol = "clusters"</code>. The <code>Self Organizing Map</code> that is generated will be stored in the metadata field.</p>
+<p>Next, we pass it to the <code>runFuseSOM</code> function. Here, we can provide the assay in which the data is stored (<code>counts</code>) and specify the column to store the clusters in using <code>clusterCol = "clusters"</code>. The <code>Self Organizing Map</code> that is generated will be stored in the metadata field.</p>
 <div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRessce</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span><span class="va">sce</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, clusterCol <span class="op">=</span> <span class="st">"clusters"</span>,</span>
 <span>                          assay <span class="op">=</span> <span class="st">'counts'</span>, numClusters <span class="op">=</span> <span class="fl">23</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -596,7 +614,7 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 <p>Notice how the there is now a <code>clusters</code> column in the <code>colData</code> and a SOM field in the metadata.</p>
-<p>If necessary, you can run <code><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM()</a></code> with a new cluster number and specify a new <code>clusterCol</code>. If <code>clusterCol</code> contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current <code>clusters</code> column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.</p>
+<p>If necessary, you can run <code>runFuseSOM</code> with a new cluster number and specify a new <code>clusterCol</code>. If <code>clusterCol</code> contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current <code>clusters</code> column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.</p>
 <p>Just like before, we can plot a heatmap of the resulting clusters across all markers.</p>
 <div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="va">risomMarkers</span><span class="op">]</span> <span class="co"># get the original data used</span></span>
@@ -628,14 +646,14 @@ altExpNames(0):</code></pre>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-scaterHeatmap-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section><section id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="level3" data-number="6.2.4"><h3 data-number="6.2.4" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects">
 <span class="header-section-number">6.2.4</span> Using <code>FuseSOM</code> to estimate the number of clusters for <code>SingleCellExperiment</code> objects</h3>
-<p>Just like before, we will use <code><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster()</a></code> on our Risom <code>SingleCellExperiment</code> object.</p>
+<p>Just like before, we will use <code>estimateNumCluster</code> on our Risom <code>SingleCellExperiment</code> object.</p>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
 <span><span class="co"># original clustering has 23 clusters so we will set kseq from 2:25</span></span>
@@ -664,7 +682,7 @@ altExpNames(0):</code></pre>
 <pre><code>[1] 7</code></pre>
 </div>
 </div>
-<p>According to the discrminant method, the optimal number of clusters is 10.</p>
+<p>According to the discrminant method, the optimal number of clusters is 7.</p>
 <div class="cell">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we can plot the results using the optiplot function</span></span>
 <span><span class="va">pSlope</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">risomRessce</span>, method <span class="op">=</span> <span class="st">'slope'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -723,22 +741,6 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="FAQ">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-FAQ
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>How do we choose our <code>k</code>? We’re generally looking for the <code>k</code> before the point of greatest inflection.</li>
-<li>Is there one best choice for <code>k</code>? There can be several options of <code>k</code> if there are several points of inflection. Choose the <code>k</code> which best reflects the number of clusters you expect to get from the tissue.</li>
-</ol>
-</div>
-</div>
 <p>Again, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters with 24 clusters. The <code>Gap</code> method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
 </section></section><section id="sessioninfo" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">6.3</span> sessionInfo</h2>
@@ -746,21 +748,18 @@ FAQ
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
-Platform: x86_64-pc-linux-gnu
-Running under: Debian GNU/Linux 12 (bookworm)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.21.so;  LAPACK version 3.11.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 time zone: Australia/Sydney
-tzcode source: system (glibc)
+tzcode source: internal
 
 attached base packages:
 [1] stats4    stats     graphics  grDevices utils     datasets  methods  
@@ -772,7 +771,7 @@ other attached packages:
  [5] STexampleData_1.14.0        SpatialExperiment_1.16.0   
  [7] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
  [9] Biobase_2.66.0              GenomicRanges_1.58.0       
-[11] GenomeInfoDb_1.42.1         IRanges_2.40.1             
+[11] GenomeInfoDb_1.42.0         IRanges_2.40.0             
 [13] S4Vectors_0.44.0            MatrixGenerics_1.18.0      
 [15] matrixStats_1.4.1           ExperimentHub_2.14.0       
 [17] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
@@ -791,12 +790,12 @@ loaded via a namespace (and not attached):
  [25] zlibbioc_1.52.0          purrr_1.0.2              RCurl_1.98-1.16         
  [28] nnet_7.3-19              yulab.utils_0.1.8        rappdirs_0.3.3          
  [31] GenomeInfoDbData_1.2.13  ggrepel_0.9.6            irlba_2.3.5.1           
- [34] spatstat.utils_3.1-1     terra_1.8-5              pheatmap_1.0.12         
+ [34] spatstat.utils_3.1-1     terra_1.7-78             pheatmap_1.0.12         
  [37] vegan_2.6-8              svglite_2.1.3            permute_0.9-7           
  [40] codetools_0.2-20         DelayedArray_0.32.0      tidyselect_1.2.1        
  [43] raster_3.6-30            farver_2.1.2             UCSC.utils_1.2.0        
  [46] ScaledMatrix_1.14.0      viridis_0.6.5            jsonlite_1.8.9          
- [49] BiocNeighbors_2.0.1      Formula_1.2-5            scater_1.34.0           
+ [49] BiocNeighbors_2.0.0      Formula_1.2-5            scater_1.34.0           
  [52] systemfonts_1.1.0        tools_4.4.1              Rcpp_1.0.13-1           
  [55] glue_1.8.0               mnormt_2.1.1             gridExtra_2.3           
  [58] SparseArray_1.6.0        xfun_0.49                mgcv_1.9-1              
@@ -806,34 +805,35 @@ loaded via a namespace (and not attached):
  [70] rsvd_1.0.5               digest_0.6.37            R6_2.5.1                
  [73] mime_0.12                gridGraphics_0.5-1       DataVisualizations_1.3.2
  [76] colorspace_2.1-1         spatstat.data_3.1-4      jpeg_0.1-10             
- [79] RSQLite_2.3.9            diptest_0.77-1           utf8_1.2.4              
+ [79] RSQLite_2.3.8            diptest_0.77-1           utf8_1.2.4              
  [82] tidyr_1.3.1              generics_0.1.3           robustbase_0.99-4-1     
  [85] class_7.3-22             httr_1.4.7               htmlwidgets_1.6.4       
  [88] S4Arrays_1.6.0           pkgconfig_2.0.3          gtable_0.3.6            
  [91] modeltools_0.2-23        blob_1.2.4               XVector_0.46.0          
  [94] htmltools_0.5.8.1        carData_3.0-5            fftwtools_0.9-11        
  [97] scales_1.3.0             png_0.1-8                spatstat.univar_3.1-1   
-[100] knitr_1.49               rjson_0.2.23             nlme_3.1-166            
-[103] curl_6.0.1               proxy_0.4-27             cachem_1.1.0            
-[106] rhdf5_2.50.1             stringr_1.5.1            BiocVersion_3.20.0      
-[109] parallel_4.4.1           vipor_0.4.7              AnnotationDbi_1.68.0    
-[112] pillar_1.9.0             grid_4.4.1               vctrs_0.6.5             
-[115] promises_1.3.2           ggpubr_0.6.0             BiocSingular_1.22.0     
-[118] car_3.1-3                beachmat_2.22.0          xtable_1.8-4            
-[121] cluster_2.1.6            princurve_2.1.6          beeswarm_0.4.0          
-[124] evaluate_1.0.1           magick_2.8.5             cli_3.6.3               
-[127] locfit_1.5-9.10          compiler_4.4.1           rlang_1.1.4             
-[130] crayon_1.5.3             analogue_0.17-7          ggsignif_0.6.4          
-[133] labeling_0.4.3           mclust_6.1.1             fs_1.6.5                
-[136] ggbeeswarm_0.7.2         stringi_1.8.4            psych_2.4.6.26          
-[139] deldir_2.0-4             viridisLite_0.4.2        BiocParallel_1.40.0     
-[142] nnls_1.6                 FCPS_1.3.4               cytomapper_1.18.0       
-[145] munsell_0.5.1            Biostrings_2.74.0        tiff_0.1-12             
-[148] coop_0.6-3               profileModel_0.6.1       spatstat.geom_3.3-4     
-[151] Matrix_1.7-1             bit64_4.5.2              Rhdf5lib_1.28.0         
-[154] fpc_2.2-13               KEGGREST_1.46.0          shiny_1.10.0            
-[157] brglm_0.7.2              kernlab_0.9-33           broom_1.0.7             
-[160] memoise_2.0.1            DEoptimR_1.1-3-1         bit_4.5.0.1             </code></pre>
+[100] knitr_1.49               rstudioapi_0.17.1        rjson_0.2.23            
+[103] nlme_3.1-166             curl_6.0.1               proxy_0.4-27            
+[106] cachem_1.1.0             rhdf5_2.50.0             stringr_1.5.1           
+[109] BiocVersion_3.20.0       parallel_4.4.1           vipor_0.4.7             
+[112] AnnotationDbi_1.68.0     pillar_1.9.0             grid_4.4.1              
+[115] vctrs_0.6.5              promises_1.3.2           ggpubr_0.6.0            
+[118] BiocSingular_1.22.0      car_3.1-3                beachmat_2.22.0         
+[121] xtable_1.8-4             cluster_2.1.6            princurve_2.1.6         
+[124] beeswarm_0.4.0           evaluate_1.0.1           magick_2.8.5            
+[127] cli_3.6.3                locfit_1.5-9.10          compiler_4.4.1          
+[130] rlang_1.1.4              crayon_1.5.3             analogue_0.17-7         
+[133] ggsignif_0.6.4           labeling_0.4.3           mclust_6.1.1            
+[136] fs_1.6.5                 ggbeeswarm_0.7.2         stringi_1.8.4           
+[139] psych_2.4.6.26           deldir_2.0-4             viridisLite_0.4.2       
+[142] BiocParallel_1.40.0      nnls_1.6                 FCPS_1.3.4              
+[145] cytomapper_1.18.0        munsell_0.5.1            Biostrings_2.74.0       
+[148] tiff_0.1-12              coop_0.6-3               profileModel_0.6.1      
+[151] spatstat.geom_3.3-4      Matrix_1.7-1             bit64_4.5.2             
+[154] Rhdf5lib_1.28.0          fpc_2.2-13               KEGGREST_1.46.0         
+[157] shiny_1.9.1              brglm_0.7.2              kernlab_0.9-33          
+[160] broom_1.0.7              memoise_2.0.1            DEoptimR_1.1-3-1        
+[163] bit_4.5.0               </code></pre>
 </div>
 </div>
 
@@ -920,6 +920,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1030,6 +1032,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
