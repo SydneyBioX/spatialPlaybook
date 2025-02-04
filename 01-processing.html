@@ -322,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#reading-in-data-with-cytomapper" id="toc-reading-in-data-with-cytomapper" class="nav-link active" data-scroll-target="#reading-in-data-with-cytomapper"><span class="header-section-number">4.1</span> Reading in data with cytomapper</a></li>
+<li><a href="#reading-in-data-with-cytomapper" id="toc-reading-in-data-with-cytomapper" class="nav-link active" data-scroll-target="#reading-in-data-with-cytomapper"><span class="header-section-number">4.1</span> Reading in data with <code>cytomapper</code></a></li>
   <li>
 <a href="#cell-segmentation-with-simpleseg" id="toc-cell-segmentation-with-simpleseg" class="nav-link" data-scroll-target="#cell-segmentation-with-simpleseg"><span class="header-section-number">4.2</span> Cell segmentation with simpleSeg</a>
   <ul class="collapse">
@@ -352,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>The typical first step in analyzing spatial data is cell segmentation, which involves identifying and isolating individual cells in each image. This step is essential for assigning cell type labels and evaluating cellular relationships within the tissue.</p>
+</header><p>The typical first step in analysing spatial data is cell segmentation, which involves identifying and isolating individual cells in each image. This step is essential for assigning cell type labels and evaluating cellular relationships within the tissue.</p>
 <p>In this section, we will outline the process of reading and pre-processing images obtained from various imaging technologies to prepare them for downstream analysis. Additionally, we will demonstrate how our simpleSeg package facilitates efficient and straightforward cell segmentation, as well as how to evaluate the quality of the segmentation results.</p>
 <!-- Steps: -->
 <!-- 1.  Reading in data with cytomapper -->
@@ -379,18 +379,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="reading-in-data-with-cytomapper" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="reading-in-data-with-cytomapper">
-<span class="header-section-number">4.1</span> Reading in data with cytomapper</h2>
-<p>We will be using the Ferguson 2022 dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the <code>SpatialDatasets</code> package. The <code>loadImages</code> function from the <code>cytomapper</code> package can be used to load all the TIFF images into a <code>CytoImageList</code> object and store the images as an h5 file on-disk in a temporary directory using the <code>h5FilesPath = HDF5Array::getHDF5DumpDir()</code> parameter.</p>
+<span class="header-section-number">4.1</span> Reading in data with <code>cytomapper</code>
+</h2>
+<p>We will be using the <a href="./datasets.html">Ferguson 2022</a> dataset to demonstrate how to perform pre-processing and cell segmentation. This dataset can be accessed through the <code>SpatialDatasets</code> package and is available in the form of single-channel TIFF images. In single-channel images, each pixel represents intensity values for a single marker. The <code>loadImages</code> function from the <code>cytomapper</code> package can be used to load all the TIFF images into a <code>CytoImageList</code> object and store the images as an h5 file on-disk in a temporary directory using the <code>h5FilesPath = HDF5Array::getHDF5DumpDir()</code> parameter.</p>
 <p>We will also assign the metadata columns of the <code>CytoImageList</code> object using the <code>mcols</code> function.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToZip</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">Ferguson_Images</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>see ?SpatialDatasets and browseVignettes('SpatialDatasets') for documentation</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>loading from cache</code></pre>
-</div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToImages</span> <span class="op">&lt;-</span> <span class="st">"data/processing/images"</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToZip</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">Ferguson_Images</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">pathToImages</span> <span class="op">&lt;-</span> <span class="st">"data/processing/images"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="va">pathToZip</span>, exdir <span class="op">=</span> <span class="st">"data/processing/images"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># store images in a CytoImageList on_disk as h5 files to save memory</span></span>
@@ -404,11 +399,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="co"># assign metadata columns</span></span>
 <span><span class="fu">mcols</span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 142.33 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 156.64 seconds</p>
 </div>
 <p>When reading the image channels directly from the names of the TIFF images, they will often need to be cleaned for ease of downstream processing. The channel names can be accessed from the <code>CytoImageList</code> object using the <code>channelNames</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>                          <span class="co"># remove preceding letters</span></span>
 <span>                          <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">".*_"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="va">_</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>                          <span class="co"># remove the .ome</span></span>
@@ -416,22 +411,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Similarly, the image names will be taken from the folder name containing the individual TIFF images for each channel. These will often also need to be cleaned.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># cleaning image names to obtain image IDs</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># cleaning image names to obtain image IDs</span></span>
 <span><span class="va">split_names</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"_"</span><span class="op">)</span>, <span class="va">`[`</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">split_names</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">mcols</span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="cell-segmentation-with-simpleseg" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="cell-segmentation-with-simpleseg">
 <span class="header-section-number">4.2</span> Cell segmentation with simpleSeg</h2>
 <p>For the sake of simplicity and efficiency, we will be subsetting our images down to 10 images.</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">images</span> <span class="op">&lt;-</span> <span class="va">images</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">images</span> <span class="op">&lt;-</span> <span class="va">images</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, we can perform our segmentation. The <a href="https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> package provides functionality for user friendly, watershed based segmentation on multiplexed cellular images based on the intensity of user specified protein marker channels. The main function, <code>simpleSeg</code>, can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.</p>
+<p>Next, we can perform our segmentation. The <a href="https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> package on Bioconductor provides functionality for user friendly, watershed based segmentation on multiplexed cellular images based on the intensity of user-specified protein marker channels. The main function, <code>simpleSeg</code>, can be used to perform a simple cell segmentation process that traces out the nuclei using a specified channel.</p>
 <p>In the particular example below, we have asked <code>simpleSeg</code> to do the following:</p>
 <ul>
 <li>
@@ -449,7 +443,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>There are many other parameters that can be specified in <code>simpleSeg</code> (<code>smooth</code>, <code>watershed</code>, <code>tolerance</code>, and <code>ext</code>), and we encourage the user to select the parameters which best suit their biological context.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">masks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/simpleSeg.html">simpleSeg</a></span><span class="op">(</span><span class="va">images</span>,</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">masks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/simpleSeg.html">simpleSeg</a></span><span class="op">(</span><span class="va">images</span>,</span>
 <span>                   nucleus <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span><span class="op">)</span>,</span>
 <span>                   pca <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                   cellBody <span class="op">=</span> <span class="st">"dilate"</span>,</span>
@@ -457,27 +451,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                   sizeSelection <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                   transform <span class="op">=</span> <span class="st">"sqrt"</span>,</span>
 <span>                   tissue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"panCK"</span>, <span class="st">"CD45"</span>, <span class="st">"HH3"</span><span class="op">)</span>,</span>
-<span>                   cores <span class="op">=</span> <span class="va">nCores</span></span>
-<span>                   <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 56.79 seconds</p>
+<span>                   cores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Time for this code chunk to run with 5.5 cores: 53.68 seconds</p>
 </div>
 <section id="visualise-separation" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="visualise-separation">
 <span class="header-section-number">4.2.1</span> Visualise separation</h3>
 <p>We can examine the performance of the cell segmentation using the <code>display</code> and <code>colorLabels</code> functions from the <code>EBImage</code> package. If used in an interactive session, <code>display</code> allows you to zoom in and out of the image.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">EBImage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/colorLabels.html">colorLabels</a></span><span class="op">(</span><span class="va">masks</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># display image F3</span></span>
+<span><span class="fu">EBImage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/colorLabels.html">colorLabels</a></span><span class="op">(</span><span class="va">masks</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="01-processing_files/figure-html/01-visualiseSegmentation-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="01-processing_files/figure-html/01-visualise segmentation-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section><section id="visualise-outlines" class="level3" data-number="4.2.2"><h3 data-number="4.2.2" class="anchored" data-anchor-id="visualise-outlines">
 <span class="header-section-number">4.2.2</span> Visualise outlines</h3>
-<p>The <code>plotPixels</code> function from <code>cytomapper</code> makes it easy to overlay the mask on top of the nucleus intensity marker to see how well our segmentation process has performed.</p>
+<p>The <code>plotPixels</code> function from the <code>cytomapper</code> package makes it easy to overlay the mask on top of the nucleus intensity marker to see how well our segmentation process has performed.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
 <span>           mask <span class="op">=</span> <span class="va">masks</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>,</span>
 <span>           img_id <span class="op">=</span> <span class="st">"imageID"</span>, </span>
 <span>           colour_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span><span class="op">)</span>, </span>
@@ -489,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>           <span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="01-processing_files/figure-html/01-plotHH3-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="01-processing_files/figure-html/01-plot HH3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -498,7 +492,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If you see over or under-segmentation of your images, <code>discSize</code> is a key parameter in the <code>simpleSeg</code> function for optimising the size of the dilation disc after segmenting out the nuclei.</p>
 <p>We can also visualise multiple markers at once instead of just the HH3 marker to see how the segmentation mask performs.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
 <span>           mask <span class="op">=</span> <span class="va">masks</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>,</span>
 <span>           img_id <span class="op">=</span> <span class="st">"imageID"</span>, </span>
 <span>           colour_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span>, <span class="st">"CD31"</span>, <span class="st">"FX111A"</span><span class="op">)</span>, </span>
@@ -514,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>           <span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="01-processing_files/figure-html/01-plotMarkers-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="01-processing_files/figure-html/01-plot markers-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -531,7 +525,7 @@ Tip
 <div class="callout-body-container callout-body">
 <p><strong>What to look for and change to obtain an ideal segmentation</strong></p>
 <ol type="1">
-<li>Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transform to improve the thresholding of the nuclei marker. You could also try using <code>pca = TRUE</code> which will borrow information across the markers to help find the nuclei.</li>
+<li>Does the segmentation capture the full nucleus? If not, perhaps you need to try a different transformation to improve the thresholding of the nuclei marker. You could also try using <code>pca = TRUE</code> which will borrow information across the markers to help find the nuclei.</li>
 <li>How much of the cell body is the segmentation missing? Try increasing the dilation around the nucleus by setting <code>discSize = 7</code>.</li>
 <li>Are the segmentations capturing neighbouring cells? Try decreasing the dilation to limit lateral spillover of marker signal by setting <code>discSize = 2</code>.</li>
 </ol>
@@ -544,65 +538,54 @@ Tip
 <span class="header-section-number">4.2.2.1</span> <code>cellBody</code> Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
 <th>Method</th>
 <th style="text-align: center;">Description</th>
-<th style="text-align: center;"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“distance”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td><span style="font-family: 'Courier New', monospace;">“intensity”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Performs watershedding using the intensity of the nuclei marker.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“combine”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table></section><section id="watershed-parameters" class="level4" data-number="4.2.2.2"><h4 data-number="4.2.2.2" class="anchored" data-anchor-id="watershed-parameters">
 <span class="header-section-number">4.2.2.2</span> <code>watershed</code> Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
 <th>Method</th>
 <th style="text-align: center;">Description</th>
-<th style="text-align: center;"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“dilation”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the <code>discDize</code> argument.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td><span style="font-family: 'Courier New', monospace;">“discModel”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Uses all the markers to predict the presence of dilated ‘discs’ around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“marker”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using <code>cellBody = "marker name"/"index"</code></span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td><span style="font-family: 'Courier New', monospace;">“None”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">The nuclei mask is returned directly.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
@@ -611,7 +594,7 @@ Tip
 <p>We can use the <code>measureObjects</code> from <code>cytomapper</code> to calculate the average intensity of each channel within each cell, as well as other morphological features. By default, <code>measureObjects</code> will return a <code>SingleCellExperiment</code> object, where the channel intensities are stored in the <code>counts</code> assay and the spatial location of each cell is stored in <code>colData</code> in the <code>m.cx</code> and <code>m.cy</code> columns.</p>
 <p>However, you can also specify <code>measureObjects</code> to return a <code>SpatialExperiment</code> object by specifying <code>return_as = "spe"</code>. In a <code>SpatialExperiment</code> object, the spatial location of each cell is stored in the <code>spatialCoords</code> slot as <code>m.cx</code> and <code>m.cy</code>, which simplifies plotting. In this demonstration, we will return a <code>SpatialExperiment</code> object.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># summarise the expression of each marker in each cell</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># summarise the expression of each marker in each cell</span></span>
 <span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu">cytomapper</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/measureObjects.html">measureObjects</a></span><span class="op">(</span><span class="va">masks</span>,</span>
 <span>                                    <span class="va">images</span>,</span>
 <span>                                    img_id <span class="op">=</span> <span class="st">"imageID"</span>,</span>
@@ -636,13 +619,13 @@ altExpNames(0):
 spatialCoords names(2) : x y
 imgData names(1): sample_id</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 51.84 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 48.93 seconds</p>
 </div>
-<p>So far, we have obtained our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a <code>SpatialExperiment</code> object. We can now move on to quality control, data transformation, and normalisation to address batch effects.</p>
+<p>So far, we have processed our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a <code>SpatialExperiment</code> object. We can now move on to quality control, data transformation, and normalisation to address batch effects.</p>
 </section><section id="sessioninfo" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">4.4</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: aarch64-apple-darwin20

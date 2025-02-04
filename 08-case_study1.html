@@ -347,62 +347,48 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#load-libraries" id="toc-load-libraries" class="nav-link active" data-scroll-target="#load-libraries"><span class="header-section-number">13.1</span> Load libraries</a></li>
+<li><a href="#read-in-images" id="toc-read-in-images" class="nav-link active" data-scroll-target="#read-in-images"><span class="header-section-number">13.1</span> Read in images</a></li>
   <li>
-<a href="#read-in-images" id="toc-read-in-images" class="nav-link" data-scroll-target="#read-in-images"><span class="header-section-number">13.2</span> Read in images</a>
+<a href="#simpleseg-segment-the-cells-in-the-images" id="toc-simpleseg-segment-the-cells-in-the-images" class="nav-link" data-scroll-target="#simpleseg-segment-the-cells-in-the-images"><span class="header-section-number">13.2</span> SimpleSeg: Segment the cells in the images</a>
   <ul class="collapse">
-<li><a href="#clean-channel-names" id="toc-clean-channel-names" class="nav-link" data-scroll-target="#clean-channel-names"><span class="header-section-number">13.2.1</span> Clean channel names</a></li>
-  <li><a href="#clean-image-names" id="toc-clean-image-names" class="nav-link" data-scroll-target="#clean-image-names"><span class="header-section-number">13.2.2</span> Clean image names</a></li>
+<li><a href="#run-simpleseg" id="toc-run-simpleseg" class="nav-link" data-scroll-target="#run-simpleseg"><span class="header-section-number">13.2.1</span> Run simpleSeg</a></li>
+  <li><a href="#visualise-separation" id="toc-visualise-separation" class="nav-link" data-scroll-target="#visualise-separation"><span class="header-section-number">13.2.2</span> Visualise separation</a></li>
+  <li><a href="#visualise-outlines" id="toc-visualise-outlines" class="nav-link" data-scroll-target="#visualise-outlines"><span class="header-section-number">13.2.3</span> Visualise outlines</a></li>
+  </ul>
+</li>
+  <li><a href="#summarise-cell-features" id="toc-summarise-cell-features" class="nav-link" data-scroll-target="#summarise-cell-features"><span class="header-section-number">13.3</span> Summarise cell features</a></li>
+  <li><a href="#load-the-clinical-data" id="toc-load-the-clinical-data" class="nav-link" data-scroll-target="#load-the-clinical-data"><span class="header-section-number">13.4</span> Load the clinical data</a></li>
+  <li><a href="#normalise-the-data" id="toc-normalise-the-data" class="nav-link" data-scroll-target="#normalise-the-data"><span class="header-section-number">13.5</span> Normalise the data</a></li>
+  <li>
+<a href="#fusesom-cluster-cells-into-cell-types" id="toc-fusesom-cluster-cells-into-cell-types" class="nav-link" data-scroll-target="#fusesom-cluster-cells-into-cell-types"><span class="header-section-number">13.6</span> FuseSOM: Cluster cells into cell types</a>
+  <ul class="collapse">
+<li><a href="#interpreting-cluster-phenotype" id="toc-interpreting-cluster-phenotype" class="nav-link" data-scroll-target="#interpreting-cluster-phenotype"><span class="header-section-number">13.6.1</span> Interpreting cluster phenotype</a></li>
+  <li><a href="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" id="toc-testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="nav-link" data-scroll-target="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status"><span class="header-section-number">13.6.2</span> Testing for association between the proportion of each cell type and progressor status</a></li>
+  </ul>
+</li>
+  <li><a href="#spicyr-test-spatial-relationships" id="toc-spicyr-test-spatial-relationships" class="nav-link" data-scroll-target="#spicyr-test-spatial-relationships"><span class="header-section-number">13.7</span> spicyR: Test spatial relationships</a></li>
+  <li>
+<a href="#lisaclust-find-cellular-neighbourhoods" id="toc-lisaclust-find-cellular-neighbourhoods" class="nav-link" data-scroll-target="#lisaclust-find-cellular-neighbourhoods"><span class="header-section-number">13.8</span> lisaClust: Find cellular neighbourhoods</a>
+  <ul class="collapse">
+<li><a href="#region-cell-type-enrichment-heatmap" id="toc-region-cell-type-enrichment-heatmap" class="nav-link" data-scroll-target="#region-cell-type-enrichment-heatmap"><span class="header-section-number">13.8.1</span> Region-cell type enrichment heatmap</a></li>
+  <li><a href="#visualise-regions" id="toc-visualise-regions" class="nav-link" data-scroll-target="#visualise-regions"><span class="header-section-number">13.8.2</span> Visualise regions</a></li>
+  <li><a href="#test-for-association-with-progression" id="toc-test-for-association-with-progression" class="nav-link" data-scroll-target="#test-for-association-with-progression"><span class="header-section-number">13.8.3</span> Test for association with progression</a></li>
   </ul>
 </li>
   <li>
-<a href="#simpleseg-segment-the-cells-in-the-images" id="toc-simpleseg-segment-the-cells-in-the-images" class="nav-link" data-scroll-target="#simpleseg-segment-the-cells-in-the-images"><span class="header-section-number">13.3</span> SimpleSeg: Segment the cells in the images</a>
+<a href="#statial-identify-changes-in-cell-state" id="toc-statial-identify-changes-in-cell-state" class="nav-link" data-scroll-target="#statial-identify-changes-in-cell-state"><span class="header-section-number">13.9</span> Statial: Identify changes in cell state</a>
   <ul class="collapse">
-<li><a href="#run-simpleseg" id="toc-run-simpleseg" class="nav-link" data-scroll-target="#run-simpleseg"><span class="header-section-number">13.3.1</span> Run simpleSeg</a></li>
-  <li><a href="#visualise-separation" id="toc-visualise-separation" class="nav-link" data-scroll-target="#visualise-separation"><span class="header-section-number">13.3.2</span> Visualise separation</a></li>
-  <li><a href="#visualise-outlines" id="toc-visualise-outlines" class="nav-link" data-scroll-target="#visualise-outlines"><span class="header-section-number">13.3.3</span> Visualise outlines</a></li>
-  </ul>
-</li>
-  <li><a href="#summarise-cell-features" id="toc-summarise-cell-features" class="nav-link" data-scroll-target="#summarise-cell-features"><span class="header-section-number">13.4</span> Summarise cell features</a></li>
-  <li>
-<a href="#load-the-clinical-data" id="toc-load-the-clinical-data" class="nav-link" data-scroll-target="#load-the-clinical-data"><span class="header-section-number">13.5</span> Load the clinical data</a>
-  <ul class="collapse">
-<li><a href="#read-the-clinical-data" id="toc-read-the-clinical-data" class="nav-link" data-scroll-target="#read-the-clinical-data"><span class="header-section-number">13.5.1</span> Read the clinical data</a></li>
-  </ul>
-</li>
-  <li><a href="#normalise-the-data" id="toc-normalise-the-data" class="nav-link" data-scroll-target="#normalise-the-data"><span class="header-section-number">13.6</span> Normalise the data</a></li>
-  <li>
-<a href="#fusesom-cluster-cells-into-cell-types" id="toc-fusesom-cluster-cells-into-cell-types" class="nav-link" data-scroll-target="#fusesom-cluster-cells-into-cell-types"><span class="header-section-number">13.7</span> FuseSOM: Cluster cells into cell types</a>
-  <ul class="collapse">
-<li><a href="#interpreting-cluster-phenotype" id="toc-interpreting-cluster-phenotype" class="nav-link" data-scroll-target="#interpreting-cluster-phenotype"><span class="header-section-number">13.7.1</span> Interpreting cluster phenotype</a></li>
-  <li><a href="#check-cell-type-frequencies" id="toc-check-cell-type-frequencies" class="nav-link" data-scroll-target="#check-cell-type-frequencies"><span class="header-section-number">13.7.2</span> Check cell type frequencies</a></li>
-  <li><a href="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" id="toc-testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="nav-link" data-scroll-target="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status"><span class="header-section-number">13.7.3</span> Testing for association between the proportion of each cell type and progressor status</a></li>
-  </ul>
-</li>
-  <li><a href="#spicyr-test-spatial-relationships" id="toc-spicyr-test-spatial-relationships" class="nav-link" data-scroll-target="#spicyr-test-spatial-relationships"><span class="header-section-number">13.8</span> spicyR: Test spatial relationships</a></li>
-  <li>
-<a href="#lisaclust-find-cellular-neighbourhoods" id="toc-lisaclust-find-cellular-neighbourhoods" class="nav-link" data-scroll-target="#lisaclust-find-cellular-neighbourhoods"><span class="header-section-number">13.9</span> lisaClust: Find cellular neighbourhoods</a>
-  <ul class="collapse">
-<li><a href="#region-cell-type-enrichment-heatmap" id="toc-region-cell-type-enrichment-heatmap" class="nav-link" data-scroll-target="#region-cell-type-enrichment-heatmap"><span class="header-section-number">13.9.1</span> Region-cell type enrichment heatmap</a></li>
-  <li><a href="#visualise-regions" id="toc-visualise-regions" class="nav-link" data-scroll-target="#visualise-regions"><span class="header-section-number">13.9.2</span> Visualise regions</a></li>
-  <li><a href="#test-for-association-with-progression" id="toc-test-for-association-with-progression" class="nav-link" data-scroll-target="#test-for-association-with-progression"><span class="header-section-number">13.9.3</span> Test for association with progression</a></li>
+<li><a href="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" id="toc-spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" class="nav-link" data-scroll-target="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation"><span class="header-section-number">13.9.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation</a></li>
+  <li><a href="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" id="toc-kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="nav-link" data-scroll-target="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure"><span class="header-section-number">13.9.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</a></li>
   </ul>
 </li>
   <li>
-<a href="#statial-identify-changes-in-cell-state." id="toc-statial-identify-changes-in-cell-state." class="nav-link" data-scroll-target="#statial-identify-changes-in-cell-state."><span class="header-section-number">13.10</span> Statial: Identify changes in cell state.</a>
+<a href="#classifyr-classification" id="toc-classifyr-classification" class="nav-link" data-scroll-target="#classifyr-classification"><span class="header-section-number">13.10</span> ClassifyR: Classification</a>
   <ul class="collapse">
-<li><a href="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation." id="toc-spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation." class="nav-link" data-scroll-target="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation."><span class="header-section-number">13.10.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation.</a></li>
-  <li><a href="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" id="toc-kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="nav-link" data-scroll-target="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure"><span class="header-section-number">13.10.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</a></li>
+<li><a href="#visualise-cross-validated-prediction-performance" id="toc-visualise-cross-validated-prediction-performance" class="nav-link" data-scroll-target="#visualise-cross-validated-prediction-performance"><span class="header-section-number">13.10.1</span> Visualise cross-validated prediction performance</a></li>
   </ul>
 </li>
-  <li>
-<a href="#classifyr-classification" id="toc-classifyr-classification" class="nav-link" data-scroll-target="#classifyr-classification"><span class="header-section-number">13.11</span> ClassifyR: Classification</a>
-  <ul class="collapse">
-<li><a href="#visualise-cross-validated-prediction-performance" id="toc-visualise-cross-validated-prediction-performance" class="nav-link" data-scroll-target="#visualise-cross-validated-prediction-performance"><span class="header-section-number">13.11.1</span> Visualise cross-validated prediction performance</a></li>
-  </ul>
-</li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">13.12</span> Summary</a></li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">13.13</span> sessionInfo</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">13.11</span> sessionInfo</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -423,9 +409,7 @@ window.Quarto = {
   
 
 
-</header><p>In this section, we will demonstrate how the workflow can be applied to a single dataset, the Ferguson 2022 dataset. The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our workflow to reach a similar conclusion.</p>
-<section id="load-libraries" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="load-libraries">
-<span class="header-section-number">13.1</span> Load libraries</h2>
+</header><p>In this section, we will demonstrate how the workflow can be applied to a single dataset, the <a href="./datasets.html">Ferguson 2022</a> dataset. The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our workflow to reach a similar conclusion.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/BodenmillerGroup/cytomapper">cytomapper</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
@@ -454,18 +438,12 @@ window.Quarto = {
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="read-in-images" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="read-in-images">
-<span class="header-section-number">13.2</span> Read in images</h2>
+<section id="read-in-images" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="read-in-images">
+<span class="header-section-number">13.1</span> Read in images</h2>
 <p>As before, we can load the Ferguson 2022 image data from the <code>SpatialDatasets</code> package into a <code>CytoImageList</code> and store them as h5 file-on-disk in a temporary directory. We will also assign the metadata columns of the <code>CytoImageList</code> object using the <code>mcols</code> function.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToImages</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">Ferguson_Images</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>see ?SpatialDatasets and browseVignettes('SpatialDatasets') for documentation</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>loading from cache</code></pre>
-</div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToImages</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">Ferguson_Images</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="va">pathToImages</span>, exdir <span class="op">=</span> <span class="va">tmp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Store images in a CytoImageList on_disk as h5 files to save memory.</span></span>
@@ -479,23 +457,19 @@ window.Quarto = {
 <span></span>
 <span><span class="co"># assign metadata columns</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">mcols</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 139.49 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 133.92 seconds</p>
 </div>
-<section id="clean-channel-names" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="clean-channel-names">
-<span class="header-section-number">13.2.1</span> Clean channel names</h3>
 <p>As we’re reading the image channels directly from the names of the TIFF image, we will first clean them for ease of downstream processing.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/CytoImageList-naming.html">channelNames</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>                          <span class="co"># remove preceding letters</span></span>
 <span>                          <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">".*_"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="va">_</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>                          <span class="co"># remove the .ome</span></span>
 <span>                          <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">".ome"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="va">_</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="clean-image-names" class="level3" data-number="13.2.2"><h3 data-number="13.2.2" class="anchored" data-anchor-id="clean-image-names">
-<span class="header-section-number">13.2.2</span> Clean image names</h3>
 <p>Similarly, the image names will be taken from the folder name containing the individual TIFF images for each channel. These will often also need to be cleaned.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># cleaning image names to obtain image IDs</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># cleaning image names to obtain image IDs</span></span>
 <span><span class="va">split_names</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"_"</span><span class="op">)</span>, <span class="va">`[`</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -503,16 +477,15 @@ window.Quarto = {
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">split_names</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">mcols</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="simpleseg-segment-the-cells-in-the-images" class="level2" data-number="13.3"><h2 data-number="13.3" class="anchored" data-anchor-id="simpleseg-segment-the-cells-in-the-images">
-<span class="header-section-number">13.3</span> SimpleSeg: Segment the cells in the images</h2>
-<p>Next, we will use our <a href="https://master.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> package to generate simple segmentation masks of images.</p>
-<p>Our simpleSeg R package on <a href="https://github.com/SydneyBioX/simpleSeg" class="uri">https://github.com/SydneyBioX/simpleSeg</a> provides a series of functions to generate simple segmentation masks of images. A key strength of the simpleSeg package is that we have included multiple ways to perform some simple segmentation operations and incorporated multiple automatic procedures to optimise some key parameters when these aren’t specified. These functions leverage the functionality of the <a href="https://bioconductor.org/packages/release/bioc/html/EBImage.html">EBImage</a> package on Bioconductor. For more flexibility when performing your segmentation in R, we recommend learning to use the EBImage package.</p>
-<section id="run-simpleseg" class="level3" data-number="13.3.1"><h3 data-number="13.3.1" class="anchored" data-anchor-id="run-simpleseg">
-<span class="header-section-number">13.3.1</span> Run simpleSeg</h3>
-<p>If your images are stored in a <code>list</code> or <code>CytoImageList</code> they can be segmented with a simple call to <code>simpleSeg</code>. <code>simpleSeg</code> is an R implementation of a simple segmentation technique which traces out the nuclei using a specified channel (by setting <code>nucleus =</code>) then dilates around the traced nuclei by a specified amount (controlled using <code>discSize</code>). The nucleus can be traced out using either one specified channel, or by using the principal components of all channels most correlated to the specified nuclear channel by setting <code>pca = TRUE</code>.</p>
+</section><section id="simpleseg-segment-the-cells-in-the-images" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="simpleseg-segment-the-cells-in-the-images">
+<span class="header-section-number">13.2</span> SimpleSeg: Segment the cells in the images</h2>
+<p>Our <a href="https://master.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> R package Bioconductor provides a series of functions to generate simple segmentation masks of images. A key strength of the simpleSeg package is that we have included multiple ways to perform some simple segmentation operations and incorporated multiple automatic procedures to optimise some key parameters when these aren’t specified. These functions leverage the functionality of the <a href="https://bioconductor.org/packages/release/bioc/html/EBImage.html">EBImage</a> package on Bioconductor. For more flexibility when performing your segmentation in R, we recommend learning to use the EBImage package.</p>
+<section id="run-simpleseg" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="run-simpleseg">
+<span class="header-section-number">13.2.1</span> Run simpleSeg</h3>
+<p>If your images are stored in a <code>list</code> or <code>CytoImageList</code> they can be segmented with a simple call to <code>simpleSeg</code>. <code>simpleSeg</code> is an R implementation of a simple segmentation technique which traces out the nuclei using a specified channel (by setting <code>nucleus =</code>) and then dilates around the traced nuclei by a specified amount (controlled using <code>discSize</code>). The nucleus can be traced out using either one specified channel, or by using the principal components of all channels most correlated to the specified nuclear channel by setting <code>pca = TRUE</code>.</p>
 <p>In the example below, we used simpleSeg to trace the nuclei signal in the images based on the HH3 channel, expanding outward from the nucleus by 3 pixels. A more detailed explanation of each of the key parameters is available in the <a href="./01-processing.html">Processing</a> section.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate masks</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># generate masks</span></span>
 <span><span class="va">masks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/simpleSeg.html">simpleSeg</a></span><span class="op">(</span><span class="va">images</span>,</span>
 <span>                   nucleus <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span><span class="op">)</span>,</span>
 <span>                   cellBody <span class="op">=</span> <span class="st">"dilate"</span>,</span>
@@ -521,13 +494,13 @@ window.Quarto = {
 <span>                   transform <span class="op">=</span> <span class="st">"sqrt"</span>,</span>
 <span>                   tissue <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"panCK"</span>, <span class="st">"CD45"</span>, <span class="st">"HH3"</span><span class="op">)</span>,</span>
 <span>                   cores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 41.81 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 38.88 seconds</p>
 </div>
-</section><section id="visualise-separation" class="level3" data-number="13.3.2"><h3 data-number="13.3.2" class="anchored" data-anchor-id="visualise-separation">
-<span class="header-section-number">13.3.2</span> Visualise separation</h3>
+</section><section id="visualise-separation" class="level3" data-number="13.2.2"><h3 data-number="13.2.2" class="anchored" data-anchor-id="visualise-separation">
+<span class="header-section-number">13.2.2</span> Visualise separation</h3>
 <p>We can then use the <code>display</code> and <code>colorLabels</code> functions from EBImage to examine the performance of the cell segmentation.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">EBImage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/colorLabels.html">colorLabels</a></span><span class="op">(</span><span class="va">masks</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">EBImage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/colorLabels.html">colorLabels</a></span><span class="op">(</span><span class="va">masks</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-visualise segmentation-1.png" class="img-fluid figure-img" width="672"></p>
@@ -535,11 +508,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section><section id="visualise-outlines" class="level3" data-number="13.3.3"><h3 data-number="13.3.3" class="anchored" data-anchor-id="visualise-outlines">
-<span class="header-section-number">13.3.3</span> Visualise outlines</h3>
+</section><section id="visualise-outlines" class="level3" data-number="13.2.3"><h3 data-number="13.2.3" class="anchored" data-anchor-id="visualise-outlines">
+<span class="header-section-number">13.2.3</span> Visualise outlines</h3>
 <p>The <code>plotPixels</code> function in <code>cytomapper</code> makes it easy to overlay the mask on top of the nucleus intensity marker to see how well our segmentation process has performed. Here, we can see that the segmentation appears to be performing reasonably. If you see over or under-segmentation of your images, <code>discSize</code> is a key parameter in <code>simpleSeg</code> for optimising the size of the dilation disc after segmenting out the nuclei.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
 <span>           mask <span class="op">=</span> <span class="va">masks</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>,</span>
 <span>           img_id <span class="op">=</span> <span class="st">"imageID"</span>, </span>
 <span>           colour_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span><span class="op">)</span>, </span>
@@ -558,7 +531,7 @@ window.Quarto = {
 </div>
 <p>If you wish to visualise multiple markers instead of just the HH3 marker and see how the segmentation mask performs, this can also be done. Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the <code>discSize</code> of our dilation.</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
 <span>           mask <span class="op">=</span> <span class="va">masks</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>,</span>
 <span>           img_id <span class="op">=</span> <span class="st">"imageID"</span>, </span>
 <span>           colour_by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HH3"</span>, <span class="st">"CD31"</span>, <span class="st">"FX111A"</span><span class="op">)</span>, </span>
@@ -579,11 +552,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section></section><section id="summarise-cell-features" class="level2" data-number="13.4"><h2 data-number="13.4" class="anchored" data-anchor-id="summarise-cell-features">
-<span class="header-section-number">13.4</span> Summarise cell features</h2>
-<p>We can then use the <code>measureObjects</code> function from the <code>cytomapper</code> package to characterise the phenotypes of each of the segmented cells. <code>measureObjects</code> will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, <code>measureObjects</code> will return a <code>SingleCellExperiment</code> object, where the channel intensities are stored in the <code>counts</code> assay and the spatial location of each cell is stored in <code>colData</code> in the <code>m.cx</code> and <code>m.cy</code> columns. We can ask <code>measureObjects</code> to return a <code>SpatialExperiment</code> object instead by specifying <code>return_as = "spe</code>, and the spatial coordinates of each cell will be stored in the <code>spatialCoords</code> slot.</p>
+<p>Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the <code>discSize</code> of our dilation.</p>
+</section></section><section id="summarise-cell-features" class="level2" data-number="13.3"><h2 data-number="13.3" class="anchored" data-anchor-id="summarise-cell-features">
+<span class="header-section-number">13.3</span> Summarise cell features</h2>
+<p>We can then use the <code>measureObjects</code> function from the <code>cytomapper</code> package to characterise the phenotypes of each of the segmented cells. <code>measureObjects</code> will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, <code>measureObjects</code> will return a <code>SingleCellExperiment</code> object, where the channel intensities are stored in the <code>counts</code> assay and the spatial location of each cell is stored in <code>colData</code> in the <code>m.cx</code> and <code>m.cy</code> columns. We can ask <code>measureObjects</code> to return a <code>SpatialExperiment</code> object instead by specifying <code>return_as = "spe"</code>, and the spatial coordinates of each cell will be stored in the <code>spatialCoords</code> slot.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarise the expression of each marker in each cell</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarise the expression of each marker in each cell</span></span>
 <span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu">cytomapper</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/measureObjects.html">measureObjects</a></span><span class="op">(</span><span class="va">masks</span>,</span>
 <span>                                    <span class="va">images</span>,</span>
 <span>                                    img_id <span class="op">=</span> <span class="st">"imageID"</span>,</span>
@@ -591,22 +565,15 @@ window.Quarto = {
 <span>                                    BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoordsNames</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 344.15 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 335.3 seconds</p>
 </div>
-</section><section id="load-the-clinical-data" class="level2" data-number="13.5"><h2 data-number="13.5" class="anchored" data-anchor-id="load-the-clinical-data">
-<span class="header-section-number">13.5</span> Load the clinical data</h2>
+</section><section id="load-the-clinical-data" class="level2" data-number="13.4"><h2 data-number="13.4" class="anchored" data-anchor-id="load-the-clinical-data">
+<span class="header-section-number">13.4</span> Load the clinical data</h2>
 <p>To associate features in our image with disease progression, it is important to read in information which links image identifiers to their progression status. The clinical data is available through the <code>SpatialDatasets</code> package.</p>
-<section id="read-the-clinical-data" class="level3" data-number="13.5.1"><h3 data-number="13.5.1" class="anchored" data-anchor-id="read-the-clinical-data">
-<span class="header-section-number">13.5.1</span> Read the clinical data</h3>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu">fergusonClinical</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>see ?SpatialDatasets and browseVignettes('SpatialDatasets') for documentation</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>loading from cache</code></pre>
-</div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ensure image IDs match</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu">fergusonClinical</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ensure image IDs match</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">clinical</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">clinical</span><span class="op">$</span><span class="va">imageID</span></span>
 <span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="va">clinical</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span>, <span class="op">]</span></span>
 <span></span>
@@ -615,23 +582,22 @@ window.Quarto = {
 </div>
 <p>If needed, the <code>SpatialExperiment</code> object can be stored as an R Data file.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html">save</a></span><span class="op">(</span><span class="va">cells</span>, file <span class="op">=</span> <span class="st">"spe_Ferguson_2022.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/save.html">save</a></span><span class="op">(</span><span class="va">cells</span>, file <span class="op">=</span> <span class="st">"spe_Ferguson_2022.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In case you already have your <code>SpatialExperiment</code>/<code>SingleCellExperiment</code> object, you may only be interested in our downstream workflow. For the sake of convenience, we’ve provided capability to directly load in the <code>SpatialExperiment</code> object that we’ve generated.</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/cells.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/cells.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="normalise-the-data" class="level2" data-number="13.6"><h2 data-number="13.6" class="anchored" data-anchor-id="normalise-the-data">
-<span class="header-section-number">13.6</span> Normalise the data</h2>
-<p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:<br></p>
+</section><section id="normalise-the-data" class="level2" data-number="13.5"><h2 data-number="13.5" class="anchored" data-anchor-id="normalise-the-data">
+<span class="header-section-number">13.5</span> Normalise the data</h2>
+<p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:</p>
 <ol type="1">
-<li>The intensities of images are often highly skewed, preventing any meaningful downstream analysis.<br>
-</li>
+<li>The intensities of images are often highly skewed, preventing any meaningful downstream analysis.</li>
 <li>The intensities across different images are often different, meaning that what is considered “positive” can be different across images.</li>
 </ol>
 <p>By transforming and normalising the data, we aim to reduce these two effects. Below, we extract the marker intensities from the <code>counts</code> assay and take a closer look at the CD3 marker, which should be expressed in the majority of T cells.</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot densities of CD3 for each image.</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot densities of CD3 for each image.</span></span>
 <span><span class="va">cells</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/ttservice/man/join_features.html">join_features</a></span><span class="op">(</span>features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span>, shape <span class="op">=</span> <span class="st">"wide"</span>, assay <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CD3</span>, colour <span class="op">=</span> <span class="va">imageID</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -647,7 +613,7 @@ window.Quarto = {
 <p>Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effect, where across images, the intensity peaks differ drastically.</p>
 <p>Another method of visualising batch effects is using a dimensionality reduction technique and visualising how the images separate out on a 2D plot. If no batch effect is expected, we should see the images largely overlap with each other.</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Usually we specify a subset of the original markers which are informative to separating out distinct cell types for the UMAP and clustering.</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Usually we specify a subset of the original markers which are informative to separating out distinct cell types for the UMAP and clustering.</span></span>
 <span><span class="va">ct_markers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"podoplanin"</span>, <span class="st">"CD13"</span>, <span class="st">"CD31"</span>,</span>
 <span>                <span class="st">"panCK"</span>, <span class="st">"CD3"</span>, <span class="st">"CD4"</span>, <span class="st">"CD8a"</span>,</span>
 <span>                <span class="st">"CD20"</span>, <span class="st">"CD68"</span>, <span class="st">"CD16"</span>, <span class="st">"CD14"</span>, <span class="st">"HLADR"</span>, <span class="st">"CD66a"</span><span class="op">)</span></span>
@@ -680,7 +646,7 @@ window.Quarto = {
 <p>The UMAP also indicates that some level of batch effect exists in our dataset.</p>
 <p>To mitigate this, we can use the <code>normalizeCells</code> function from <code>simpleSeg</code>. Below, we perform normalisation (specified by <code>method =</code>) by 1) trimming the 99th percentile, 2) dividing by the mean and 3) removing the 1st principal component. This modified data is then stored in the <code>norm</code> assay by default.</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Leave out the nuclei markers from our normalisation process. </span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Leave out the nuclei markers from our normalisation process. </span></span>
 <span><span class="va">useMarkers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DNA1"</span>, <span class="st">"DNA2"</span>, <span class="st">"HH3"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Transform and normalise the marker expression of each cell type.</span></span>
@@ -708,7 +674,7 @@ window.Quarto = {
 <p>We can see that this normalised data appears more bimodal, not perfectly, but likely to a sufficient degree for clustering, as we can at least observe a clear CD3+ peak at 1.00, and a CD3- peak at around 0.3. For more information on available normalisation and transformation methods and a detailed explanation of the parameters, refer to our <a href="./02-quality_control.html">Quality Control</a> section.</p>
 <p>We can also appreciate through the UMAP a reduction of the batch effect we initially saw.</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
 <span><span class="co"># Perform dimension reduction using UMAP.</span></span>
 <span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/runUMAP.html">runUMAP</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span>,</span>
@@ -732,66 +698,22 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section><section id="fusesom-cluster-cells-into-cell-types" class="level2" data-number="13.7"><h2 data-number="13.7" class="anchored" data-anchor-id="fusesom-cluster-cells-into-cell-types">
-<span class="header-section-number">13.7</span> FuseSOM: Cluster cells into cell types</h2>
-<p>We can also appreciate from the UMAP above that there is a division of clusters, most likely representing different cell types. We next aim to empirically distinguish each cluster using our FuseSOM package for clustering.</p>
-<p>Our FuseSOM R package can be found on bioconductor at <a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html" class="uri">https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html</a>, and provides a pipeline for the clustering of highly multiplexed in situ imaging cytometry assays. This pipeline uses the Self Organising Map architecture coupled with Multiview hierarchical clustering and provides functions for the estimation of the number of clusters.</p>
-<p>Here we cluster using the <code>runFuseSOM</code> function. We specify the number of clusters to identify to be <code>numClusters = 10</code>. We also specify a set of cell-type specific markers to use, as we want our clusters to be distinct based off cell type markers, rather than markers which might pick up a transitioning cell state.</p>
+</section><section id="fusesom-cluster-cells-into-cell-types" class="level2" data-number="13.6"><h2 data-number="13.6" class="anchored" data-anchor-id="fusesom-cluster-cells-into-cell-types">
+<span class="header-section-number">13.6</span> FuseSOM: Cluster cells into cell types</h2>
+<p>We can also appreciate from the UMAP above that there is a division of clusters, most likely representing different cell types. We next aim to empirically distinguish each cluster using our <a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html">FuseSOM</a> package for clustering. FuseSOM provides a pipeline for the clustering of highly multiplexed in situ imaging cytometry assays. This pipeline uses the Self Organising Map architecture coupled with Multiview hierarchical clustering and provides functions for the estimation of the number of clusters.</p>
+<p>Here, we cluster using the <code>runFuseSOM</code> function. We specify the number of clusters to identify to be <code>numClusters = 10</code>. We also specify a set of cell-type specific markers to use (<code>ct_markers</code>), as we want our clusters to be distinct based off cell type markers, rather than markers which might pick up a transitioning cell state.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Generate SOM and cluster cells into 10 groups</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Generate SOM and cluster cells into 10 groups</span></span>
 <span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span>,</span>
 <span>  markers <span class="op">=</span> <span class="va">ct_markers</span>,</span>
 <span>  assay <span class="op">=</span> <span class="st">"norm"</span>,</span>
-<span>  numClusters <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>You have provided a dataset of class SpatialExperiment</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Everything looks good. Now running the FuseSOM algorithm</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Generating the Self Organizing Map Grid</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Optimal Grid Size is: 8</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Running the Self Organizing Map Model</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Clustering the Prototypes</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required namespace: fastcluster</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Mapping Clusters to the Original Data</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The Prototypes have been Clustered and Mapped Successfully</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The FuseSOM algorithm has completed successfully</code></pre>
-</div>
+<span>  numClusters <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can also observe how reasonable our choice of <code>k = 10</code> was, using the <code>estimateNumCluster</code> and <code>optiPlot</code> functions. Here we examine the Gap method, but others, such as Silhouette and Within Cluster Distance are also available. We can see that there are elbow points in the gap statistic at <code>k = 7</code>, <code>k = 10</code>, and <code>k = 11</code>. We’ve specified <code>k = 10</code>, striking a good balance between the number of clusters and the gap statistic. For more discussion on how to select an appropriate value for <code>k</code>, refer to our <a href="./03a-cell_annotation.html">Unsupervised Clustering</a> section.</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster</a></span><span class="op">(</span><span class="va">cells</span>, kSeq <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>You have provided a dataset of class: SpatialExperiment</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Computing the Number of Clusters using Discriminant Analysis</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Now Computing The Number Of Clusters Using Distance Analysis</code></pre>
-</div>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">cells</span>, method <span class="op">=</span> <span class="st">"gap"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>You have provided a dataset of class: SpatialExperiment</code></pre>
-</div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/estimateNumCluster.html">estimateNumCluster</a></span><span class="op">(</span><span class="va">cells</span>, kSeq <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/optiPlot.html">optiPlot</a></span><span class="op">(</span><span class="va">cells</span>, method <span class="op">=</span> <span class="st">"gap"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-elbow plot-1.png" class="img-fluid figure-img" width="672"></p>
@@ -799,11 +721,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="interpreting-cluster-phenotype" class="level3" data-number="13.7.1"><h3 data-number="13.7.1" class="anchored" data-anchor-id="interpreting-cluster-phenotype">
-<span class="header-section-number">13.7.1</span> Interpreting cluster phenotype</h3>
-<p>We can begin the process of understanding what each of these cell clusters are by using the <code>plotGroupedHeatmap</code> function from <code>scater</code>. At the least, here we can see we capture all the major immune populations that we expect to see, including the CD4 and CD8 T cells, the CD20+ B cells, the CD68+ myeloid populations, the CD66+ granulocytes, the podoplanin+ epithelial cells, and the panCK+ tumour cells.</p>
+<section id="interpreting-cluster-phenotype" class="level3" data-number="13.6.1"><h3 data-number="13.6.1" class="anchored" data-anchor-id="interpreting-cluster-phenotype">
+<span class="header-section-number">13.6.1</span> Interpreting cluster phenotype</h3>
+<p>We can begin the process of understanding what each of these cell clusters are by using the <code>plotGroupedHeatmap</code> function from <code>scater</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise marker expression in each cluster.</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise marker expression in each cluster.</span></span>
 <span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotGroupedHeatmap.html">plotGroupedHeatmap</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span>,</span>
 <span>  features <span class="op">=</span> <span class="va">ct_markers</span>,</span>
@@ -822,9 +744,10 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<p>At the least, here we can see we capture all the major immune populations that we expect to see, including the CD4 and CD8 T cells, the CD20+ B cells, the CD68+ myeloid populations, the CD66+ granulocytes, the podoplanin+ epithelial cells, and the panCK+ tumour cells.</p>
 <p>Given domain-specific knowledge of the tumour-immune landscape, we can go ahead and annotate these clusters as cell types given their expression profiles.</p>
 <div class="cell">
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="va">cells</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="va">cells</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>cellType <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
 <span>    <span class="va">clusters</span> <span class="op">==</span> <span class="st">"cluster_1"</span> <span class="op">~</span> <span class="st">"GC"</span>, <span class="co"># Granulocytes</span></span>
 <span>    <span class="va">clusters</span> <span class="op">==</span> <span class="st">"cluster_2"</span> <span class="op">~</span> <span class="st">"MC"</span>, <span class="co"># Myeloid cells</span></span>
@@ -837,29 +760,14 @@ window.Quarto = {
 <span>    <span class="va">clusters</span> <span class="op">==</span> <span class="st">"cluster_9"</span> <span class="op">~</span> <span class="st">"TC_CD8"</span>, <span class="co"># CD8 T cells</span></span>
 <span>    <span class="va">clusters</span> <span class="op">==</span> <span class="st">"cluster_10"</span> <span class="op">~</span> <span class="st">"DC"</span> <span class="co"># Dendritic cells</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-New names:
-• `UMAP1` -&gt; `UMAP1...1`
-• `UMAP2` -&gt; `UMAP2...2`
-• `UMAP1` -&gt; `UMAP1...3`
-• `UMAP2` -&gt; `UMAP2...4`</code></pre>
-</div>
 </div>
 <p>We might also be interested in how these cell types are distributed on the images themselves. Here we examine the distribution of clusters on image F3, noting the healthy epithelial and endothelial structures surrounded by tumour cells.</p>
 <div class="cell">
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/reducedDims.html">reducedDim</a></span><span class="op">(</span><span class="va">cells</span>, <span class="st">"spatialCoords"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/reducedDims.html">reducedDim</a></span><span class="op">(</span><span class="va">cells</span>, <span class="st">"spatialCoords"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cells</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"F3"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotReducedDim.html">plotReducedDim</a></span><span class="op">(</span><span class="st">"spatialCoords"</span>, colour_by <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-• `UMAP1` -&gt; `UMAP1...1`
-• `UMAP2` -&gt; `UMAP2...2`
-• `UMAP1` -&gt; `UMAP1...3`
-• `UMAP2` -&gt; `UMAP2...4`</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-image plot-1.png" class="img-fluid figure-img" width="672"></p>
@@ -867,23 +775,9 @@ New names:
 </div>
 </div>
 </div>
-</section><section id="check-cell-type-frequencies" class="level3" data-number="13.7.2"><h3 data-number="13.7.2" class="anchored" data-anchor-id="check-cell-type-frequencies">
-<span class="header-section-number">13.7.2</span> Check cell type frequencies</h3>
-<p>It is always helpful to check the number of cells in each cluster. Here, we observe that Cluster 10 contains a large number of cells, likely tumour cells, characterized by high panCK expression and inconsistent expression of other markers. In contrast, Cluster 4 has very few cells.</p>
-<div class="cell">
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Check cell type frequencies.</span></span>
-<span><span class="va">cells</span><span class="op">$</span><span class="va">cellType</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    EP     EC     DC     GC TC_CD4     BC     SC TC_CD8     MC 
-   708   3290   4769   5262   8896  11788  11842  13587  92903 </code></pre>
-</div>
-</div>
 <p>We can also use the UMAP we computed earlier to visualise our data in a lower dimension and see how well our annotated cell types cluster out.</p>
 <div class="cell">
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># UMAP by cell type</span></span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># UMAP by cell type</span></span>
 <span><span class="fu">scater</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotReducedDim.html">plotReducedDim</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span><span class="op">[</span>, <span class="va">cells</span><span class="op">$</span><span class="va">imageID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">someImages</span><span class="op">]</span>,</span>
 <span>  dimred <span class="op">=</span> <span class="st">"normUMAP"</span>,</span>
@@ -896,11 +790,11 @@ New names:
 </div>
 </div>
 </div>
-</section><section id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="level3" data-number="13.7.3"><h3 data-number="13.7.3" class="anchored" data-anchor-id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status">
-<span class="header-section-number">13.7.3</span> Testing for association between the proportion of each cell type and progressor status</h3>
-<p>We recommend using a package such as <code>diffcyt</code> for testing for changes in abundance of cell types. However, the <code>colTest</code> function from the spicyR package allows us to quickly test for associations between the proportions of the cell types and progression status using either Wilcoxon rank sum tests or t-tests. Here we see a p-value less than 0.05 for our CD8 T cells, but this does not equate to a small FDR.</p>
+</section><section id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="level3" data-number="13.6.2"><h3 data-number="13.6.2" class="anchored" data-anchor-id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status">
+<span class="header-section-number">13.6.2</span> Testing for association between the proportion of each cell type and progressor status</h3>
+<p>We recommend using a package such as <code>diffcyt</code> for testing for changes in abundance of cell types. However, the <code>colTest</code> function from the spicyR package allows us to quickly test for associations between the proportions of the cell types and progression status using either Wilcoxon rank sum tests or t-tests.</p>
 <div class="cell">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform simple student's t-tests on the columns of the proportion matrix.</span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test for changes in cell type proportion across progression status with student's t-test</span></span>
 <span><span class="va">testProp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest</a></span><span class="op">(</span><span class="va">cells</span>, </span>
 <span>                    condition <span class="op">=</span> <span class="st">"group"</span>, </span>
 <span>                    feature <span class="op">=</span> <span class="st">"cellType"</span>,</span>
@@ -917,9 +811,10 @@ SC               0.0700          0.0840  -1.00 0.3200   0.500      SC
 DC               0.0340          0.0300   0.99 0.3300   0.500      DC</code></pre>
 </div>
 </div>
+<p>Here, we can see that both CD4 T and granulocytes cells appear to be present in different proportions in non-progressors compared to progressors.</p>
 <p>Let’s examine one of these clusters using our <code>getProp</code> function from the spicyR package, which conveniently transforms our proportions into a feature matrix of images by cell type, enabling convenient downstream classification or analysis.</p>
 <div class="cell">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getProp.html">getProp</a></span><span class="op">(</span><span class="va">cells</span>, feature <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getProp.html">getProp</a></span><span class="op">(</span><span class="va">cells</span>, feature <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span></span>
 <span><span class="va">prop</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           BC         DC          EC           EP         GC
@@ -930,9 +825,9 @@ A5 0.09108911 0.04780764 0.017821782 0.0008486563 0.01838755
 A6 0.08572844 0.02824579 0.013875124 0.0019821606 0.01189296</code></pre>
 </div>
 </div>
-<p>Next, let’s visualise how different the proportions are across progression statuses using a boxplot.</p>
+<p>Next, let’s visualise how different the proportions are for the most significant cell type (CD4 T cell) across progression statuses using a boxplot.</p>
 <div class="cell">
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Obtain most significant cell type </span></span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Obtain most significant cell type - CD4 T cells</span></span>
 <span><span class="va">clusterToUse</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">testProp</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">prop</span> <span class="op">|&gt;</span></span>
@@ -943,36 +838,48 @@ A6 0.08572844 0.02824579 0.013875124 0.0019821606 0.01189296</code></pre>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="08-case_study1_files/figure-html/08a-boxplot-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="08-case_study1_files/figure-html/08a-boxplot CD4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>It appears that the CD8 T cells are the most differentially abundant cell type across our progressors and non-progressors. The boxplot visualisation of CD8 T cell proportion clearly shows that progressors have a lower proportion of CD8 T cells in the tumour core.</p>
-<p><strong>NB</strong>: If you have already clustered and annotated your cells, you may only be interested in our downstream analysis capabilities, looking into identifying localisation (spicyR), cell regions (lisaClust), and cell-cell interactions (SpatioMark &amp; Kontextual). Therefore, for the sake of convenience, we’ve provided capability to directly load in the SpatialExperiment (SPE) object that we’ve generated up to this point, complete with clusters, cell type annotations, and normalised intensities.</p>
+<p>The boxplot visualisation of CD4 T cell proportion clearly shows that progressors have a lower proportion of CD4 T cells in the tumour core. We can repeat the above for granulocytes as well. In contrast to CD4 T cells, progressors have a higher proportion of granulocytes compared to non-progressors.</p>
 <div class="cell">
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/computed_cells.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Obtain second most significant cell type - granulocytes</span></span>
+<span><span class="va">clusterToUse</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">testProp</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">prop</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="va">clusterToUse</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"imageID"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">clinical</span>, by <span class="op">=</span> <span class="st">"imageID"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">clusterToUse</span><span class="op">]</span><span class="op">]</span>, fill <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="08-case_study1_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-</section></section><section id="spicyr-test-spatial-relationships" class="level2" data-number="13.8"><h2 data-number="13.8" class="anchored" data-anchor-id="spicyr-test-spatial-relationships">
-<span class="header-section-number">13.8</span> spicyR: Test spatial relationships</h2>
+</div>
+</div>
+<p>If you have already clustered and annotated your cells, you may only be interested in our downstream analysis capabilities, looking into identifying localisation (spicyR), cell regions (lisaClust), and cell-cell interactions (SpatioMark &amp; Kontextual). Therefore, for the sake of convenience, we’ve provided capability to directly load in the SpatialExperiment (SPE) object that we’ve generated up to this point, complete with clusters, cell type annotations, and normalised intensities.</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/computed_cells.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="spicyr-test-spatial-relationships" class="level2" data-number="13.7"><h2 data-number="13.7" class="anchored" data-anchor-id="spicyr-test-spatial-relationships">
+<span class="header-section-number">13.7</span> spicyR: Test spatial relationships</h2>
 <p>Our <a href="https://www.bioconductor.org/packages/devel/bioc/html/spicyR.html">spicyR</a> package offers a range of functions to support the analysis of immunofluorescence, imaging mass cytometry data, and other assays that provide deep phenotyping of individual cells and their spatial distribution. In this example, we use the <code>spicy</code> function to assess changes in spatial relationships between pairwise combinations of cells.</p>
 <p>In simple terms, spicyR utilises the L-function to evaluate whether cell types are localized or dispersed. The L-function quantifies “closeness” between points, where higher values indicate increased localisation and lower values suggest dispersion.</p>
 <p>Here, we quantify spatial relationships using a combination of 10 radii from 10 to 100 by specifying <code>Rs = 1:10*10</code> and mildly account for some global tissue structure using <code>sigma = 50</code>. For a more detailed explanation of the key parameters, refer to the <a href="./04a-cell_localisation.html">Cell Localisation</a> section. Additional information on optimising the parameters can be found in the <a href="https://doi.org/10.1093/bioinformatics/btac268">spicyR paper</a>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spicyTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span><span class="va">cells</span>,</span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spicyTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span><span class="va">cells</span>,</span>
 <span>                   condition <span class="op">=</span> <span class="st">"group"</span>,</span>
 <span>                   cellTypeCol <span class="op">=</span> <span class="st">"cellType"</span>,</span>
 <span>                   imageIDCol <span class="op">=</span> <span class="st">"imageID"</span>,</span>
 <span>                   Rs <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">*</span><span class="fl">10</span>,</span>
 <span>                   sigma <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>                   BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Coercing condition into factor. Using group = NP as base comparison group. If
-this is not the desired base group, please convert cells$group into a factor
-and change the order of levels(cells$group) so that the base group is at index
-1.</code></pre>
-</div>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/topPairs.html">topPairs</a></span><span class="op">(</span><span class="va">spicyTest</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                   BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/topPairs.html">topPairs</a></span><span class="op">(</span><span class="va">spicyTest</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        intercept coefficient    p.value adj.pvalue from to
 GC__MC  2.5225478   -4.772656 0.02970197  0.5084069   GC MC
@@ -987,13 +894,10 @@ DC__SC -0.3706126    6.001380 0.06561924  0.5084069   DC SC
 GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 </div>
-<p>The most significant interaction appears to occur between B cells (BC) and endothelial cells (EC) with a p-value of 0.03. We can visualise these relatiionships using the <code>signifPlot</code> function, where we observe that cell type pairs appear to become less attractive (or avoid more) in the progression sample.</p>
+<p>The most significant interaction appears to occur between granulocytes (GC) and myeloid cells (MC) with a p-value of 0.029. We can visualise these relationships using the <code>signifPlot</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise which relationships are changing the most.</span></span>
-<span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span></span>
-<span>  <span class="va">spicyTest</span>,</span>
-<span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="fl">0.5</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise which relationships are changing the most.</span></span>
+<span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-signifPlot-1.png" class="img-fluid figure-img" width="672"></p>
@@ -1001,9 +905,10 @@ GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 </div>
 </div>
-<p>spicyR also includes functionality for visualising individual pairwise relationships. As an example, we can investigate whether the SC tumour cell type localizes with the GC granular cell type and assess whether this localisation influences tumour progression versus non-progression.</p>
+<p>We observe that cell type pairs appear to become less attractive (or avoid more) in the progression sample, except for epithelial cells (EP), which appear to become localised. We can also see that granulocytes (GC) and myeloid cells (MC) are more dispersed in progressors compared to non-progressors.</p>
+<p>As an example, we will use the <code>spicyBoxPlot</code> function to investigate whether the SC tumour cell type localizes with the granulocytes and assess whether this localisation influences tumour progression versus non-progression.</p>
 <div class="cell">
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>, </span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>, </span>
 <span>             from <span class="op">=</span> <span class="st">"SC"</span>, </span>
 <span>             to <span class="op">=</span> <span class="st">"GC"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1015,7 +920,7 @@ GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 <p>Alternatively, we can look at the most differentially localised relationship between progressors and non-progressors by specifying <code>rank = 1</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>, </span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>, </span>
 <span>             rank <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -1024,27 +929,28 @@ GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 </div>
 </div>
-</section><section id="lisaclust-find-cellular-neighbourhoods" class="level2" data-number="13.9"><h2 data-number="13.9" class="anchored" data-anchor-id="lisaclust-find-cellular-neighbourhoods">
-<span class="header-section-number">13.9</span> lisaClust: Find cellular neighbourhoods</h2>
-<p>Our <a href="https://bioconductor.org/packages/release/bioc/html/lisaClust.html">lisaClust</a> package on Bioconductor provides a series of functions to identify and visualise regions of tissue where spatial associations between cell types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the <code>lisaClust</code> function to clusters cells into 5 regions with distinct spatial ordering. By default, these identified regions are stored in the <code>regions</code> column in the <code>colData</code> of our <code>SpatialExperiment</code> object.</p>
+<p>Now that we have examined cellular localisation relationships, we will move on to identifying spatial domains, or regions of co-localisation.</p>
+</section><section id="lisaclust-find-cellular-neighbourhoods" class="level2" data-number="13.8"><h2 data-number="13.8" class="anchored" data-anchor-id="lisaclust-find-cellular-neighbourhoods">
+<span class="header-section-number">13.8</span> lisaClust: Find cellular neighbourhoods</h2>
+<p>Our <a href="https://bioconductor.org/packages/release/bioc/html/lisaClust.html">lisaClust</a> package on Bioconductor provides a series of functions to identify and visualise regions of tissue where spatial associations between cell types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the <code>lisaClust</code> function to clusters cells into 4 regions with distinct spatial ordering. By default, these identified regions are stored in the <code>regions</code> column in the <code>colData</code> of our <code>SpatialExperiment</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cluster cells into spatial regions with similar composition.</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cluster cells into spatial regions with similar composition.</span></span>
 <span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span>,</span>
 <span>  k <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  sigma <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
-<span>  BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Generating local L-curves.</code></pre>
 </div>
 </div>
-<section id="region-cell-type-enrichment-heatmap" class="level3" data-number="13.9.1"><h3 data-number="13.9.1" class="anchored" data-anchor-id="region-cell-type-enrichment-heatmap">
-<span class="header-section-number">13.9.1</span> Region-cell type enrichment heatmap</h3>
+<p>For more information on how to choose an appropriate value for <code>k</code> , refer to the section on <a href="./05-cellular_niches.html">Identifying spatial domains</a>.</p>
+<section id="region-cell-type-enrichment-heatmap" class="level3" data-number="13.8.1"><h3 data-number="13.8.1" class="anchored" data-anchor-id="region-cell-type-enrichment-heatmap">
+<span class="header-section-number">13.8.1</span> Region-cell type enrichment heatmap</h3>
 <p>We can try to interpret which spatial orderings the regions are quantifying using the <code>regionMap</code> function. This plots the frequency of each cell type in a region relative to what you would expect by chance.</p>
 <div class="cell">
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise the enrichment of each cell type in each region</span></span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise the enrichment of each cell type in each region</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/regionMap.html">regionMap</a></span><span class="op">(</span><span class="va">cells</span>, cellType <span class="op">=</span> <span class="st">"cellType"</span>, limit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -1053,12 +959,12 @@ GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 </div>
 </div>
-<p>We can see here that our regions have neatly separated according to biological milieu, with region 2 containing our immune cell types, region 1 containing our tumour cells, and regions 3 and 4 representing our healthy epithelial and endothelial cells.</p>
-</section><section id="visualise-regions" class="level3" data-number="13.9.2"><h3 data-number="13.9.2" class="anchored" data-anchor-id="visualise-regions">
-<span class="header-section-number">13.9.2</span> Visualise regions</h3>
+<p>We can see here that our regions have neatly separated according to biological milieu, with region 2 containing our tumour cells and healthy epithelial cells, and regions 1 and 3 containing our immune cell types.</p>
+</section><section id="visualise-regions" class="level3" data-number="13.8.2"><h3 data-number="13.8.2" class="anchored" data-anchor-id="visualise-regions">
+<span class="header-section-number">13.8.2</span> Visualise regions</h3>
 <p>We can quickly examine the spatial arrangement of these regions using <code>plotReducedDim</code> on image F3, where we can see the same division of immune, healthy, and tumour tissue that we identified in our <code>regionMap</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"F3"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/scater/man/plotReducedDim.html">plotReducedDim</a></span><span class="op">(</span><span class="st">"spatialCoords"</span>, colour_by <span class="op">=</span> <span class="st">"region"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1070,13 +976,12 @@ GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 <p>Although slower, we have also implemented a function called <code>hatchingPlot</code> that overlays region information using a hatching pattern, allowing it to be viewed alongside cell type classifications. The granularity of the region boundaries can be controlled using the <code>nbp</code> argument.</p>
 <div class="cell">
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Use hatching to visualise regions and cell types.</span></span>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Use hatching to visualise regions and cell types.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/hatchingPlot.html">hatchingPlot</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span>,</span>
 <span>  useImages <span class="op">=</span> <span class="st">"F3"</span>,</span>
 <span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
-<span>  nbp <span class="op">=</span> <span class="fl">300</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  nbp <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Concave windows are temperamental. Try choosing values of window.length &gt; and &lt; 1 if you have problems.</code></pre>
 </div>
@@ -1087,18 +992,17 @@ GC__GC 43.6023084  -15.697248 0.08022246  0.5084069   GC GC</code></pre>
 </div>
 </div>
 </div>
-</section><section id="test-for-association-with-progression" class="level3" data-number="13.9.3"><h3 data-number="13.9.3" class="anchored" data-anchor-id="test-for-association-with-progression">
-<span class="header-section-number">13.9.3</span> Test for association with progression</h3>
+</section><section id="test-for-association-with-progression" class="level3" data-number="13.8.3"><h3 data-number="13.8.3" class="anchored" data-anchor-id="test-for-association-with-progression">
+<span class="header-section-number">13.8.3</span> Test for association with progression</h3>
 <p>Similar to cell type proportions, we can quickly use the <code>colTest</code> function to test for associations between the proportions of cells in each region and progression status by specifying <code>feature = "region"</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test if the proportion of each region is associated</span></span>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test if the proportion of each region is associated</span></span>
 <span><span class="co"># with progression status.</span></span>
 <span><span class="va">testRegion</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest</a></span><span class="op">(</span></span>
 <span>  <span class="va">cells</span>,</span>
 <span>  feature <span class="op">=</span> <span class="st">"region"</span>,</span>
 <span>  condition <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"ttest"</span></span>
-<span><span class="op">)</span></span>
+<span>  type <span class="op">=</span> <span class="st">"ttest"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">testRegion</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1110,26 +1014,25 @@ region_4            0.560           0.570  -0.61 0.550    0.55 region_4</code></
 </div>
 </div>
 <p>From the results above, it appears that none of the regions above are significantly associated with changes in progression status.</p>
-</section></section><section id="statial-identify-changes-in-cell-state." class="level2" data-number="13.10"><h2 data-number="13.10" class="anchored" data-anchor-id="statial-identify-changes-in-cell-state.">
-<span class="header-section-number">13.10</span> Statial: Identify changes in cell state.</h2>
-<p>Our Statial package (https://www.bioconductor.org/packages/release/bioc/html/Statial.html) provides a suite of functions (Kontextual) for robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition, we provide a suite of functions (SpatioMark) for uncovering continuous changes in marker expression associated with varying levels of localisation.</p>
-<section id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation." class="level3" data-number="13.10.1"><h3 data-number="13.10.1" class="anchored" data-anchor-id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation.">
-<span class="header-section-number">13.10.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation.</h3>
-<p>The first step in analysing these changes is to calculate the spatial proximity (<code>getDistances</code>) of each cell to every cell type. These values will then be stored in the <code>reducedDims</code> slot of the <code>SingleCellExperiment</code> object under the names <code>distances</code>. SpatioMark also provides functionality to look into proximal cell abundance using the <code>getAbundance()</code> function, which is further explored within the <code>Statial</code> package vignette.</p>
+</section></section><section id="statial-identify-changes-in-cell-state" class="level2" data-number="13.9"><h2 data-number="13.9" class="anchored" data-anchor-id="statial-identify-changes-in-cell-state">
+<span class="header-section-number">13.9</span> Statial: Identify changes in cell state</h2>
+<p>Our <a href="https://www.bioconductor.org/packages/release/bioc/html/Statial.html">Statial</a> package provides a suite of functions (<code>Kontextual</code>) for robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition, we provide a suite of functions (SpatioMark) for uncovering continuous changes in marker expression associated with varying levels of localisation.</p>
+<section id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" class="level3" data-number="13.9.1"><h3 data-number="13.9.1" class="anchored" data-anchor-id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation">
+<span class="header-section-number">13.9.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation</h3>
+<p>The first step in analysing these changes is to calculate the spatial proximity (<code>getDistances</code>) of each cell to every cell type. These values will then be stored in the <code>reducedDims</code> slot of the <code>SingleCellExperiment</code> object under the names <code>distances</code>. SpatioMark also provides functionality to look into proximal cell abundance using the <code>getAbundance</code> function, which is further explored in the <a href="./06-changes_in_marker_expression.html">Changes in marker expression</a> section.</p>
 <div class="cell">
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span><span class="op">$</span><span class="va">m.cx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span><span class="op">[</span>,<span class="st">"x"</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span><span class="op">$</span><span class="va">m.cx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span><span class="op">[</span>,<span class="st">"x"</span><span class="op">]</span></span>
 <span><span class="va">cells</span><span class="op">$</span><span class="va">m.cy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span><span class="op">[</span>,<span class="st">"y"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/getDistances.html">getDistances</a></span><span class="op">(</span><span class="va">cells</span>,</span>
 <span>  maxDist <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  nCores <span class="op">=</span> <span class="va">nCores</span>,</span>
 <span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
-<span>  spatialCoords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m.cx"</span>, <span class="st">"m.cy"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  spatialCoords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m.cx"</span>, <span class="st">"m.cy"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then visualise an example image, specified with <code>image = "F3"</code> and a particular marker interaction with cell type localisation. To visualise these changes, we specify two cell types with the <code>from</code> and <code>to</code> parameters, and a marker with the <code>marker</code> parameter (cell-cell-marker interactions). Here, we specify the changes in the marker podoplanin in <code>SC</code> tumour cells as its localisation to <code>EP</code> epithelial cells increases or decreases, where we can observe that podoplanin decreases in tumour cells as its distance to the central cluster of epithelial cells increases.</p>
 <div class="cell">
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/plotStateChanges.html">plotStateChanges</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/plotStateChanges.html">plotStateChanges</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">cells</span>,</span>
 <span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
 <span>  spatialCoords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m.cx"</span>, <span class="st">"m.cy"</span><span class="op">)</span>,</span>
@@ -1142,73 +1045,109 @@ region_4            0.560           0.570  -0.61 0.550    0.55 region_4</code></
 <span>  shape <span class="op">=</span> <span class="fl">19</span>,</span>
 <span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  plotModelFit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"lm"</span></span>
-<span><span class="op">)</span></span>
+<span>  method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$image</code></pre>
-</div>
+<span><span class="co"># plot image</span></span>
+<span><span class="va">p</span><span class="op">$</span><span class="va">image</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-plotStateChanges-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-$scatter</code></pre>
 </div>
+<div class="cell">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot the scatter plot</span></span>
+<span><span class="va">p</span><span class="op">$</span><span class="va">scatter</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="08-case_study1_files/figure-html/08-plotStateChanges-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="08-case_study1_files/figure-html/08-scatter plot podoplanin-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>SpatioMark aims to holistically uncover all such significant relationships by looking at all interactions across all images. The <code>calcStateChanges</code> function provided by Statial can be expanded for this exact purpose - by not specifying cell types, a marker, or an image, <code>calcStateChanges</code> will examine the most significant correlations between distance and marker expression across the entire dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">state_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcStateChanges.html">calcStateChanges</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">state_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcStateChanges.html">calcStateChanges</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">cells</span>,</span>
 <span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"distances"</span>,</span>
 <span>  assay <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  nCores <span class="op">=</span> <span class="va">nCores</span>,</span>
-<span>  minCells <span class="op">=</span> <span class="fl">100</span></span>
-<span><span class="op">)</span></span>
+<span>  minCells <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">state_dist</span><span class="op">[</span><span class="va">state_dist</span><span class="op">$</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"F3"</span>,<span class="op">]</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">state_dist</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      imageID primaryCellType otherCellType     marker          coef      tval
-35862      F3              MC            GC podoplanin -0.0017138476 -22.69802
-35813      F3              MC        TC_CD8     granzB  0.0018015902  17.29237
-35970      F3              MC            DC podoplanin -0.0023483328 -15.73779
-35785      F3              MC        TC_CD8      panCK  0.0008986139  15.31246
-35790      F3              MC        TC_CD8 podoplanin -0.0016517601 -15.25008
-35934      F3              MC            EP podoplanin -0.0015441776 -15.24769
-35885      F3              MC            GC     granzB  0.0011636708  14.72402
-35922      F3              MC            BC       PDL2 -0.0030450146 -14.68869
-35857      F3              MC            GC      panCK  0.0006283033  14.28967
-35957      F3              MC            EP     granzB  0.0012276163  12.14207
-               pval          fdr
-35862 1.319907e-100 6.073493e-98
-35813  3.877840e-62 6.428409e-60
-35970  2.065433e-52 2.481265e-50
-35785  7.193652e-50 8.020130e-48
-35790  1.679878e-49 1.843108e-47
-35934  1.735197e-49 1.898315e-47
-35885  1.930051e-46 1.900612e-44
-35922  3.076834e-46 3.014265e-44
-35857  5.613956e-44 5.104599e-42
-35957  1.125969e-32 6.360720e-31</code></pre>
+<pre><code>      imageID primaryCellType otherCellType marker          coef      tval
+33985      D2              MC            EP  panCK -0.0014208511 -42.89401
+34018      D2              MC            EP   TIM3 -0.0020978820 -45.18062
+35382      D6              MC            EC   PDL2  0.0022307758  45.52160
+39205      H5              MC            EC  panCK  0.0019813589  40.18073
+30579      B1              MC        TC_CD4  CXCR3 -0.0024987114 -39.88387
+35348      D6              MC            DC  HLADR -0.0012832774 -37.22198
+30580      B1              MC        TC_CD4 pSTAT3 -0.0020861385 -38.38652
+30598      B1              MC        TC_CD4   TIM3 -0.0027262127 -38.34353
+34071      D2              MC            EC  CXCR3  0.0009606071  35.33383
+30592      B1              MC        TC_CD4    CD3 -0.0016079293 -37.20099
+               pval           fdr
+33985  0.000000e+00  0.000000e+00
+34018  0.000000e+00  0.000000e+00
+35382  0.000000e+00  0.000000e+00
+39205 1.710203e-270 3.246136e-266
+30579 3.903858e-266 5.927931e-262
+35348 4.193186e-256 5.306058e-252
+30580 1.025037e-250 1.111785e-246
+30598 2.828398e-250 2.684291e-246
+34071 7.245409e-240 6.112227e-236
+30592 1.327995e-238 1.008267e-234</code></pre>
 </div>
 </div>
-<p>The results from our SpatioMark outputs can be converted from a <code>data.frame</code> to a <code>matrix</code>, using the <code><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix()</a></code> function. Note, the choice of extracting either the t-statistic or the coefficient of the linear regression can be specified using the <code>column = "tval"</code> parameter, with the coefficient being the default extracted parameter. We can see that with SpatioMark, we get some features which are significant after adjusting for FDR.</p>
+<p>Here, we can see that one of the most significant relationships is between myeloid cells (MC) and epithelial cells (EP) for the marker panCK in image D2. The negative coefficient associated with this relationship tells us that as myeloid cells and epithelial cells become more localised, panCK expression on the myeloid cells decreases.</p>
+<p>We can confirm this by examining image D2 using the <code>plotStateChanges</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Preparing outcome vector</span></span>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/plotStateChanges.html">plotStateChanges</a></span><span class="op">(</span></span>
+<span>  cells <span class="op">=</span> <span class="va">cells</span>,</span>
+<span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
+<span>  spatialCoords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m.cx"</span>, <span class="st">"m.cy"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"distances"</span>,</span>
+<span>  image <span class="op">=</span> <span class="st">"D2"</span>,</span>
+<span>  from <span class="op">=</span> <span class="st">"MC"</span>,</span>
+<span>  to <span class="op">=</span> <span class="st">"EP"</span>,</span>
+<span>  marker <span class="op">=</span> <span class="st">"panCK"</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  shape <span class="op">=</span> <span class="fl">19</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plotModelFit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot image</span></span>
+<span><span class="va">p</span><span class="op">$</span><span class="va">image</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="08-case_study1_files/figure-html/08-plotStateChanges panCK-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># plot the scatter plot</span></span>
+<span><span class="va">p</span><span class="op">$</span><span class="va">scatter</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="08-case_study1_files/figure-html/08-scatter plot panCK-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The results from our SpatioMark outputs can be converted from a <code>data.frame</code> to a <code>matrix</code>, using the <code>prepMatrix</code> function. The choice of extracting either the t-statistic or the coefficient of the linear regression can be specified using the <code>column = "tval"</code> parameter, with the coefficient being the default extracted parameter. We can see that with SpatioMark, we get some features which are significant after adjusting for FDR.</p>
+<div class="cell">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Preparing outcome vector</span></span>
 <span><span class="va">outcome</span> <span class="op">&lt;-</span> <span class="va">cells</span><span class="op">$</span><span class="va">group</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">cells</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">outcome</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">cells</span><span class="op">$</span><span class="va">imageID</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">cells</span><span class="op">$</span><span class="va">imageID</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -1220,9 +1159,9 @@ $scatter</code></pre>
 <span><span class="co"># Remove some very small values</span></span>
 <span><span class="va">distMat</span> <span class="op">&lt;-</span> <span class="va">distMat</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">distMat</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0.0001</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">.8</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">survivalResults</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest</a></span><span class="op">(</span><span class="va">distMat</span>, <span class="va">outcome</span>, type <span class="op">=</span> <span class="st">"ttest"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># test for changes in marker expression across outcomes</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest</a></span><span class="op">(</span><span class="va">distMat</span>, <span class="va">outcome</span>, type <span class="op">=</span> <span class="st">"ttest"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                    mean in group NP mean in group P tval.t    pval adjPval
 MC__MC__VISTA               -0.00610        -2.1e-03   -3.8 0.00051    0.16
@@ -1240,16 +1179,18 @@ TC_CD8__TC_CD4__CD3 TC_CD8__TC_CD4__CD3
 MC__MC__NFKBp65         MC__MC__NFKBp65</code></pre>
 </div>
 </div>
-</section><section id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="level3" data-number="13.10.2"><h3 data-number="13.10.2" class="anchored" data-anchor-id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure">
-<span class="header-section-number">13.10.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</h3>
+<p>When we compare changes in marker expression across outcomes, we can see that one of the most significant relationships is <code>MC_BC_OX40</code> , or the expression of marker OX40 in myeloid cells (MC) and their localisation with B cells (BC). Expression of the marker OX40 in MC is lower in progressors vs non-progressors. OX40 is a co-stimulatory receptor found on activated T cells, primarily CD4+ and CD8+ T cells. It belongs to the tumor necrosis factor receptor (TNFR) superfamily and plays a crucial role in regulating the immune response.</p>
+<p>Understanding the spatial relationships of cells within tissue is crucial for interpreting their roles within tissues. However, without defining appropriate contexts, these relationships can be misinterpreted due to confounding factors such as tissue stricture and the choice of region to image. <code>Kontextual</code> provides a framework to generate contexts to measure spatial relationships between cells.</p>
+</section><section id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="level3" data-number="13.9.2"><h3 data-number="13.9.2" class="anchored" data-anchor-id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure">
+<span class="header-section-number">13.9.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</h3>
 <p><code>Kontextual</code> is a method to evaluate the localisation relationship between two cell types in an image. <code>Kontextual</code> builds on the L-function by contextualising the relationship between two cell types in reference to the typical spatial behaviour of a <span class="math inline">\(3^{rd}\)</span> cell type/population. By taking this approach, <code>Kontextual</code> is invariant to changes in the window of the image as well as tissue structures which may be present.</p>
 <p>The definitions of cell types and cell states are somewhat ambiguous, cell types imply well defined groups of cells that serve different roles from one another, on the other hand cell states imply that cells are a dynamic entity which cannot be discretised, and thus exist in a continuum. For the purposes of using <code>Kontextual</code> we treat cell states as identified clusters of cells, where larger clusters represent a “parent” cell population, and finer sub-clusters representing a “child” cell population. For example a CD4 T cell may be considered a child to a larger parent population of Immune cells. <code>Kontextual</code> thus aims to see how a child population of cells deviate from the spatial behaviour of their parent population, and how that influences the localisation between the child cell state and another cell state.</p>
-<section id="cell-type-hierarchy" class="level4" data-number="13.10.2.1"><h4 data-number="13.10.2.1" class="anchored" data-anchor-id="cell-type-hierarchy">
-<span class="header-section-number">13.10.2.1</span> Cell type hierarchy</h4>
+<section id="cell-type-hierarchy" class="level4" data-number="13.9.2.1"><h4 data-number="13.9.2.1" class="anchored" data-anchor-id="cell-type-hierarchy">
+<span class="header-section-number">13.9.2.1</span> Cell type hierarchy</h4>
 <p>A key input for Kontextual is an annotation of cell type hierarchies. We will need these to organise all the cells present into cell state populations or clusters, e.g.&nbsp;all the different B cell types are put in a vector called bcells.</p>
-<p>Here, we use the <code>treeKor</code> bioconductor package <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treekoR</a> to define these hierarchies in a data driven way.</p>
+<p>Here, we use the <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treekoR</a> package on Bioconductor to define these hierarchies in a data driven way.</p>
 <div class="cell">
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">cells</span>, <span class="st">"norm"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">exprs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">cells</span>, <span class="st">"norm"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">fergusonTree</span> <span class="op">&lt;-</span> <span class="fu">treekoR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/treekoR/man/getClusterTree.html">getClusterTree</a></span><span class="op">(</span><span class="va">exprs</span>,</span>
 <span>                                        <span class="va">cells</span><span class="op">$</span><span class="va">cellType</span>,</span>
 <span>                                        hierarchy_method <span class="op">=</span> <span class="st">"hopach"</span>,</span>
@@ -1274,29 +1215,28 @@ MC__MC__NFKBp65         MC__MC__NFKBp65</code></pre>
 </div>
 </div>
 </div>
-<p><code>Kontextual</code> accepts a <code>SingleCellExperiment</code> object, a single image, or list of images from a <code>SingleCellExperiment</code> object, which gets passed into the <code>cells</code> argument. Here, we’ve specified Kontextual to perform calculations on all pairwise combinations for every cluster using the <code><a href="https://sydneybiox.github.io/Statial/reference/parentCombinations.html">parentCombinations()</a></code> function to create the <code>treeDf</code> dataframe which we’ve specified in the <code>parentDf</code> parameter. The argument <code>r</code> will specify the radius which the cell relationship will be evaluated on. <code>Kontextual</code> supports parallel processing, the number of cores can be specified using the <code>cores</code> argument. <code>Kontextual</code> can take a single value or multiple values for each argument and will test all combinations of the arguments specified.</p>
+<p><code>Kontextual</code> accepts a <code>SingleCellExperiment</code> object, a single image, or list of images from a <code>SingleCellExperiment</code> object, which gets passed into the <code>cells</code> argument. Here, we’ve specified Kontextual to perform calculations on all pairwise combinations for every cluster using the <code>parentCombinations</code> function to create the <code>treeDf</code> dataframe which we’ve specified in the <code>parentDf</code> parameter. The argument <code>r</code> will specify the radius which the cell relationship will be evaluated on. <code>Kontextual</code> supports parallel processing, the number of cores can be specified using the <code>cores</code> argument. <code>Kontextual</code> can take a single value or multiple values for each argument and will test all combinations of the arguments specified.</p>
 <p>We can calculate all pairwise relationships across all images for a single radius.</p>
 <div class="cell">
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kontext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kontext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/Kontextual.html">Kontextual</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">cells</span>,</span>
 <span>  cellType <span class="op">=</span> <span class="st">"cellType"</span>,</span>
 <span>  spatialCoords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"m.cx"</span>, <span class="st">"m.cy"</span><span class="op">)</span>,</span>
 <span>  parentDf <span class="op">=</span> <span class="va">treeDf</span>,</span>
 <span>  r <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  cores <span class="op">=</span> <span class="va">nCores</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  cores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Again, we can use the same <code><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest()</a></code> to quickly test for associations between the Kontextual values and progression status using either Wilcoxon rank sum tests or t-tests. Similar to SpatioMark, we can specify using either the original L-function by specifying <code>column = "original"</code> in our <code><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix()</a></code> function.</p>
+<p>Again, we can use the same <code>colTest</code> to quickly test for associations between the Kontextual values and survival probability using either Wilcoxon rank sum tests or t-tests. Similar to SpatioMark, we can specify using either the original L-function by specifying <code>column = "original"</code> in our <code>prepMatrix</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Converting Kontextual result into data matrix</span></span>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Converting Kontextual result into data matrix</span></span>
 <span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix</a></span><span class="op">(</span><span class="va">kontext</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Replace NAs with 0</span></span>
 <span><span class="va">kontextMat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">kontextMat</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
 <span></span>
-<span><span class="va">survivalResults</span> <span class="op">&lt;-</span> <span class="fu">spicyR</span><span class="fu">::</span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest</a></span><span class="op">(</span><span class="va">kontextMat</span>, <span class="va">outcome</span>, type <span class="op">=</span> <span class="st">"ttest"</span><span class="op">)</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">spicyR</span><span class="fu">::</span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/colTest.html">colTest</a></span><span class="op">(</span><span class="va">kontextMat</span>, <span class="va">outcome</span>, type <span class="op">=</span> <span class="st">"ttest"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                    mean in group NP mean in group P tval.t    pval adjPval
 MC__TC_CD4__parent3            -1.10             3.4   -3.7 0.00086    0.12
@@ -1314,11 +1254,21 @@ DC__SC__parent5         DC__SC__parent5
 MC__TC_CD4__parent1 MC__TC_CD4__parent1</code></pre>
 </div>
 </div>
-</section></section></section><section id="classifyr-classification" class="level2" data-number="13.11"><h2 data-number="13.11" class="anchored" data-anchor-id="classifyr-classification">
-<span class="header-section-number">13.11</span> ClassifyR: Classification</h2>
-<p>Our ClassifyR package, <a href="https://github.com/SydneyBioX/ClassifyR" class="uri">https://github.com/SydneyBioX/ClassifyR</a>, formalises a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages; Data transformation, feature selection, classifier training and prediction; into a cross-validation loop. Here we use the <code>crossValidate</code> function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data; 1) Cell type proportions 2) Cell type localisation from <code>spicyR</code> 3) Region proportions from <code>lisaClust</code> 4) Cell type localisation in reference to a parent cell type from <code>Kontextual</code> 5) Cell changes in response to proximal changes from <code>SpatioMark</code></p>
+<p>The most significant relationship is <code>MC__TC_CD4__parent3</code> . When we compare the mean values for this relationship between progressors and non-progressors, we can see that myeloid cells (MC) and CD4 T cells show increased co-localisation in progressors vs non-progressors with respect to the parent 3 broader population. When we refer to the cell type hierarchy we defined, we can see that parent 3 refers to the parent population of all immune cells.</p>
+<p>Now that we have identified and calculated several features that can be used to measure spatial associations across cell types and regions of localisation, we will see how these metrics can be used to predict clinical outcomes for patients.</p>
+</section></section></section><section id="classifyr-classification" class="level2" data-number="13.10"><h2 data-number="13.10" class="anchored" data-anchor-id="classifyr-classification">
+<span class="header-section-number">13.10</span> ClassifyR: Classification</h2>
+<p>Our <a href="https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html">ClassifyR</a> package on Bioconductor provides a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages: data transformation, feature selection, classifier training and prediction, into a cross-validation loop. Here we use the <code>crossValidate</code> function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data:</p>
+<ol type="1">
+<li><p>Cell type proportions (FuseSOM)</p></li>
+<li><p>Cell type localisation from spicyR using the L-function</p></li>
+<li><p>Region proportions from lisaClust</p></li>
+<li><p>Cell type localisation reference to a parent cell type from <code>Kontextual</code></p></li>
+<li><p>Cell changes in response to proximal changes from <code>SpatioMark</code></p></li>
+</ol>
+<p>For a more thorough explanation of ClassifyR, refer to our <a href="./07-classification.html">Classification</a> section.</p>
 <div class="cell">
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create list to store data.frames</span></span>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create list to store data.frames</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Add proportions of each cell type in each image</span></span>
@@ -1345,7 +1295,7 @@ MC__TC_CD4__parent1 MC__TC_CD4__parent1</code></pre>
 <span><span class="va">data</span><span class="op">[[</span><span class="st">"Kontextual"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">kontextMat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Set seed</span></span>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Set seed</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Perform cross-validation of a random forest model</span></span>
@@ -1356,24 +1306,19 @@ MC__TC_CD4__parent1 MC__TC_CD4__parent1</code></pre>
 <span>  classifier <span class="op">=</span> <span class="st">"randomForest"</span>,</span>
 <span>  nFolds <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  nRepeats <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  nCores <span class="op">=</span> <span class="va">nCores</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  nCores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualise-cross-validated-prediction-performance" class="level3" data-number="13.11.1"><h3 data-number="13.11.1" class="anchored" data-anchor-id="visualise-cross-validated-prediction-performance">
-<span class="header-section-number">13.11.1</span> Visualise cross-validated prediction performance</h3>
-<p>Here we use the <code>performancePlot</code> function to assess the AUC from each repeat of the 5-fold cross-validation. We see that the lisaClust regions appear to capture information which is predictive of progression status of the patients.</p>
+<section id="visualise-cross-validated-prediction-performance" class="level3" data-number="13.10.1"><h3 data-number="13.10.1" class="anchored" data-anchor-id="visualise-cross-validated-prediction-performance">
+<span class="header-section-number">13.10.1</span> Visualise cross-validated prediction performance</h3>
+<p>Here we use the <code>performancePlot</code> function to assess the AUC from each repeat of the 5-fold cross-validation.</p>
 <div class="cell">
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate AUC for each cross-validation repeat and plot.</span></span>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate AUC for each cross-validation repeat and plot.</span></span>
 <span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/performancePlot.html">performancePlot</a></span><span class="op">(</span></span>
 <span>  <span class="va">cv</span>,</span>
 <span>  metric <span class="op">=</span> <span class="st">"AUC"</span>,</span>
 <span>  characteristicsList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Assay Name"</span><span class="op">)</span>,</span>
 <span>  orderingList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Assay Name"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Proportions"</span>, <span class="st">"SpicyR"</span>, <span class="st">"LisaClust"</span>, <span class="st">"Kontextual"</span>, <span class="st">"SpatioMark"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in .local(results, ...): AUC not found in all elements of results.
-Calculating it now.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-performancePlot-1.png" class="img-fluid figure-img" width="672"></p>
@@ -1381,9 +1326,10 @@ Calculating it now.</code></pre>
 </div>
 </div>
 </div>
-<p>We can also visualise which features were good at classifying which patients using the <code>sampleMetricMap()</code> function from <code>ClassifyR</code>.</p>
+<p>Both lisaClust and <code>Kontextual</code> appear to capture information that is predictive of patient outcome.</p>
+<p>We can also visualise which features were good at classifying which patients using the <code>sampleMetricMap</code> function from ClassifyR.</p>
 <div class="cell">
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">cv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">cv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="08-case_study1_files/figure-html/08-samplesMetricMap-1.png" class="img-fluid figure-img" width="1152"></p>
@@ -1394,16 +1340,15 @@ Calculating it now.</code></pre>
 <pre><code>TableGrob (2 x 1) "arrange": 2 grobs
   z     cells    name                 grob
 1 1 (2-2,1-1) arrange       gtable[layout]
-2 2 (1-1,1-1) arrange text[GRID.text.1955]</code></pre>
+2 2 (1-1,1-1) arrange text[GRID.text.2163]</code></pre>
 </div>
 </div>
-</section></section><section id="summary" class="level2" data-number="13.12"><h2 data-number="13.12" class="anchored" data-anchor-id="summary">
-<span class="header-section-number">13.12</span> Summary</h2>
+<p>Overall, it appears that we were more easily able to identify non-progressors compared to progressors, and patients G6 and H2 within the progressor cohort were particularly difficult to classify.</p>
 <p>Here we have used a pipeline of our spatial analysis R packages to demonstrate an easy way to segment, cluster, normalise, quantify and classify high dimensional in situ cytometry data all within R.</p>
-</section><section id="sessioninfo" class="level2" data-number="13.13"><h2 data-number="13.13" class="anchored" data-anchor-id="sessioninfo">
-<span class="header-section-number">13.13</span> sessionInfo</h2>
+</section></section><section id="sessioninfo" class="level2" data-number="13.11"><h2 data-number="13.11" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">13.11</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: aarch64-apple-darwin20

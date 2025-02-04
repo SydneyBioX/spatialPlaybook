@@ -350,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>The other approach to identifying cell types involves using an annotated reference dataset to assign labels for a query dataset. In this section, we will demonstrate how our package <code>scClassify</code> can be used for supervised cell type annotation.</p>
+</header><p>The other approach to identifying cell types involves using an annotated reference dataset to assign labels for a query dataset. In this section, we will demonstrate how our package <strong>scClassify</strong> can be used for supervised cell type annotation.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required libraries</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">scClassify</span><span class="op">)</span></span>
@@ -377,7 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">8</span> scClassify: Cell annotation</h1>
 <p><a href="https://new.bioconductor.org/packages/release/bioc/html/scClassify.html">scClassify</a> is a supervised multiscale classification framework for single-cell data based on ensemble learning and cell type hierarchies. scClassify first constructs a cell type tree using the reference dataset, and then builds an ensemble weighted kNN classifier at each node. Users can select any combination of six correlation/similarity metrics and five marker selection methods to build the kNN model. This results in up to 30 base classifiers that can be constructed for each node of the cell type tree.</p>
 <p><img src="images/scClassify_fig1.png" align="center" style="height:310px; border: 0px"></p>
-<p>To demonstrate the use of scClassify, we will use the Stickels 2021 dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the <code>STexampleData</code> package.</p>
+<p>To demonstrate the use of scClassify, we will use the <a href="./datasets.html">Stickels 2021</a> dataset, which examines mouse brain tissue from the hippocampus and surrounding regions. It is available through the <code>STexampleData</code> package.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stickelsSPE</span> <span class="op">=</span> <span class="fu">STexampleData</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/STexampleData/man/STexampleData.html">SlideSeqV2_mouseHPC</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">stickelsSPE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

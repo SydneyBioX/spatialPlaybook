@@ -357,7 +357,7 @@ window.Quarto = {
   <li><a href="#predicting-survival-outcomes" id="toc-predicting-survival-outcomes" class="nav-link" data-scroll-target="#predicting-survival-outcomes"><span class="header-section-number">12.4.2</span> Predicting survival outcomes</a></li>
   </ul>
 </li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">13</span> sessionInfo</a></li>
+  <li><a href="#sessioninfox" id="toc-sessioninfox" class="nav-link" data-scroll-target="#sessioninfox"><span class="header-section-number">13</span> sessionInfox</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -421,7 +421,7 @@ window.Quarto = {
 <span><span class="co"># remove any missing data in our outcome columns</span></span>
 <span><span class="va">kerenSPE</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Censored"</span>, <span class="st">"Survival_days_capped*"</span>,</span>
 <span>                                                           <span class="st">"tumour_type"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
+<span><span class="co"># load pre-computed data for efficiency</span></span>
 <span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/kontextMat.rds"</span><span class="op">)</span></span>
 <span><span class="va">stateMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/stateMat.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -482,7 +482,7 @@ window.Quarto = {
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Proximity-associated changes in marker expression (SpatioMark)</span></span>
 <span><span class="va">data</span><span class="op">[[</span><span class="st">"SpatioMark"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">stateMat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 44.39 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 33.54 seconds</p>
 </div>
 <p>We will then generate a factor vector of our outcome variable.</p>
 <div class="cell">
@@ -509,7 +509,7 @@ Levels: compartmentalised mixed</code></pre>
 <span>                   nFolds <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                   nRepeats <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>                   nCores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 31.97 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 25.54 seconds</p>
 </div>
 <p>We can use <code>performancePlot</code> to visualise performance metrics for all our features. Here, we visualise the AUC for each of the seven feature matrices we tested. Additional performance metrics can be specified in the <code>metric</code> argument.</p>
 <div class="cell">
@@ -519,10 +519,6 @@ Levels: compartmentalised mixed</code></pre>
 <span>  characteristicsList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Assay Name"</span><span class="op">)</span>,</span>
 <span>  orderingList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Assay Name"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"proportions"</span>, <span class="st">"spicyR"</span>, <span class="st">"lisaClust"</span>, <span class="st">"Kontextual"</span>, <span class="st">"celltypeMarkerMeans"</span>, <span class="st">"regionMarkerMeans"</span>, <span class="st">"SpatioMark"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in .local(results, ...): AUC not found in all elements of results.
-Calculating it now.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="07-classification_files/figure-html/07-performance plot-1.png" class="img-fluid figure-img" width="1152"></p>
@@ -536,7 +532,7 @@ Calculating it now.</code></pre>
 <p><code>crossValidate</code> also has the capacity to test classification performance for a survival outcome. In this case, <code>outcome</code> must be a <code>Surv</code> object of the same length as the number of samples in the feature matrix and should contain information about the time and censoring of the samples. Alternatively, we can specify <code>outcome</code> to be a <code>character</code> of length 2 or 3 that each match a column name in a data frame which holds information about the time and censoring of the samples. The time-to-event columns will automatically be removed before training is done.</p>
 <p>We will first add a <code>survival</code> column to the <code>kerenSPE</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a Surv object named "survival"</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create a Surv object named "survival"</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
 <span></span>
@@ -556,7 +552,7 @@ Calculating it now.</code></pre>
 </div>
 <p>We can then run <code>crossValidate</code> and specify the outcome to be <code>surv_outcome</code>, and use <code>performancePlot</code> to visualise the performance of the cross-validation. Since we are performing survival analysis, we will specify <code>metric = "C-index"</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># perform 50 repeats of 5-fold cross-validation</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># perform 50 repeats of 5-fold cross-validation</span></span>
 <span><span class="va">surv_cv</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/crossValidate.html">crossValidate</a></span><span class="op">(</span>measurements <span class="op">=</span> <span class="va">data</span>,</span>
 <span>                   outcome <span class="op">=</span> <span class="va">surv_outcome</span>,</span>
 <span>                   nFolds <span class="op">=</span> <span class="fl">5</span>,</span>
@@ -582,7 +578,7 @@ Calculating it now.</code></pre>
 <section id="predicting-tumour-type" class="level3" data-number="12.4.1"><h3 data-number="12.4.1" class="anchored" data-anchor-id="predicting-tumour-type">
 <span class="header-section-number">12.4.1</span> Predicting tumour type</h3>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">cv</span>,  </span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">cv</span>,  </span>
 <span>                 classColours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#3F48CC"</span>, <span class="st">"#880015"</span><span class="op">)</span>,</span>
 <span>                 metricColours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#CFD1F2"</span>, <span class="st">"#9FA3E5"</span>, <span class="st">"#6F75D8"</span>, <span class="st">"#3F48CC"</span><span class="op">)</span>,</span>
 <span>                                      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FFFFFF"</span>, <span class="st">"#E1BFC4"</span>, <span class="st">"#C37F8A"</span>, <span class="st">"#A53F4F"</span>, <span class="st">"#880015"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -604,7 +600,7 @@ Calculating it now.</code></pre>
 <span class="header-section-number">12.4.2</span> Predicting survival outcomes</h3>
 <p>We can also use <code>sampleMetricMap</code> to identify samples that were difficult to classify with respect to a survival outcome.</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">surv_cv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/ClassifyR/reference/samplesMetricMap.html">samplesMetricMap</a></span><span class="op">(</span><span class="va">surv_cv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="07-classification_files/figure-html/07-samples metric map survival-1.png" class="img-fluid figure-img" width="1152"></p>
@@ -619,71 +615,12 @@ Calculating it now.</code></pre>
 </div>
 </div>
 <p>We can see that there was some difficulty in classying patient 35, and that overall, features showed similar performance across samples. lisaClust shows the overall highest performance, especially for samples 31-20.</p>
-<!-- ## Maximising accuracy during classification
-
-Some feature ranking methods and classifiers allow for the adjustment of tuning parameters that control aspects of the model's learning process. For example, in a linear Support Vector Machine (SVM), the tuning parameter is the cost, which determines the penalty for misclassifications. Higher cost values increase the penalty, leading to fewer misclassifications.
-
-In addition to parameter tuning, feature selection is performed by ranking features and testing a range of top-ranked features to identify the optimal subset for the best performance. This range is defined by the nFeatures list element, while the performance evaluation metric, such as Balanced Accuracy, is specified by the performanceType list element.
-
-As a result, some level of parameter tuning is always involved, even when the feature ranking or classifier function itself does not have explicit tuning parameters.
-
-In ClassifyR, tuning is performed by providing a variable called `tuneParams` to the `SelectParams` or `TrainParams` constructors. There are five constructors in ClassifyR -
-
--   `CrossValParams`: create an object to store parameters for cross-validation
--   `ModellingParams`: create an object to store parameters for data modelling
--   `SelectParams`: create an object to store parameters for feature selection
--   `TrainParams`: create an object to store parameters for classifier training
--   `PredictParams`: create an object to store parameters for making predictions
-
-`tuneParams` is a named list, where each name corresponds to a tuning variable, except for one named `performanceType`, which specifies the performance metric to optimise. Any non-sample-specific performance metric calculated by `calcCVperformance` can be used for this optimisation.
-
-
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-# create a vector of costs for SVM
-tuneList <- list(cost = c(0.1, 0.2))
-
-# set cross-validation parameters
-crossValParams <- CrossValParams(permutations = 5, tuneMode = "Resubstitution")
-
-# set modelling parameters
-SVMparams <- ModellingParams(trainParams = TrainParams("SVM", kernel = "linear", 
-                                                       tuneParams = tuneList),
-                             predictParams = PredictParams("SVM"))
-```
-:::
-
-
-
-
-
-Once we've specified our parameters of interest, we can use the `runTests` function to perform classification schemes. `runTests` allows greater control over all aspects of cross-validation compared to `crossValidate`. `runTests` requires a single matrix of observations and features to be passed to `measurements`.
-
-
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-SVMresults <- runTests(data$lisaClust |> DataFrame(), 
+ DataFrame(), 
                        outcome, crossValParams, SVMparams)
 ```
 :::
 
-
-
-
-
 The index of chosen of the parameters, as well as all combinations of parameters and their associated performance metric, are stored for every validation, and can be accessed with the `tunedParameters` function.
-
-
-
-
 
 ::: {.cell}
 
@@ -691,17 +628,13 @@ The index of chosen of the parameters, as well as all combinations of parameters
 tunedParameters(SVMresults)[1:5]
 ```
 :::
-
-
-
-
--->
+--&gt;
 <p>In this way, we can predict clinical outcomes and identify samples that are hard to classify.</p>
 <p>In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies.</p>
-</section></section><section id="sessioninfo" class="level1" data-number="13"><h1 data-number="13">
-<span class="header-section-number">13</span> sessionInfo</h1>
+</section></section><section id="sessioninfox" class="level1" data-number="13"><h1 data-number="13">
+<span class="header-section-number">13</span> sessionInfox</h1>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: aarch64-apple-darwin20

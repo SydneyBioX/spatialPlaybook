@@ -378,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The workflow that lisaClust uses to identify regions of tissue with similar localisation patterns of cells contains multiple key steps. First, cells are treated as objects and assigned coordinates in an x-y space. Second, distances between all cells are calculated and then, by modeling the cells as a multi-type Poisson point process, the distances are used to calculate local indicators of spatial association (LISA). These LISA curves summarize the spatial association between each cell and a specific cell type over a range of radii. The LISA curves are calculated for each cell and cell type and then clustered to assign a region label for each cell.</p>
 <section id="case-study-keren" class="level3" data-number="10.1.1"><h3 data-number="10.1.1" class="anchored" data-anchor-id="case-study-keren">
 <span class="header-section-number">10.1.1</span> Case study: Keren</h3>
-<p>We will start by reading in the data from the <code>SpatialDatasets</code> package as a <code>SingleCellExperiment</code> object. Here the data is in a format consistent with that outputted by CellProfiler.</p>
+<p>We will start by reading in the <a href="./datasets.html">Keren 2018</a> dataset from the <code>SpatialDatasets</code> package as a <code>SingleCellExperiment</code> object. Here the data is in a format consistent with that outputted by CellProfiler.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -390,23 +390,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="generate-lisa-curves" class="level4" data-number="10.1.1.1"><h4 data-number="10.1.1.1" class="anchored" data-anchor-id="generate-lisa-curves">
 <span class="header-section-number">10.1.1.1</span> Generate LISA curves</h4>
-<p>This data includes annotation of the cell-types of each cell. Hence, we can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the <code>lisaClust</code> function. The image ID, cell type column, and spatial coordinates can be specified using the <code>imageID</code>, <code>cellType</code>, and <code>spatialCoords</code> arguments respectively.</p>
-<p>For the purpose of this demonstration, we will be using only images 5 and 6 of the <code>kerenSPE</code> dataset.</p>
+<p>For the purpose of this demonstration, we will be using only images 5 and 6 of the dataset.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span><span class="op">[</span>,<span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
-<span>                      k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Generating local L-curves.</code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span><span class="op">[</span>,<span class="va">kerenSPE</span><span class="op">$</span><span class="va">imageID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>This data comes with pre-annotated cell types, sowe can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the <code>lisaClust</code> function. The image ID, cell type column, and spatial coordinates can be specified using the <code>imageID</code>, <code>cellType</code>, and <code>spatialCoords</code> arguments respectively. We will identify 5 regions of co-localisation by setting <code>k = 5</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
+<span>                      k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>These regions are stored in <code>colData</code> and can be extracted.</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"imageID"</span>, <span class="st">"region"</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DataFrame with 20 rows and 2 columns
+<pre><code>DataFrame with 10 rows and 2 columns
           imageID      region
       &lt;character&gt; &lt;character&gt;
 21154           5    region_4
@@ -414,44 +412,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 21156           5    region_4
 21157           5    region_2
 21158           5    region_2
-...           ...         ...
-21169           5    region_2
-21170           5    region_2
-21171           5    region_2
-21172           5    region_2
-21173           5    region_2</code></pre>
+21159           5    region_2
+21160           5    region_5
+21161           5    region_2
+21162           5    region_2
+21163           5    region_2</code></pre>
 </div>
 </div>
 </section><section id="examine-cell-type-enrichment" class="level4" data-number="10.1.1.2"><h4 data-number="10.1.1.2" class="anchored" data-anchor-id="examine-cell-type-enrichment">
 <span class="header-section-number">10.1.1.2</span> Examine cell type enrichment</h4>
-<p><code>lisaClust</code> also provides a convenient function, <code>regionMap</code>, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.</p>
-<p>Below, we can see that tumour cells are concentrated in region 5, and immune cells are concentrated in region 1 and 4. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter <code>k =</code> in the <code><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust()</a></code> function.</p>
+<p>lisaClust also provides a convenient function, <code>regionMap</code>, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.</p>
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/regionMap.html">regionMap</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"bubble"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="05-cellular_niches_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="05-cellular_niches_files/figure-html/05-regionMap-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<p>Above, we can see that tumour cells are concentrated in region 5, and immune cells are concentrated in region 1 and 4. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter <code>k =</code> in the <code>lisaClust</code> function.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Choosing the number of spatial domains">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Choosing the number of spatial domains
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>How do we choose an appropriate value for <code>k</code>?</em> 1. The choice of <code>k</code> depends largely on the biological question being asked. For instance, if we are interested in understanding the interactions between immune cells in a tumor microenvironment, the number of clusters should reflect the known biological subtypes of immune cells, such as T cells, B cells, macrophages, etc. In this case, a larger value of <code>k</code> may be needed to capture the diversity within these immune cell populations. 2. On the other hand, if the focus is on interactions between immune cells and tumor cells, we might choose a smaller value of <code>k</code> to group immune cells into broader categories. 3. Additionally, methods like the Gap statistic, Jump statistic, or Silhouette score could be employed to determine an optimal value of <code>k</code>.</p>
+<p><strong>How do we choose an appropriate value for <code>k</code>?</strong></p>
+<ul>
+<li><p>The choice of <code>k</code> depends largely on the biological question being asked. For instance, if we are interested in understanding the interactions between immune cells in a tumor microenvironment, the number of clusters should reflect the known biological subtypes of immune cells, such as T cells, B cells, macrophages, etc. In this case, a larger value of <code>k</code> may be needed to capture the diversity within these immune cell populations.</p></li>
+<li><p>On the other hand, if the focus is on interactions between immune cells and tumor cells, we might choose a smaller value of <code>k</code> to group immune cells into broader categories.</p></li>
+<li><p>Additionally, methods like the Gap statistic, Jump statistic, or Silhouette score could be employed to determine an optimal value of <code>k</code>.</p></li>
+</ul>
 </div>
 </div>
 </section><section id="plot-identified-regions" class="level4" data-number="10.1.1.3"><h4 data-number="10.1.1.3" class="anchored" data-anchor-id="plot-identified-regions">
 <span class="header-section-number">10.1.1.3</span> Plot identified regions</h4>
-<p>We can use the <code>hatchingPlot</code> function to visualise all 5 regions and 17 cell types simultaneously for a specific image or set of images. The output is a <code>ggplot</code> object where the regions are marked by different hatching patterns. The <code>nbp</code> argument can be used to tune the granularity of the grid use for defining regions.</p>
+<p>We can use the <code>hatchingPlot</code> function to visualise all 5 regions and 17 cell types simultaneously for a specific image or set of images. The output is a <code>ggplot</code> object where the regions are marked by different hatching patterns. The <code>nbp</code> argument can be used to tune the granularity of the grid used for defining regions.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/hatchingPlot.html">hatchingPlot</a></span><span class="op">(</span><span class="va">kerenSPE</span>, useImages <span class="op">=</span> <span class="fl">5</span>, nbp <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -465,24 +467,25 @@ length is not a multiple of split variable</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="05-cellular_niches_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="864"></p>
+<figure class="figure"><p><img src="05-cellular_niches_files/figure-html/05-hatchingPlot-1.png" class="img-fluid figure-img" width="864"></p>
 </figure>
 </div>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 37.55 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 36.72 seconds</p>
 </div>
 <p>In accordance with the <code>regionMap</code> output, we can see that region 5 is mostly made up of tumour cells, and region 2 and 4 both contain our immune cell populations.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Combining localisation scores with spatial domains">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Combining localisation scores with spatial domains
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>How could results from lisaClust be used in conjunction with results from spicyR?</em> lisaClust provides a high-resolution view of the tissue architecture, while spicyR can quantify how these spatial relationships or features contribute to clinical outcomes. spicyR’s L-function metric can be used to determine the degree of localisation or dispersion between different spatial domains. For instance, we can look at co-localisation between region 5 (our tumour cells) and regions 2 or 4 (our immune cells).</p>
+<p><strong>How could results from lisaClust be used in conjunction with results from spicyR?</strong></p>
+<p>lisaClust provides a high-resolution view of the tissue architecture, while spicyR can quantify how these spatial relationships or features contribute to clinical outcomes. spicyR’s L-function metric can be used to determine the degree of localisation or dispersion between different spatial domains. For instance, we can look at co-localisation between region 5 (our tumour cells) and regions 2 or 4 (our immune cells).</p>
 </div>
 </div>
 </section></section></section><section id="sessioninfo" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="sessioninfo">

@@ -397,7 +397,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="header-section-number">9.2.1</span> Using cell type hierarchies to define a “context”</h3>
 <p>A cell type hierarchy may be used to define the “context” in which cell type relationships are evaluated within. A cell type hierarchy defines how cell types are functionally related to one another. The bottom of the hierarchy represents homogeneous populations of a cell type (child), and the cell populations at the nodes of the hierarchy represent broader parent populations with shared generalised function. For example, CD4 T cells may be considered a child population to the Immune parent population.</p>
 <p>There are two ways to define the cell type hierarchy. First, they can be defined based on our biological understanding of the cell types. We can represent this by creating a named list containing the names of each parent and the associated vector of child cell types.</p>
-<p><em>Note:</em> The <code>all</code> vector must be created to include cell types which do not have a parent e.g.&nbsp;the <em>undefined</em> cell type in this data set.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>all</code> vector must be created to include cell types which do not have a parent e.g.&nbsp;the <em>undefined</em> cell type in this data set.</p>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Examine all cell types in image</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -426,8 +438,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co"># Creating a vector for all cellTypes</span></span>
 <span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Alternatively, you can use the <code>treeKor</code> bioconductor package <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treekoR</a> to define these hierarchies in a data driven way.</p>
-<p><em>Note:</em> These parent populations may not be accurate as we are using a small subset of the data.</p>
+<p>Alternatively, you can use the <a href="https://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treeKoR</a> package on Bioconductor to define these hierarchies in a data driven way.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These parent populations may not be accurate as we are using a small subset of the data.</p>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate hierarchy using treekoR</span></span>
 <span><span class="va">kerenTree</span> <span class="op">&lt;-</span> <span class="fu">treekoR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/treekoR/man/getClusterTree.html">getClusterTree</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu">assay</span><span class="op">(</span><span class="va">kerenSPE</span>, <span class="st">"intensities"</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -484,7 +508,7 @@ $parent_3
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Cell types"</span>, override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/image6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/04b-image6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -502,49 +526,17 @@ $parent_3
 <span>  cellType <span class="op">=</span> <span class="st">"cellTypeNew"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">p53_Kontextual</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">p53_Kontextual</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   imageID               test   original  kontextual   r inhomL
-1        1 Immune__p53_Tumour -16.212016  -1.6815952 100  FALSE
-2       10 Immune__p53_Tumour -14.715356  -1.7937407 100  FALSE
-3       11 Immune__p53_Tumour -11.696597  -7.4615661 100  FALSE
-4       12 Immune__p53_Tumour  -9.777271  -2.6287005 100  FALSE
-5       13 Immune__p53_Tumour -15.613023  -3.9937364 100  FALSE
-6       14 Immune__p53_Tumour -14.671281  -4.2879138 100  FALSE
-7       15 Immune__p53_Tumour   8.369183  10.6710168 100  FALSE
-8       16 Immune__p53_Tumour -41.081088 -20.9688333 100  FALSE
-9       17 Immune__p53_Tumour  -6.331105   5.0017104 100  FALSE
-10      18 Immune__p53_Tumour  -1.953366   0.5795853 100  FALSE
-11      19 Immune__p53_Tumour -27.834450 -18.7433000 100  FALSE
-12       2 Immune__p53_Tumour  -4.989150  -0.5330373 100  FALSE
-13      20 Immune__p53_Tumour -20.580091  -9.2542544 100  FALSE
-14      21 Immune__p53_Tumour -14.300802  -7.1425133 100  FALSE
-15      23 Immune__p53_Tumour  15.803493  37.3584378 100  FALSE
-16      24 Immune__p53_Tumour -30.319961 -31.8146274 100  FALSE
-17      25 Immune__p53_Tumour   6.262995   6.9429103 100  FALSE
-18      26 Immune__p53_Tumour -38.190137 -24.6000029 100  FALSE
-19      27 Immune__p53_Tumour  -2.373587   4.4044397 100  FALSE
-20      28 Immune__p53_Tumour -70.058615 -33.4395839 100  FALSE
-21      29 Immune__p53_Tumour -20.728463  -7.0172785 100  FALSE
-22       3 Immune__p53_Tumour   1.719549  44.5060581 100  FALSE
-23      31 Immune__p53_Tumour -12.306957  -5.2820792 100  FALSE
-24      32 Immune__p53_Tumour -18.174569 -10.8972277 100  FALSE
-25      33 Immune__p53_Tumour -19.750457 -19.6246151 100  FALSE
-26      34 Immune__p53_Tumour -49.004947 -35.1320255 100  FALSE
-27      35 Immune__p53_Tumour -75.980619 -66.2395276 100  FALSE
-28      36 Immune__p53_Tumour -18.853398 -21.4398044 100  FALSE
-29      37 Immune__p53_Tumour -43.624905 -27.7162991 100  FALSE
-30      39 Immune__p53_Tumour -19.293290  -4.5192485 100  FALSE
-31       4 Immune__p53_Tumour         NA          NA 100  FALSE
-32      40 Immune__p53_Tumour -37.744261 -27.9604962 100  FALSE
-33      41 Immune__p53_Tumour -33.776940 -22.6113096 100  FALSE
-34       5 Immune__p53_Tumour         NA          NA 100  FALSE
-35       6 Immune__p53_Tumour -24.897348  -1.2724241 100  FALSE
-36       7 Immune__p53_Tumour -13.068307   0.6361875 100  FALSE
-37       8 Immune__p53_Tumour         NA          NA 100  FALSE
-38       9 Immune__p53_Tumour -31.857501   1.0261067 100  FALSE</code></pre>
+<pre><code>  imageID               test   original kontextual   r inhomL
+1       1 Immune__p53_Tumour -16.212016  -1.681595 100  FALSE
+2      10 Immune__p53_Tumour -14.715356  -1.793741 100  FALSE
+3      11 Immune__p53_Tumour -11.696597  -7.461566 100  FALSE
+4      12 Immune__p53_Tumour  -9.777271  -2.628700 100  FALSE
+5      13 Immune__p53_Tumour -15.613023  -3.993736 100  FALSE
+6      14 Immune__p53_Tumour -14.671281  -4.287914 100  FALSE</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 12.98 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 12.82 seconds</p>
 </div>
 <p>The <code>kontextCurve</code> function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.</p>
 <p>As seen in the following plot the L-function produces negative values over a range of radii, indicating that <em>p53+ tumour cells</em> and <em>immune cells</em> are dispersed from one another. However by taking into account the tumour context, <code>Kontextual</code> shows positive values over some radii, indicating localisation between <em>p53+ tumour cells</em> and <em>immune cells</em>.</p>
@@ -563,14 +555,26 @@ $parent_3
 <span><span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/kontextPlot.html">kontextPlot</a></span><span class="op">(</span><span class="va">curves</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/kontextCurve-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/04b-kontextCurve-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 15.22 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 14.56 seconds</p>
 </div>
 <p>Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the <code>parentCombinations</code> function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the <code>parentList</code> argument. As shown below, the output is a data frame specifying the <code>to</code>, <code>from</code>, and <code>parent</code> arguments for <code>Kontextual</code>.</p>
-<p><em>Note:</em> If you want to use the treeKor defined hierarchy instead, the output of <code>getParentPhylo</code> can be passed to the <code>parentList</code> argument.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you want to use the treeKor defined hierarchy instead, the output of <code>getParentPhylo</code> can be passed to the <code>parentList</code> argument.</p>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get all relationships between cell types and their parents</span></span>
 <span><span class="va">parentDf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/parentCombinations.html">parentCombinations</a></span><span class="op">(</span></span>
@@ -611,13 +615,25 @@ $parent_3
 5      13 Keratin_Tumour__B_cell__immune -21.768051 -14.206190 100  FALSE
 6      14 Keratin_Tumour__B_cell__immune         NA         NA 100  FALSE</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 113.32 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 82.94 seconds</p>
 </div>
 <p>For every pairwise relationship (named accordingly: <code>from__to__parent</code>) <code>Kontextual</code> outputs the L-function values (original) and the Kontextual value. The relationships where the L-function and Kontextual disagree (e.g.&nbsp;one metric is positive and the other is negative) represent relationships where adding context information results in different conclusions on the spatial relationship between the two cell types.</p>
 </section><section id="associating-the-relationships-with-survival-outcomes" class="level3" data-number="9.2.4"><h3 data-number="9.2.4" class="anchored" data-anchor-id="associating-the-relationships-with-survival-outcomes">
 <span class="header-section-number">9.2.4</span> Associating the relationships with survival outcomes</h3>
 <p>We can then examine whether Kontexual can be associated with patient outcomes or groupings. For this, we can use the <code>spicy</code> function from the spicyR package. First, the Kontextual results must be converted from a <code>data.frame</code> to a wide <code>matrix</code>. This can be done with the <code>prepMatrix</code> function.</p>
-<p><em>Note:</em> to extract the original L-function values, specify <code>column = "original"</code> in <code>prepMatrix</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To extract the original L-function values, specify <code>column = "original"</code> in <code>prepMatrix</code>.</p>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Converting Kontextual result into data matrix</span></span>
 <span><span class="va">kontextMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix</a></span><span class="op">(</span><span class="va">kerenKontextual</span><span class="op">)</span></span>
@@ -633,7 +649,7 @@ $parent_3
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Running survival analysis</span></span>
+<span><span class="co"># Running survival analysis using spicy</span></span>
 <span><span class="va">survivalResults</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span>cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
 <span>                        alternateResult <span class="op">=</span> <span class="va">kontextMat</span>,</span>
 <span>                        condition <span class="op">=</span> <span class="st">"survival"</span>,</span>
@@ -655,14 +671,14 @@ $parent_3
  9 Other_Immune__DC__myeloid            -0.0181 0.00664 0.0000490  
 10 Other_Immune__DC__immune             -0.0186 0.00669 0.0000652  </code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 4.13 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 3.84 seconds</p>
 </div>
 <p>The survival results can also be visualised using the <code>signifPlot</code> function. The “Context” slot in the legend describes the parent population with respect to which the Kontextual metric is calculated.</p>
 <div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/04b-signifPlot-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -704,7 +720,7 @@ $parent_3
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"dn_T_CD3__Tregs__immune"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/KMcurve-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04b-cell_localisation_parent_files/figure-html/04b-KM curve-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

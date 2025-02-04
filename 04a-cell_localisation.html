@@ -381,7 +381,7 @@ window.Quarto = {
   
 
 
-</header><p>So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e.&nbsp;are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of our <code>spicyR</code> packaege for quantifying cell type localisation.</p>
+</header><p>So far, we have segmented our cells, performed normalisation to mitigate batch effects, and annotated our cells. This completes our pre-processing stage, and we can move on to analysing our data. One of the primary motivations behind pursuing spatial technology (as opposed to space-agnostic technologies such as scRNAseq) is that it allows us to tease out whether changes are occurring spatially, i.e.&nbsp;are two cell types closer together in a disease state vs a non-disease state. Whilst these changes are often visually obvious, more advanced statistical modelling is required to quantify localisation and dispersion relationships. In this section, we demonstrate the use of our spicyR packaege for quantifying cell type localisation.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load required libraries</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
@@ -412,7 +412,7 @@ window.Quarto = {
 <span class="header-section-number">8.1</span> Quantifying cell type co-localisation with spicyR</h2>
 <p><a href="https://www.bioconductor.org/packages/release/bioc/html/spicyR.html">spicyR</a> provides a metric to quantify the degree of localisation or dispersion between two cell types. It then tests for changes in this co-localisation metric across different disease states or groups.</p>
 <p><img src="images/spicyR_fig1.jpeg" align="center" style="height: 300px; border: 0px"></p>
-<p>Here, we will use the Keren 2018 dataset to demonstrate the use of <code>spicyR</code>. The data is stored as a <code>SpatialExperiment</code> object within the <code>SpatialDatasets</code> package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).</p>
+<p>Here, we will use the <a href="./datasets.html">Keren 2018</a> dataset to demonstrate the use of spicyR. The data is stored as a <code>SpatialExperiment</code> object within the <code>SpatialDatasets</code> package and contains single-cell spatial data from 41 images for three types of breast cancer tumours (cold, compartmentalised, and mixed).</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -420,7 +420,7 @@ window.Quarto = {
 <span><span class="va">kerenSPE</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Censored"</span>, <span class="st">"Survival_days_capped*"</span>,</span>
 <span>                                                           <span class="st">"tumour_type"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The cell types in this dataset includes 11 immune cell types (double negative CD3 T cells, CD4 T cells, B cells, monocytes, macrophages, CD8 T cells, neutrophils, natural killer cells, dendritic cells, regulatory T cells), 2 structural cell types (endothelial, mesenchymal), 2 tumour cell types (keratin+ tumour, tumour) and one unidentified category.</p>
+<p>Eleven immune cell types were identified in this dataset by the original authors: (double negative CD3 T cells, CD4 T cells, B cells, monocytes, macrophages, CD8 T cells, neutrophils, natural killer cells, dendritic cells, regulatory T cells), 2 structural cell types (endothelial, mesenchymal), 2 tumour cell types (keratin+ tumour, tumour) and one unidentified category.</p>
 <section id="linear-modelling" class="level3" data-number="8.1.1"><h3 data-number="8.1.1" class="anchored" data-anchor-id="linear-modelling">
 <span class="header-section-number">8.1.1</span> Linear modelling</h3>
 <p>We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a variance-stabilised version of the K-function given by the equation</p>
@@ -431,7 +431,8 @@ window.Quarto = {
 <p><span class="math display">\[
 \widehat{K_{ij}} (r) = \frac{|W|}{n_i n_j} \sum_{n_i} \sum_{n_j} 1 \{d_{ij} \leq r \} e_{ij} (r)
 \]</span></p>
-<p>where <span class="math inline">\(\widehat{K_{ij}}\)</span> summarises the degree of co-localisation of cell type <span class="math inline">\(j\)</span> with cell type <span class="math inline">\(i\)</span>, <span class="math inline">\(n_i\)</span> and <span class="math inline">\(n_j\)</span> are the number of cells of type <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, <span class="math inline">\(|W|\)</span> is the image area, <span class="math inline">\(d_{ij}\)</span> is the distance between two cells and <span class="math inline">\(e_{ij} (r)\)</span> is an edge correcting factor.</p>
+<p>where <span class="math inline">\(\widehat{K_{ij}}\)</span> summarises the degree of co-localisation of cell type <span class="math inline">\(j\)</span> with cell type <span class="math inline">\(i\)</span>, <span class="math inline">\(n_i\)</span> and <span class="math inline">\(n_j\)</span> are the number of cells of type <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, <span class="math inline">\(|W|\)</span> is the image area, <span class="math inline">\(d_{ij}\)</span> is the distance between two cells, <span class="math inline">\(r\)</span> is the chosen radius, and <span class="math inline">\(e_{ij} (r)\)</span> is an edge correcting factor.</p>
+<p>To assess whether the observed co-localisation deviates from what would be expected under random spatial distribution, the experimental L-function is compared to a theoretical L-function derived from a Poisson point process. The Poisson function assumes that cells are distributed completely at random within the image, meaning there are no underlying spatial patterns such as attraction or repulsion between cell types. This provides a baselineexpectation against which the observed clustering or segregation can be evaluated.</p>
 <p>Specifically, the mean difference between the experimental function and the theoretical function is used as a measure for the level of localisation, defined as</p>
 <p><span class="math display">\[
 u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experimental}} (r') - \widehat L_{ij, \text{Poisson}} (r')
@@ -440,7 +441,7 @@ u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experiment
 </section><section id="test-for-changes-in-localisation-for-a-specific-pair-of-cells" class="level3" data-number="8.1.2"><h3 data-number="8.1.2" class="anchored" data-anchor-id="test-for-changes-in-localisation-for-a-specific-pair-of-cells">
 <span class="header-section-number">8.1.2</span> Test for changes in localisation for a specific pair of cells</h3>
 <p>Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the <code>spicy</code> function, where we specify the <code>condition</code> parameter.</p>
-<p>In this example, we want to see whether or not neutrophils (<code>to</code>) tend to be found around CD8 T cells (<code>from</code>) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our <code>condition</code> factor. <code>spicy</code> will choose the first level of the factor as the base condition and the second level as the comparison condition. <code>spicy</code> will also naturally coerce the <code>condition</code> column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the <code>Rs</code> argument. By default, <code>spicyx</code> calculates the L-function over a range of radii.</p>
+<p>In this example, we want to see whether or not neutrophils (<code>to</code>) tend to be found around CD8 T cells (<code>from</code>) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our <code>condition</code> factor. <code>spicy</code> will choose the first level of the factor as the base condition and the second level as the comparison condition. <code>spicy</code> will also naturally coerce the <code>condition</code> column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the <code>Rs</code> argument. By default, <code>spicy</code> calculates the L-function over a range of radii.</p>
 <p>The column containing cell type annotations and image IDs can be specified using the <code>cellType</code> and <code>imageID</code> arguments respectively. By default, <code>spicy</code> uses the columns named <code>cellType</code> and <code>imageID</code>.</p>
 <p>We obtain a <code>spicy</code> object which details the results of the modelling performed. The <code>topPairs</code> function can be used to obtain the associated coefficients and p-value.</p>
 <div class="cell" data-time_it="true">
@@ -459,20 +460,24 @@ CD8_T_cell__Neutrophils  -91.5703     94.5402 0.0006792206 0.0006792206
                               from          to
 CD8_T_cell__Neutrophils CD8_T_cell Neutrophils</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 2.44 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 2.29 seconds</p>
 </div>
 <p>As the <code>coefficient</code> in <code>spicyTestPair</code> is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Choosing parameters for spicy">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+Choosing parameters for spicy
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>How do we select an optimal value for <code>Rs?</code></em> 1. The choice of <code>Rs</code> will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of Rs is optimal for examining local spatial relationships, and larger values of <code>Rs</code> will reveal global spatial relationships. 2. When the degree of localistion is unknown, it is best to choose a range of radii to define the co-localisation statistic to capture both local and global relationships.</p>
+<p><strong>How do we select an optimal value for <code>Rs?</code></strong></p>
+<ul>
+<li><p>The choice of <code>Rs</code> will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of <code>Rs</code> is optimal for examining local spatial relationships, and larger values of <code>Rs</code> will reveal global spatial relationships.</p></li>
+<li><p>When the degree of localistion is unknown, it is best to choose a range of radii to define the co-localisation statistic to capture both local and global relationships.</p></li>
+</ul>
 </div>
 </div>
 </section><section id="test-for-changes-in-localisation-for-all-pairwise-cell-combinations" class="level3" data-number="8.1.3"><h3 data-number="8.1.3" class="anchored" data-anchor-id="test-for-changes-in-localisation-for-all-pairwise-cell-combinations">
@@ -510,7 +515,7 @@ dn_T_CD3__Neutrophils       dn_T_CD3 Neutrophils
 dn_T_CD3__dn_T_CD3          dn_T_CD3    dn_T_CD3
 Macrophages__Macrophages Macrophages Macrophages</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 9.9 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 10.56 seconds</p>
 </div>
 <p>Again, we obtain a <code>spicy</code> object which outlines the result of the linear models performed for each pairwise combination of cell types.</p>
 <p>We can also examine the L-function metrics of individual images by using the convenient <code>bind</code> function on our <code>spicyTest</code> results object.</p>
@@ -537,8 +542,7 @@ Macrophages__Macrophages Macrophages Macrophages</code></pre>
 <span>  <span class="va">spicyTest</span>,</span>
 <span>  breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  marksToPlot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Macrophages"</span>, <span class="st">"DC_or_Mono"</span>, <span class="st">"dn_T_CD3"</span>, <span class="st">"Neutrophils"</span>,</span>
-<span>                  <span class="st">"CD8_T_cell"</span>, <span class="st">"Keratin_Tumour"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>                  <span class="st">"CD8_T_cell"</span>, <span class="st">"Keratin_Tumour"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-signifPlot-1.png" class="img-fluid figure-img" width="672"></p>
@@ -546,17 +550,13 @@ Macrophages__Macrophages Macrophages Macrophages</code></pre>
 </div>
 </div>
 </div>
-<p>Here, we can observe that the most significant relationships occur between macrophages and double negative CD3 T cells, suggesting that the two cell types are far more dispersed in compartmentalised tumours compared to cold tumours.</p>
-<p>To examine a specific cell type-cell type relationship in more detail, we can use <code>spicyBoxplot()</code> and specify either <code>from = "Macrophages"</code> and <code>to = "dn_T_CD3"</code> or <code>rank = 1</code>.</p>
+<p>Here, we can observe that the most significant relationships occur between macrophages and double negative CD3 T cells, suggesting that the two cell types are far more dispersed in compartmentalised tumours compared to cold tumours. In general, it appears that our immune cell types become more dispersed in compartmentalised tumours compared to cold tumours.</p>
+<p>To examine a specific cell type-cell type relationship in more detail, we can use <code>spicyBoxplot</code> and specify either <code>from = "Macrophages"</code> and <code>to = "dn_T_CD3"</code> or <code>rank = 1</code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span>results <span class="op">=</span> <span class="va">spicyTest</span>, </span>
 <span>             <span class="co"># from = "Macrophages",</span></span>
 <span>             <span class="co"># to = "dn_T_CD3"</span></span>
 <span>             rank <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-spicyBoxPlot-1.png" class="img-fluid figure-img" width="672"></p>
@@ -564,22 +564,18 @@ Macrophages__Macrophages Macrophages Macrophages</code></pre>
 </div>
 </div>
 </div>
+<p>The boxplot confirms what we originally found in the bubble plot. Macrophages and double negative CD3 T cells are significantly more dispersed (lower L-function score) in compartmentalised tumours compared to cold tumours.</p>
 </section><section id="linear-modelling-for-custom-metrics" class="level3" data-number="8.1.4"><h3 data-number="8.1.4" class="anchored" data-anchor-id="linear-modelling-for-custom-metrics">
 <span class="header-section-number">8.1.4</span> Linear modelling for custom metrics</h3>
-<p><code>spicyR</code> can also be applied to custom distance or abundance metrics. A kNN interactions graph can be generated with the function <code>buildSpatialGraph</code> from the <code>imcRtools</code> package. This generates a <code>colPairs</code> object inside of the <code>SpatialExperiment</code> object.</p>
-<p><code>spicyR</code> provides the function <code>convPairs</code> for converting a <code>colPairs</code> object into an abundance matrix by calculating the average number of nearby cells types for every cell type for a given <code>k</code>. For example, if there exists on average 5 neutrophils for every macrophage in image 1, the column <code>Neutrophil__Macrophage</code> would have a value of 5 for image 1.</p>
+<p>spicyR can also be applied to custom distance or abundance metrics. A kNN interactions graph can be generated with the function <code>buildSpatialGraph</code> from the <code>imcRtools</code> package. This generates a <code>colPairs</code> object inside of the <code>SpatialExperiment</code> object.</p>
+<p>spicyR provides the function <code>convPairs</code> for converting a <code>colPairs</code> object into an abundance matrix by calculating the average number of nearby cells types for every cell type for a given <code>k</code>. For example, if there exists on average 5 neutrophils for every macrophage in image 1, the column <code>Neutrophil__Macrophage</code> would have a value of 5 for image 1.</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">imcRtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/imcRtools/man/buildSpatialGraph.html">buildSpatialGraph</a></span><span class="op">(</span><span class="va">kerenSPE</span>, </span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">imcRtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/imcRtools/man/buildSpatialGraph.html">buildSpatialGraph</a></span><span class="op">(</span><span class="va">kerenSPE</span>, </span>
 <span>                                         img_id <span class="op">=</span> <span class="st">"imageID"</span>, </span>
 <span>                                         type <span class="op">=</span> <span class="st">"knn"</span>, k <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                                        coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>'sample_id's are duplicated across 'SpatialExperiment' objects to cbind; appending sample indices.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The returned object is ordered by the 'imageID' entry.</code></pre>
-</div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pairAbundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/convPairs.html">convPairs</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
+<span>                                        coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pairAbundances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/convPairs.html">convPairs</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
 <span>                  colPair <span class="op">=</span> <span class="st">"knn_interaction_graph"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pairAbundances</span><span class="op">[</span><span class="st">"B_cell__B_cell"</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -595,7 +591,7 @@ Macrophages__Macrophages Macrophages Macrophages</code></pre>
 </div>
 <p>The custom distance or abundance metrics can then be included in the analysis with the <code>alternateResult</code> parameter.</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spicyTestColPairs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spicyTestColPairs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span></span>
 <span>  <span class="va">kerenSPE</span>,</span>
 <span>  condition <span class="op">=</span> <span class="st">"tumour_type"</span>,</span>
 <span>  alternateResult <span class="op">=</span> <span class="va">pairAbundances</span>,</span>
@@ -630,24 +626,25 @@ CD4_T_cell__DC                 CD4_T_cell          DC</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span></span>
 <span>  <span class="va">spicyTestColPairs</span>,</span>
 <span>  marksToPlot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Macrophages"</span>, <span class="st">"dn_T_CD3"</span>, <span class="st">"CD4_T_cell"</span>, </span>
 <span>                  <span class="st">"B_cell"</span>, <span class="st">"DC_or_Mono"</span>, <span class="st">"Neutrophils"</span>, <span class="st">"CD8_T_cell"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-signifPlotkNN-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-signifPlot for kNN-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Using abudance metric yields no cell type pairs which are significantly dispersed or localised in compartmentalised tumours compared to cold tumours.</p>
 </section><section id="mixed-effects-modelling" class="level3" data-number="8.1.5"><h3 data-number="8.1.5" class="anchored" data-anchor-id="mixed-effects-modelling">
 <span class="header-section-number">8.1.5</span> Mixed effects modelling</h3>
-<p><code>spicyR</code> supports mixed effects modelling when multiple images are obtained for each subject. In this case, <code>subject</code> is treated as a random effect and <code>condition</code> is treated as a fixed effect. To perform mixed effects modelling, we can specify the <code>subject</code> parameter in the <code><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy()</a></code> function.</p>
-<p>To demonstrate spicyR’s functionality with mixed effects models, we will use the Damond 2019 dataset.</p>
+<p>spicyR supports mixed effects modelling when multiple images are obtained for each subject. In this case, <code>subject</code> is treated as a random effect and <code>condition</code> is treated as a fixed effect. To perform mixed effects modelling, we can specify the <code>subject</code> parameter in the <code>spicy</code> function.</p>
+<p>To demonstrate spicyR’s functionality with mixed effects models, we will use the <a href="./datasets.html">Damond 2019</a> dataset.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in data</span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"diabetesData"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># mixed effects modelling with spicy</span></span>
@@ -657,11 +654,11 @@ CD4_T_cell__DC                 CD4_T_cell          DC</code></pre>
 <span>  subject <span class="op">=</span> <span class="st">"case"</span>,</span>
 <span>  BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 129.59 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 113.56 seconds</p>
 </div>
 <p>As before, we generate a <code>spicy</code> results object, and we can use <code>topPairs</code> to identify the most significant cell type pairs.</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/topPairs.html">topPairs</a></span><span class="op">(</span><span class="va">spicyMixedTest</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/topPairs.html">topPairs</a></span><span class="op">(</span><span class="va">spicyMixedTest</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                         intercept coefficient      p.value adj.pvalue
 beta__delta           6.081500e+01  -15.433244 0.0006616410 0.09171134
@@ -689,12 +686,12 @@ macrophage__unknown   macrophage    unknown</code></pre>
 </div>
 <p>We can use <code>signifPlot</code> to visualise the results.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">spicyMixedTest</span>,</span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">spicyMixedTest</span>,</span>
 <span>           marksToPlot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"B"</span>, <span class="st">"Th"</span>, <span class="st">"otherimmune"</span>, </span>
 <span>                           <span class="st">"naiveTc"</span>, <span class="st">"macrophage"</span>, <span class="st">"Tc"</span>, <span class="st">"stromal"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-signifPlot on mixed model-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -703,14 +700,14 @@ macrophage__unknown   macrophage    unknown</code></pre>
 </section><section id="performing-survival-analysis" class="level3" data-number="8.1.6"><h3 data-number="8.1.6" class="anchored" data-anchor-id="performing-survival-analysis">
 <span class="header-section-number">8.1.6</span> Performing survival analysis</h3>
 <p><code>spicy</code> can also be used to perform survival analysis to asses whether changes in co-localisation between cell types are associated with survival probability. <code>spicy</code> fits a Cox proportional hazards model to assess the risk of death with the L-function as the explanatory variable. If there are multiple images provided per subject, <code>spicy</code> fits a Cox mixed effects model instead.</p>
-<p><code>spicy</code> requires the <code>SingleCellExperiment</code> object being used to contain a column called <code>survival</code> as a <code>Surv</code> object.</p>
+<p>To perform survival analysis, <code>spicy</code> requires the <code>SingleCellExperiment</code> object being used to contain a column called <code>survival</code> as a <code>Surv</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
 <span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">survival</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">`Survival_days_capped*`</span>, <span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then perform survival analysis using the <code>spicy</code> function by specifying <code>condition = "survival"</code>. The corresponding coefficients and p-values can be accessed through the <code>survivalResults</code> slot in the <code>spicy</code> results object.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Running survival analysis</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Running survival analysis</span></span>
 <span><span class="va">spicySurvival</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicy.html">spicy</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
 <span>                      condition <span class="op">=</span> <span class="st">"survival"</span>,</span>
 <span>                      BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span>
@@ -732,16 +729,16 @@ macrophage__unknown   macrophage    unknown</code></pre>
  9 dn_T_CD3__CD4_T_cell    0.00841 0.00354 0.000925  
 10 DC__Other_Immune       -0.0288  0.0123  0.00105   </code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 9.66 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 8.63 seconds</p>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">spicySurvival</span>,</span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/signifPlot.html">signifPlot</a></span><span class="op">(</span><span class="va">spicySurvival</span>,</span>
 <span>           marksToPlot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Tumour"</span>, <span class="st">"Tregs"</span>, <span class="st">"NK"</span>, <span class="st">"Neutrophils"</span>, <span class="st">"Mono_or_Neu"</span>, </span>
 <span>                           <span class="st">"Macrophages"</span>, <span class="st">"Keratin_Tumour"</span>, <span class="st">"dn_T_CD3"</span>, <span class="st">"DC_or_Mono"</span>,</span>
 <span>                           <span class="st">"DC"</span>, <span class="st">"CD8_T_cell"</span>, <span class="st">"CD4_T_cell"</span>, <span class="st">"B_cell"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-signifPlot for survival-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -749,7 +746,7 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <p>From the table and the graph above, we can see that the coefficient for <code>Tumour__CD8_T_cell</code> is negative, indicating that localisation between the two cell types is associated with a better prognosis for the patient. We can also see that localisation between most immune cell types (<code>Neutrophils__CD8_T_cell</code>, <code>Tregs__CD4_T_cell</code>, <code>dn_T_CD3__CD4_T_cell</code>) is associated with worse outcomes for the patient.</p>
 <p>We can examine the relationship for one pair of cell types (<code>Tumour__CD8_T_cell</code>) more closely using a Kaplan-Meier curve. Below, we extract the survival data from <code>kerenSPE</code> and create a <code>Surv</code> object.</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># extracting survival data</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># extracting survival data</span></span>
 <span><span class="va">survData</span> <span class="op">&lt;-</span> <span class="va">kerenSPE</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">colData</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -772,7 +769,7 @@ macrophage__unknown   macrophage    unknown</code></pre>
 </div>
 <p>We can then convert our L-function metrics into a binary metric with two categories: Localised and Dispersed, and plot a Kaplan-Meier curve to view its relationship to survival probability.</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># obtain L-function values for a specific cell type</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># obtain L-function values for a specific cell type</span></span>
 <span><span class="co"># and convert into localised/dispersed based on the median</span></span>
 <span><span class="va">survRelationship</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicySurvival</span><span class="op">)</span><span class="op">[[</span><span class="st">"Tumour__CD8_T_cell"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">survRelationship</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">survRelationship</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">survRelationship</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -789,17 +786,18 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Tumour__CD8_T_cell"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-KM curve-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>The KM curve aligns with that we observed from the bubble plot.</p>
 </section><section id="accounting-for-tissue-inhomogeneity" class="level3" data-number="8.1.7"><h3 data-number="8.1.7" class="anchored" data-anchor-id="accounting-for-tissue-inhomogeneity">
 <span class="header-section-number">8.1.7</span> Accounting for tissue inhomogeneity</h3>
-<p>The <code>spicy</code> function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the <code>sigma =</code> parameter within the spicy function. By default, <code>sigma</code> is set to <code>NULL</code>, and <code>spicy</code> assumes a homogeneous tissue structure.</p>
-<p>In the example below, we examine the degree of co-localisation between <code>Keratin_Tumour__Neutrophils</code> in one image using the <code>getPairwise</code> function, which returns the L-function values for each cell type pair. We set the radius over which the L-function should be calculated (<code>Rs = 100</code>) and specify <code>sigma = NULL</code>. The calculated L-function is positive, indicating attraction between the two cell types.</p>
+<p>The <code>spicy</code> function can also account for tissue inhomogeneity to avoid false positives or negatives. This can be done by setting the <code>sigma =</code> parameter within the <code>spicy</code> function. By default, <code>sigma</code> is set to <code>NULL</code>, and <code>spicy</code> assumes a homogeneous tissue structure.</p>
+<p>To demonstrate why <code>sigma</code> is a useful parameter, we examine the degree of co-localisation between <code>Keratin_Tumour__Neutrophils</code> in one image using the <code>getPairwise</code> function, which returns the L-function values for each cell type pair. We set the radius over which the L-function should be calculated (<code>Rs = 100</code>) and specify <code>sigma = NULL</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter SPE object to obtain image 24 data</span></span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter SPE object to obtain image 24 data</span></span>
 <span><span class="va">kerenSubset</span> <span class="op">=</span> <span class="va">kerenSPE</span><span class="op">[</span>, <span class="fu">colData</span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span><span class="op">$</span><span class="va">imageID</span> <span class="op">==</span> <span class="st">"24"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">pairwiseAssoc</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSubset</span>, </span>
@@ -812,9 +810,10 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <pre><code>[1] 10.88892</code></pre>
 </div>
 </div>
+<p>The calculated L-function is positive, indicating attraction between the two cell types.</p>
 <p>When we specify <code>sigma = 20</code> and re-calculate the L-function, it indicates that there is no relationship between <code>Keratin_Tumour</code> and <code>Neutrophils</code>, i.e., there is no major attraction or dispersion, as it now takes into account tissue inhomogeneity.</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pairwiseAssoc</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSubset</span>, </span>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pairwiseAssoc</span> <span class="op">=</span> <span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/getPairwise.html">getPairwise</a></span><span class="op">(</span><span class="va">kerenSubset</span>, </span>
 <span>                            sigma <span class="op">=</span> <span class="fl">20</span>, </span>
 <span>                            Rs <span class="op">=</span> <span class="fl">100</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -823,25 +822,27 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <pre><code>[1] 0.9024836</code></pre>
 </div>
 </div>
-<p>To understand why this might be happening, we can take a closer look at the relationship between <code>Keratin_Tumour</code> and <code>Neutrophils</code>. The <code>plotImage</code> function allows us to plot any two cell types for a specific image. Below, we plot image 24 for the <code>Keratin_Tumour__Neutrophils</code> relationship by specifying <code>from = Keratin_Tumour</code> and <code>to</code> = <code>Neutrophils</code>.</p>
+<p>To understand why this might be happening, we can take a closer look at the relationship between <code>Keratin_Tumour</code> and <code>Neutrophils</code>. The <code>plotImage</code> function allows us to plot any two cell types for a specific image. Below, we plot image 24 for the <code>Keratin_Tumour__Neutrophils</code> relationship by specifying <code>from = Keratin_Tumour</code> and <code>to = Neutrophils.</code></p>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="st">"24"</span>, from <span class="op">=</span> <span class="st">"Keratin_Tumour"</span>, to <span class="op">=</span> <span class="st">"Neutrophils"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="st">"24"</span>, </span>
+<span>          from <span class="op">=</span> <span class="st">"Keratin_Tumour"</span>, </span>
+<span>          to <span class="op">=</span> <span class="st">"Neutrophils"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotCellTypes-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plot cell types-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the bottom of the image.</p>
+<p>Plotting image 24 shows that the supposed co-localisation occurs due to the dense cluster of cells near the bottom of the image, and when we take this into account, the localisation disappears.</p>
 </section><section id="adjusting-for-cell-count" class="level3" data-number="8.1.8"><h3 data-number="8.1.8" class="anchored" data-anchor-id="adjusting-for-cell-count">
 <span class="header-section-number">8.1.8</span> Adjusting for cell count</h3>
 <p>The L-function (and by extension, the co-localisation score) is sensitive to the number of cells in an image. Too few cells can cause the L-function to become unstable and obscure meaningful spatial relationships. The issue is particularly pronounced when there is a skewed ratio of cell types in an image.</p>
-<!--In the plot below, we can see that the variance of the co-localisation metric is greater when the number of cells is low, and becomes more stable as the number of cells increases.-->
+<p>In the plot below, we can see that the variance of the co-localisation metric is greater when the number of cells is low, and becomes more stable as the number of cells increases.</p>
 <p>To address this issue, spicyR uses a shape constrained generalised additive model (GAM) to model the co-localisation metric <span class="math inline">\(u\)</span> as a function of the number of cells per cell type. The inverse of this fitted curve is used to generate weights which are applied to each image. Images with fewer cells have a lower weight. spicyR can perform image weighting in two ways: by fitting the GAM on the scores from all cell types at once, or by fitting the GAM on each pair of cell types. To perform image weighting by cell type pair, set <code>weightsByPair = TRUE</code> when using <code>spicy</code>.</p>
 <p>From the boxplot below, we can identify images that may have very few cells or a skewed cell type distribution. For consistency, we will use the cell type pair <code>Macrophages__dn_T_CD3</code>, which showed significant differences in co-localisation between cold and compartmentalised tumours in our initial analysis.</p>
 <div class="cell">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>,</span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/spicyBoxPlot.html">spicyBoxPlot</a></span><span class="op">(</span><span class="va">spicyTest</span>,</span>
 <span>             from <span class="op">=</span> <span class="st">"Macrophages"</span>,</span>
 <span>             to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -850,14 +851,14 @@ macrophage__unknown   macrophage    unknown</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-spicyBoxplot2-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-spicyBoxplot 2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Using the graph, we can filter for compartmentalised images that had an L-function value greater than 20 and examine the structure of these images.</p>
 <div class="cell">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">imageID</span>, <span class="va">condition</span>, <span class="va">Macrophages__dn_T_CD3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># filter for compartmenatalised images with L-function &gt; 20 (an outlier)</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"compartmentalised"</span> <span class="op">&amp;</span> <span class="va">Macrophages__dn_T_CD3</span> <span class="op">&gt;</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -868,10 +869,10 @@ macrophage__unknown   macrophage    unknown</code></pre>
 </div>
 <p>We can use <code>plotImage</code> to examine image 34 more closely.</p>
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="fl">34</span>, from <span class="op">=</span> <span class="st">"Macrophages"</span>, to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="fl">34</span>, from <span class="op">=</span> <span class="st">"Macrophages"</span>, to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotImage34-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotImage 34-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -879,7 +880,7 @@ macrophage__unknown   macrophage    unknown</code></pre>
 <p>The value of the L-function tells us that there is localisation between macrophages and double negative CD3 T cells in this image. However, when we examine the image in question, it appears that the number of <code>dn_T_CD3</code> cells is low compared to the number of <code>Macrophages</code>. The L-function is therefore not capturing the full context of the spatial relationship.</p>
 <p>We can repeat the process above for mixed tumours.</p>
 <div class="cell">
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://sydneybiox.github.io/spicyR/reference/bind.html">bind</a></span><span class="op">(</span><span class="va">spicyTest</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">imageID</span>, <span class="va">condition</span>, <span class="va">Macrophages__dn_T_CD3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">condition</span> <span class="op">==</span> <span class="st">"mixed"</span> <span class="op">&amp;</span> <span class="va">Macrophages__dn_T_CD3</span> <span class="op">&gt;</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -891,33 +892,37 @@ macrophage__unknown   macrophage    unknown</code></pre>
 </div>
 <p>Here, three images have high L-function values. We will examine image 33.</p>
 <div class="cell">
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="fl">33</span>, from <span class="op">=</span> <span class="st">"Macrophages"</span>, to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">plotImage</span><span class="op">(</span><span class="va">kerenSPE</span>, imageToPlot <span class="op">=</span> <span class="fl">33</span>, from <span class="op">=</span> <span class="st">"Macrophages"</span>, to <span class="op">=</span> <span class="st">"dn_T_CD3"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotImage33-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="04a-cell_localisation_files/figure-html/04a-plotImage 33-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>As before, we can see that the number of <code>dn_T_CD3</code> cells is low, driving the L-function up even though true localisation may not be occurring.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="Assessing image quality">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+Assessing image quality
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>How do we distinguish “good” images from “bad” ones?</em> 1. Typically, images with very few cells can skew the L-function, and make it appear as though there is localization or dispersion when, in reality, no significant spatial pattern exists. These images usually have very high or very low L-function values compared to other images in the same group. 2. Skewed images must be further examined to understand the reason behind the abnormal L-function values. Factors such as imaging artifacts, poor segmentation, or uneven cell distribution could contribute to this skew. 3. In contrast, good quality images typically exhibit a more balanced ratio of cell types and a consistent number of cells across images.</p>
+<p><strong>How do we distinguish “good” images from “bad” ones?</strong></p>
+<ul>
+<li><p>Typically, images with very few cells can skew the L-function, and make it appear as though there is localization or dispersion when, in reality, no significant spatial pattern exists. These images usually have very high or very low L-function values compared to other images in the same group.</p></li>
+<li><p>Skewed images must be further examined to understand the reason behind the abnormal L-function values. Factors such as imaging artifacts, poor segmentation, or uneven cell distribution could contribute to this skew. In contrast, good quality images typically exhibit a more balanced ratio of cell types and a consistent number of cells across images.</p></li>
+</ul>
 </div>
 </div>
 <p>In the next section, we will demonstrate how and why we can derive spatial contexts within tissue samples to produce robust spatial quantifications.</p>
 </section></section><section id="sessioninfo" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">8.2</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.4.1 (2024-06-14)
 Platform: aarch64-apple-darwin20

@@ -69,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -337,11 +308,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#spatial-proteomics---mibi-tof" id="toc-spatial-proteomics---mibi-tof" class="nav-link active" data-scroll-target="#spatial-proteomics---mibi-tof"><span class="header-section-number">2.1</span> Spatial Proteomics - MIBI-TOF</a>
+  <li><a href="#spatial-proteomics" id="toc-spatial-proteomics" class="nav-link active" data-scroll-target="#spatial-proteomics"><span class="header-section-number">2.1</span> Spatial Proteomics</a>
   <ul class="collapse">
-  <li><a href="#triple-negative-breast-cancer---keren_2018" id="toc-triple-negative-breast-cancer---keren_2018" class="nav-link" data-scroll-target="#triple-negative-breast-cancer---keren_2018"><span class="header-section-number">2.1.1</span> Triple Negative Breast Cancer - Keren_2018</a></li>
-  <li><a href="#ductal-carcinoma-in-situ---risom_2022" id="toc-ductal-carcinoma-in-situ---risom_2022" class="nav-link" data-scroll-target="#ductal-carcinoma-in-situ---risom_2022"><span class="header-section-number">2.1.2</span> Ductal carcinoma in situ - Risom_2022</a></li>
-  <li><a href="#head-and-neck-squamous-cell-carcinoma---ferguson_2022" id="toc-head-and-neck-squamous-cell-carcinoma---ferguson_2022" class="nav-link" data-scroll-target="#head-and-neck-squamous-cell-carcinoma---ferguson_2022"><span class="header-section-number">2.1.3</span> Head and neck squamous cell carcinoma - Ferguson_2022</a></li>
+  <li><a href="#imc" id="toc-imc" class="nav-link" data-scroll-target="#imc"><span class="header-section-number">2.1.1</span> IMC</a></li>
+  <li><a href="#mibi-tof" id="toc-mibi-tof" class="nav-link" data-scroll-target="#mibi-tof"><span class="header-section-number">2.1.2</span> MIBI-TOF</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -368,7 +338,7 @@ window.Quarto = {
 </header>
 
 
-<p>Through the course of this spatialPlaybook, we will take advantage of several different spatial datasets that are publicly available. These datasets are all accessible within our <a href="https://www.bioconductor.org/packages/release/data/experiment/html/SpatialDatasets.html">SpatialDatasets</a> package on Bioconductor. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.</p>
+<p>Through the course of this spatialPlaybook, we will take advantage of several different publicly available spatial datasets that are listed below. We will demonstrate several questions that could be answered or explored for each of these datasets using the available information.</p>
 <style>
 table {
   font-size: 9pt;
@@ -404,21 +374,21 @@ table {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">Breast cancer</td>
-<td style="text-align: center;">MIBI-TOF</td>
-<td style="text-align: center;">Keren_2018</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">Head and neck squamous cutaneous cell carcinoma</td>
+<td style="text-align: center;">IMC</td>
+<td style="text-align: center;">Ferguson 2022</td>
+<td style="text-align: center;">X</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Breast cancer</td>
 <td style="text-align: center;">MIBI-TOF</td>
-<td style="text-align: center;">Risom_2022</td>
+<td style="text-align: center;">Risom 2022</td>
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
@@ -428,11 +398,35 @@ table {
 <td style="text-align: center;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;">Mouse organogenesis</td>
-<td style="text-align: center;">seqFISH</td>
-<td style="text-align: center;">Lohoff_2022</td>
+<td style="text-align: center;">Mouse embryogenesis</td>
+<td style="text-align: center;">Slide-seq</td>
+<td style="text-align: center;">Stickels 2021</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Breast cancer</td>
+<td style="text-align: center;">MIBI-TOF</td>
+<td style="text-align: center;">Keren 2018</td>
+<td style="text-align: center;">X</td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Type 1 diabetes</td>
+<td style="text-align: center;">IMC</td>
+<td style="text-align: center;">Damond 2019</td>
+<td style="text-align: center;">X</td>
+<td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;">X</td>
 <td style="text-align: center;"></td>
@@ -447,18 +441,34 @@ citation {
   font-style: italic;
 }
 </style>
-<section id="spatial-proteomics---mibi-tof" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="spatial-proteomics---mibi-tof"><span class="header-section-number">2.1</span> Spatial Proteomics - MIBI-TOF</h2>
-<p>MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an instrument that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies and image fields of about <span class="math inline">\(1mm^2\)</span> at resolutions down to <span class="math inline">\(260nm\)</span>.</p>
-<section id="triple-negative-breast-cancer---keren_2018" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="triple-negative-breast-cancer---keren_2018"><span class="header-section-number">2.1.1</span> <a href="datasets/Keren_2018/Keren_2018.qmd">Triple Negative Breast Cancer - Keren_2018</a></h3>
-<p>This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer using MIBI-TOF. The dataset captures high-resolution, spatially resolved data on 17 distinct cell populations, immune composition, checkpoint protein expression, and tumor-immune interactions.</p>
-<p><citation> Keren et al.&nbsp;(2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. (<a href="https://doi.org/10.1016/j.cell.2018.08.039">DOI</a>) </citation></p>
+<section id="spatial-proteomics" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="spatial-proteomics"><span class="header-section-number">2.1</span> Spatial Proteomics</h2>
+<section id="imc" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="imc"><span class="header-section-number">2.1.1</span> IMC</h3>
+<p>Imaging Mass Cytometry (IMC) is a high-resolution, multiplexed imaging technique that combines laser ablation with mass cytometry to visualize metal-tagged antibodies in tissue sections or cell samples. Using a pulsed laser, IMC systematically ablates the sample, releasing metal isotopes that are then analysed by time-of-flight mass spectrometry. This allows for the simultaneous detection of <strong>40+ biomarkers</strong> at subcellular resolution, typically around <strong>1 µm</strong>, without the spectral overlap issues found in fluorescence-based imaging.</p>
+<section id="head-and-neck-cutaneous-squamous-cell-carcinoma-ferguson-2022" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="head-and-neck-cutaneous-squamous-cell-carcinoma-ferguson-2022"><span class="header-section-number">2.1.1.1</span> Head and neck cutaneous squamous cell carcinoma (Ferguson 2022)</h4>
+<p>Squamous cell carcinoma (SCC) is the second most common skin cancer, with high-risk head and neck SCC (HNcSCC) being aggressive and prone to recurrence or metastasis, particularly in immunosuppressed patients. This study used IMC to profile the tumour microenvironment of 31 patients to identify cellular interactions that were associated with tumour progression. A panel of <strong>36 markers</strong> was used, and patients were classified into one of two categories: non-progressors (NP) for those that were negative for metastases and progressors (P) that were positive for metastases. The study identified early immune responses that were crucial in controlling tumour progression and improving patient prognosis.</p>
+<p><citation> Ferguson et al.&nbsp;(2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. (<a href="https://doi.org/10.1158/1078-0432.CCR-22-1332">DOI</a>)</citation></p>
 </section>
-<section id="ductal-carcinoma-in-situ---risom_2022" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="ductal-carcinoma-in-situ---risom_2022"><span class="header-section-number">2.1.2</span> Ductal carcinoma in situ - Risom_2022</h3>
-<p>This study uses MIBI-TOF to profile the spatial landscape of ductal carcinoma <em>in situ</em> (DCIS), a pre-invasive lesion believed to be a precursor to invasive breast cancer (IBC). A 37-plex antibody staining panel was used to capture spatial relationships that provided insight into the dynamics of the tumour microenvironment during the transition from normal breast tissue to DCIS and IBC.</p>
+<section id="type-1-diabetes-progression-damond-2019" class="level4" data-number="2.1.1.2">
+<h4 data-number="2.1.1.2" class="anchored" data-anchor-id="type-1-diabetes-progression-damond-2019"><span class="header-section-number">2.1.1.2</span> Type 1 diabetes progression (Damond 2019)</h4>
+<p>Type 1 diabetes (T1D) results from the autoimmune destruction of insulin-producing β cells. This study analysed pancreatic tissue obtained from 12 patients at 3 different stages of diabetes: non-diabetic, early onset, and long-term using a 35-plex antibody panel. Analysis revealed key cellular movements that preceded the destruction of insulin-producing β cells, highlighting potential targets for future therapies and treatments.</p>
+<p><citation> Damond et al.&nbsp;(2019). A Map of Human Type 1 Diabetes Progression by Imaging Mass Cytometry. Cell Metabolism, 29(3), 755-768.e5. (<a href="https://doi.org/10.1016/j.cmet.2018.11.014">DOI</a>)</citation></p>
+</section>
+</section>
+<section id="mibi-tof" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="mibi-tof"><span class="header-section-number">2.1.2</span> MIBI-TOF</h3>
+<p>MIBI-TOF (multiplexed ion beam imaging by time-of-flight) is an imaging technique that uses bright ion sources and orthogonal time-of-flight mass spectrometry to image metal-tagged antibodies at subcellular resolution in clinical tissue sections. It is capable of imaging approximately 40 labelled antibodies, providing a highly detailed and multiplexed view of tissue architecture and protein expression. MIBI-TOF can capture image fields of around <strong>1 mm²</strong> with exceptional spatial resolution, reaching down to <strong>260 nm</strong>.</p>
+<section id="ductal-carcinoma-in-situ-risom-2022" class="level4" data-number="2.1.2.1">
+<h4 data-number="2.1.2.1" class="anchored" data-anchor-id="ductal-carcinoma-in-situ-risom-2022"><span class="header-section-number">2.1.2.1</span> Ductal carcinoma in situ (Risom 2022)</h4>
+<p>Ductal carcinoma in situ (DCIS) is a pre-invasive lesion considered a precursor to invasive breast cancer (IBC). This study utilized MIBI-TOF with <strong>a 37-plex</strong> antibody panel to analyze spatial relationships within the Washington University Resource Archival Human Breast Tissue (RAHBT) cohort. The findings identified key drivers of IBC relapse and emphasized the critical role of the tumour microenvironment in influencing disease progression.</p>
 <p><citation> Risom et al.&nbsp;(2022). Transition to invasive breast cancer is associated with progressive changes in the structure and composition of tumor stroma. Cell, 185(2), 299-310.e18 (<a href="https://doi.org/10.1016/j.cell.2021.12.023">DOI</a>) </citation></p>
+</section>
+<section id="triple-negative-breast-cancer-keren-2018" class="level4" data-number="2.1.2.2">
+<h4 data-number="2.1.2.2" class="anchored" data-anchor-id="triple-negative-breast-cancer-keren-2018"><span class="header-section-number">2.1.2.2</span> Triple Negative Breast Cancer (Keren 2018)</h4>
+<p>This study profiles 36 proteins in tissue samples from 41 patients with triple-negative breast cancer (a particularly aggressive form of cancer) using MIBI-TOF. The dataset captures high-resolution, spatially resolved data on 17 distinct cell populations, immune composition, checkpoint protein expression, and tumor-immune interactions. Patients were classified into three categories based on the type of tumour: cold (no immune cell infiltration), compartmentalised (immune cells spatially separated from tumor cells), and mixed (immune cells mixed with tumor cells).</p>
+<p><citation> Keren et al.&nbsp;(2018). A Structured Tumor-Immune Microenvironment in Triple Negative Breast Cancer Revealed by Multiplexed Ion Beam Imaging. Cell, 174(6), 1373-1387.e1319. (<a href="https://doi.org/10.1016/j.cell.2018.08.039">DOI</a>) </citation></p>
 <!-- ## Spatial Proteomics - CODEX -->
 <!-- CODEX (co-detection by indexing) is a highly multiplexed tissue imaging technique that uses DNA-barcoded antibodies which are later revealed by fluorescent detector oligonucleotides. It can visualise up to 60 labelled antibodies at subcellular resolution. -->
 <!-- ### Colorectal cancer - Schurch_2020 -->
@@ -469,19 +479,16 @@ citation {
 <!-- ### Breast cancer - Ali_2020 -->
 <!-- Also known as the METABRIC dataset, this 37-panel IMC dataset contains images of 456 primary invasive breast carcinoma patients obtained from 548 samples. Clinical variables in the dataset include age, chemotherapy (CT), radiotherapy (RT), hormone treatment (HT) indicators, estrogen receptor (ER) status, and gene expression markers (MKI67, EGFR, PGR, and ERBB2). -->
 <!-- <citation> Ali et al. (2020). Imaging mass cytometry and multiplatform genomics define the phenogenomic landscape of breast cancer. Nature Cancer, 1, 163-175. ([DOI](https://doi.org/10.1038/s43018-020-0026-6))</citation> -->
-</section>
-<section id="head-and-neck-squamous-cell-carcinoma---ferguson_2022" class="level3" data-number="2.1.3">
-<h3 data-number="2.1.3" class="anchored" data-anchor-id="head-and-neck-squamous-cell-carcinoma---ferguson_2022"><span class="header-section-number">2.1.3</span> Head and neck squamous cell carcinoma - Ferguson_2022</h3>
-<p>This study uses IMC to map the immune landscape and identify differences between high-risk primary head and neck cancer (HNcSCC) tumors that did not progress and those that developed metastases (progressing tumours). The key conclusion of this manuscript (amongst others) is that spatial information about cells and the immune environment can be used to predict primary tumour progression or metastases in patients. We will use our workflow to reach a similar conclusion.</p>
-<p><citation> Ferguson et al.&nbsp;(2022). High-Dimensional and Spatial Analysis Reveals Immune Landscape–Dependent Progression in Cutaneous Squamous Cell Carcinoma. Clinical Cancer Research, 28(21), 4677-4688. (<a href="https://doi.org/10.1158/1078-0432.CCR-22-1332">DOI</a>)</citation></p>
 <!-- ## Spatial Transcriptomics - seqFISH -->
 <!-- [SeqFISH](https://spatial.caltech.edu/seqfish) (sequential Fluorescence In Situ Hybridization) is a technology that enables the identification of thousands of molecules like RNA, DNA, and proteins directly in single cells with their spatial context preserved. seqFISH can multiplex over 10,000 molecules and integrate multiple modalities. -->
 <!-- ### [Mouse organogenesis - Lohoff_2022](datasets/Lohoff_2022/Lohoff_2022.qmd) -->
 <!-- This study uses seqFISH to spatially profile the expression of 387 genes in mouse embryos. A comprehensive spatially resolved map of gene expression was created by integrating the seqFISH data with existing scRNAseq data. This integration facilitated the exploration of cellular relationships across different regions of the embryo. -->
 <!-- <citation> Lohoff et al. (2022). Integration of spatial and single-cell transcriptomic data elucidates mouse organogenesis. Nature Biotechnology 40, 74--85 ([DOI](https://doi.org/10.1038/s41587-021-01006-2)). </citation> -->
 <!-- Need to add: Stickles 2021 (used for scClassify) and Damond 2019 (diabetes dataset used for mixed spicyR) -->
+<p>In the following section, we provide a quick guide to help you get started with performing spatial analysis.</p>
 
 
+</section>
 </section>
 </section>
 

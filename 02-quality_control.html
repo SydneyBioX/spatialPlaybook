@@ -344,7 +344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>With cell segmentation complete, we can move on to performing quality control checks. In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining may be particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it. The simpleSeg package includes additional functions for detecting batch effects and normalising expression data to minimize their impact.</p>
+</header><p>With cell segmentation complete, we can move on to performing quality control checks. In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining may be particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it. The <a href="https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> package includes additional functions for detecting batch effects and normalising expression data to minimise their impact.</p>
 <!-- Steps: -->
 <!-- 1.  Evaluate quality of cell segmentation with CellSPA (simpleSeg/cellSPA?) -->
 <!-- 2.  How to qc image batch-effect (simpleSeg::normalizeCells) -->
@@ -373,15 +373,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- [CellSPA](https://sydneybiox.github.io/CellSPA/) is an R package that provides an evaluation framework for *in situ* cell segmentation results. -->
 <section id="simpleseg-do-my-images-have-a-batch-effect" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="simpleseg-do-my-images-have-a-batch-effect">
 <span class="header-section-number">5.1</span> simpleSeg: Do my images have a batch effect?</h2>
-<p>First, let’s load in the images we previously segmented out in the last section. The <code>SpatialDatasets</code> package conveniently provides the segmented out images for the Ferguson 2022 dataset.</p>
+<p>First, let’s load in the images we previously segmented out in the last section. The <code>SpatialDatasets</code> package conveniently provides the segmented out images for the <a href="./datasets.html">Ferguson 2022</a> dataset.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in segmented data</span></span>
 <span><span class="va">fergusonSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Ferguson_2022</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:<br></p>
+<p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:</p>
 <ol type="1">
-<li>The intensities of images are often highly skewed, preventing any meaningful downstream analysis.<br>
-</li>
+<li>The intensities of images are often highly skewed, preventing any meaningful downstream analysis.</li>
 <li>The intensities across different images are often different, meaning that what is considered “positive” can be different across images.</li>
 </ol>
 <p>By transforming and normalising the data, we aim to reduce these two effects. Below, we extract the marker intensities from the <code>counts</code> assay and take a closer look at the CD3 marker, which should be expressed in the majority of T cells.</p>
@@ -394,29 +393,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plotCD3Density-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plot CD3 density-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>What we’re looking for</strong></p>
 <ol type="1">
-<li>Do the CD3+ and CD3- peaks clearly separate out in the density plot? To ensure that downstream clustering goes smoothly, we want our cell type specific markers to show 2 distinct peaks representing our CD3+ and CD3- cells. If we see 3 or more peaks where we don’t expect, this might be an indicator that further normalization is required.</li>
-<li>Are our CD3+ and CD3- peaks consistent across our images? We want to make sure that our density plots for CD3 are largely the same across images so that a CD3+ cell in 1 image is equivalent to a CD3+ cell in another image.</li>
+<li>Do the CD3+ and CD3- peaks clearly separate out in the density plot? To ensure that downstream clustering goes smoothly, we want our cell type specific markers to show 2 distinct peaks representing our CD3+ and CD3- cells. If we see 3 or more peaks where we don’t expect, this might be an indicator that further normalisation is required.</li>
+<li>Are our CD3+ and CD3- peaks consistent across our images? We want to make sure that our density plots for CD3 are largely the same across images so that a CD3+ cell in one image is equivalent to a CD3+ cell in another image.</li>
 </ol>
 </div>
 </div>
-<p>Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effect, where across images, the intensity peaks differ drastically.</p>
+<p>Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effects, where across images, the intensity peaks differ drastically.</p>
 <p>Another method of visualising batch effects is using a dimensionality reduction technique and visualising how the images separate out on a 2D plot. If no batch effect is expected, we should see the images largely overlap with each other.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
@@ -445,14 +444,14 @@ Note
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plotUMAP-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plot UMAP-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 48.61 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 47.35 seconds</p>
 </div>
 <p>The UMAP also indicates that some level of batch effect exists in our dataset.</p>
-<p><code>simpleSeg</code> provides the <code>normalizeCells</code> function for correcting image-level batch effects. We specify the following parameters -</p>
+<p>We can use the <code>normalizeCells</code> function from the simpleSeg package to correct for image-level batch effects. We specify the following parameters:</p>
 <ul>
 <li>
 <code>transformation</code> is an optional argument which specifies the function to be applied to the data. We do not apply an arcsinh transformation here, as we already apply a square root transform in the <code>simpleSeg</code> function.</li>
@@ -478,35 +477,29 @@ Note
 <span class="header-section-number">5.1.0.1</span> <code>method</code> Parameters</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 26%">
-<col style="width: 47%">
-<col style="width: 26%">
+<col style="width: 36%">
+<col style="width: 63%">
 </colgroup>
 <thead><tr class="header">
 <th>Method</th>
 <th style="text-align: center;">Description</th>
-<th style="text-align: center;"></th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“mean”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Divides the marker cellular marker intensities by their mean.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td><span style="font-family: 'Courier New', monospace;">“minMax”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Subtracts the minimum value and scales markers between 0 and 1.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="odd">
 <td><span style="font-family: 'Courier New', monospace;">“trim99”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Sets the highest 1% of values to the value of the 99th percentile.`</span></td>
-<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td><span style="font-family: 'Courier New', monospace;">“PC1”</span></td>
 <td style="text-align: center;"><span style="font-family: 'Courier New', monospace;">Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.</span></td>
-<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
@@ -520,25 +513,25 @@ Note
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plotCD3normalised-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-plot CD3 normalised-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Questions revisited</strong></p>
 <ol type="1">
-<li>Do the CD3+ and CD3- peaks clearly separate out in the density plot? If not, we can try optimizing the transform if the distribution looks heavily skewed.</li>
-<li>Are our CD3+ and CD3- peaks consistent across our images? We can try to be more stringent in our normalization, such as by removing the 1st PC (<code>method = c(..., "PC1")</code>) or scaling the values for all images between 0 and 1 (<code>method = c(..., "minMax")</code>).</li>
+<li>Do the CD3+ and CD3- peaks clearly separate out in the density plot? If not, we can try optimising the transformation if the distribution looks heavily skewed.</li>
+<li>Are our CD3+ and CD3- peaks consistent across our images? We can try to be more stringent in our normalisation, such as by removing the 1st PC (<code>method = c(..., "PC1")</code>) or scaling the values for all images between 0 and 1 (<code>method = c(..., "minMax")</code>).</li>
 </ol>
 </div>
 </div>
@@ -565,11 +558,11 @@ Note
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-normUMAP-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="02-quality_control_files/figure-html/02-norm UMAP-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 47.94 seconds</p>
+<p>Time for this code chunk to run with 5.5 cores: 46.42 seconds</p>
 </div>
 <!-- ## scMerge: Combining multiple spatial datasets -->
 <!-- A common question that pops up when analysing spatial datasets is: can I combine multiple spatial datasets? -->
