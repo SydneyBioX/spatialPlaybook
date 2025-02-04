@@ -490,7 +490,7 @@ signifPlot(spicyTest)
 
 We observe that cell type pairs appear to become less attractive (or avoid more) in the progression sample, except for epithelial cells (EP), which appear to become localised. We can also see that granulocytes (GC) and myeloid cells (MC) are more dispersed in progressors compared to non-progressors.
 
-As an example, we will use the `spicyBoxPlot` function to investigate whether the SCstumour cell type localizes with the granulocytes and assess whether this localisation influences tumour progression versus non-progression.
+As an example, we will use the `spicyBoxPlot` function to investigate whether the SC tumour cell type localizes with the granulocytes and assess whether this localisation influences tumour progression versus non-progression.
 
 ```{r 08-spicyBoxPlot}
 spicyBoxPlot(spicyTest, 
@@ -577,7 +577,7 @@ From the results above, it appears that none of the regions above are significan
 
 Our [Statial](https://www.bioconductor.org/packages/release/bioc/html/Statial.html) package provides a suite of functions (`Kontextual`) for robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition, we provide a suite of functions (SpatioMark) for uncovering continuous changes in marker expression associated with varying levels of localisation.
 
-### SpatioMark: Continuous changes in marker expression associated with varying levels of localisation.
+### SpatioMark: Continuous changes in marker expression associated with varying levels of localisation
 
 The first step in analysing these changes is to calculate the spatial proximity (`getDistances`) of each cell to every cell type. These values will then be stored in the `reducedDims` slot of the `SingleCellExperiment` object under the names `distances`. SpatioMark also provides functionality to look into proximal cell abundance using the `getAbundance` function, which is further explored in the [Changes in marker expression](06-changes_in_marker_expression.qmd) section.
 
@@ -630,10 +630,39 @@ state_dist <- calcStateChanges(
   nCores = nCores,
   minCells = 100)
 
-head(state_dist[state_dist$imageID == "F3",], n = 10)
+head(state_dist, n = 10)
 ```
 
-The results from our SpatioMark outputs can be converted from a `data.frame` to a `matrix`, using the `prepMatrix` function. Note, the choice of extracting either the t-statistic or the coefficient of the linear regression can be specified using the `column = "tval"` parameter, with the coefficient being the default extracted parameter. We can see that with SpatioMark, we get some features which are significant after adjusting for FDR.
+Here, we can see that one of the most significant relationships is between myeloid cells (MC) and epithelial cells (EP) for the marker panCK in image D2. The negative coefficient associated with this relationship tells us that as myeloid cells and epithelial cells become more localised, panCK expression on the myeloid cells decreases.
+
+We can confirm this by examining image D2 using the `plotStateChanges` function.
+
+```{r 08-plotStateChanges panCK, warning = FALSE, message = FALSE}
+p <- plotStateChanges(
+  cells = cells,
+  cellType = "cellType",
+  spatialCoords = c("m.cx", "m.cy"),
+  type = "distances",
+  image = "D2",
+  from = "MC",
+  to = "EP",
+  marker = "panCK",
+  size = 1,
+  shape = 19,
+  interactive = FALSE,
+  plotModelFit = FALSE,
+  method = "lm")
+
+# plot image
+p$image
+```
+
+```{r 08-scatter plot panCK}
+# plot the scatter plot
+p$scatter
+```
+
+The results from our SpatioMark outputs can be converted from a `data.frame` to a `matrix`, using the `prepMatrix` function. The choice of extracting either the t-statistic or the coefficient of the linear regression can be specified using the `column = "tval"` parameter, with the coefficient being the default extracted parameter. We can see that with SpatioMark, we get some features which are significant after adjusting for FDR.
 
 ```{r 08-coltest for outcome}
 # Preparing outcome vector
@@ -648,12 +677,14 @@ distMat <- distMat[names(outcome), ]
 # Remove some very small values
 distMat <- distMat[, colMeans(abs(distMat) > 0.0001) > .8]
 
+# test for changes in marker expression across outcomes
 results <- colTest(distMat, outcome, type = "ttest")
-
 head(results)
 ```
 
-One of the most significant relationships is
+When we compare changes in marker expression across outcomes, we can see that one of the most significant relationships is `MC_BC_OX40` , or the expression of marker OX40 in myeloid cells (MC) and their localisation with B cells (BC). Expression of the marker OX40 in MC is lower in progressors vs non-progressors. OX40 is a co-stimulatory receptor found on activated T cells, primarily CD4+ and CD8+ T cells. It belongs to the tumor necrosis factor receptor (TNFR) superfamily and plays a crucial role in regulating the immune response.
+
+Understanding the spatial relationships of cells within tissue is crucial for interpreting their roles within tissues. However, without defining appropriate contexts, these relationships can be misinterpreted due to confounding factors such as tissue stricture and the choice of region to image. `Kontextual` provides a framework to generate contexts to measure spatial relationships between cells.
 
 ### Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure
 
@@ -711,15 +742,31 @@ kontextMat <- prepMatrix(kontext)
 # Replace NAs with 0
 kontextMat[is.na(kontextMat)] <- 0
 
-survivalResults <- spicyR::colTest(kontextMat, outcome, type = "ttest")
+results <- spicyR::colTest(kontextMat, outcome, type = "ttest")
 
-head(survivalResults)
+head(results)
 
 ```
 
+The most significant relationship is `MC__TC_CD4__parent3` . When we compare the mean values for this relationship between progressors and non-progressors, we can see that myeloid cells (MC) and CD4 T cells show increased co-localisation in progressors vs non-progressors with respect to the parent 3 broader population. When we refer to the cell type hierarchy we defined, we can see that parent 3 refers to the parent population of all immune cells.
+
+Now that we have identified and calculated several features that can be used to measure spatial associations across cell types and regions of localisation, we will see how these metrics can be used to predict clinical outcomes for patients.
+
 ## ClassifyR: Classification
 
-Our [ClassifyR](https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html) package on Bioconductor provides a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages: data transformation, feature selection, classifier training and prediction, into a cross-validation loop. Here we use the `crossValidate` function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data; 1) Cell type proportions 2) Cell type localisation from `spicyR` 3) Region proportions from `lisaClust` 4) Cell type localisation in reference to a parent cell type from `Kontextual` 5) Cell changes in response to proximal changes from `SpatioMark`. For a more thorough explanation of ClassifyR, refer to our [Classification](07-classification.qmd) section.
+Our [ClassifyR](https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html) package on Bioconductor provides a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages: data transformation, feature selection, classifier training and prediction, into a cross-validation loop. Here we use the `crossValidate` function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data:
+
+1.  Cell type proportions (FuseSOM)
+
+2.  Cell type localisation from spicyR using the L-function
+
+3.  Region proportions from lisaClust
+
+4.  Cell type localisation reference to a parent cell type from `Kontextual`
+
+5.  Cell changes in response to proximal changes from `SpatioMark`
+
+For a more thorough explanation of ClassifyR, refer to our [Classification](07-classification.qmd) section.
 
 ```{r 08-feature matrices}
 # Create list to store data.frames
@@ -766,9 +813,9 @@ cv <- crossValidate(
 
 ### Visualise cross-validated prediction performance
 
-Here we use the `performancePlot` function to assess the AUC from each repeat of the 5-fold cross-validation. We see that the lisaClust regions appear to capture information which is predictive of progression status of the patients.
+Here we use the `performancePlot` function to assess the AUC from each repeat of the 5-fold cross-validation.
 
-```{r 08-performancePlot}
+```{r 08-performancePlot, warning = FALSE, message = FALSE}
 # Calculate AUC for each cross-validation repeat and plot.
 performancePlot(
   cv,
@@ -778,11 +825,15 @@ performancePlot(
 )
 ```
 
-We can also visualise which features were good at classifying which patients using the `sampleMetricMap` function from `ClassifyR`.
+Both lisaClust and `Kontextual` appear to capture information that is predictive of patient outcome.
+
+We can also visualise which features were good at classifying which patients using the `sampleMetricMap` function from ClassifyR.
 
 ```{r 08-samplesMetricMap, fig.width = 12, warning = FALSE, message = FALSE}
 samplesMetricMap(cv)
 ```
+
+Overall, it appears that we were more easily able to identify non-progressors compared to progressors, and patients G6 and H2 within the progressor cohort were particularly difficult to classify.
 
 Here we have used a pipeline of our spatial analysis R packages to demonstrate an easy way to segment, cluster, normalise, quantify and classify high dimensional in situ cytometry data all within R.
 
