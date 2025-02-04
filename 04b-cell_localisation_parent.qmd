@@ -1,6 +1,6 @@
 # Cell relationships relative to expected behaviour
 
-```{r, include = FALSE}
+```{r 04b-code chunk timing, include = FALSE}
 knitr::knit_hooks$set(time_it = local({
   now <- NULL
   function(before, options) {
@@ -19,8 +19,7 @@ knitr::knit_hooks$set(time_it = local({
 
 Understanding the spatial relationships of cells within tissue is crucial for interpreting their roles within tissues. However, without defining appropriate contexts, these relationships can be misinterpreted due to confounding factors such as tissue stricture and the choice of region to image. In this section, we will demonstrate the use of our `Statial` package to derive appropriate contexts for evaluating cell localisation.
 
-
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 04b-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(spicyR)
   library(Statial)
@@ -36,7 +35,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-```{r, eval = FALSE}
+```{r 04b-libraries, eval = FALSE}
 library(spicyR)
 library(Statial)
 library(ggplot2)
@@ -50,7 +49,7 @@ library(treekoR)
 library(ggsurvfit)
 ```
 
-```{r, setParam}
+```{r 04b-set parameters}
 # set parameters
 set.seed(51773)
 use_mc <- TRUE
@@ -65,7 +64,7 @@ theme_set(theme_classic())
 
 ## Load datasets
 
-```{r warning=FALSE, message=FALSE}
+```{r 04b-load keren data, warning=FALSE, message=FALSE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 # remove any missing data in our outcome columns
@@ -87,9 +86,11 @@ A cell type hierarchy may be used to define the "context" in which cell type rel
 
 There are two ways to define the cell type hierarchy. First, they can be defined based on our biological understanding of the cell types. We can represent this by creating a named list containing the names of each parent and the associated vector of child cell types.
 
-*Note:* The `all` vector must be created to include cell types which do not have a parent e.g. the *undefined* cell type in this data set.
+::: callout-note
+The `all` vector must be created to include cell types which do not have a parent e.g. the *undefined* cell type in this data set.
+:::
 
-```{r biologicalHierarchy}
+```{r 04b-biological hierarchy}
 # Examine all cell types in image
 unique(kerenSPE$cellType)
 
@@ -112,11 +113,13 @@ biologicalHierarchy$immune = c(biologicalHierarchy$bcells,
 all <- unique(kerenSPE$cellType)
 ```
 
-Alternatively, you can use the `treeKor` bioconductor package [treekoR](http://www.bioconductor.org/packages/release/bioc/html/treekoR.html) to define these hierarchies in a data driven way.
+Alternatively, you can use the [treeKoR](https://www.bioconductor.org/packages/release/bioc/html/treekoR.html) package on Bioconductor to define these hierarchies in a data driven way.
 
-*Note:* These parent populations may not be accurate as we are using a small subset of the data.
+::: callout-note
+These parent populations may not be accurate as we are using a small subset of the data.
+:::
 
-```{r clusteringHierarchy, warning = FALSE}
+```{r 04b-clustering hierarchy, warning = FALSE}
 # Calculate hierarchy using treekoR
 kerenTree <- treekoR::getClusterTree(t(assay(kerenSPE, "intensities")),
                             kerenSPE$cellType,
@@ -133,7 +136,7 @@ treekorParents
 
 Here we examine an image highlighted in the Keren 2018 [manuscript](https://doi.org/10.1016/j.cell.2018.08.039) where accounting for context information enabled new conclusions.
 
-```{r image6}
+```{r 04b-image6}
 # Lets define a new cell type vector
 kerenSPE$cellTypeNew <- kerenSPE$cellType
 
@@ -169,7 +172,7 @@ We can calculate a context-aware spatial co-localisation metric using `Kontextua
 
 We can calculate these relationships across all images for a single radius (r = 100).
 
-```{r p53Relationship, time_it = TRUE}
+```{r 04b-p53 relationship, time_it = TRUE}
 p53_Kontextual <- Kontextual(
   cells = kerenSPE,
   r = 100,
@@ -179,14 +182,14 @@ p53_Kontextual <- Kontextual(
   cellType = "cellTypeNew"
 )
 
-p53_Kontextual
+head(p53_Kontextual)
 ```
 
 The `kontextCurve` function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.
 
 As seen in the following plot the L-function produces negative values over a range of radii, indicating that *p53+ tumour cells* and *immune cells* are dispersed from one another. However by taking into account the tumour context, `Kontextual` shows positive values over some radii, indicating localisation between *p53+ tumour cells* and *immune cells*.
 
-```{r kontextCurve, time_it = TRUE}
+```{r 04b-kontextCurve, time_it = TRUE}
 curves <- kontextCurve(
   cells = kerenSPE,
   from = "Immune",
@@ -203,9 +206,11 @@ kontextPlot(curves)
 
 Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the `parentCombinations` function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the `parentList` argument. As shown below, the output is a data frame specifying the `to`, `from`, and `parent` arguments for `Kontextual`.
 
-*Note:* If you want to use the treeKor defined hierarchy instead, the output of `getParentPhylo` can be passed to the `parentList` argument.
+::: callout-note
+If you want to use the treeKor defined hierarchy instead, the output of `getParentPhylo` can be passed to the `parentList` argument.
+:::
 
-```{r parentDf}
+```{r 04b-parentDf}
 # Get all relationships between cell types and their parents
 parentDf <- parentCombinations(
   all = all,
@@ -219,7 +224,7 @@ head(parentDf)
 
 Rather than specifying `to`, `from`, and `parent` in `Kontextual`, the output from `parentCombinations` can be inputted into `Kontextual` using the `parentDf` argument to examine all pairwise relationships in the dataset.
 
-```{r runKontextual, time_it = TRUE}
+```{r 04b-run Kontextual, time_it = TRUE}
 # Running Kontextual on all relationships across all images.
 kerenKontextual <- Kontextual(
   cells = kerenSPE,
@@ -237,9 +242,11 @@ For every pairwise relationship (named accordingly: `from__to__parent`) `Kontext
 
 We can then examine whether Kontexual can be associated with patient outcomes or groupings. For this, we can use the `spicy` function from the spicyR package. First, the Kontextual results must be converted from a `data.frame` to a wide `matrix`. This can be done with the `prepMatrix` function.
 
-*Note:* to extract the original L-function values, specify `column = "original"` in `prepMatrix`.
+::: callout-note
+To extract the original L-function values, specify `column = "original"` in `prepMatrix`.
+:::
 
-```{r}
+```{r 04b-prep Kontextual matrix}
 # Converting Kontextual result into data matrix
 kontextMat <- prepMatrix(kerenKontextual)
 
@@ -252,11 +259,11 @@ kontextMat[is.na(kontextMat)] <- 0
 
 Finally, both the `SingleCellExperiment` object and the Kontextual matrix are passed into the `spicy` function, with `condition = "survival"`. The resulting coefficients and p values can be obtained by accessing the `survivalResults` slot.
 
-```{r survival, time_it = TRUE}
+```{r 04b-survival analysis, time_it = TRUE}
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 
-# Running survival analysis
+# Running survival analysis using spicy
 survivalResults = spicy(cells = kerenSPE,
                         alternateResult = kontextMat,
                         condition = "survival",
@@ -267,7 +274,7 @@ head(survivalResults$survivalResults, 10)
 
 The survival results can also be visualised using the `signifPlot` function. The "Context" slot in the legend describes the parent population with respect to which the Kontextual metric is calculated.
 
-```{r}
+```{r 04b-signifPlot}
 signifPlot(survivalResults)
 ```
 
@@ -275,7 +282,7 @@ As we can see from the results, `dn_T_CD3__Tregs__immune` is the one of the most
 
 The association between `dn_T_CD3__Tregs__immune` and survival can also be visualised on a Kaplan-Meier curve. First, we extract survival data from the `SingleCellExperiment` object and create a survival vector.
 
-```{r}
+```{r 04b-survival vector}
 # Extracting survival data
 survData <- kerenSPE |>
   colData() |>
@@ -294,7 +301,7 @@ Next, we extract the Kontextual values of this relationship across all images. W
 
 Finally, we plot a Kaplan-Meier curve using the `ggsurvfit` package. As shown below, when double negative CD3 T cells and regulatory T cells are more localised to one another relative to the immune cell population, patients tend to have worse survival outcomes.
 
-```{r KMcurve}
+```{r 04b-KM curve}
 # Selecting most significant relationship
 survRelationship <- kontextMat[["dn_T_CD3__Tregs__immune"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Localised", "Dispersed")

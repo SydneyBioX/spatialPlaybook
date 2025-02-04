@@ -1,6 +1,6 @@
 # Identifying spatial domains with unsupervised clustering
 
-```{r, include = FALSE}
+```{r 05-code chunk timing, include = FALSE}
 knitr::knit_hooks$set(time_it = local({
   now <- NULL
   function(before, options) {
@@ -23,7 +23,7 @@ However, spatial domains tend to be highly dependent on the biological question 
 
 In this section, we'll be exploring the use of `lisaClust` on two different datasets to identify spatial domains and help predict patient survival.
 
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 05-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(lisaClust)
   library(spicyR)
@@ -33,7 +33,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-```{r, eval = FALSE}
+```{r 05-libraries, eval = FALSE}
 library(lisaClust)
 library(spicyR)
 library(ggplot2)
@@ -41,7 +41,7 @@ library(SingleCellExperiment)
 library(SpatialDatasets)
 ```
 
-```{r, setParam}
+```{r 05-set parameters}
 # set parameters
 set.seed(51773)
 use_mc <- TRUE
@@ -64,62 +64,68 @@ The workflow that lisaClust uses to identify regions of tissue with similar loca
 
 ### Case study: Keren
 
-We will start by reading in the data from the `SpatialDatasets` package as a `SingleCellExperiment` object. Here the data is in a format consistent with that outputted by CellProfiler.
+We will start by reading in the [Keren 2018](datasets.qmd) dataset from the `SpatialDatasets` package as a `SingleCellExperiment` object. Here the data is in a format consistent with that outputted by CellProfiler.
 
-```{r}
+```{r 05-load keren data}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 ```
 
 #### Generate LISA curves
 
-This data includes annotation of the cell-types of each cell. Hence, we can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the `lisaClust` function. The image ID, cell type column, and spatial coordinates can be specified using the `imageID`, `cellType`, and `spatialCoords` arguments respectively.
+For the purpose of this demonstration, we will be using only images 5 and 6 of the dataset.
 
-For the purpose of this demonstration, we will be using only images 5 and 6 of the `kerenSPE` dataset.
-
-```{r}
+```{r 05-filter keren dataset}
 kerenSPE <- kerenSPE[,kerenSPE$imageID %in% c("5", "6")]
+```
 
+This data comes with pre-annotated cell types, sowe can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the `lisaClust` function. The image ID, cell type column, and spatial coordinates can be specified using the `imageID`, `cellType`, and `spatialCoords` arguments respectively. We will identify 5 regions of co-localisation by setting `k = 5`.
+
+```{r 05-lisaClust, message = FALSE, warning = FALSE}
 kerenSPE <- lisaClust(kerenSPE,
                       k = 5)
 ```
 
 These regions are stored in `colData` and can be extracted.
 
-```{r}
+```{r 05-extract regions}
 colData(kerenSPE)[, c("imageID", "region")] |>
-  head(20)
+  head(10)
 ```
 
 #### Examine cell type enrichment
 
-`lisaClust` also provides a convenient function, `regionMap`, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.
+lisaClust also provides a convenient function, `regionMap`, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.
 
-Below, we can see that tumour cells are concentrated in region 5, and immune cells are concentrated in region 1 and 4. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter `k =` in the `lisaClust()` function. 
-
-```{r}
+```{r 05-regionMap}
 regionMap(kerenSPE,
   type = "bubble")
 ```
 
-::: callout-note
-*How do we choose an appropriate value for `k`?*
-1. The choice of `k` depends largely on the biological question being asked. For instance, if we are interested in understanding the interactions between immune cells in a tumor microenvironment, the number of clusters should reflect the known biological subtypes of immune cells, such as T cells, B cells, macrophages, etc. In this case, a larger value of `k` may be needed to capture the diversity within these immune cell populations.
-2. On the other hand, if the focus is on interactions between immune cells and tumor cells, we might choose a smaller value of `k` to group immune cells into broader categories. 
-3. Additionally, methods like the Gap statistic, Jump statistic, or Silhouette score could be employed to determine an optimal value of `k`.
+Above, we can see that tumour cells are concentrated in region 5, and immune cells are concentrated in region 1 and 4. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter `k =` in the `lisaClust` function.
+
+::: {.callout-tip title="Choosing the number of spatial domains"}
+**How do we choose an appropriate value for `k`?**
+
+-   The choice of `k` depends largely on the biological question being asked. For instance, if we are interested in understanding the interactions between immune cells in a tumor microenvironment, the number of clusters should reflect the known biological subtypes of immune cells, such as T cells, B cells, macrophages, etc. In this case, a larger value of `k` may be needed to capture the diversity within these immune cell populations.
+
+-   On the other hand, if the focus is on interactions between immune cells and tumor cells, we might choose a smaller value of `k` to group immune cells into broader categories.
+
+-   Additionally, methods like the Gap statistic, Jump statistic, or Silhouette score could be employed to determine an optimal value of `k`.
 :::
 
 #### Plot identified regions
 
-We can use the `hatchingPlot` function to visualise all 5 regions and 17 cell types simultaneously for a specific image or set of images. The output is a `ggplot` object where the regions are marked by different hatching patterns. The `nbp` argument can be used to tune the granularity of the grid use for defining regions.
+We can use the `hatchingPlot` function to visualise all 5 regions and 17 cell types simultaneously for a specific image or set of images. The output is a `ggplot` object where the regions are marked by different hatching patterns. The `nbp` argument can be used to tune the granularity of the grid used for defining regions.
 
-```{r fig.height=7, fig.width=9, time_it = TRUE}
+```{r 05-hatchingPlot, fig.height=7, fig.width=9, time_it = TRUE}
 hatchingPlot(kerenSPE, useImages = 5, nbp = 300)
 ```
 
 In accordance with the `regionMap` output, we can see that region 5 is mostly made up of tumour cells, and region 2 and 4 both contain our immune cell populations.
 
-::: callout-note
-*How could results from lisaClust be used in conjunction with results from spicyR?*
+::: {.callout-tip title="Combining localisation scores with spatial domains"}
+**How could results from lisaClust be used in conjunction with results from spicyR?**
+
 lisaClust provides a high-resolution view of the tissue architecture, while spicyR can quantify how these spatial relationships or features contribute to clinical outcomes. spicyR's L-function metric can be used to determine the degree of localisation or dispersion between different spatial domains. For instance, we can look at co-localisation between region 5 (our tumour cells) and regions 2 or 4 (our immune cells).
 :::
 

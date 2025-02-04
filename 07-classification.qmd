@@ -79,7 +79,7 @@ kerenSPE <- SpatialDatasets::spe_Keren_2018()
 # remove any missing data in our outcome columns
 kerenSPE = kerenSPE[, complete.cases(colData(kerenSPE)[, c("Censored", "Survival_days_capped*",
                                                            "tumour_type")])]
-
+# load pre-computed data for efficiency
 kontextMat <- readRDS("data/kontextMat.rds")
 stateMat <- readRDS("data/stateMat.rds")
 ```
@@ -168,7 +168,7 @@ cv = crossValidate(measurements = data,
 
 We can use `performancePlot` to visualise performance metrics for all our features. Here, we visualise the AUC for each of the seven feature matrices we tested. Additional performance metrics can be specified in the `metric` argument.
 
-```{r 07-performance plot,  fig.width = 12, fig.height = 6}
+```{r 07-performance plot, fig.width = 12, fig.height = 6, warning = FALSE, message = FALSE}
 performancePlot(
   cv,
   metric = "AUC",
@@ -239,9 +239,10 @@ We can also use `sampleMetricMap` to identify samples that were difficult to cla
 samplesMetricMap(surv_cv)
 ```
 
-We can see that there was some difficulty in classying patient 35, and that overall, features showed similar performance across samples. lisaClust shows the overall highest performance, especially for samples 31-20.  
+We can see that there was some difficulty in classying patient 35, and that overall, features showed similar performance across samples. lisaClust shows the overall highest performance, especially for samples 31-20.
 
-<!-- ## Maximising accuracy during classification
+````{=html}
+<-- ## Maximising accuracy during classification
 
 Some feature ranking methods and classifiers allow for the adjustment of tuning parameters that control aspects of the model's learning process. For example, in a linear Support Vector Machine (SVM), the tuning parameter is the cost, which determines the penalty for misclassifications. Higher cost values increase the penalty, leading to fewer misclassifications.
 
@@ -286,14 +287,14 @@ The index of chosen of the parameters, as well as all combinations of parameters
 tunedParameters(SVMresults)[1:5]
 ```
 -->
+````
 
 In this way, we can predict clinical outcomes and identify samples that are hard to classify.
 
 In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies.
 
-# sessionInfo
+# sessionInfox
 
 ```{r}
 sessionInfo()
 ```
-

@@ -89,11 +89,11 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
-::: callout-note
+::: callout-tip
 **What we're looking for**
 
 1.  Do the CD3+ and CD3- peaks clearly separate out in the density plot? To ensure that downstream clustering goes smoothly, we want our cell type specific markers to show 2 distinct peaks representing our CD3+ and CD3- cells. If we see 3 or more peaks where we don't expect, this might be an indicator that further normalisation is required.
-2.  Are our CD3+ and CD3- peaks consistent across our images? We want to make sure that our density plots for CD3 are largely the same across images so that a CD3+ cell in 1 image is equivalent to a CD3+ cell in another image.
+2.  Are our CD3+ and CD3- peaks consistent across our images? We want to make sure that our density plots for CD3 are largely the same across images so that a CD3+ cell in one image is equivalent to a CD3+ cell in another image.
 :::
 
 Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effects, where across images, the intensity peaks differ drastically.
@@ -153,7 +153,7 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 #### `method` Parameters
 
 | Method | Description |
-|-------------------|:---------------------------------:|
+|--------------------------|:--------------------------------------------:|
 | ["mean"]{style="font-family: 'Courier New', monospace;"} | [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"} |
 | ["minMax"]{style="font-family: 'Courier New', monospace;"} | [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"} |
 | ["trim99"]{style="font-family: 'Courier New', monospace;"} | [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"} |
@@ -170,10 +170,10 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
-::: callout-note
+::: callout-tip
 **Questions revisited**
 
-1.  Do the CD3+ and CD3- peaks clearly separate out in the density plot? If not, we can try optimising the transform if the distribution looks heavily skewed.
+1.  Do the CD3+ and CD3- peaks clearly separate out in the density plot? If not, we can try optimising the transformation if the distribution looks heavily skewed.
 2.  Are our CD3+ and CD3- peaks consistent across our images? We can try to be more stringent in our normalisation, such as by removing the 1st PC (`method = c(..., "PC1")`) or scaling the values for all images between 0 and 1 (`method = c(..., "minMax")`).
 :::
 

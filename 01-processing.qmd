@@ -137,8 +137,7 @@ masks <- simpleSeg(images,
                    sizeSelection = 20,
                    transform = "sqrt",
                    tissue = c("panCK", "CD45", "HH3"),
-                   cores = nCores
-                   )
+                   cores = nCores)
 ```
 
 ### Visualise separation
@@ -146,6 +145,7 @@ masks <- simpleSeg(images,
 We can examine the performance of the cell segmentation using the `display` and `colorLabels` functions from the `EBImage` package. If used in an interactive session, `display` allows you to zoom in and out of the image.
 
 ```{r 01-visualise segmentation}
+# display image F3
 EBImage::display(colorLabels(masks[[1]]))
 ```
 
@@ -206,7 +206,7 @@ As `simpleSeg` is a nuclei-based dilation method, it suffers from tissues where 
 #### `cellBody` Parameters
 
 | Method | Description |
-|------------------------|:----------------------:|
+|------------------------------------|:----------------------------------:|
 | ["distance"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding on a distance map of the thresholded nuclei signal. With a pixels distance being defined as the distance from the closest background signal.]{style="font-family: 'Courier New', monospace;"} |
 | ["intensity"]{style="font-family: 'Courier New', monospace;"} | [Performs watershedding using the intensity of the nuclei marker.]{style="font-family: 'Courier New', monospace;"} |
 | ["combine"]{style="font-family: 'Courier New', monospace;"} | [Combines the previous two methods by multiplying the distance map by the nuclei marker intensity.]{style="font-family: 'Courier New', monospace;"} |
@@ -214,7 +214,7 @@ As `simpleSeg` is a nuclei-based dilation method, it suffers from tissues where 
 #### `watershed` Parameters
 
 | Method | Description |
-|------------------------|:----------------------:|
+|------------------------------------|:----------------------------------:|
 | ["dilation"]{style="font-family: 'Courier New', monospace;"} | [Dilates the nuclei by an amount defined by the user. The size of the dilatation in pixels may be specified with the `discDize` argument.]{style="font-family: 'Courier New', monospace;"} |
 | ["discModel"]{style="font-family: 'Courier New', monospace;"} | [Uses all the markers to predict the presence of dilated 'discs' around the nuclei. The model therefore learns which markers are typically present in the cell cytoplasm and generates a mask based on this.]{style="font-family: 'Courier New', monospace;"} |
 | ["marker"]{style="font-family: 'Courier New', monospace;"} | [The user may specify one or multiple dedicated cytoplasm markers to predict the cytoplasm. This can be done using `cellBody = "marker name"/"index"`]{style="font-family: 'Courier New', monospace;"} |

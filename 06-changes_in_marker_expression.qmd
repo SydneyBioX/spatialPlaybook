@@ -1,6 +1,6 @@
 # Changes in marker expression
 
-```{r, include = FALSE}
+```{r 06-code chunk timing, include = FALSE}
 knitr::knit_hooks$set(time_it = local({
   now <- NULL
   function(before, options) {
@@ -21,7 +21,7 @@ All of the different spatial metrics we've looked at up until now have looked at
 
 In this section, we will look into how marker expression changes in distinct cell types across patients, and whether that informs patient survival.
 
-```{r load libraries, echo=FALSE, results="hide", warning=FALSE}
+```{r 06-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(Statial)
   library(spicyR)
@@ -37,7 +37,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-```{r, eval = FALSE}
+```{r 06-libraries, eval = FALSE}
 library(Statial)
 library(spicyR)
 library(ClassifyR)
@@ -51,7 +51,7 @@ library(tibble)
 library(treekoR)
 ```
 
-```{r, setParam}
+```{r 06-set parameters}
 # set parameters
 set.seed(51773)
 use_mc <- TRUE
@@ -68,9 +68,9 @@ theme_set(theme_classic())
 
 One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare them across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain.
 
-For this demonstration, we will use our Keren 2018 dataset.
+For this demonstration, we will use our [Keren 2018](datasets.qmd) dataset.
 
-```{r message=FALSE, warning=FALSE, time_it = TRUE}
+```{r 06-load keren data, message=FALSE, warning=FALSE, time_it = TRUE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
 
 # Removing patients without survival data.
@@ -82,7 +82,7 @@ kerenSPE <- lisaClust(kerenSPE,
                       BPPARAM = BPPARAM)
 ```
 
-```{r}
+```{r 06-prep survival vector}
 kerenSPE$event = 1 - kerenSPE$Censored
 kerenSPE$survival = Surv(kerenSPE$`Survival_days_capped*`, kerenSPE$event)
 # Extracting survival data
@@ -103,21 +103,20 @@ kerenSurv <- kerenSurv[!is.na(kerenSurv)]
 
 Our `Statial` package provides functionality to identify the average marker expression of a given cell type in a given region, using the `getMarkerMeans` function. Similar to spicyR and lisaClust, these features can also be used for survival analysis.
 
-```{r lisaClust}
+```{r 06-marker means in region}
 cellTypeRegionMeans <- getMarkerMeans(kerenSPE,
   imageID = "imageID",
   cellType = "cellType",
-  region = "region"
-)
+  region = "region")
 
-head(cellTypeRegionMeans)
+cellTypeRegionMeans[1:3, 1:3]
 ```
 
 The output is a dataframe containing the average expression of each marker in each cell type in each region. The column names are formatted as: `marker__cell_type__region`.
 
-We can use the `colTest` function from spicyR to perform a comparitive across all possible column pairs. `colTest` requires three arguments: i) `df` specifies the dataframe containing marker means, ii) `condition` specifies the outcome of interest, and iii) `type` specifies the type of test to perform (wilcox, t-test, or survival). In the code below, we've specified `condition` to be our `Surv` vector and `type = survival` indicates we are performing survival analysis.  
+We can use the `colTest` function from spicyR to check whether average marker expression in each cell type in each region is associated with survival probability. `colTest` requires three arguments: i) `df` specifies the dataframe containing marker means, ii) `condition` specifies the outcome of interest, and iii) `type` specifies the type of test to perform (wilcox, t-test, or survival). In the code below, we've specified `condition` to be our `Surv` vector and `type = survival` indicates we are performing survival analysis.
 
-```{r}
+```{r 06-colTest for survival}
 survivalResults <- colTest(df = cellTypeRegionMeans[names(kerenSurv), ], 
                            condition = kerenSurv, 
                            type = "survival")
@@ -127,7 +126,7 @@ head(survivalResults)
 
 Our most significant relationship appears to be `CD209__CD4_T_cell__region_2`, which indicates that the expression of marker CD209 in CD4 T cells in region 2 is strongly associated with survival probability. We can examine this relationship in more detail by plotting a Kaplan-Meier curve.
 
-```{r, fig.width=5, fig.height=4}
+```{r 06-KM curve for region, fig.width=5, fig.height=4}
 # Selecting the most significant relationship
 survRelationship <- cellTypeRegionMeans[["CD209__CD4_T_cell__region_2"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression", "Lower expression")
@@ -143,18 +142,17 @@ The positive coefficient associated with `CD209__CD4_T_cell__region_2` indicates
 
 We can also look at cell types alone, without separating by region. To do this, we simply do not specify `region`.
 
-```{r}
+```{r 06-marker means in celltype}
 cellTypeMeans <- getMarkerMeans(kerenSPE,
   imageID = "imageID",
-  cellType = "cellType"
-)
+  cellType = "cellType")
 
 survivalResults <- colTest(cellTypeMeans[names(kerenSurv), ], kerenSurv, type = "survival")
 
 head(survivalResults)
 ```
 
-```{r, fig.width=5, fig.height=4}
+```{r 06-KM curve for celltype, fig.width=5, fig.height=4}
 # Selecting the most significant relationship
 survRelationship <- cellTypeMeans[["CD56__Tregs"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression", "Lower expression")
@@ -165,11 +163,12 @@ survfit2(kerenSurv ~ survRelationship) |>
   add_pvalue() +
   ggtitle("CD56__Tregs")
 ```
- The coefficient associated with `CD56__Tregs` is positive, which indicates that higher expression is associated with poorer survival outcomes for patients.
+
+The coefficient associated with `CD56__Tregs` is positive, which indicates that higher expression is associated with poorer survival outcomes for patients.
 
 ## SpatioMark: Identifying continuous changes in cell state
 
-Another approach we can take is to examine contiguous changes in abundance of a gene or protein within a particular cell type. Before, we were comparing changes in abundance across discrete groups or clinical outcomes. By examining contiguous changes in marker expression, we can identify cell-cell interactions that catalyse cell state changes. 
+Another approach we can take is to examine contiguous changes in abundance of a gene or protein within a particular cell type. Before, we were comparing changes in abundance across discrete groups or clinical outcomes. By examining contiguous changes in marker expression, we can identify cell-cell interactions that catalyse cell state changes.
 
 The approach outlined below measures how marker expression in a cell changes with spatial proximity and abundance with respect to other cell types. The methods utilised here will thereby provide a framework to explore how the dynamic behaviour of cells are altered by the agents they are surrounded by.
 
@@ -177,11 +176,11 @@ The approach outlined below measures how marker expression in a cell changes wit
 
 ### Continuous cell state changes within a single image
 
-The first step in analysing these changes is to calculate the spatial proximity and abundance of each cell to every cell type. `getDistances` calculates the Euclidean distance from each cell to the nearest cell of each cell type. `getAbundances` calculates the K-function value for each cell with respect to each cell type. Both metrics are stored in the `reducedDims` slot of the SpatialExperiment object. 
+The first step in analysing these changes is to calculate the spatial proximity and abundance of each cell to every cell type. `getDistances` calculates the Euclidean distance from each cell to the nearest cell of each cell type. `getAbundances` calculates the K-function value for each cell with respect to each cell type. Both metrics are stored in the `reducedDims` slot of the SpatialExperiment object.
 
 <!--fix spatial coordinates, assign spatial coords to spatial coords slot-->
 
-```{r}
+```{r 06-abundance and distance metrics}
 # assign spatial coordinates
 kerenSPE$x = spatialCoords(kerenSPE)[, 1]
 kerenSPE$y = spatialCoords(kerenSPE)[, 2]
@@ -202,7 +201,7 @@ First, let's examine the same effect observed earlier with Kontextual - the loca
 
 Statial provides two main functions to assess this relationship - `calcStateChanges` and `plotStateChanges`. We can use `calcStateChanges` to examine the relationship between two cell types for one marker in a specific image. In this case, we're examining the relationship between keratin/tumour cells (`from = Keratin_Tumour`) and macrophages (`to = "Macrophages"`) for the marker p53 (`marker = "p53"`) in `image = "6"`. We can appreciate that the `fdr` statistic for this relationship is significant, with a negative t-value, indicating that the expression of p53 in keratin/tumour cells decreases as distance from macrophages increases.
 
-```{r}
+```{r 06-calcStateChanges}
 stateChanges <- calcStateChanges(
   cells = kerenSPE,
   type = "distances",
@@ -210,8 +209,7 @@ stateChanges <- calcStateChanges(
   from = "Keratin_Tumour",
   to = "Macrophages",
   marker = "p53",
-  nCores = 1
-)
+  nCores = nCores)
 
 stateChanges
 ```
@@ -222,7 +220,7 @@ Through this analysis, we can observe that keratin/tumour cells closer to a grou
 
 These results allow us to essentially arrive at the same result as Kontextual, which calculated a localisation between p53+ keratin/tumour cells and macrophages in the wider context of keratin/tumour cells.
 
-```{r}
+```{r 06-plotStateChanges, warning = FALSE, message = FALSE}
 p <- plotStateChanges(
   cells = kerenSPE,
   type = "distances",
@@ -234,10 +232,15 @@ p <- plotStateChanges(
   shape = 19,
   interactive = FALSE,
   plotModelFit = FALSE,
-  method = "lm"
-)
+  method = "lm")
 
-p
+# plot the image
+p$image
+```
+
+```{r 06-scatterplot, warning = FALSE, message = FALSE}
+# plot the scatter plot
+p$scatter
 ```
 
 ### Continuous cell state changes across all images
@@ -259,11 +262,9 @@ stateChanges |>
 
 In image 6, the majority of the top 10 most significant interactions occur between keratin/tumour cells and an immune population, and many of these interactions appear to involve the HLA class I ligand.
 
-We can examine some of these interactions further with the `plotStateChanges` function. The plot below shows us a clear visual correlation - as the distance from macrophages decreases, keratin/tumour cells increase their expression HLA class I.
+We can examine some of these interactions further with the `plotStateChanges` function.
 
-Biologically, HLA Class I molecules are ligands present on all nucleated cells, responsible for presenting internal cell antigens to the immune system. Their role is to mark abnormal cells for destruction by CD8+ T cells or NK cells, facilitating immune surveillance and response.
-
-```{r}
+```{r 06-plotStateChanges HLA}
 p <- plotStateChanges(
   cells = kerenSPE,
   type = "distances",
@@ -278,12 +279,20 @@ p <- plotStateChanges(
   method = "lm"
 )
 
-p
+# plot the image
+p$image
 ```
+
+```{r 06-scatter plot HLA}
+# plot the scatter plot
+p$scatter
+```
+
+The plot above shows us a clear visual correlation - as the distance from macrophages decreases, keratin/tumour cells increase their expression HLA class I. Biologically, HLA Class I molecules are ligands present on all nucleated cells, responsible for presenting internal cell antigens to the immune system. Their role is to mark abnormal cells for destruction by CD8+ T cells or NK cells, facilitating immune surveillance and response.
 
 Next, let's take a look at the top 10 most significant results across all images.
 
-```{r}
+```{r 06-stateChanges all images}
 stateChanges |> head(n = 10)
 ```
 
@@ -291,7 +300,7 @@ Immediately, we can appreciate that a couple of these interactions are not biolo
 
 Could this potentially be an artefact of `calcStateChanges`? We can examine the image through the `plotStateChanges` function, where we indeed observe a strong increase in CD20 expression in T cells nearby B cell populations.
 
-```{r}
+```{r 06-plotStateChanges CD20}
 p <- plotStateChanges(
   cells = kerenSPE,
   type = "distances",
@@ -303,10 +312,15 @@ p <- plotStateChanges(
   shape = 19,
   interactive = FALSE,
   plotModelFit = FALSE,
-  method = "lm"
-)
+  method = "lm")
 
-p
+# plot the image
+p$image
+```
+
+```{r 06-scatter plot CD20}
+# plot the scatter plot
+p$scatter
 ```
 
 So why are T cells expressing CD20? This brings us to a key problem of cell segmentation - contamination.
@@ -317,9 +331,9 @@ Contamination, or lateral marker spill over, is an issue that results in a cellâ
 
 To circumvent this problem, Statial provides a function that predicts the probability that a cell is any particular cell type - `calcContamination`. `calcContamination` returns a dataframe of probabilities demarcating the chance of a cell being any particular cell type. This dataframe is stored under `contaminations` in the `reducedDim` slot of the `SingleCellExperiment` object. It also provides the `rfMainCellProb` column, which provides the probability that a cell is indeed the cell type it has been designated. For example, for a cell designated as CD8, `rfMainCellProb` could give a 80% chance that the cell is indeed CD8, due to contamination.
 
-We can then introduce these probabilities as covariates into our linear model by setting `contamination = TRUE` as a parameter in our `calcStateChanges` function. 
+We can then introduce these probabilities as covariates into our linear model by setting `contamination = TRUE` as a parameter in our `calcStateChanges` function.
 
-```{r}
+```{r 06-calcContiamination}
 kerenSPE <- calcContamination(kerenSPE)
 
 stateChangesCorrected <- calcStateChanges(
@@ -330,7 +344,7 @@ stateChangesCorrected <- calcStateChanges(
   contamination = TRUE
 )
 
-stateChangesCorrected |> head(n = 20)
+stateChangesCorrected |> head(n = 10)
 ```
 
 However, this is not a perfect solution for the issue of contamination. As we can see, despite factoring in contamination into our linear model, the correlation between B cell density and CD20 expression in CD4 T cells remains one of the most significant interactions in our model.
@@ -341,7 +355,7 @@ Whilst our correction attempts do not rectify every relationship which arises du
 
 Plotting the relationship between false positives and true positives, we'd expect the contamination correction to be greatest in the relationships with the top 100 lowest p values, where we indeed see more true positives than false positives with contamination correction.
 
-```{r}
+```{r 06-ROC curve}
 cellTypeMarkers <- c("CD3", "CD4", "CD8", "CD56", "CD11c", "CD68", "CD45", "CD20")
 
 values <- c("blue", "red")
@@ -361,7 +375,7 @@ ggplot(df, aes(x = TP, y = FP, colour = type)) +
 
 Below, we zoom in on the ROC curve where the top 100 lowest p values occur, where we indeed see more true positives than false positives with contamination correction.
 
-```{r}
+```{r 06-top 100 ROC, warning = FALSE, message = FALSE}
 ggplot(df, aes(x = TP, y = FP, colour = type)) +
   geom_line() +
   xlim(0, 100) +
@@ -372,9 +386,9 @@ ggplot(df, aes(x = TP, y = FP, colour = type)) +
 
 ### Associate continuous state changes with survival outcomes
 
-Similiar to `Kontextual`, we can run a similar survival analysis using our state change results. Here, `prepMatrix` extracts the coefficients, or the `coef` column of `stateChanges` by default. To use the t-values instead, specify `column = "tval"` in the `prepMatrix` function. As before, we use `colTest` to build the CoxPH model. 
+Similiar to `Kontextual`, we can run a similar survival analysis using our state change results. Here, `prepMatrix` extracts the coefficients, or the `coef` column of `stateChanges` by default. To use the t-values instead, specify `column = "tval"` in the `prepMatrix` function. As before, we use `colTest` to build the CoxPH model.
 
-```{r time_it = TRUE}
+```{r 06-survival with stateChanges, time_it = TRUE}
 # Preparing features for Statial
 stateMat <- prepMatrix(stateChanges)
 
@@ -389,9 +403,9 @@ survivalResults <- colTest(stateMat, kerenSurv, type = "survival")
 head(survivalResults)
 ```
 
-`Keratin_Tumour__Mono_or_Neu__Pan.Keratin` is the most significant pairwise relationship which contributes to patient survival. That is, the relationship between pan-keratin expression  in keratin/tumour cells and their spatial proximity to monocytes/neutrophils. The negative coefficient associated with this relationship tells us that higher pan-keratin expression in keratin/tumour cells nearby monocyte/neutrophil cell populations leads to better survival outcomes for patients.
+`Keratin_Tumour__Mono_or_Neu__Pan.Keratin` is the most significant pairwise relationship which contributes to patient survival. That is, the relationship between pan-keratin expression in keratin/tumour cells and their spatial proximity to monocytes/neutrophils. The negative coefficient associated with this relationship tells us that higher pan-keratin expression in keratin/tumour cells nearby monocyte/neutrophil cell populations leads to better survival outcomes for patients.
 
-```{r, fig.width=5, fig.height=4}
+```{r 06-Km curve with stateChanges, fig.width=5, fig.height=4}
 # Selecting the most significant relationship
 survRelationship <- stateMat[["Keratin_Tumour__Mono_or_Neu__Pan.Keratin"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression in close cells", "Lower expression in close cells")
@@ -405,15 +419,15 @@ survfit2(kerenSurv ~ survRelationship) |>
 
 <!--## scFeatures: Moran's I-->
 
-We conclude the section on spatial quantification metrics here. So far, we have identified 7 metrics to quantify spatial relationships - 
+We conclude the section on spatial quantification metrics here. So far, we have identified 7 metrics to quantify spatial relationships -
 
-1. Cell type proportions (FuseSOM)
-2. Co-localisation between pairs of cell types using the L-function (spicyR)
-3. Cell type co-localisation with respect to a parent population using `Kontextual` (Statial)
-4. Regions of co-localisation, or spatial domains (lisaClust)
-5. Marker means in each cell type (Statial)
-6. Marker means in each cell type in each region (Statial)
-7. Proximity-associated changes in marker expression using SpatioMark (Statial)
+1.  Cell type proportions (FuseSOM)
+2.  Co-localisation between pairs of cell types using the L-function (spicyR)
+3.  Cell type co-localisation with respect to a parent population using `Kontextual` (Statial)
+4.  Regions of co-localisation, or spatial domains (lisaClust)
+5.  Marker means in each cell type (Statial)
+6.  Marker means in each cell type in each region (Statial)
+7.  Proximity-associated changes in marker expression using SpatioMark (Statial)
 
 In the next section, we will look into how each of these metrics can be used to predict clinical outcomes for patients.
 
