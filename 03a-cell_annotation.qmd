@@ -272,7 +272,7 @@ metadata(risomRessce)$clusterEstimation$Discriminant
 
 According to the discrminant method, the optimal number of clusters is 7.
 
-```{r 03a-optiPlot SCE, warning = FALSE, message = FALSR}
+```{r 03a-optiPlot SCE, warning = FALSE, message = FALSE}
 # we can plot the results using the optiplot function
 pSlope <- optiPlot(risomRessce, method = 'slope')
 pSlope
