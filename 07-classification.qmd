@@ -10,8 +10,8 @@ knitr::knit_hooks$set(time_it = local({
     } else {
       # calculate the time difference after a chunk
       res <- difftime(Sys.time(), now, units = "secs")
-      # return a character string to show the time
-      paste("Time for this code chunk to run with ", nCores, " cores: ", round(res, 2), " seconds")
+      # return a character string to show the time in bold and right-aligned, with extra spacing
+      paste("<div style='text-align: right;'><em>Time for this code chunk to run with ", nCores, "cores: ", round(res, 2), "s</div></em>")
     }
   }
 }))
@@ -105,8 +105,7 @@ We will build a list of feature matrices using the features we've generated in t
 3.  Cell type co-localisation with respect to a parent population using `Kontextual` (Statial)
 4.  Regions of co-localisation, or spatial domains (lisaClust)
 5.  Marker means in each cell type (Statial)
-6.  Marker means in each cell type in each region (Statial)
-7.  Proximity-associated changes in marker expression using SpatioMark (Statial)
+6.  Proximity-associated changes in marker expression using SpatioMark (Statial)
 
 ```{r 07-feature matrices, time_it = TRUE}
 data <- list()
@@ -129,13 +128,6 @@ data[["lisaClust"]] <- getProp(lisaClust(kerenSPE, k = 5,
 data[["celltypeMarkerMeans"]] <- getMarkerMeans(kerenSPE, imageID = "imageID",
                                         cellType = "cellType",
                                         region = "cellType")
-
-# Marker means in each cell type in each region (Statial)
-data[["regionMarkerMeans"]] <- getMarkerMeans(lisaClust(kerenSPE, k = 5,
-                                                        BPPARAM = BPPARAM), 
-                                        imageID = "imageID",
-                                        cellType = "cellType",
-                                        region = "region")
 
 # Proximity-associated changes in marker expression (SpatioMark)
 data[["SpatioMark"]] <- stateMat
@@ -293,7 +285,7 @@ In this way, we can predict clinical outcomes and identify samples that are hard
 
 In subsequent sections, we will demonstrate how the end-to-end workflow can be applied to a single dataset in the form of case studies.
 
-# sessionInfox
+# sessionInfo
 
 ```{r}
 sessionInfo()
