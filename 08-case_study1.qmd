@@ -536,7 +536,6 @@ regionMap(cells, cellType = "cellType", limit = c(0.2, 2))
 
 We can see here that our regions have neatly separated according to biological milieu, with region 1 and region 3 containing our immune cell types, region 4 containing our healthy epithelial and endothelial cells, and region 2 containing our tumour cells.
 
-
 ### Visualise regions
 
 We can quickly examine the spatial arrangement of these regions using `plotReducedDim` on image F3, where we can see the same division of immune, healthy, and tumour tissue that we identified in our `regionMap`.

@@ -289,7 +289,7 @@ pSil
 
 Again, we see that the `Jump` statistic almost perfectly captures the correct number of clusters with 24 clusters. The `Gap` method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.
 
-In the next section, we will demonstrate how our packages can be used to perform supervised cell annotation, and then discuss how to choose between clustering and annotation approaches.
+In the next section, we will demonstrate how packages can be used to perform supervised cell annotation, and then discuss how to choose between clustering and annotation approaches.
 
 ## sessionInfo
 

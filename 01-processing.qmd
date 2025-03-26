@@ -109,7 +109,7 @@ mcols(images) <- S4Vectors::DataFrame(imageID = names(images))
 
 ## Cell segmentation with simpleSeg
 
-For the sake of simplicity and efficiency, we will be subsetting our images down to 10 images.
+For the sake of simplicity and efficiency, we will be subsetting the images down to 10 images.
 
 ```{r 01-subset images}
 images <- images[1:10]
@@ -245,7 +245,7 @@ spatialCoordsNames(cells) <- c("x", "y")
 cells
 ```
 
-So far, we have processed our raw TIFF images, performed cell segmentation to isolate individual cells, and then stored our data as a `SpatialExperiment` object. We can now move on to quality control, data transformation, and normalisation to address batch effects.
+So far, we have processed the raw TIFF images, performed cell segmentation to isolate individual cells, and then stored the data as a `SpatialExperiment` object. We can now move on to quality control, data transformation, and normalisation to address batch effects.
 
 ## sessionInfo
 

@@ -68,7 +68,7 @@ theme_set(theme_classic())
 
 One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare them across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain.
 
-For this demonstration, we will use our [Keren 2018](datasets.qmd) dataset.
+For this demonstration, we will use the [Keren 2018](datasets.qmd) dataset.
 
 ```{r 06-load keren data, message=FALSE, warning=FALSE, time_it = TRUE}
 kerenSPE <- SpatialDatasets::spe_Keren_2018()
