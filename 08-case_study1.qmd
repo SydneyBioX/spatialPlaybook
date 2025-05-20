@@ -467,14 +467,13 @@ Our [spicyR](https://www.bioconductor.org/packages/devel/bioc/html/spicyR.html) 
 
 In simple terms, spicyR utilises the L-function to evaluate whether cell types are localized or dispersed. The L-function quantifies "closeness" between points, where higher values indicate increased localisation and lower values suggest dispersion.
 
-Here, we quantify spatial relationships using a combination of 10 radii from 10 to 100 by specifying `Rs = 1:10*10` and mildly account for some global tissue structure using `sigma = 50`. For a more detailed explanation of the key parameters, refer to the [Cell Localisation](04a-cell_localisation.qmd) section. Additional information on optimising the parameters can be found in the [spicyR paper](https://doi.org/10.1093/bioinformatics/btac268).
+Here, we quantify spatial relationships and mildly account for some global tissue structure using `sigma = 50`. For a more detailed explanation of the key parameters, refer to the [Cell Localisation](04a-cell_localisation.qmd) section. Additional information on optimising the parameters can be found in the [spicyR paper](https://doi.org/10.1093/bioinformatics/btac268).
 
 ```{r 08-spicyR, warning = FALSE, message = FALSE}
 spicyTest <- spicy(cells,
                    condition = "group",
                    cellTypeCol = "cellType",
                    imageIDCol = "imageID",
-                   Rs = 1:10*10,
                    sigma = 50,
                    BPPARAM = BPPARAM)
 

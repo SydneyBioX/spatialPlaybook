@@ -17,7 +17,15 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-When it comes to biological datasets, the end goal is either mechanistic or translational. For example, if we had a mechanistic end goal, we might want to find what genes are differentially expressed between two conditions, and further aim to characterise the pathways which lead to this differential expression. Alternatively, if the end goal is translational, we might want to use a biological dataset that can be relatively cheaply obtained (e.g. IMC) to predict whether a patient's disease will progress or not progress (e.g. metastasize in cancer).
+Classification models are key in spatial omics for identifying features that distinguish patient groups, aiding both clinical stratification and biological insight. These features can reflect tissue architecture, cell states, or local interactions relevant to disease outcomes. Analysis typically aims at either mechanistic understanding—uncovering biological processes behind condition differences—or translational application, such as using accessible spatial data (e.g., IMC) to predict clinical outcomes like progression or metastasis.
+
+Because biological heterogeneity means not all features are informative for every individual, flexible modelling frameworks that capture subgroup-specific signals are essential. This improves the robustness and relevance of findings for both biological insight and clinical use. Developing reliable models requires more than choosing a classifier; it demands careful feature selection, cross-validation, and performance evaluation, especially when integrating spatial and non-spatial data. The `ClassifyR` package offers a structured framework for these tasks, including repeated validation, survival analysis, and multi-assay integration, enabling clearer, more robust assessments of which features predict clinical outcomes and for whom.
+
+However, to compare samples or link tissue organisation with clinical or experimental variables, we often need to summarise key characteristics of an image. Many of the methods in this playbook generate features that capture spatial structure, cell interactions, or microenvironment composition. These can be combined with features that reflect intrinsic biological variation, such as cell-type-specific expression, cell proportions, pathway activity, and expression variability. Our `scFeatures` package provides a flexible framework for generating a large and diverse set of features at the sample level, spanning both spatial and non-spatial information. Generating a wide range of features increases the chance of capturing meaningful biological signals and enables multi-view analyses that support outcome prediction, sample comparison, and discovery of clinically relevant patterns.
+
+In this section, we will demonstrate how `scFeatures` can be used in conjunction with our previously generated cell-level spatial metrics and with `ClassifyR` to predict patient outcomes. 
+
+
 
 <!-- Steps: -->
 
@@ -38,6 +46,7 @@ suppressPackageStartupMessages({
   library(Statial)
   library(spicyR)
   library(ggplot2)
+  library(scFeatures)
 })
 ```
 
@@ -47,6 +56,7 @@ library(lisaClust)
 library(Statial)
 library(spicyR)
 library(ggplot2)
+library(scFeatures)
 ```
 
 ```{r 07-set parameters}
@@ -84,6 +94,12 @@ kontextMat <- readRDS("data/kontextMat.rds")
 stateMat <- readRDS("data/stateMat.rds")
 ```
 
+## Introduction to `scFeatures`
+
+[scFeatures](https://www.bioconductor.org/packages/release/bioc/html/scFeatures.html) allows us to generate up to 17 sample-level metrics, including cell type proportions, cell type-specific marker expressions, cell type-specific pathway expressions, cell type-specific cell-cell communications, and overall aggregated marker expressions.
+
+Here, we will use `scFeatures` to generate two sample-level metrics: `proportion_raw`, the proportion of cell types within each sample or image, and `gene_mean_celltype`, which captures cell type-specific marker expression.
+
 ## Classification of patients by condition
 
 We will use the Keren 2018 dataset to classify a patient's tumour into one of two types: compartmentalised and mixed. First, we will filter out all cases which had cold tumours.
@@ -98,20 +114,20 @@ kontextMat = kontextMat[rownames(kontextMat) %in% unique(kerenSPE$imageID), ]
 stateMat = stateMat[rownames(stateMat) %in% unique(kerenSPE$imageID), ]
 ```
 
-We will build a list of feature matrices using the features we've generated in the previous chapters:
+We will build a list of feature matrices using the features we've generated in the previous chapters, including the two metrics generated through `scFeatures`:
 
-1.  Cell type proportions (FuseSOM)
-2.  Co-localisation between pairs of cell types using the L-function (spicyR)
-3.  Cell type co-localisation with respect to a parent population using `Kontextual` (Statial)
-4.  Regions of co-localisation, or spatial domains (lisaClust)
-5.  Marker means in each cell type (Statial)
-6.  Proximity-associated changes in marker expression using SpatioMark (Statial)
+1.  Co-localisation between pairs of cell types using the L-function (`spicyR`)
+2.  Cell type co-localisation with respect to a parent population using `Kontextual` (`Statial`)
+3.  Regions of co-localisation, or spatial domains (`lisaClust`)
+4.  Marker means in each cell type (`Statial`)
+5.  Proximity-associated changes in marker expression using SpatioMark (`Statial`)
+6.  Cell type proportions (`scFeatures`)
+7.  Cell type-specific marker expression (`scFeatures`)
+
 
 ```{r 07-feature matrices, time_it = TRUE}
+# pre-generated spatial metrics
 data <- list()
-
-# Cell type proportions (FuseSOM)
-data[["proportions"]] <- getProp(kerenSPE, "cellType")
 
 # Cell localisation (spicyR)
 data[["spicyR"]] <- getPairwise(kerenSPE,
@@ -125,13 +141,39 @@ data[["lisaClust"]] <- getProp(lisaClust(kerenSPE, k = 5,
                                          BPPARAM = BPPARAM), "region")
 
 # Marker means in each cell type (Statial)
-data[["celltypeMarkerMeans"]] <- getMarkerMeans(kerenSPE, imageID = "imageID",
-                                        cellType = "cellType",
+data[["cellTypeMarkerMeans"]] <- getMarkerMeans(kerenSPE, imageID = "imageID",
+                                      cellType = "cellType",
                                         region = "cellType")
 
 # Proximity-associated changes in marker expression (SpatioMark)
 data[["SpatioMark"]] <- stateMat
 ```
+
+We will now use `scFeatures` to generate our two selected features. Below, we use the `scFeatures` function and specify `type = "spatial_p"` to indicate we are using spatial proteomics data. 
+
+```{r 07-scFeatures}
+# generate assay matrix and add spatial features
+keren_mat = assay(kerenSPE) |> as.matrix()
+
+# generate spatial coords vectors
+x = spatialCoords(kerenSPE)[, 1] |> as.vector()
+y = spatialCoords(kerenSPE)[, 2] |> as.vector()
+
+# scFeatures
+scfeatures_result <- scFeatures(data = keren_mat, 
+                                sample = kerenSPE$imageID, 
+                                celltype = kerenSPE$cellType,
+                                spatialCoords = list(x, y),
+                                feature_types = c("proportion_raw", "gene_mean_celltype")  , 
+                                type = "spatial_p",  
+                                ncores = nCores,  
+                                species = "Homo sapiens")
+
+# add to our list of feature matrices
+data[["proportions"]] = scfeatures_result$proportion_raw
+data[["cellTypeMarkerMeans"]] = scfeatures_result$gene_mean_celltype
+```
+
 
 We will then generate a factor vector of our outcome variable.
 
@@ -160,13 +202,12 @@ cv = crossValidate(measurements = data,
 
 We can use `performancePlot` to visualise performance metrics for all our features. Here, we visualise the AUC for each of the seven feature matrices we tested. Additional performance metrics can be specified in the `metric` argument.
 
-```{r 07-performance plot, fig.width = 12, fig.height = 6, warning = FALSE, message = FALSE}
+```{r 07-performance plot, fig.width = 14, fig.height = 6, warning = FALSE, message = FALSE}
 performancePlot(
   cv,
   metric = "AUC",
   characteristicsList = list(x = "Assay Name"),
-  orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans", "SpatioMark"))
-)
+  orderingList = list("Assay Name" = c("spicyR", "lisaClust", "Kontextual", "SpatioMark", "proportions", "cellTypeMarkerMeans"))) 
 ```
 
 From the graph, both `lisaClust` and `proportions` appear to capture information which is predictive of the tumour type of patients.
@@ -202,7 +243,7 @@ surv_cv = crossValidate(measurements = data,
 performancePlot(surv_cv,
   metric = "C-index",
   characteristicsList = list(x = "Assay Name"),
-  orderingList = list("Assay Name" = c("proportions", "spicyR", "lisaClust", "Kontextual", "celltypeMarkerMeans", "regionMarkerMeans", "SpatioMark"))
+  orderingList = list("Assay Name" = c("spicyR", "lisaClust", "Kontextual", "SpatioMark", "proportions", "cellTypeMarkerMeans"))
 )
 ```
 

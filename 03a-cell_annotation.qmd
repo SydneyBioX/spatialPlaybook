@@ -17,7 +17,12 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.
+Identifying cell types is a critical step in spatial analysis, as it shapes how we interpret tissue composition, uncover cell-cell interactions, and understand disease-associated changes at the cellular level. However, cell type annotation is not always straightforward—marker expression often varies continuously rather than forming clear-cut boundaries between populations. Overlapping marker profiles, technical noise, and tissue-specific expression patterns can make annotation uncertain and prone to error, which in turn affects the accuracy of all downstream analyses.
+
+There are two main strategies for assigning cell type labels: clustering and annotation. Clustering is an unsupervised approach that groups cells based on similarities in marker expression. While it can uncover novel or unexpected populations, the resulting clusters must be manually interpreted and labelled using biological expertise and known marker profiles. Annotation, on the other hand, is a supervised method that uses a reference dataset—often derived from well-characterised single-cell data—to directly assign cell type labels to each cell. This can improve consistency and reproducibility but depends heavily on the quality and relevance of the reference used.
+
+Both approaches have advantages and limitations. Clustering may miss subtle populations or be sensitive to parameter choices, while annotation can misclassify cells if the reference does not capture the diversity present in the tissue being analysed. In this playbook, we demonstrate how to use our packages to perform both clustering and annotation, and provide guidance on choosing between these methods based on your data and biological question. Throughout, we highlight common pitfalls and best practices to improve the reliability and interpretability of cell type identification.
+
 
 <!-- Steps: -->
 
@@ -66,10 +71,6 @@ if (use_mc) {
 BPPARAM <- simpleSeg:::generateBPParam(nCores)
 theme_set(theme_classic())
 ```
-
-## Clustering vs Annotation
-
-Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses a reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of our packages to perform both clustering and annotation, and then discuss how to choose between the two approaches.
 
 ## Clustering with FuseSOM
 

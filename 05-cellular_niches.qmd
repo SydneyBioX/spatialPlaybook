@@ -17,11 +17,15 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Beyond spatial relationships between cell types, imaging datasets also contain another source of rich information - spatial domains. To give an idea of what spatial domains might visually look like, we've provided an image on the right, where we can clearly map out our healthy epithelial tissue spatial domain on the left of the image, and our immune and tumour domains on the right of the image. <img src="images/IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
+Beyond pairwise spatial relationships between cell types, imaging datasets offer another valuable layer of insight. Terms like niche, neighbourhood, microenvironment, and domain provide different lenses through which to describe this organisation. For instance, niches often refer to the immediate microenvironment surrounding a specific cell type, while spatial domains capture broader tissue compartments formed by coordinated cell arrangements. These concepts help interpret how tissue architecture varies across conditions or patient groups.
 
-However, spatial domains tend to be highly dependent on the biological question being answered. For example, when your primary tissue of interest are solid tumours, spatial domain analysis can provide insights into proportion of tumour domains vs immune domains, or how tumour domains differ between progressive and non-progressive cancers. Alternatively, if your primary question of interest is diabetes, spatial domains can provide insights into marker or cell type differences in your pancreatic islets.
+However, the interpretation of spatial domains is highly dependent on the biological context and research question. In cancer studies, spatial domain analysis might reveal how tumour and immune compartments are distributed or how domain composition correlates with disease progression. In metabolic diseases like diabetes, domains such as pancreatic islets become focal points for understanding changes in marker expression or immune infiltration.
 
-In this section, we'll be exploring the use of `lisaClust` on two different datasets to identify spatial domains and help predict patient survival.
+<img src="images/IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
+
+One effective approach for identifying spatial domains is through clustering cells based on their local spatial association patterns, as implemented in the `lisaClust` package. This method groups regions with similar spatial signatures, uncovering emergent domains across tissue sections. A central challenge lies in selecting the number of clusters and interpreting them in terms of cell type composition and density. While tools like the Gap statistic or Silhouette score can guide cluster selection, biological interpretation remains essential for distinguishing meaningful structural variation from artefactual noise.
+
+In this section, we demonstrate the use of `lisaClust` to identify spatial domains and explore their relevance to clinical outcomes.
 
 ```{r 05-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({

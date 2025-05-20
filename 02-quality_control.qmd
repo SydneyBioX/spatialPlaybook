@@ -17,7 +17,12 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-With cell segmentation complete, we can move on to performing quality control checks. In many spatial imaging protocols, there tends to be a degree of variability in the intensity of each image. For example, in one image, the CD3 stain may be too strong, but in another image the CD3 staining may be particularly weak. This variability is often inevitable and can be hard to correct for during the imaging process. Hence, it is important that we identify when such variance occurs and correct it. The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package includes additional functions for detecting batch effects and normalising expression data to minimise their impact.
+
+Variability in marker intensity across images is a common and often unavoidable challenge in spatial imaging. It can arise from technical factors such as staining efficiency, imaging conditions, or sample preparation. For example, a marker like CD3 may appear overly strong in one image and unusually weak in another, even when the underlying biology is similar. This kind of inconsistency can blur the distinction between marker-positive and marker-negative cells, leading to misclassification, poor clustering, and unreliable comparisons between samples.
+
+Because raw intensity values are often not directly comparable across images—or even across different regions of the same image—quality control checks are a crucial next step following cell segmentation. We recommend visually inspecting marker expression across images to detect unusual shifts in intensity that may indicate technical variation. Identifying such patterns early can reveal batch effects or artefacts that require transformation or normalisation before downstream analysis.
+
+Our  [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides tools to support these corrections, offering functions for visualising marker expression, detecting batch effects, and normalising expression data. These adjustments help harmonise marker distributions across samples, clarify cell populations, and improve the reliability and interpretability of downstream analyses such as clustering, co-localisation, and differential expression.
 
 <!-- Steps: -->
 
@@ -153,7 +158,7 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 #### `method` Parameters
 
 | Method | Description |
-|----|:--:|
+|------------------------------------|:----------------------------------:|
 | ["mean"]{style="font-family: 'Courier New', monospace;"} | [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"} |
 | ["minMax"]{style="font-family: 'Courier New', monospace;"} | [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"} |
 | ["trim99"]{style="font-family: 'Courier New', monospace;"} | [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"} |

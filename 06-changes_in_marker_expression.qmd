@@ -17,9 +17,11 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-All of the different spatial metrics we've looked at up until now have looked at relationships between cell types, without taking into account the marker expressions of each cell type. Typical analyses in single-cell RNA sequencing would involve looking into differentially expressed genes for particular cell types between 2 samples, and we can do the same analyses here. At the same time, we can also look at more complicated analyses incorporating both spatial information and marker expression, to see if we can come up with a more informative metric of changes in cells across different conditions.
+In some cases, functionally distinct cell subtypes cannot be reliably distinguished based on marker expression alone—especially when the differences in expression levels are subtle, overlapping, or influenced by dynamic biological states. For example, cells of the same general type may alter their functional behaviour depending on their local environment, such as immune cells becoming activated only when near infected or tumour cells. Additionally, technical limitations or noise can obscure small but meaningful variations in marker intensity, making it difficult to separate subpopulations purely through conventional clustering or supervised classification methods.
 
-In this section, we will look into how marker expression changes in distinct cell types across patients, and whether that informs patient survival.
+In these scenarios, incorporating spatial context provides a powerful complementary perspective. By examining how marker expression changes as cells interact with specific neighbours or local tissue features, researchers can uncover functional variation that is otherwise hidden. Spatial context thus helps reveal how cells adapt, respond, or transition between states in situ, offering deeper insight into tissue organisation, cell function, and disease mechanisms.
+
+The `SpatioMark` method, part of the `Statial` package, identifies markers that vary within a given cell type based on proximity to other cell types. These spatially associated shifts in marker expression can reveal changes in cell state—such as activation, suppression, or environmental influence—that are not apparent through clustering or classification alone.
 
 ```{r 06-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({

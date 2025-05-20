@@ -17,7 +17,8 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Understanding the spatial relationships of cells within tissue is crucial for interpreting their roles within tissues. However, without defining appropriate contexts, these relationships can be misinterpreted due to confounding factors such as tissue stricture and the choice of region to image. In this section, we will demonstrate the use of our `Statial` package to derive appropriate contexts for evaluating cell localisation.
+Understanding spatial relationships between cell types is key to interpreting how cells function within their native tissue environments. However, these relationships are often influenced by confounding factors such as uneven cell distributions, tissue architecture, and the specific region chosen for imaging. The `Kontextual` method, implemented in the `Statial` package, addresses these challenges by incorporating biological context directly into the quantification of spatial organisation. Rather than comparing cell positions in isolation, `Kontextual` defines reference contexts—such as neighbourhood composition or local tissue compartments—and evaluates whether specific cell types are localised or dispersed within these contexts. This approach helps mitigate the effects of structural inhomogeneity and sampling bias, enabling more robust and biologically meaningful interpretations of spatial organisation. In this section, we demonstrate how to use Statial to derive contextualised spatial metrics and interpret localisation patterns with greater confidence.
+
 
 ```{r 04b-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
