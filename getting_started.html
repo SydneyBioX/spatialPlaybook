@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>The <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/SpatialExperiment/inst/doc/SpatialExperiment.html">vignette</a> for the SpatialExperiment package explains how to turn a <code>matrix</code> or <code>data.frame</code> into a <code>SpatialExperiment</code>.</p></li>
 <li><p>If you have a .csv file or a .xlsx file, this can be read into R using <code>read_csv()</code> and <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx()</a></code> from the <code>readxl</code> package and converted into a <code>matrix</code> or <code>data.frame</code>. You could also use <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> or <code><a href="https://rdrr.io/r/utils/read.table.html">read.delim()</a></code> in base R.</p></li>
-<li><p>If you have a <code>Seurat</code> object, you can convert this to a <code>SingleCellExperiment</code> using the <code><a href="https://satijalab.org/seurat/reference/as.SingleCellExperiment.html">as.SingleCellExperiment()</a></code> function or back again using <code><a href="https://mojaveazure.github.io/seurat-object/reference/as.Seurat.html">as.Seurat()</a></code>.</p></li>
+<li><p>If you have a <code>Seurat</code> object, you can convert this to a <code>SingleCellExperiment</code> using the <code><a href="https://satijalab.org/seurat/reference/as.SingleCellExperiment.html">as.SingleCellExperiment()</a></code> function or back again using <code><a href="https://satijalab.github.io/seurat-object/reference/as.Seurat.html">as.Seurat()</a></code>.</p></li>
 <li><p>A <code>SpatialExperiment</code> object is very similar to a <code>SingleCellExperiment</code> but with spatial coordinates stored in the <code>spatialCoords()</code> slot. Many people analyse spatial data using a <code>SingleCellExperiment</code> object with the spatial coordinates stored in <code>colData</code>. Most of our packages are accepting of this approach.</p></li>
 <li><p>For visualisations, we recommend duplicating your <code>spatialCoords()</code> in the <code>reducedDim()</code> slot and in the <code>colData</code>.</p></li>
 </ul></section><section id="installing-packages" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="installing-packages">
@@ -402,6 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                       <span class="st">"imcRtools"</span>,</span>
 <span>                       <span class="st">"treekoR"</span>,</span>
 <span>                       <span class="st">"lisaClust"</span>,</span>
+<span>                       <span class="st">"scFeatures"</span>,</span>
 <span>                       <span class="st">"ClassifyR"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span></span>

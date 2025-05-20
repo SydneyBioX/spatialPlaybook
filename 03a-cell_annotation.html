@@ -322,17 +322,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#clustering-vs-annotation" id="toc-clustering-vs-annotation" class="nav-link active" data-scroll-target="#clustering-vs-annotation"><span class="header-section-number">6.1</span> Clustering vs Annotation</a></li>
-  <li>
-<a href="#clustering-with-fusesom" id="toc-clustering-with-fusesom" class="nav-link" data-scroll-target="#clustering-with-fusesom"><span class="header-section-number">6.2</span> Clustering with FuseSOM</a>
+<li>
+<a href="#clustering-with-fusesom" id="toc-clustering-with-fusesom" class="nav-link active" data-scroll-target="#clustering-with-fusesom"><span class="header-section-number">6.1</span> Clustering with FuseSOM</a>
   <ul class="collapse">
-<li><a href="#fusesom-matrix-input" id="toc-fusesom-matrix-input" class="nav-link" data-scroll-target="#fusesom-matrix-input"><span class="header-section-number">6.2.1</span> FuseSOM Matrix Input</a></li>
-  <li><a href="#using-fusesom-to-estimate-the-number-of-clusters" id="toc-using-fusesom-to-estimate-the-number-of-clusters" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters"><span class="header-section-number">6.2.2</span> Using FuseSOM to estimate the number of clusters</a></li>
-  <li><a href="#fusesom-with-singlecellexperiment-object-as-input" id="toc-fusesom-with-singlecellexperiment-object-as-input" class="nav-link" data-scroll-target="#fusesom-with-singlecellexperiment-object-as-input"><span class="header-section-number">6.2.3</span> FuseSOM with SingleCellExperiment object as input</a></li>
-  <li><a href="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" id="toc-using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects"><span class="header-section-number">6.2.4</span> Using FuseSOM to estimate the number of clusters for SingleCellExperiment objects</a></li>
+<li><a href="#fusesom-matrix-input" id="toc-fusesom-matrix-input" class="nav-link" data-scroll-target="#fusesom-matrix-input"><span class="header-section-number">6.1.1</span> FuseSOM Matrix Input</a></li>
+  <li><a href="#using-fusesom-to-estimate-the-number-of-clusters" id="toc-using-fusesom-to-estimate-the-number-of-clusters" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters"><span class="header-section-number">6.1.2</span> Using FuseSOM to estimate the number of clusters</a></li>
+  <li><a href="#fusesom-with-singlecellexperiment-object-as-input" id="toc-fusesom-with-singlecellexperiment-object-as-input" class="nav-link" data-scroll-target="#fusesom-with-singlecellexperiment-object-as-input"><span class="header-section-number">6.1.3</span> FuseSOM with SingleCellExperiment object as input</a></li>
+  <li><a href="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" id="toc-using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="nav-link" data-scroll-target="#using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects"><span class="header-section-number">6.1.4</span> Using FuseSOM to estimate the number of clusters for SingleCellExperiment objects</a></li>
   </ul>
 </li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">6.3</span> sessionInfo</a></li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">6.2</span> sessionInfo</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -353,7 +352,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Labeling the identity of your cells is a key step in any spatial processing protocol in order to determine differential cell type compositions and changes which occur in specific cell types during disease. The method by which this is done can differ from study to study, but there are two main approaches to this: clustering and annotation.</p>
+</header><p>Identifying cell types is a critical step in spatial analysis, as it shapes how we interpret tissue composition, uncover cell-cell interactions, and understand disease-associated changes at the cellular level. However, cell type annotation is not always straightforward—marker expression often varies continuously rather than forming clear-cut boundaries between populations. Overlapping marker profiles, technical noise, and tissue-specific expression patterns can make annotation uncertain and prone to error, which in turn affects the accuracy of all downstream analyses.</p>
+<p>There are two main strategies for assigning cell type labels: clustering and annotation. Clustering is an unsupervised approach that groups cells based on similarities in marker expression. While it can uncover novel or unexpected populations, the resulting clusters must be manually interpreted and labelled using biological expertise and known marker profiles. Annotation, on the other hand, is a supervised method that uses a reference dataset—often derived from well-characterised single-cell data—to directly assign cell type labels to each cell. This can improve consistency and reproducibility but depends heavily on the quality and relevance of the reference used.</p>
+<p>Both approaches have advantages and limitations. Clustering may miss subtle populations or be sensitive to parameter choices, while annotation can misclassify cells if the reference does not capture the diversity present in the tissue being analysed. In this playbook, we demonstrate how to use our packages to perform both clustering and annotation, and provide guidance on choosing between these methods based on your data and biological question. Throughout, we highlight common pitfalls and best practices to improve the reliability and interpretability of cell type identification.</p>
 <!-- Steps: -->
 <!-- 1.  Clustering vs annotation -->
 <!-- 2.  Clustering with FuseSOM -->
@@ -382,15 +383,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="clustering-vs-annotation" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="clustering-vs-annotation">
-<span class="header-section-number">6.1</span> Clustering vs Annotation</h2>
-<p>Clustering is an unsupervised method of labelling cells. An algorithm identifies clusters of similar cells based on marker expression patterns, and the resulting clusters need to be manually identified based on biological domain knowledge. Cell annotation is a supervised method which requires a separate, reference dataset. The algorithm uses a reference dataset to assign a cell type label to each cell in the dataset. There are advantages and disadvantages to both. We will first demonstrate the use of our packages to perform both clustering and annotation, and then discuss how to choose between the two approaches.</p>
-</section><section id="clustering-with-fusesom" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="clustering-with-fusesom">
-<span class="header-section-number">6.2</span> Clustering with FuseSOM</h2>
+<section id="clustering-with-fusesom" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="clustering-with-fusesom">
+<span class="header-section-number">6.1</span> Clustering with FuseSOM</h2>
 <p><a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html">FuseSOM</a> is an unsupervised clustering tool for highly multiplexed in situ imaging cytometry assays. It combines a <code>Self Organising Map</code> architecture and a <code>MultiView</code> integration of correlation-based metrics for robustness and high accuracy. It has been streamlined to accept multiple data structures including <code>SingleCellExperiment</code> objects, <code>SpatialExperiment</code> objects, and <code>DataFrames</code>.</p>
 <p><img src="images/FuseSOM_fig1.jpeg" align="center" style="height:200px; border: 0px"></p>
-<section id="fusesom-matrix-input" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="fusesom-matrix-input">
-<span class="header-section-number">6.2.1</span> FuseSOM Matrix Input</h3>
+<section id="fusesom-matrix-input" class="level3" data-number="6.1.1"><h3 data-number="6.1.1" class="anchored" data-anchor-id="fusesom-matrix-input">
+<span class="header-section-number">6.1.1</span> FuseSOM Matrix Input</h3>
 <p>To demonstrate the functionality of <code>FuseSOM</code>, we will use the <a href="./datasets.html">Risom 2022</a> dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS). We will be using the markers used in the original study to perform clustering.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in the data</span></span>
@@ -475,8 +473,8 @@ Remedying imperfect clustering
 </ol>
 </div>
 </div>
-</section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
-<span class="header-section-number">6.2.2</span> Using FuseSOM to estimate the number of clusters</h3>
+</section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.1.2"><h3 data-number="6.1.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
+<span class="header-section-number">6.1.2</span> Using FuseSOM to estimate the number of clusters</h3>
 <p>When the number of expected cell types or clusters is not known beforehand, the <code>estimateNumCluster</code> function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:</p>
 <ol type="1">
 <li>Discriminant based method:
@@ -574,8 +572,8 @@ Estimating the value of k
 </ol>
 </div>
 </div>
-</section><section id="fusesom-with-singlecellexperiment-object-as-input" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="fusesom-with-singlecellexperiment-object-as-input">
-<span class="header-section-number">6.2.3</span> FuseSOM with SingleCellExperiment object as input</h3>
+</section><section id="fusesom-with-singlecellexperiment-object-as-input" class="level3" data-number="6.1.3"><h3 data-number="6.1.3" class="anchored" data-anchor-id="fusesom-with-singlecellexperiment-object-as-input">
+<span class="header-section-number">6.1.3</span> FuseSOM with SingleCellExperiment object as input</h3>
 <p>The FuseSOM algorithm is also equipped to take in a <code>SingleCellExperiment</code> object as input. The results of the pipeline will be written to either the <code>metadata</code> or the <code>colData</code> fields.</p>
 <p>First, we create a <code>SingleCellExperiment</code> object using the Risom 2022 data.</p>
 <div class="cell">
@@ -651,8 +649,8 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 </div>
-</section><section id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="level3" data-number="6.2.4"><h3 data-number="6.2.4" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects">
-<span class="header-section-number">6.2.4</span> Using FuseSOM to estimate the number of clusters for SingleCellExperiment objects</h3>
+</section><section id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects" class="level3" data-number="6.1.4"><h3 data-number="6.1.4" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters-for-singlecellexperiment-objects">
+<span class="header-section-number">6.1.4</span> Using FuseSOM to estimate the number of clusters for SingleCellExperiment objects</h3>
 <p>Just like before, we will use <code>estimateNumCluster</code> on our Risom <code>SingleCellExperiment</code> object.</p>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
@@ -727,19 +725,19 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 <p>Again, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters with 24 clusters. The <code>Gap</code> method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
-<p>In the next section, we will demonstrate how our packages can be used to perform supervised cell annotation, and then discuss how to choose between clustering and annotation approaches.</p>
-</section></section><section id="sessioninfo" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="sessioninfo">
-<span class="header-section-number">6.3</span> sessionInfo</h2>
+<p>In the next section, we will demonstrate how packages can be used to perform supervised cell annotation, and then discuss how to choose between clustering and annotation approaches.</p>
+</section></section><section id="sessioninfo" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">6.2</span> sessionInfo</h2>
 <div class="cell">
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14)
+<pre><code>R version 4.5.0 (2025-04-11)
 Platform: aarch64-apple-darwin20
 Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -752,74 +750,73 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] ggplot2_3.5.1               scuttle_1.16.0             
- [3] simpleSeg_1.8.0             MLmetrics_1.1.3            
- [5] STexampleData_1.14.0        SpatialExperiment_1.16.0   
- [7] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
- [9] Biobase_2.66.0              GenomicRanges_1.58.0       
-[11] GenomeInfoDb_1.42.0         IRanges_2.40.0             
-[13] S4Vectors_0.44.0            MatrixGenerics_1.18.0      
-[15] matrixStats_1.4.1           ExperimentHub_2.14.0       
-[17] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
-[19] dbplyr_2.5.0                BiocGenerics_0.52.0        
-[21] FuseSOM_1.8.0              
+ [1] ggplot2_3.5.2               scuttle_1.18.0             
+ [3] simpleSeg_1.10.0            MLmetrics_1.1.3            
+ [5] STexampleData_1.16.0        SpatialExperiment_1.18.1   
+ [7] SingleCellExperiment_1.30.1 SummarizedExperiment_1.38.1
+ [9] Biobase_2.68.0              GenomicRanges_1.60.0       
+[11] GenomeInfoDb_1.44.0         IRanges_2.42.0             
+[13] S4Vectors_0.46.0            MatrixGenerics_1.20.0      
+[15] matrixStats_1.5.0           ExperimentHub_2.16.0       
+[17] AnnotationHub_3.16.0        BiocFileCache_2.16.0       
+[19] dbplyr_2.5.0                BiocGenerics_0.54.0        
+[21] generics_0.1.4              FuseSOM_1.10.0             
 
 loaded via a namespace (and not attached):
-  [1] splines_4.4.1            later_1.4.1              bitops_1.0-9            
+  [1] splines_4.5.0            later_1.4.2              bitops_1.0-9            
   [4] ggplotify_0.1.2          filelock_1.0.3           tibble_3.2.1            
   [7] svgPanZoom_0.3.4         polyclip_1.10-7          lifecycle_1.0.4         
- [10] rstatix_0.7.2            fastcluster_1.2.6        prabclus_2.3-4          
- [13] lattice_0.22-6           MASS_7.3-61              backports_1.5.0         
+ [10] rstatix_0.7.2            fastcluster_1.3.0        prabclus_2.3-4          
+ [13] lattice_0.22-6           MASS_7.3-65              backports_1.5.0         
  [16] magrittr_2.0.3           rmarkdown_2.29           yaml_2.3.10             
- [19] httpuv_1.6.15            flexmix_2.3-19           sp_2.1-4                
+ [19] httpuv_1.6.16            flexmix_2.3-20           sp_2.2-0                
  [22] DBI_1.2.3                RColorBrewer_1.1-3       abind_1.4-8             
- [25] zlibbioc_1.52.0          purrr_1.0.2              RCurl_1.98-1.16         
- [28] nnet_7.3-19              yulab.utils_0.1.8        rappdirs_0.3.3          
- [31] GenomeInfoDbData_1.2.13  ggrepel_0.9.6            irlba_2.3.5.1           
- [34] spatstat.utils_3.1-1     terra_1.7-78             pheatmap_1.0.12         
- [37] vegan_2.6-8              svglite_2.1.3            permute_0.9-7           
- [40] codetools_0.2-20         DelayedArray_0.32.0      tidyselect_1.2.1        
- [43] raster_3.6-30            farver_2.1.2             UCSC.utils_1.2.0        
- [46] ScaledMatrix_1.14.0      viridis_0.6.5            jsonlite_1.8.9          
- [49] BiocNeighbors_2.0.0      Formula_1.2-5            scater_1.34.0           
- [52] systemfonts_1.1.0        tools_4.4.1              Rcpp_1.0.13-1           
- [55] glue_1.8.0               mnormt_2.1.1             gridExtra_2.3           
- [58] SparseArray_1.6.0        xfun_0.49                mgcv_1.9-1              
- [61] EBImage_4.48.0           dplyr_1.1.4              HDF5Array_1.34.0        
- [64] withr_3.0.2              shinydashboard_0.7.2     BiocManager_1.30.25     
- [67] fastmap_1.2.0            rhdf5filters_1.18.0      fansi_1.0.6             
- [70] rsvd_1.0.5               digest_0.6.37            R6_2.5.1                
- [73] mime_0.12                gridGraphics_0.5-1       DataVisualizations_1.3.2
- [76] colorspace_2.1-1         spatstat.data_3.1-4      jpeg_0.1-10             
- [79] RSQLite_2.3.8            diptest_0.77-1           utf8_1.2.4              
- [82] tidyr_1.3.1              generics_0.1.3           robustbase_0.99-4-1     
- [85] class_7.3-22             httr_1.4.7               htmlwidgets_1.6.4       
- [88] S4Arrays_1.6.0           pkgconfig_2.0.3          gtable_0.3.6            
- [91] modeltools_0.2-23        blob_1.2.4               XVector_0.46.0          
- [94] htmltools_0.5.8.1        carData_3.0-5            fftwtools_0.9-11        
- [97] scales_1.3.0             png_0.1-8                spatstat.univar_3.1-1   
-[100] knitr_1.49               rstudioapi_0.17.1        rjson_0.2.23            
-[103] nlme_3.1-166             curl_6.0.1               proxy_0.4-27            
-[106] cachem_1.1.0             rhdf5_2.50.0             stringr_1.5.1           
-[109] BiocVersion_3.20.0       parallel_4.4.1           vipor_0.4.7             
-[112] AnnotationDbi_1.68.0     pillar_1.9.0             grid_4.4.1              
-[115] vctrs_0.6.5              promises_1.3.2           ggpubr_0.6.0            
-[118] BiocSingular_1.22.0      car_3.1-3                beachmat_2.22.0         
-[121] xtable_1.8-4             cluster_2.1.6            princurve_2.1.6         
-[124] beeswarm_0.4.0           evaluate_1.0.1           magick_2.8.5            
-[127] cli_3.6.3                locfit_1.5-9.10          compiler_4.4.1          
-[130] rlang_1.1.4              crayon_1.5.3             analogue_0.17-7         
-[133] ggsignif_0.6.4           labeling_0.4.3           mclust_6.1.1            
-[136] fs_1.6.5                 ggbeeswarm_0.7.2         stringi_1.8.4           
-[139] psych_2.4.6.26           deldir_2.0-4             viridisLite_0.4.2       
-[142] BiocParallel_1.40.0      nnls_1.6                 FCPS_1.3.4              
-[145] cytomapper_1.18.0        munsell_0.5.1            Biostrings_2.74.0       
-[148] tiff_0.1-12              coop_0.6-3               profileModel_0.6.1      
-[151] spatstat.geom_3.3-4      Matrix_1.7-1             bit64_4.5.2             
-[154] Rhdf5lib_1.28.0          fpc_2.2-13               KEGGREST_1.46.0         
-[157] shiny_1.9.1              brglm_0.7.2              kernlab_0.9-33          
-[160] broom_1.0.7              memoise_2.0.1            DEoptimR_1.1-3-1        
-[163] bit_4.5.0               </code></pre>
+ [25] purrr_1.0.4              RCurl_1.98-1.17          nnet_7.3-20             
+ [28] yulab.utils_0.2.0        rappdirs_0.3.3           GenomeInfoDbData_1.2.14 
+ [31] ggrepel_0.9.6            irlba_2.3.5.1            spatstat.utils_3.1-4    
+ [34] terra_1.8-50             pheatmap_1.0.12          vegan_2.6-10            
+ [37] svglite_2.2.1            permute_0.9-7            codetools_0.2-20        
+ [40] DelayedArray_0.34.1      tidyselect_1.2.1         raster_3.6-32           
+ [43] UCSC.utils_1.4.0         farver_2.1.2             ScaledMatrix_1.16.0     
+ [46] viridis_0.6.5            jsonlite_2.0.0           BiocNeighbors_2.2.0     
+ [49] Formula_1.2-5            scater_1.36.0            systemfonts_1.2.3       
+ [52] tools_4.5.0              Rcpp_1.0.14              glue_1.8.0              
+ [55] mnormt_2.1.1             gridExtra_2.3            SparseArray_1.8.0       
+ [58] xfun_0.52                mgcv_1.9-3               EBImage_4.50.0          
+ [61] dplyr_1.1.4              HDF5Array_1.36.0         withr_3.0.2             
+ [64] shinydashboard_0.7.3     BiocManager_1.30.25      fastmap_1.2.0           
+ [67] rhdf5filters_1.20.0      rsvd_1.0.5               digest_0.6.37           
+ [70] R6_2.6.1                 mime_0.13                gridGraphics_0.5-1      
+ [73] DataVisualizations_1.3.3 textshaping_1.0.1        colorspace_2.1-1        
+ [76] spatstat.data_3.1-6      jpeg_0.1-11              dichromat_2.0-0.1       
+ [79] RSQLite_2.3.11           diptest_0.77-1           h5mread_1.0.0           
+ [82] tidyr_1.3.1              robustbase_0.99-4-1      class_7.3-23            
+ [85] httr_1.4.7               htmlwidgets_1.6.4        S4Arrays_1.8.0          
+ [88] pkgconfig_2.0.3          gtable_0.3.6             modeltools_0.2-24       
+ [91] blob_1.2.4               XVector_0.48.0           htmltools_0.5.8.1       
+ [94] carData_3.0-5            fftwtools_0.9-11         scales_1.4.0            
+ [97] png_0.1-8                spatstat.univar_3.1-3    knitr_1.50              
+[100] rstudioapi_0.17.1        rjson_0.2.23             nlme_3.1-168            
+[103] curl_6.2.2               proxy_0.4-27             cachem_1.1.0            
+[106] rhdf5_2.52.0             stringr_1.5.1            BiocVersion_3.21.1      
+[109] parallel_4.5.0           vipor_0.4.7              AnnotationDbi_1.70.0    
+[112] pillar_1.10.2            grid_4.5.0               vctrs_0.6.5             
+[115] promises_1.3.2           ggpubr_0.6.0             BiocSingular_1.24.0     
+[118] car_3.1-3                beachmat_2.24.0          xtable_1.8-4            
+[121] cluster_2.1.8.1          princurve_2.1.6          beeswarm_0.4.0          
+[124] evaluate_1.0.3           magick_2.8.5             cli_3.6.5               
+[127] locfit_1.5-9.12          compiler_4.5.0           rlang_1.1.6             
+[130] crayon_1.5.3             analogue_0.18.0          ggsignif_0.6.4          
+[133] labeling_0.4.3           mclust_6.1.1             fs_1.6.6                
+[136] ggbeeswarm_0.7.2         stringi_1.8.7            psych_2.5.3             
+[139] deldir_2.0-4             viridisLite_0.4.2        BiocParallel_1.42.0     
+[142] nnls_1.6                 FCPS_1.3.4               cytomapper_1.20.0       
+[145] Biostrings_2.76.0        tiff_0.1-12              coop_0.6-3              
+[148] profileModel_0.6.1       spatstat.geom_3.3-6      Matrix_1.7-3            
+[151] bit64_4.6.0-1            Rhdf5lib_1.30.0          fpc_2.2-13              
+[154] KEGGREST_1.48.0          shiny_1.10.0             brglm_0.7.2             
+[157] kernlab_0.9-33           broom_1.0.8              memoise_2.0.1           
+[160] DEoptimR_1.1-3-1         bit_4.6.0               </code></pre>
 </div>
 </div>
 

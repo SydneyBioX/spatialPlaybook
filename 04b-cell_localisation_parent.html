@@ -353,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Understanding the spatial relationships of cells within tissue is crucial for interpreting their roles within tissues. However, without defining appropriate contexts, these relationships can be misinterpreted due to confounding factors such as tissue stricture and the choice of region to image. In this section, we will demonstrate the use of our <code>Statial</code> package to derive appropriate contexts for evaluating cell localisation.</p>
+</header><p>Understanding spatial relationships between cell types is key to interpreting how cells function within their native tissue environments. However, these relationships are often influenced by confounding factors such as uneven cell distributions, tissue architecture, and the specific region chosen for imaging. The <code>Kontextual</code> method, implemented in the <code>Statial</code> package, addresses these challenges by incorporating biological context directly into the quantification of spatial organisation. Rather than comparing cell positions in isolation, <code>Kontextual</code> defines reference contexts—such as neighbourhood composition or local tissue compartments—and evaluates whether specific cell types are localised or dispersed within these contexts. This approach helps mitigate the effects of structural inhomogeneity and sampling bias, enabling more robust and biologically meaningful interpretations of spatial organisation. In this section, we demonstrate how to use Statial to derive contextualised spatial metrics and interpret localisation patterns with greater confidence.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/Statial">Statial</a></span><span class="op">)</span></span>
@@ -536,7 +536,11 @@ $parent_3
 5      13 Immune__p53_Tumour -15.613023  -3.993736 100  FALSE
 6      14 Immune__p53_Tumour -14.671281  -4.287914 100  FALSE</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 12.82 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 12.71 s
+</em>
+</div>
+<p></p>
 </div>
 <p>The <code>kontextCurve</code> function plots the L-function value and Kontextual values over a range of radii. If the points lie above the red line (expected pattern) then localisation is indicated for that radius, if the points lie below the red line then dispersion is indicated.</p>
 <p>As seen in the following plot the L-function produces negative values over a range of radii, indicating that <em>p53+ tumour cells</em> and <em>immune cells</em> are dispersed from one another. However by taking into account the tumour context, <code>Kontextual</code> shows positive values over some radii, indicating localisation between <em>p53+ tumour cells</em> and <em>immune cells</em>.</p>
@@ -559,7 +563,11 @@ $parent_3
 </figure>
 </div>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 14.56 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 19.74 s
+</em>
+</div>
+<p></p>
 </div>
 <p>Alternatively, we can also test all pairwise cell relationships and their corresponding parent in the dataset. First, we create a data frame with all pairwise combinations using the <code>parentCombinations</code> function. This function takes in a vector of all the cells, as well as the named list of parents and children created earlier in the <code>parentList</code> argument. As shown below, the output is a data frame specifying the <code>to</code>, <code>from</code>, and <code>parent</code> arguments for <code>Kontextual</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -615,7 +623,11 @@ Note
 5      13 Keratin_Tumour__B_cell__immune -21.768051 -14.206190 100  FALSE
 6      14 Keratin_Tumour__B_cell__immune         NA         NA 100  FALSE</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 82.94 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 80.9 s
+</em>
+</div>
+<p></p>
 </div>
 <p>For every pairwise relationship (named accordingly: <code>from__to__parent</code>) <code>Kontextual</code> outputs the L-function values (original) and the Kontextual value. The relationships where the L-function and Kontextual disagree (e.g.&nbsp;one metric is positive and the other is negative) represent relationships where adding context information results in different conclusions on the spatial relationship between the two cell types.</p>
 </section><section id="associating-the-relationships-with-survival-outcomes" class="level3" data-number="9.2.4"><h3 data-number="9.2.4" class="anchored" data-anchor-id="associating-the-relationships-with-survival-outcomes">
@@ -671,7 +683,11 @@ Note
  9 Other_Immune__DC__myeloid            -0.0181 0.00664 0.0000490  
 10 Other_Immune__DC__immune             -0.0186 0.00669 0.0000652  </code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 3.84 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 3.06 s
+</em>
+</div>
+<p></p>
 </div>
 <p>The survival results can also be visualised using the <code>signifPlot</code> function. The “Context” slot in the legend describes the parent population with respect to which the Kontextual metric is calculated.</p>
 <div class="cell">
@@ -731,13 +747,13 @@ Note
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14)
+<pre><code>R version 4.5.0 (2025-04-11)
 Platform: aarch64-apple-darwin20
 Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -750,131 +766,133 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] ggsurvfit_1.1.0             treekoR_1.14.0             
- [3] tibble_3.2.1                survival_3.7-0             
- [5] dplyr_1.1.4                 imcRtools_1.12.0           
- [7] SpatialDatasets_1.4.0       ExperimentHub_2.14.0       
- [9] AnnotationHub_3.14.0        BiocFileCache_2.14.0       
-[11] dbplyr_2.5.0                SpatialExperiment_1.16.0   
-[13] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
-[15] Biobase_2.66.0              GenomicRanges_1.58.0       
-[17] GenomeInfoDb_1.42.0         IRanges_2.40.0             
-[19] S4Vectors_0.44.0            BiocGenerics_0.52.0        
-[21] MatrixGenerics_1.18.0       matrixStats_1.4.1          
-[23] ggplot2_3.5.1               Statial_1.8.0              
-[25] spicyR_1.18.0              
+ [1] ggsurvfit_1.1.0             treekoR_1.16.0             
+ [3] tibble_3.2.1                survival_3.8-3             
+ [5] dplyr_1.1.4                 imcRtools_1.14.0           
+ [7] SpatialDatasets_1.6.0       ExperimentHub_2.16.0       
+ [9] AnnotationHub_3.16.0        BiocFileCache_2.16.0       
+[11] dbplyr_2.5.0                SpatialExperiment_1.18.1   
+[13] SingleCellExperiment_1.30.1 SummarizedExperiment_1.38.1
+[15] Biobase_2.68.0              GenomicRanges_1.60.0       
+[17] GenomeInfoDb_1.44.0         IRanges_2.42.0             
+[19] S4Vectors_0.46.0            BiocGenerics_0.54.0        
+[21] generics_0.1.4              MatrixGenerics_1.20.0      
+[23] matrixStats_1.5.0           ggplot2_3.5.2              
+[25] Statial_1.10.0              spicyR_1.20.0              
 
 loaded via a namespace (and not attached):
-  [1] vroom_1.6.5                 tiff_0.1-12                
-  [3] dcanr_1.22.0                goftest_1.2-3              
-  [5] DT_0.33                     Biostrings_2.74.0          
-  [7] HDF5Array_1.34.0            TH.data_1.1-2              
-  [9] vctrs_0.6.5                 spatstat.random_3.3-2      
- [11] digest_0.6.37               png_0.1-8                  
- [13] shape_1.4.6.1               proxy_0.4-27               
- [15] ggrepel_0.9.6               deldir_2.0-4               
- [17] magick_2.8.5                MASS_7.3-61                
- [19] reshape2_1.4.4              httpuv_1.6.15              
- [21] foreach_1.5.2               withr_3.0.2                
- [23] ggfun_0.1.7                 xfun_0.49                  
- [25] ggpubr_0.6.0                doRNG_1.8.6.1              
- [27] memoise_2.0.1               RTriangle_1.6-0.14         
- [29] cytomapper_1.18.0           ggbeeswarm_0.7.2           
- [31] RProtoBufLib_2.18.0         systemfonts_1.1.0          
- [33] tidytree_0.4.6              zoo_1.8-12                 
- [35] GlobalOptions_0.1.2         Formula_1.2-5              
- [37] KEGGREST_1.46.0             promises_1.3.2             
- [39] httr_1.4.7                  rstatix_0.7.2              
- [41] rhdf5filters_1.18.0         rhdf5_2.50.0               
- [43] rstudioapi_0.17.1           UCSC.utils_1.2.0           
- [45] units_0.8-5                 generics_0.1.3             
- [47] concaveman_1.1.0            curl_6.0.1                 
- [49] zlibbioc_1.52.0             ggraph_2.2.1               
- [51] polyclip_1.10-7             GenomeInfoDbData_1.2.13    
- [53] SparseArray_1.6.0           fftwtools_0.9-11           
- [55] xtable_1.8-4                stringr_1.5.1              
- [57] doParallel_1.0.17           evaluate_1.0.1             
- [59] S4Arrays_1.6.0              hms_1.1.3                  
- [61] colorspace_2.1-1            filelock_1.0.3             
- [63] spatstat.data_3.1-4         magrittr_2.0.3             
- [65] readr_2.1.5                 later_1.4.1                
- [67] viridis_0.6.5               ggtree_3.14.0              
- [69] lattice_0.22-6              spatstat.geom_3.3-4        
- [71] XML_3.99-0.17               scuttle_1.16.0             
- [73] ggupset_0.4.0               class_7.3-22               
- [75] svgPanZoom_0.3.4            pillar_1.9.0               
- [77] simpleSeg_1.8.0             nlme_3.1-166               
- [79] iterators_1.0.14            EBImage_4.48.0             
- [81] compiler_4.4.1              beachmat_2.22.0            
- [83] stringi_1.8.4               sf_1.0-19                  
- [85] tensor_1.5                  minqa_1.2.8                
- [87] ClassifyR_3.10.5            plyr_1.8.9                 
- [89] crayon_1.5.3                abind_1.4-8                
- [91] gridGraphics_0.5-1          locfit_1.5-9.10            
- [93] sp_2.1-4                    graphlayouts_1.2.1         
- [95] bit_4.5.0                   terra_1.7-78               
- [97] sandwich_3.1-1              codetools_0.2-20           
- [99] multcomp_1.4-26             e1071_1.7-16               
-[101] GetoptLong_1.0.5            plotly_4.10.4              
-[103] mime_0.12                   MultiAssayExperiment_1.32.0
-[105] splines_4.4.1               circlize_0.4.16            
-[107] Rcpp_1.0.13-1               knitr_1.49                 
-[109] blob_1.2.4                  utf8_1.2.4                 
-[111] clue_0.3-66                 BiocVersion_3.20.0         
-[113] lme4_1.1-35.5               fs_1.6.5                   
-[115] nnls_1.6                    ggplotify_0.1.2            
-[117] ggsignif_0.6.4              Matrix_1.7-1               
-[119] scam_1.2-17                 statmod_1.5.0              
-[121] tzdb_0.4.0                  svglite_2.1.3              
-[123] tweenr_2.0.3                pkgconfig_2.0.3            
-[125] pheatmap_1.0.12             tools_4.4.1                
-[127] cachem_1.1.0                RSQLite_2.3.8              
-[129] viridisLite_0.4.2           DBI_1.2.3                  
-[131] numDeriv_2016.8-1.1         fastmap_1.2.0              
-[133] rmarkdown_2.29              scales_1.3.0               
-[135] grid_4.4.1                  shinydashboard_0.7.2       
-[137] broom_1.0.7                 patchwork_1.3.0            
-[139] BiocManager_1.30.25         carData_3.0-5              
-[141] farver_2.1.2                tidygraph_1.3.1            
-[143] mgcv_1.9-1                  yaml_2.3.10                
-[145] ggthemes_5.1.0              cli_3.6.3                  
-[147] purrr_1.0.2                 hopach_2.66.0              
-[149] lifecycle_1.0.4             mvtnorm_1.3-2              
-[151] backports_1.5.0             BiocParallel_1.40.0        
-[153] cytolib_2.18.0              gtable_0.3.6               
-[155] rjson_0.2.23                parallel_4.4.1             
-[157] ape_5.8                     limma_3.62.1               
-[159] jsonlite_1.8.9              edgeR_4.4.0                
-[161] bitops_1.0-9                bit64_4.5.2                
-[163] Rtsne_0.17                  FlowSOM_2.14.0             
-[165] yulab.utils_0.1.8           spatstat.utils_3.1-1       
-[167] BiocNeighbors_2.0.0         ranger_0.17.0              
-[169] flowCore_2.18.0             bdsmatrix_1.3-7            
-[171] spatstat.univar_3.1-1       lazyeval_0.2.2             
-[173] shiny_1.9.1                 ConsensusClusterPlus_1.70.0
-[175] htmltools_0.5.8.1           diffcyt_1.26.0             
-[177] rappdirs_0.3.3              distances_0.1.11           
-[179] glue_1.8.0                  XVector_0.46.0             
-[181] RCurl_1.98-1.16             treeio_1.30.0              
-[183] classInt_0.4-10             coxme_2.2-22               
-[185] jpeg_0.1-10                 gridExtra_2.3              
-[187] boot_1.3-31                 igraph_2.1.1               
-[189] R6_2.5.1                    tidyr_1.3.1                
-[191] ggiraph_0.8.11              labeling_0.4.3             
-[193] ggh4x_0.2.8                 cluster_2.1.6              
-[195] rngtools_1.5.2              Rhdf5lib_1.28.0            
-[197] aplot_0.2.3                 nloptr_2.1.1               
-[199] DelayedArray_0.32.0         tidyselect_1.2.1           
-[201] vipor_0.4.7                 ggforce_0.4.2              
-[203] raster_3.6-30               car_3.1-3                  
-[205] AnnotationDbi_1.68.0        munsell_0.5.1              
-[207] KernSmooth_2.23-24          data.table_1.16.2          
-[209] htmlwidgets_1.6.4           ComplexHeatmap_2.22.0      
-[211] RColorBrewer_1.1-3          rlang_1.1.4                
-[213] spatstat.sparse_3.1-0       spatstat.explore_3.3-3     
-[215] lmerTest_3.1-3              uuid_1.2-1                 
-[217] colorRamps_2.3.4            ggnewscale_0.5.0           
-[219] fansi_1.0.6                 beeswarm_0.4.0             </code></pre>
+  [1] dichromat_2.0-0.1           vroom_1.6.5                
+  [3] tiff_0.1-12                 dcanr_1.24.0               
+  [5] goftest_1.2-3               DT_0.33                    
+  [7] Biostrings_2.76.0           HDF5Array_1.36.0           
+  [9] TH.data_1.1-3               vctrs_0.6.5                
+ [11] spatstat.random_3.3-3       digest_0.6.37              
+ [13] png_0.1-8                   shape_1.4.6.1              
+ [15] proxy_0.4-27                BiocBaseUtils_1.10.0       
+ [17] ggrepel_0.9.6               deldir_2.0-4               
+ [19] magick_2.8.5                MASS_7.3-65                
+ [21] reshape2_1.4.4              httpuv_1.6.16              
+ [23] foreach_1.5.2               withr_3.0.2                
+ [25] ggfun_0.1.8                 xfun_0.52                  
+ [27] ggpubr_0.6.0                doRNG_1.8.6.2              
+ [29] memoise_2.0.1               RTriangle_1.6-0.15         
+ [31] cytomapper_1.20.0           ggbeeswarm_0.7.2           
+ [33] RProtoBufLib_2.20.0         systemfonts_1.2.3          
+ [35] tidytree_0.4.6              zoo_1.8-14                 
+ [37] GlobalOptions_0.1.2         Formula_1.2-5              
+ [39] KEGGREST_1.48.0             promises_1.3.2             
+ [41] httr_1.4.7                  rstatix_0.7.2              
+ [43] rhdf5filters_1.20.0         rhdf5_2.52.0               
+ [45] rstudioapi_0.17.1           UCSC.utils_1.4.0           
+ [47] units_0.8-7                 concaveman_1.1.0           
+ [49] curl_6.2.2                  ggraph_2.2.1               
+ [51] h5mread_1.0.0               polyclip_1.10-7            
+ [53] GenomeInfoDbData_1.2.14     SparseArray_1.8.0          
+ [55] fftwtools_0.9-11            xtable_1.8-4               
+ [57] stringr_1.5.1               doParallel_1.0.17          
+ [59] evaluate_1.0.3              S4Arrays_1.8.0             
+ [61] hms_1.1.3                   colorspace_2.1-1           
+ [63] filelock_1.0.3              spatstat.data_3.1-6        
+ [65] magrittr_2.0.3              readr_2.1.5                
+ [67] later_1.4.2                 viridis_0.6.5              
+ [69] ggtree_3.16.0               lattice_0.22-6             
+ [71] spatstat.geom_3.3-6         XML_3.99-0.18              
+ [73] scuttle_1.18.0              ggupset_0.4.1              
+ [75] class_7.3-23                svgPanZoom_0.3.4           
+ [77] pillar_1.10.2               simpleSeg_1.10.0           
+ [79] nlme_3.1-168                iterators_1.0.14           
+ [81] EBImage_4.50.0              compiler_4.5.0             
+ [83] beachmat_2.24.0             stringi_1.8.7              
+ [85] sf_1.0-21                   tensor_1.5                 
+ [87] minqa_1.2.8                 ClassifyR_3.12.0           
+ [89] plyr_1.8.9                  crayon_1.5.3               
+ [91] abind_1.4-8                 gridGraphics_0.5-1         
+ [93] locfit_1.5-9.12             sp_2.2-0                   
+ [95] graphlayouts_1.2.2          bit_4.6.0                  
+ [97] terra_1.8-50                sandwich_3.1-1             
+ [99] codetools_0.2-20            multcomp_1.4-28            
+[101] textshaping_1.0.1           e1071_1.7-16               
+[103] GetoptLong_1.0.5            plotly_4.10.4              
+[105] mime_0.13                   MultiAssayExperiment_1.34.0
+[107] splines_4.5.0               circlize_0.4.16            
+[109] Rcpp_1.0.14                 utf8_1.2.5                 
+[111] knitr_1.50                  blob_1.2.4                 
+[113] clue_0.3-66                 BiocVersion_3.21.1         
+[115] lme4_1.1-37                 fs_1.6.6                   
+[117] nnls_1.6                    Rdpack_2.6.4               
+[119] ggplotify_0.1.2             ggsignif_0.6.4             
+[121] Matrix_1.7-3                scam_1.2-18                
+[123] statmod_1.5.0               tzdb_0.5.0                 
+[125] svglite_2.2.1               tweenr_2.0.3               
+[127] pkgconfig_2.0.3             pheatmap_1.0.12            
+[129] tools_4.5.0                 cachem_1.1.0               
+[131] rbibutils_2.3               RSQLite_2.3.11             
+[133] viridisLite_0.4.2           DBI_1.2.3                  
+[135] numDeriv_2016.8-1.1         fastmap_1.2.0              
+[137] rmarkdown_2.29              scales_1.4.0               
+[139] grid_4.5.0                  shinydashboard_0.7.3       
+[141] broom_1.0.8                 patchwork_1.3.0            
+[143] BiocManager_1.30.25         carData_3.0-5              
+[145] farver_2.1.2                reformulas_0.4.1           
+[147] tidygraph_1.3.1             mgcv_1.9-3                 
+[149] yaml_2.3.10                 ggthemes_5.1.0             
+[151] cli_3.6.5                   purrr_1.0.4                
+[153] hopach_2.68.0               lifecycle_1.0.4            
+[155] mvtnorm_1.3-3               backports_1.5.0            
+[157] BiocParallel_1.42.0         cytolib_2.20.0             
+[159] gtable_0.3.6                rjson_0.2.23               
+[161] parallel_4.5.0              ape_5.8-1                  
+[163] limma_3.64.0                jsonlite_2.0.0             
+[165] edgeR_4.6.2                 bitops_1.0-9               
+[167] bit64_4.6.0-1               Rtsne_0.17                 
+[169] yulab.utils_0.2.0           FlowSOM_2.16.0             
+[171] spatstat.utils_3.1-4        BiocNeighbors_2.2.0        
+[173] ranger_0.17.0               flowCore_2.20.0            
+[175] bdsmatrix_1.3-7             spatstat.univar_3.1-3      
+[177] lazyeval_0.2.2              shiny_1.10.0               
+[179] ConsensusClusterPlus_1.72.0 htmltools_0.5.8.1          
+[181] diffcyt_1.28.0              rappdirs_0.3.3             
+[183] distances_0.1.12            glue_1.8.0                 
+[185] XVector_0.48.0              RCurl_1.98-1.17            
+[187] treeio_1.32.0               classInt_0.4-11            
+[189] coxme_2.2-22                jpeg_0.1-11                
+[191] gridExtra_2.3               boot_1.3-31                
+[193] igraph_2.1.4                R6_2.6.1                   
+[195] tidyr_1.3.1                 ggiraph_0.8.13             
+[197] labeling_0.4.3              ggh4x_0.3.0                
+[199] cluster_2.1.8.1             rngtools_1.5.2             
+[201] Rhdf5lib_1.30.0             aplot_0.2.5                
+[203] nloptr_2.2.1                DelayedArray_0.34.1        
+[205] tidyselect_1.2.1            vipor_0.4.7                
+[207] ggforce_0.4.2               raster_3.6-32              
+[209] car_3.1-3                   AnnotationDbi_1.70.0       
+[211] KernSmooth_2.23-26          data.table_1.17.2          
+[213] htmlwidgets_1.6.4           ComplexHeatmap_2.24.0      
+[215] RColorBrewer_1.1-3          rlang_1.1.6                
+[217] spatstat.sparse_3.1-0       spatstat.explore_3.4-2     
+[219] lmerTest_3.1-3              uuid_1.2-1                 
+[221] colorRamps_2.3.4            ggnewscale_0.5.1           
+[223] beeswarm_0.4.0             </code></pre>
 </div>
 </div>
 

@@ -353,8 +353,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>All of the different spatial metrics we’ve looked at up until now have looked at relationships between cell types, without taking into account the marker expressions of each cell type. Typical analyses in single-cell RNA sequencing would involve looking into differentially expressed genes for particular cell types between 2 samples, and we can do the same analyses here. At the same time, we can also look at more complicated analyses incorporating both spatial information and marker expression, to see if we can come up with a more informative metric of changes in cells across different conditions.</p>
-<p>In this section, we will look into how marker expression changes in distinct cell types across patients, and whether that informs patient survival.</p>
+</header><p>In some cases, functionally distinct cell subtypes cannot be reliably distinguished based on marker expression alone—especially when the differences in expression levels are subtle, overlapping, or influenced by dynamic biological states. For example, cells of the same general type may alter their functional behaviour depending on their local environment, such as immune cells becoming activated only when near infected or tumour cells. Additionally, technical limitations or noise can obscure small but meaningful variations in marker intensity, making it difficult to separate subpopulations purely through conventional clustering or supervised classification methods.</p>
+<p>In these scenarios, incorporating spatial context provides a powerful complementary perspective. By examining how marker expression changes as cells interact with specific neighbours or local tissue features, researchers can uncover functional variation that is otherwise hidden. Spatial context thus helps reveal how cells adapt, respond, or transition between states in situ, offering deeper insight into tissue organisation, cell function, and disease mechanisms.</p>
+<p>The <code>SpatioMark</code> method, part of the <code>Statial</code> package, identifies markers that vary within a given cell type based on proximity to other cell types. These spatially associated shifts in marker expression can reveal changes in cell state—such as activation, suppression, or environmental influence—that are not apparent through clustering or classification alone.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sydneybiox.github.io/Statial">Statial</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
@@ -383,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="statial-marker-means" class="level2" data-number="11.1"><h2 data-number="11.1" class="anchored" data-anchor-id="statial-marker-means">
 <span class="header-section-number">11.1</span> Statial: Marker means</h2>
 <p>One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare them across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: “How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?”, you’ll want to look at the marker mean of macrophages within specifically the tumour domain.</p>
-<p>For this demonstration, we will use our <a href="./datasets.html">Keren 2018</a> dataset.</p>
+<p>For this demonstration, we will use the <a href="./datasets.html">Keren 2018</a> dataset.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">spe_Keren_2018</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -394,7 +395,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lisaClust/man/lisaClust.html">lisaClust</a></span><span class="op">(</span><span class="va">kerenSPE</span>,</span>
 <span>                      k <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>                      BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Time for this code chunk to run with 5.5 cores: 24.32 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 31.5 s
+</em>
+</div>
+<p></p>
 </div>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span><span class="op">$</span><span class="va">event</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">kerenSPE</span><span class="op">$</span><span class="va">Censored</span></span>
@@ -423,14 +428,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">cellTypeRegionMeans</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Na__Keratin_Tumour__region_5 Si__Keratin_Tumour__region_5
-1                   -0.76850506                  -0.54544463
-10                  -0.01850892                   0.08525614
-11                  -0.62116507                  -0.41870981
-   P__Keratin_Tumour__region_5
-1                  -1.12173616
-10                 -0.05567915
-11                  0.25139671</code></pre>
+<pre><code>  Na__Keratin_Tumour__region_2 Si__Keratin_Tumour__region_2
+1                   -0.7775969                   -0.5503253
+2                    0.1489698                   -0.2596228
+3                   -0.7918177                   -0.5268896
+  P__Keratin_Tumour__region_2
+1                  -1.1306943
+2                  -0.8310180
+3                  -0.4678555</code></pre>
 </div>
 </div>
 <p>The output is a dataframe containing the average expression of each marker in each cell type in each region. The column names are formatted as: <code>marker__cell_type__region</code>.</p>
@@ -443,19 +448,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">survivalResults</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                    coef se.coef    pval adjPval
-CD209__CD4_T_cell__region_2         12.0    3.20 0.00016    0.39
-B7H3__CD4_T_cell__region_2         270.0   76.00 0.00038    0.39
-FoxP3__CD4_T_cell__region_2         25.0    7.10 0.00038    0.39
-CD163__CD4_T_cell__region_2         67.0   19.00 0.00038    0.39
-CD8__Endothelial__region_1           7.6    2.20 0.00060    0.40
-Keratin6__Keratin_Tumour__region_1   1.5    0.45 0.00068    0.40
+B7H3__CD4_T_cell__region_1         270.0   76.00 0.00038    0.42
+CD163__CD4_T_cell__region_1         67.0   19.00 0.00038    0.42
+FoxP3__CD4_T_cell__region_1         25.0    7.20 0.00052    0.42
+Si__Unidentified__region_4          -3.1    0.89 0.00053    0.42
+CD56__CD4_T_cell__region_1          28.0    8.10 0.00067    0.42
+Keratin6__Keratin_Tumour__region_3   1.6    0.47 0.00074    0.42
                                                               cluster
-CD209__CD4_T_cell__region_2               CD209__CD4_T_cell__region_2
-B7H3__CD4_T_cell__region_2                 B7H3__CD4_T_cell__region_2
-FoxP3__CD4_T_cell__region_2               FoxP3__CD4_T_cell__region_2
-CD163__CD4_T_cell__region_2               CD163__CD4_T_cell__region_2
-CD8__Endothelial__region_1                 CD8__Endothelial__region_1
-Keratin6__Keratin_Tumour__region_1 Keratin6__Keratin_Tumour__region_1</code></pre>
+B7H3__CD4_T_cell__region_1                 B7H3__CD4_T_cell__region_1
+CD163__CD4_T_cell__region_1               CD163__CD4_T_cell__region_1
+FoxP3__CD4_T_cell__region_1               FoxP3__CD4_T_cell__region_1
+Si__Unidentified__region_4                 Si__Unidentified__region_4
+CD56__CD4_T_cell__region_1                 CD56__CD4_T_cell__region_1
+Keratin6__Keratin_Tumour__region_3 Keratin6__Keratin_Tumour__region_3</code></pre>
 </div>
 </div>
 <p>Our most significant relationship appears to be <code>CD209__CD4_T_cell__region_2</code>, which indicates that the expression of marker CD209 in CD4 T cells in region 2 is strongly associated with survival probability. We can examine this relationship in more detail by plotting a Kaplan-Meier curve.</p>
@@ -637,7 +642,11 @@ names(2): distances abundances</code></pre>
 9   1.287478e-95  2.246354e-92
 10  3.928912e-88  5.712544e-85</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 22.13 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 3.76 s
+</em>
+</div>
+<p></p>
 </div>
 <p>In image 6, the majority of the top 10 most significant interactions occur between keratin/tumour cells and an immune population, and many of these interactions appear to involve the HLA class I ligand.</p>
 <p>We can examine some of these interactions further with the <code>plotStateChanges</code> function.</p>
@@ -764,9 +773,11 @@ names(2): distances abundances</code></pre>
 <p>To circumvent this problem, Statial provides a function that predicts the probability that a cell is any particular cell type - <code>calcContamination</code>. <code>calcContamination</code> returns a dataframe of probabilities demarcating the chance of a cell being any particular cell type. This dataframe is stored under <code>contaminations</code> in the <code>reducedDim</code> slot of the <code>SingleCellExperiment</code> object. It also provides the <code>rfMainCellProb</code> column, which provides the probability that a cell is indeed the cell type it has been designated. For example, for a cell designated as CD8, <code>rfMainCellProb</code> could give a 80% chance that the cell is indeed CD8, due to contamination.</p>
 <p>We can then introduce these probabilities as covariates into our linear model by setting <code>contamination = TRUE</code> as a parameter in our <code>calcStateChanges</code> function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcContamination.html">calcContamination</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">stateChangesCorrected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcStateChanges.html">calcStateChanges</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">kerenSPE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcContamination.html">calcContamination</a></span><span class="op">(</span><span class="va">kerenSPE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Growing trees.. Progress: 99%. Estimated remaining time: 0 seconds.</code></pre>
+</div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stateChangesCorrected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/calcStateChanges.html">calcStateChanges</a></span><span class="op">(</span></span>
 <span>  cells <span class="op">=</span> <span class="va">kerenSPE</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"distances"</span>,</span>
 <span>  nCores <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -779,25 +790,25 @@ names(2): distances abundances</code></pre>
 <pre><code>       imageID primaryCellType otherCellType     marker         coef
 69468       37     Endothelial        Tumour       Lag3 -0.001621517
 150351      11     Neutrophils            NK       CD56 -0.059936866
-16402       35      CD4_T_cell        B_cell       CD20 -0.024761183
-16498       35      CD4_T_cell    DC_or_Mono       CD20  0.015967654
-16507       35      CD4_T_cell    DC_or_Mono phospho.S6  0.003559626
-16354       35      CD4_T_cell      dn_T_CD3       CD20  0.013556323
-88516        3  Keratin_Tumour            DC         Ca -0.013837429
-3697        28          B_cell            NK         Na -0.004478243
-4891        35          B_cell    DC_or_Mono phospho.S6  0.004175050
-16357       35      CD4_T_cell      dn_T_CD3     HLA.DR  0.010239992
+16402       35      CD4_T_cell        B_cell       CD20 -0.025114581
+16498       35      CD4_T_cell    DC_or_Mono       CD20  0.016154346
+4891        35          B_cell    DC_or_Mono phospho.S6  0.004312579
+16507       35      CD4_T_cell    DC_or_Mono phospho.S6  0.003593907
+88516        3  Keratin_Tumour            DC         Ca -0.014151972
+16354       35      CD4_T_cell      dn_T_CD3       CD20  0.013728798
+16357       35      CD4_T_cell      dn_T_CD3     HLA.DR  0.010329232
+3697        28          B_cell            NK         Na -0.004480367
                 tval          pval           fdr
-69468  -5.105340e+13  0.000000e+00  0.000000e+00
-150351 -1.421653e+14  0.000000e+00  0.000000e+00
-16402  -3.462418e+01 9.037153e-218 5.518718e-213
-16498   3.368498e+01 4.984871e-208 2.283084e-203
-16507   2.937078e+01 8.017875e-165 2.937765e-160
-16354   2.917098e+01 6.842185e-163 2.089158e-158
-88516  -2.957229e+01 1.895400e-162 4.960560e-158
-3697   -2.932623e+01 2.906760e-160 6.656517e-156
-4891    2.896985e+01 3.337690e-160 6.794091e-156
-16357   2.862558e+01 1.179250e-157 2.160397e-153</code></pre>
+69468  -6.030700e+13  0.000000e+00  0.000000e+00
+150351 -1.522794e+14  0.000000e+00  0.000000e+00
+16402  -3.515983e+01 2.259264e-223 1.379665e-218
+16498   3.402099e+01 1.677480e-211 7.682901e-207
+4891    2.994786e+01 1.340822e-169 4.912800e-165
+16507   2.958522e+01 6.665852e-167 1.959134e-162
+88516  -3.004738e+01 7.485733e-167 1.959134e-162
+16354   2.955635e+01 1.271559e-166 2.911886e-162
+16357   2.886146e+01 6.506249e-160 1.324390e-155
+3697   -2.904572e+01 1.101584e-157 2.018113e-153</code></pre>
 </div>
 </div>
 <p>However, this is not a perfect solution for the issue of contamination. As we can see, despite factoring in contamination into our linear model, the correlation between B cell density and CD20 expression in CD4 T cells remains one of the most significant interactions in our model.</p>
@@ -805,7 +816,7 @@ names(2): distances abundances</code></pre>
 <p>Whilst our correction attempts do not rectify every relationship which arises due to contamination, we show that a significant portion of these relationships are rectified. We can show this by plotting a ROC curve of true positives against false positives. In general, cell type specific markers such as CD4 (specific to T helper cells), CD8 (specific to cytotoxic T cells), and CD20 should not change in cells they are not specific to. Therefore, relationships detected to be significant involving these cell type markers are likely false positives and will be treated as such for the purposes of evaluation. Meanwhile, cell state markers are predominantly likely to be true positives.</p>
 <p>Plotting the relationship between false positives and true positives, we’d expect the contamination correction to be greatest in the relationships with the top 100 lowest p values, where we indeed see more true positives than false positives with contamination correction.</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cellTypeMarkers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CD3"</span>, <span class="st">"CD4"</span>, <span class="st">"CD8"</span>, <span class="st">"CD56"</span>, <span class="st">"CD11c"</span>, <span class="st">"CD68"</span>, <span class="st">"CD45"</span>, <span class="st">"CD20"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cellTypeMarkers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CD3"</span>, <span class="st">"CD4"</span>, <span class="st">"CD8"</span>, <span class="st">"CD56"</span>, <span class="st">"CD11c"</span>, <span class="st">"CD68"</span>, <span class="st">"CD45"</span>, <span class="st">"CD20"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">values</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"None"</span>, <span class="st">"Corrected"</span><span class="op">)</span></span>
@@ -829,7 +840,7 @@ names(2): distances abundances</code></pre>
 </div>
 <p>Below, we zoom in on the ROC curve where the top 100 lowest p values occur, where we indeed see more true positives than false positives with contamination correction.</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">TP</span>, y <span class="op">=</span> <span class="va">FP</span>, colour <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">TP</span>, y <span class="op">=</span> <span class="va">FP</span>, colour <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1000</span><span class="op">)</span> <span class="op">+</span></span>
@@ -846,7 +857,7 @@ names(2): distances abundances</code></pre>
 <span class="header-section-number">11.2.4</span> Associate continuous state changes with survival outcomes</h3>
 <p>Similiar to <code>Kontextual</code>, we can run a similar survival analysis using our state change results. Here, <code>prepMatrix</code> extracts the coefficients, or the <code>coef</code> column of <code>stateChanges</code> by default. To use the t-values instead, specify <code>column = "tval"</code> in the <code>prepMatrix</code> function. As before, we use <code>colTest</code> to build the CoxPH model.</p>
 <div class="cell" data-time_it="true">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Preparing features for Statial</span></span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Preparing features for Statial</span></span>
 <span><span class="va">stateMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://sydneybiox.github.io/Statial/reference/prepMatrix.html">prepMatrix</a></span><span class="op">(</span><span class="va">stateChanges</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Ensuring rownames of stateMat match up with rownames of the survival vector</span></span>
@@ -874,11 +885,15 @@ Macrophages__Other_Immune__HLA_Class_1     Macrophages__Other_Immune__HLA_Class_
 Keratin_Tumour__Mesenchymal__dsDNA             Keratin_Tumour__Mesenchymal__dsDNA
 Keratin_Tumour__Unidentified__H3K27me3     Keratin_Tumour__Unidentified__H3K27me3</code></pre>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 0.18 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 0.18 s
+</em>
+</div>
+<p></p>
 </div>
 <p><code>Keratin_Tumour__Mono_or_Neu__Pan.Keratin</code> is the most significant pairwise relationship which contributes to patient survival. That is, the relationship between pan-keratin expression in keratin/tumour cells and their spatial proximity to monocytes/neutrophils. The negative coefficient associated with this relationship tells us that higher pan-keratin expression in keratin/tumour cells nearby monocyte/neutrophil cell populations leads to better survival outcomes for patients.</p>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Selecting the most significant relationship</span></span>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Selecting the most significant relationship</span></span>
 <span><span class="va">survRelationship</span> <span class="op">&lt;-</span> <span class="va">stateMat</span><span class="op">[[</span><span class="st">"Keratin_Tumour__Mono_or_Neu__Pan.Keratin"</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">survRelationship</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">survRelationship</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">survRelationship</span><span class="op">)</span>, <span class="st">"Higher expression in close cells"</span>, <span class="st">"Lower expression in close cells"</span><span class="op">)</span></span>
 <span></span>
@@ -909,15 +924,15 @@ Keratin_Tumour__Unidentified__H3K27me3     Keratin_Tumour__Unidentified__H3K27me
 </section></section><section id="sessioninfo" class="level2" data-number="11.3"><h2 data-number="11.3" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">11.3</span> sessionInfo</h2>
 <div class="cell">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14)
+<pre><code>R version 4.5.0 (2025-04-11)
 Platform: aarch64-apple-darwin20
 Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -930,121 +945,123 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] SpatialDatasets_1.4.0       SpatialExperiment_1.16.0   
- [3] ExperimentHub_2.14.0        AnnotationHub_3.14.0       
- [5] BiocFileCache_2.14.0        dbplyr_2.5.0               
- [7] treekoR_1.14.0              tibble_3.2.1               
- [9] ggsurvfit_1.1.0             ggplot2_3.5.1              
-[11] SingleCellExperiment_1.28.1 dplyr_1.1.4                
-[13] lisaClust_1.14.4            ClassifyR_3.10.5           
-[15] survival_3.7-0              BiocParallel_1.40.0        
-[17] MultiAssayExperiment_1.32.0 SummarizedExperiment_1.36.0
-[19] Biobase_2.66.0              GenomicRanges_1.58.0       
-[21] GenomeInfoDb_1.42.0         IRanges_2.40.0             
-[23] MatrixGenerics_1.18.0       matrixStats_1.4.1          
-[25] S4Vectors_0.44.0            BiocGenerics_0.52.0        
-[27] generics_0.1.3              spicyR_1.18.0              
-[29] Statial_1.8.0              
+ [1] SpatialDatasets_1.6.0       SpatialExperiment_1.18.1   
+ [3] ExperimentHub_2.16.0        AnnotationHub_3.16.0       
+ [5] BiocFileCache_2.16.0        dbplyr_2.5.0               
+ [7] treekoR_1.16.0              tibble_3.2.1               
+ [9] ggsurvfit_1.1.0             ggplot2_3.5.2              
+[11] SingleCellExperiment_1.30.1 dplyr_1.1.4                
+[13] lisaClust_1.16.0            ClassifyR_3.12.0           
+[15] survival_3.8-3              BiocParallel_1.42.0        
+[17] MultiAssayExperiment_1.34.0 SummarizedExperiment_1.38.1
+[19] Biobase_2.68.0              GenomicRanges_1.60.0       
+[21] GenomeInfoDb_1.44.0         IRanges_2.42.0             
+[23] MatrixGenerics_1.20.0       matrixStats_1.5.0          
+[25] S4Vectors_0.46.0            BiocGenerics_0.54.0        
+[27] generics_0.1.4              spicyR_1.20.0              
+[29] Statial_1.10.0             
 
 loaded via a namespace (and not attached):
-  [1] fs_1.6.5                    spatstat.sparse_3.1-0      
-  [3] bitops_1.0-9                EBImage_4.48.0             
-  [5] httr_1.4.7                  hopach_2.66.0              
+  [1] fs_1.6.6                    spatstat.sparse_3.1-0      
+  [3] bitops_1.0-9                EBImage_4.50.0             
+  [5] httr_1.4.7                  hopach_2.68.0              
   [7] RColorBrewer_1.1-3          doParallel_1.0.17          
-  [9] numDeriv_2016.8-1.1         tools_4.4.1                
- [11] doRNG_1.8.6.1               backports_1.5.0            
- [13] utf8_1.2.4                  R6_2.5.1                   
- [15] HDF5Array_1.34.0            lazyeval_0.2.2             
- [17] mgcv_1.9-1                  rhdf5filters_1.18.0        
- [19] GetoptLong_1.0.5            sp_2.1-4                   
- [21] withr_3.0.2                 gridExtra_2.3              
- [23] coxme_2.2-22                cli_3.6.3                  
- [25] spatstat.explore_3.3-3      sandwich_3.1-1             
+  [9] numDeriv_2016.8-1.1         tools_4.5.0                
+ [11] doRNG_1.8.6.2               backports_1.5.0            
+ [13] R6_2.6.1                    HDF5Array_1.36.0           
+ [15] lazyeval_0.2.2              mgcv_1.9-3                 
+ [17] rhdf5filters_1.20.0         GetoptLong_1.0.5           
+ [19] sp_2.2-0                    withr_3.0.2                
+ [21] gridExtra_2.3               coxme_2.2-22               
+ [23] textshaping_1.0.1           cli_3.6.5                  
+ [25] spatstat.explore_3.4-2      sandwich_3.1-1             
  [27] labeling_0.4.3              nnls_1.6                   
- [29] mvtnorm_1.3-2               spatstat.data_3.1-4        
- [31] systemfonts_1.1.0           yulab.utils_0.1.8          
- [33] ggupset_0.4.0               svglite_2.1.3              
- [35] colorRamps_2.3.4            limma_3.62.1               
- [37] RSQLite_2.3.8               flowCore_2.18.0            
- [39] rstudioapi_0.17.1           simpleSeg_1.8.0            
- [41] gridGraphics_0.5-1          shape_1.4.6.1              
- [43] spatstat.random_3.3-2       car_3.1-3                  
- [45] scam_1.2-17                 Matrix_1.7-1               
- [47] RProtoBufLib_2.18.0         ggbeeswarm_0.7.2           
- [49] fansi_1.0.6                 abind_1.4-8                
- [51] terra_1.7-78                lifecycle_1.0.4            
- [53] yaml_2.3.10                 multcomp_1.4-26            
- [55] edgeR_4.4.0                 carData_3.0-5              
- [57] rhdf5_2.50.0                SparseArray_1.6.0          
+ [29] mvtnorm_1.3-3               spatstat.data_3.1-6        
+ [31] systemfonts_1.2.3           yulab.utils_0.2.0          
+ [33] ggupset_0.4.1               svglite_2.2.1              
+ [35] colorRamps_2.3.4            dichromat_2.0-0.1          
+ [37] limma_3.64.0                RSQLite_2.3.11             
+ [39] flowCore_2.20.0             rstudioapi_0.17.1          
+ [41] simpleSeg_1.10.0            gridGraphics_0.5-1         
+ [43] shape_1.4.6.1               spatstat.random_3.3-3      
+ [45] car_3.1-3                   scam_1.2-18                
+ [47] Matrix_1.7-3                RProtoBufLib_2.20.0        
+ [49] ggbeeswarm_0.7.2            abind_1.4-8                
+ [51] terra_1.8-50                lifecycle_1.0.4            
+ [53] yaml_2.3.10                 multcomp_1.4-28            
+ [55] edgeR_4.6.2                 carData_3.0-5              
+ [57] rhdf5_2.52.0                SparseArray_1.8.0          
  [59] Rtsne_0.17                  blob_1.2.4                 
- [61] grid_4.4.1                  promises_1.3.2             
- [63] shinydashboard_0.7.2        crayon_1.5.3               
+ [61] grid_4.5.0                  promises_1.3.2             
+ [63] shinydashboard_0.7.3        crayon_1.5.3               
  [65] bdsmatrix_1.3-7             lattice_0.22-6             
- [67] KEGGREST_1.46.0             magick_2.8.5               
- [69] cytomapper_1.18.0           pillar_1.9.0               
- [71] knitr_1.49                  ComplexHeatmap_2.22.0      
- [73] dcanr_1.22.0                rjson_0.2.23               
+ [67] KEGGREST_1.48.0             magick_2.8.5               
+ [69] cytomapper_1.20.0           pillar_1.10.2              
+ [71] knitr_1.50                  ComplexHeatmap_2.24.0      
+ [73] dcanr_1.24.0                rjson_0.2.23               
  [75] boot_1.3-31                 codetools_0.2-20           
- [77] glue_1.8.0                  ggiraph_0.8.11             
- [79] ggfun_0.1.7                 spatstat.univar_3.1-1      
- [81] data.table_1.16.2           vctrs_0.6.5                
- [83] png_0.1-8                   treeio_1.30.0              
- [85] gtable_0.3.6                cachem_1.1.0               
- [87] xfun_0.49                   mime_0.12                  
- [89] S4Arrays_1.6.0              ConsensusClusterPlus_1.70.0
- [91] pheatmap_1.0.12             iterators_1.0.14           
- [93] cytolib_2.18.0              statmod_1.5.0              
- [95] TH.data_1.1-2               nlme_3.1-166               
- [97] ggtree_3.14.0               bit64_4.5.2                
- [99] filelock_1.0.3              svgPanZoom_0.3.4           
-[101] vipor_0.4.7                 DBI_1.2.3                  
-[103] colorspace_2.1-1            raster_3.6-30              
-[105] tidyselect_1.2.1            curl_6.0.1                 
-[107] bit_4.5.0                   compiler_4.4.1             
-[109] diffcyt_1.26.0              DelayedArray_0.32.0        
-[111] plotly_4.10.4               scales_1.3.0               
-[113] rappdirs_0.3.3              tiff_0.1-12                
-[115] stringr_1.5.1               digest_0.6.37              
-[117] goftest_1.2-3               fftwtools_0.9-11           
-[119] spatstat.utils_3.1-1        minqa_1.2.8                
-[121] rmarkdown_2.29              XVector_0.46.0             
-[123] htmltools_0.5.8.1           pkgconfig_2.0.3            
-[125] jpeg_0.1-10                 lme4_1.1-35.5              
-[127] fastmap_1.2.0               rlang_1.1.4                
-[129] GlobalOptions_0.1.2         htmlwidgets_1.6.4          
-[131] ggthemes_5.1.0              UCSC.utils_1.2.0           
-[133] shiny_1.9.1                 ggh4x_0.2.8                
-[135] farver_2.1.2                zoo_1.8-12                 
-[137] jsonlite_1.8.9              RCurl_1.98-1.16            
-[139] magrittr_2.0.3              Formula_1.2-5              
-[141] GenomeInfoDbData_1.2.13     ggplotify_0.1.2            
-[143] patchwork_1.3.0             Rhdf5lib_1.28.0            
-[145] munsell_0.5.1               Rcpp_1.0.13-1              
-[147] viridis_0.6.5               ape_5.8                    
-[149] ggnewscale_0.5.0            stringi_1.8.4              
-[151] zlibbioc_1.52.0             MASS_7.3-61                
-[153] plyr_1.8.9                  parallel_4.4.1             
-[155] deldir_2.0-4                Biostrings_2.74.0          
-[157] splines_4.4.1               tensor_1.5                 
-[159] circlize_0.4.16             locfit_1.5-9.10            
-[161] igraph_2.1.1                ggpubr_0.6.0               
-[163] uuid_1.2-1                  ranger_0.17.0              
-[165] spatstat.geom_3.3-4         ggsignif_0.6.4             
-[167] rngtools_1.5.2              reshape2_1.4.4             
-[169] BiocVersion_3.20.0          XML_3.99-0.17              
-[171] evaluate_1.0.1              BiocManager_1.30.25        
-[173] nloptr_2.1.1                foreach_1.5.2              
-[175] tweenr_2.0.3                httpuv_1.6.15              
-[177] tidyr_1.3.1                 purrr_1.0.2                
-[179] polyclip_1.10-7             clue_0.3-66                
-[181] ggforce_0.4.2               xtable_1.8-4               
-[183] broom_1.0.7                 tidytree_0.4.6             
-[185] rstatix_0.7.2               later_1.4.1                
-[187] viridisLite_0.4.2           class_7.3-22               
-[189] lmerTest_3.1-3              aplot_0.2.3                
-[191] AnnotationDbi_1.68.0        memoise_2.0.1              
-[193] beeswarm_0.4.0              FlowSOM_2.14.0             
-[195] cluster_2.1.6               concaveman_1.1.0           </code></pre>
+ [77] glue_1.8.0                  ggiraph_0.8.13             
+ [79] ggfun_0.1.8                 spatstat.univar_3.1-3      
+ [81] data.table_1.17.2           vctrs_0.6.5                
+ [83] png_0.1-8                   treeio_1.32.0              
+ [85] Rdpack_2.6.4                gtable_0.3.6               
+ [87] cachem_1.1.0                xfun_0.52                  
+ [89] mime_0.13                   rbibutils_2.3              
+ [91] S4Arrays_1.8.0              ConsensusClusterPlus_1.72.0
+ [93] reformulas_0.4.1            pheatmap_1.0.12            
+ [95] iterators_1.0.14            cytolib_2.20.0             
+ [97] statmod_1.5.0               TH.data_1.1-3              
+ [99] nlme_3.1-168                ggtree_3.16.0              
+[101] bit64_4.6.0-1               filelock_1.0.3             
+[103] svgPanZoom_0.3.4            vipor_0.4.7                
+[105] DBI_1.2.3                   colorspace_2.1-1           
+[107] raster_3.6-32               tidyselect_1.2.1           
+[109] curl_6.2.2                  bit_4.6.0                  
+[111] compiler_4.5.0              diffcyt_1.28.0             
+[113] h5mread_1.0.0               DelayedArray_0.34.1        
+[115] plotly_4.10.4               scales_1.4.0               
+[117] rappdirs_0.3.3              tiff_0.1-12                
+[119] stringr_1.5.1               digest_0.6.37              
+[121] goftest_1.2-3               fftwtools_0.9-11           
+[123] spatstat.utils_3.1-4        minqa_1.2.8                
+[125] rmarkdown_2.29              XVector_0.48.0             
+[127] htmltools_0.5.8.1           pkgconfig_2.0.3            
+[129] jpeg_0.1-11                 lme4_1.1-37                
+[131] fastmap_1.2.0               rlang_1.1.6                
+[133] GlobalOptions_0.1.2         htmlwidgets_1.6.4          
+[135] ggthemes_5.1.0              UCSC.utils_1.4.0           
+[137] shiny_1.10.0                ggh4x_0.3.0                
+[139] farver_2.1.2                zoo_1.8-14                 
+[141] jsonlite_2.0.0              RCurl_1.98-1.17            
+[143] magrittr_2.0.3              Formula_1.2-5              
+[145] GenomeInfoDbData_1.2.14     ggplotify_0.1.2            
+[147] patchwork_1.3.0             Rhdf5lib_1.30.0            
+[149] Rcpp_1.0.14                 viridis_0.6.5              
+[151] ape_5.8-1                   ggnewscale_0.5.1           
+[153] stringi_1.8.7               MASS_7.3-65                
+[155] plyr_1.8.9                  parallel_4.5.0             
+[157] deldir_2.0-4                Biostrings_2.76.0          
+[159] splines_4.5.0               tensor_1.5                 
+[161] circlize_0.4.16             locfit_1.5-9.12            
+[163] igraph_2.1.4                ggpubr_0.6.0               
+[165] uuid_1.2-1                  ranger_0.17.0              
+[167] spatstat.geom_3.3-6         ggsignif_0.6.4             
+[169] rngtools_1.5.2              reshape2_1.4.4             
+[171] BiocVersion_3.21.1          XML_3.99-0.18              
+[173] evaluate_1.0.3              BiocManager_1.30.25        
+[175] nloptr_2.2.1                foreach_1.5.2              
+[177] tweenr_2.0.3                httpuv_1.6.16              
+[179] tidyr_1.3.1                 purrr_1.0.4                
+[181] polyclip_1.10-7             clue_0.3-66                
+[183] BiocBaseUtils_1.10.0        ggforce_0.4.2              
+[185] xtable_1.8-4                broom_1.0.8                
+[187] tidytree_0.4.6              rstatix_0.7.2              
+[189] later_1.4.2                 viridisLite_0.4.2          
+[191] class_7.3-23                lmerTest_3.1-3             
+[193] aplot_0.2.5                 AnnotationDbi_1.70.0       
+[195] memoise_2.0.1               beeswarm_0.4.0             
+[197] FlowSOM_2.16.0              cluster_2.1.8.1            
+[199] concaveman_1.1.0           </code></pre>
 </div>
 </div>
 

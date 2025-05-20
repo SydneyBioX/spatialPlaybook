@@ -349,9 +349,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Beyond spatial relationships between cell types, imaging datasets also contain another source of rich information - spatial domains. To give an idea of what spatial domains might visually look like, we’ve provided an image on the right, where we can clearly map out our healthy epithelial tissue spatial domain on the left of the image, and our immune and tumour domains on the right of the image. <img src="images/IMC_colon.png" align="right" style="height: 200px; border: 0px"></p>
-<p>However, spatial domains tend to be highly dependent on the biological question being answered. For example, when your primary tissue of interest are solid tumours, spatial domain analysis can provide insights into proportion of tumour domains vs immune domains, or how tumour domains differ between progressive and non-progressive cancers. Alternatively, if your primary question of interest is diabetes, spatial domains can provide insights into marker or cell type differences in your pancreatic islets.</p>
-<p>In this section, we’ll be exploring the use of <code>lisaClust</code> on two different datasets to identify spatial domains and help predict patient survival.</p>
+</header><p>Beyond pairwise spatial relationships between cell types, imaging datasets offer another valuable layer of insight. Terms like niche, neighbourhood, microenvironment, and domain provide different lenses through which to describe this organisation. For instance, niches often refer to the immediate microenvironment surrounding a specific cell type, while spatial domains capture broader tissue compartments formed by coordinated cell arrangements. These concepts help interpret how tissue architecture varies across conditions or patient groups.</p>
+<p>However, the interpretation of spatial domains is highly dependent on the biological context and research question. In cancer studies, spatial domain analysis might reveal how tumour and immune compartments are distributed or how domain composition correlates with disease progression. In metabolic diseases like diabetes, domains such as pancreatic islets become focal points for understanding changes in marker expression or immune infiltration.</p>
+<p><img src="images/IMC_colon.png" align="right" style="height: 200px; border: 0px"></p>
+<p>One effective approach for identifying spatial domains is through clustering cells based on their local spatial association patterns, as implemented in the <code>lisaClust</code> package. This method groups regions with similar spatial signatures, uncovering emergent domains across tissue sections. A central challenge lies in selecting the number of clusters and interpreting them in terms of cell type composition and density. While tools like the Gap statistic or Silhouette score can guide cluster selection, biological interpretation remains essential for distinguishing meaningful structural variation from artefactual noise.</p>
+<p>In this section, we demonstrate the use of <code>lisaClust</code> to identify spatial domains and explore their relevance to clinical outcomes.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/lisaClust/">lisaClust</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellispatrick.github.io/spicyR/">spicyR</a></span><span class="op">)</span></span>
@@ -471,7 +473,11 @@ length is not a multiple of split variable</code></pre>
 </figure>
 </div>
 </div>
-<p>Time for this code chunk to run with 5.5 cores: 36.72 seconds</p>
+<div style="text-align: right;">
+<em>Time for this code chunk to run with 5.5 cores: 36.87 s
+</em>
+</div>
+<p></p>
 </div>
 <p>In accordance with the <code>regionMap</code> output, we can see that region 5 is mostly made up of tumour cells, and region 2 and 4 both contain our immune cell populations.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Combining localisation scores with spatial domains">
@@ -493,13 +499,13 @@ Combining localisation scores with spatial domains
 <div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.4.1 (2024-06-14)
+<pre><code>R version 4.5.0 (2025-04-11)
 Platform: aarch64-apple-darwin20
 Running under: macOS Sonoma 14.4.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -512,99 +518,100 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] SpatialDatasets_1.4.0       SpatialExperiment_1.16.0   
- [3] ExperimentHub_2.14.0        AnnotationHub_3.14.0       
- [5] BiocFileCache_2.14.0        dbplyr_2.5.0               
- [7] SingleCellExperiment_1.28.1 SummarizedExperiment_1.36.0
- [9] Biobase_2.66.0              GenomicRanges_1.58.0       
-[11] GenomeInfoDb_1.42.0         IRanges_2.40.0             
-[13] S4Vectors_0.44.0            BiocGenerics_0.52.0        
-[15] MatrixGenerics_1.18.0       matrixStats_1.4.1          
-[17] ggplot2_3.5.1               spicyR_1.18.0              
-[19] lisaClust_1.14.4           
+ [1] SpatialDatasets_1.6.0       SpatialExperiment_1.18.1   
+ [3] ExperimentHub_2.16.0        AnnotationHub_3.16.0       
+ [5] BiocFileCache_2.16.0        dbplyr_2.5.0               
+ [7] SingleCellExperiment_1.30.1 SummarizedExperiment_1.38.1
+ [9] Biobase_2.68.0              GenomicRanges_1.60.0       
+[11] GenomeInfoDb_1.44.0         IRanges_2.42.0             
+[13] S4Vectors_0.46.0            BiocGenerics_0.54.0        
+[15] generics_0.1.4              MatrixGenerics_1.20.0      
+[17] matrixStats_1.5.0           ggplot2_3.5.2              
+[19] spicyR_1.20.0               lisaClust_1.16.0           
 
 loaded via a namespace (and not attached):
-  [1] splines_4.4.1               later_1.4.1                
+  [1] splines_4.5.0               later_1.4.2                
   [3] bitops_1.0-9                filelock_1.0.3             
   [5] svgPanZoom_0.3.4            tibble_3.2.1               
   [7] polyclip_1.10-7             lifecycle_1.0.4            
-  [9] rstatix_0.7.2               lattice_0.22-6             
- [11] MASS_7.3-61                 MultiAssayExperiment_1.32.0
- [13] backports_1.5.0             magrittr_2.0.3             
- [15] rmarkdown_2.29              yaml_2.3.10                
- [17] httpuv_1.6.15               doRNG_1.8.6.1              
- [19] ClassifyR_3.10.5            sp_2.1-4                   
- [21] dcanr_1.22.0                spatstat.sparse_3.1-0      
- [23] DBI_1.2.3                   minqa_1.2.8                
- [25] RColorBrewer_1.1-3          abind_1.4-8                
- [27] zlibbioc_1.52.0             purrr_1.0.2                
- [29] RCurl_1.98-1.16             tweenr_2.0.3               
- [31] rappdirs_0.3.3              GenomeInfoDbData_1.2.13    
- [33] spatstat.utils_3.1-1        terra_1.7-78               
+  [9] Rdpack_2.6.4                rstatix_0.7.2              
+ [11] lattice_0.22-6              MASS_7.3-65                
+ [13] MultiAssayExperiment_1.34.0 backports_1.5.0            
+ [15] magrittr_2.0.3              rmarkdown_2.29             
+ [17] yaml_2.3.10                 httpuv_1.6.16              
+ [19] doRNG_1.8.6.2               ClassifyR_3.12.0           
+ [21] sp_2.2-0                    dcanr_1.24.0               
+ [23] spatstat.sparse_3.1-0       DBI_1.2.3                  
+ [25] minqa_1.2.8                 RColorBrewer_1.1-3         
+ [27] abind_1.4-8                 purrr_1.0.4                
+ [29] RCurl_1.98-1.17             tweenr_2.0.3               
+ [31] rappdirs_0.3.3              GenomeInfoDbData_1.2.14    
+ [33] spatstat.utils_3.1-4        terra_1.8-50               
  [35] pheatmap_1.0.12             goftest_1.2-3              
- [37] simpleSeg_1.8.0             spatstat.random_3.3-2      
- [39] svglite_2.1.3               codetools_0.2-20           
- [41] DelayedArray_0.32.0         ggforce_0.4.2              
- [43] tidyselect_1.2.1            raster_3.6-30              
- [45] UCSC.utils_1.2.0            farver_2.1.2               
- [47] viridis_0.6.5               lme4_1.1-35.5              
- [49] spatstat.explore_3.3-3      jsonlite_1.8.9             
- [51] Formula_1.2-5               survival_3.7-0             
- [53] iterators_1.0.14            systemfonts_1.1.0          
- [55] foreach_1.5.2               tools_4.4.1                
- [57] Rcpp_1.0.13-1               glue_1.8.0                 
- [59] gridExtra_2.3               SparseArray_1.6.0          
- [61] xfun_0.49                   mgcv_1.9-1                 
- [63] ggthemes_5.1.0              EBImage_4.48.0             
- [65] HDF5Array_1.34.0            dplyr_1.1.4                
- [67] shinydashboard_0.7.2        scam_1.2-17                
- [69] withr_3.0.2                 numDeriv_2016.8-1.1        
- [71] BiocManager_1.30.25         fastmap_1.2.0              
- [73] ggh4x_0.2.8                 rhdf5filters_1.18.0        
- [75] boot_1.3-31                 fansi_1.0.6                
- [77] digest_0.6.37               mime_0.12                  
- [79] R6_2.5.1                    colorspace_2.1-1           
- [81] tensor_1.5                  jpeg_0.1-10                
- [83] spatstat.data_3.1-4         RSQLite_2.3.8              
- [85] utf8_1.2.4                  tidyr_1.3.1                
- [87] generics_0.1.3              data.table_1.16.2          
- [89] class_7.3-22                httr_1.4.7                 
- [91] htmlwidgets_1.6.4           S4Arrays_1.6.0             
- [93] pkgconfig_2.0.3             gtable_0.3.6               
- [95] blob_1.2.4                  XVector_0.46.0             
- [97] htmltools_0.5.8.1           carData_3.0-5              
- [99] fftwtools_0.9-11            scales_1.3.0               
-[101] ggupset_0.4.0               png_0.1-8                  
-[103] spatstat.univar_3.1-1       knitr_1.49                 
-[105] rstudioapi_0.17.1           reshape2_1.4.4             
-[107] rjson_0.2.23                nlme_3.1-166               
-[109] curl_6.0.1                  nloptr_2.1.1               
-[111] bdsmatrix_1.3-7             rhdf5_2.50.0               
-[113] cachem_1.1.0                stringr_1.5.1              
-[115] BiocVersion_3.20.0          vipor_0.4.7                
-[117] parallel_4.4.1              concaveman_1.1.0           
-[119] AnnotationDbi_1.68.0        pillar_1.9.0               
-[121] grid_4.4.1                  vctrs_0.6.5                
-[123] coxme_2.2-22                promises_1.3.2             
-[125] ggpubr_0.6.0                car_3.1-3                  
-[127] xtable_1.8-4                beeswarm_0.4.0             
-[129] evaluate_1.0.1              magick_2.8.5               
-[131] cli_3.6.3                   locfit_1.5-9.10            
-[133] compiler_4.4.1              rlang_1.1.4                
-[135] crayon_1.5.3                rngtools_1.5.2             
-[137] ggsignif_0.6.4              labeling_0.4.3             
-[139] ggbeeswarm_0.7.2            plyr_1.8.9                 
-[141] stringi_1.8.4               viridisLite_0.4.2          
-[143] nnls_1.6                    deldir_2.0-4               
-[145] BiocParallel_1.40.0         cytomapper_1.18.0          
-[147] lmerTest_3.1-3              munsell_0.5.1              
-[149] Biostrings_2.74.0           tiff_0.1-12                
-[151] spatstat.geom_3.3-4         V8_6.0.0                   
-[153] Matrix_1.7-1                bit64_4.5.2                
-[155] Rhdf5lib_1.28.0             KEGGREST_1.46.0            
-[157] shiny_1.9.1                 igraph_2.1.1               
-[159] broom_1.0.7                 memoise_2.0.1              
-[161] bit_4.5.0                  </code></pre>
+ [37] simpleSeg_1.10.0            spatstat.random_3.3-3      
+ [39] svglite_2.2.1               codetools_0.2-20           
+ [41] DelayedArray_0.34.1         ggforce_0.4.2              
+ [43] tidyselect_1.2.1            raster_3.6-32              
+ [45] UCSC.utils_1.4.0            farver_2.1.2               
+ [47] viridis_0.6.5               lme4_1.1-37                
+ [49] spatstat.explore_3.4-2      jsonlite_2.0.0             
+ [51] Formula_1.2-5               survival_3.8-3             
+ [53] iterators_1.0.14            systemfonts_1.2.3          
+ [55] foreach_1.5.2               tools_4.5.0                
+ [57] ggnewscale_0.5.1            Rcpp_1.0.14                
+ [59] glue_1.8.0                  gridExtra_2.3              
+ [61] SparseArray_1.8.0           BiocBaseUtils_1.10.0       
+ [63] xfun_0.52                   mgcv_1.9-3                 
+ [65] ggthemes_5.1.0              EBImage_4.50.0             
+ [67] HDF5Array_1.36.0            dplyr_1.1.4                
+ [69] shinydashboard_0.7.3        scam_1.2-18                
+ [71] withr_3.0.2                 numDeriv_2016.8-1.1        
+ [73] BiocManager_1.30.25         fastmap_1.2.0              
+ [75] ggh4x_0.3.0                 rhdf5filters_1.20.0        
+ [77] boot_1.3-31                 digest_0.6.37              
+ [79] mime_0.13                   R6_2.6.1                   
+ [81] textshaping_1.0.1           colorspace_2.1-1           
+ [83] tensor_1.5                  jpeg_0.1-11                
+ [85] dichromat_2.0-0.1           spatstat.data_3.1-6        
+ [87] RSQLite_2.3.11              h5mread_1.0.0              
+ [89] tidyr_1.3.1                 data.table_1.17.2          
+ [91] class_7.3-23                httr_1.4.7                 
+ [93] htmlwidgets_1.6.4           S4Arrays_1.8.0             
+ [95] pkgconfig_2.0.3             gtable_0.3.6               
+ [97] blob_1.2.4                  XVector_0.48.0             
+ [99] htmltools_0.5.8.1           carData_3.0-5              
+[101] fftwtools_0.9-11            scales_1.4.0               
+[103] ggupset_0.4.1               png_0.1-8                  
+[105] spatstat.univar_3.1-3       reformulas_0.4.1           
+[107] knitr_1.50                  rstudioapi_0.17.1          
+[109] reshape2_1.4.4              rjson_0.2.23               
+[111] nlme_3.1-168                curl_6.2.2                 
+[113] nloptr_2.2.1                bdsmatrix_1.3-7            
+[115] rhdf5_2.52.0                cachem_1.1.0               
+[117] stringr_1.5.1               BiocVersion_3.21.1         
+[119] vipor_0.4.7                 parallel_4.5.0             
+[121] concaveman_1.1.0            AnnotationDbi_1.70.0       
+[123] pillar_1.10.2               grid_4.5.0                 
+[125] vctrs_0.6.5                 coxme_2.2-22               
+[127] promises_1.3.2              ggpubr_0.6.0               
+[129] car_3.1-3                   xtable_1.8-4               
+[131] beeswarm_0.4.0              evaluate_1.0.3             
+[133] magick_2.8.5                cli_3.6.5                  
+[135] locfit_1.5-9.12             compiler_4.5.0             
+[137] rlang_1.1.6                 crayon_1.5.3               
+[139] rngtools_1.5.2              ggsignif_0.6.4             
+[141] labeling_0.4.3              ggbeeswarm_0.7.2           
+[143] plyr_1.8.9                  stringi_1.8.7              
+[145] viridisLite_0.4.2           nnls_1.6                   
+[147] deldir_2.0-4                BiocParallel_1.42.0        
+[149] cytomapper_1.20.0           lmerTest_3.1-3             
+[151] Biostrings_2.76.0           tiff_0.1-12                
+[153] spatstat.geom_3.3-6         V8_6.0.3                   
+[155] Matrix_1.7-3                bit64_4.6.0-1              
+[157] Rhdf5lib_1.30.0             KEGGREST_1.48.0            
+[159] shiny_1.10.0                rbibutils_2.3              
+[161] igraph_2.1.4                broom_1.0.8                
+[163] memoise_2.0.1               bit_4.6.0                  </code></pre>
 </div>
 </div>
 
