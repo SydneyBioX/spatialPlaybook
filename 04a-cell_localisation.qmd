@@ -23,7 +23,6 @@ Before drawing conclusions from co-localisation patterns, it's important to reco
 
 In this section, we demonstrate how to use the `spicyR` package to detect co-localisation patterns while accounting for tissue inhomogeneity, image-to-image variability, and cell abundance—ensuring results that are both statistically sound and biologically meaningful.
 
-
 ```{r 04a-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
   library(spicyR)
@@ -60,7 +59,7 @@ library(ggsurvfit)
 set.seed(51773)
 use_mc <- TRUE
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }
@@ -88,7 +87,7 @@ Eleven immune cell types were identified in this dataset by the original authors
 
 ### Linear modelling
 
-We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a statistical tool used to quantify spatial relationships between two cell types—specifically, whether they tend to be closer together (co-localised) or further apart (dispersed) than would be expected by chance. 
+We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a statistical tool used to quantify spatial relationships between two cell types—specifically, whether they tend to be closer together (co-localised) or further apart (dispersed) than would be expected by chance.
 
 For each cell of type A, we count how many cells of type B are found within a certain radius. This is done across all A–B cell pairs in the image, and for a range of radii (e.g., 10, 20, 30 pixels or microns). This gives us an observed pattern of how frequently B cells appear near A cells at different spatial scales.
 
@@ -100,12 +99,11 @@ If the observed number of B cells near A cells is consistently higher than expec
 
 Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy` function, where we specify the `condition` parameter.
 
-In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy` will also naturally coerce the `condition` column into a factor if it is not already a factor. 
+In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy` will also naturally coerce the `condition` column into a factor if it is not already a factor.
 
 To draw meaningful conclusions from co-localisation patterns, it’s important to carefully choose the proximity radius `r` — the distance that defines when two cells are considered “near” each other. This radius should reflect the biological scale of interaction, such as the typical signaling range or physical cell contact. If the radius is too small, real associations might be missed due to slight spatial variability or measurement noise. On the other hand, if the radius is too large, the analysis may pick up false signals driven by overall regional cell density rather than genuine biological interactions. Selecting the right radius is therefore key to accurately capturing the spatial relationships of interest.
 
 By default, `spicy` calculates the L-function over a range of radii. In the example below, we calculate the L-function for three values of `r`: 20 pixels, 50 pixels, and 100 pixels to capture both local and global relationships.
-
 
 The column containing cell type annotations and image IDs can be specified using the `cellType` and `imageID` arguments respectively. By default, `spicy` uses the columns named `cellType` and `imageID`.
 
@@ -127,7 +125,7 @@ topPairs(spicyTestPair)
 As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.
 
 ::: {.callout-tip title="Choosing parameters for spicy"}
-**How do we select an optimal value for `r`?`**
+**How do we select an optimal value for `r`?\`**
 
 -   The choice of `r` will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of `r` is optimal for examining local spatial relationships, and larger values of `r` will reveal global spatial relationships.
 

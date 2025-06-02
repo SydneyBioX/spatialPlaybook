@@ -21,7 +21,7 @@ Sometimes, cells that appear similar based on marker expression alone can behave
 
 In these cases, spatial context becomes a critical lens. By analysing how marker expression varies in relation to a cell’s neighbourhood—such as its proximity to other cell types or tissue structures—we can uncover functional diversity that would otherwise remain hidden. This spatial perspective reveals how cells adapt to their microenvironment, transition between states, or participate in local interactions, offering a richer understanding of tissue dynamics and disease mechanisms.
 
-The `SpatioMark` method, implemented in the `Statial` package, is designed for exactly this purpose. It detects markers whose expression levels change within a given cell type depending on their spatial context—highlighting activation, suppression, or other state changes that are missed by standard clustering. 
+The `SpatioMark` method, implemented in the `Statial` package, is designed for exactly this purpose. It detects markers whose expression levels change within a given cell type depending on their spatial context—highlighting activation, suppression, or other state changes that are missed by standard clustering.
 
 ```{r 06-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -58,7 +58,7 @@ library(treekoR)
 set.seed(51773)
 use_mc <- TRUE
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }
@@ -168,11 +168,11 @@ survfit2(kerenSurv ~ survRelationship) |>
   ggtitle("CD56__Tregs")
 ```
 
-The coefficient associated with `CD56__Tregs` is positive, which indicates that higher expression is associated with poorer survival outcomes for patients, and this is also reflected in the KM curve. 
+The coefficient associated with `CD56__Tregs` is positive, which indicates that higher expression is associated with poorer survival outcomes for patients, and this is also reflected in the KM curve.
 
 ## SpatioMark: Identifying continuous changes in cell state
 
-Marker means summarised per cell type or per spatial region can offer valuable insights into how expression levels vary across conditions or anatomical compartments. However, these summaries treat cells as independent units and often miss finer-grained, dynamic patterns that arise from cell-cell interactions. 
+Marker means summarised per cell type or per spatial region can offer valuable insights into how expression levels vary across conditions or anatomical compartments. However, these summaries treat cells as independent units and often miss finer-grained, dynamic patterns that arise from cell-cell interactions.
 
 This is where `SpatioMark` becomes particularly powerful. Instead of averaging across broad groups, `SpatioMark` captures how marker expression in a given cell type changes in a continuous fashion based on proximity to other cell types. This allows us to detect context-dependent expression shifts—revealing, for instance, how the presence of neighbouring immune or tumour cells can influence a cell’s functional state. By focusing on these spatial gradients in marker expression, SpatioMark provides a framework for understanding how local microenvironments modulate cell behaviour in situ.
 
@@ -432,7 +432,6 @@ We conclude the section on spatial quantification metrics here. So far, we have 
 5.  Marker means in each cell type (Statial)
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression using SpatioMark (Statial)
-
 
 ## sessionInfo
 

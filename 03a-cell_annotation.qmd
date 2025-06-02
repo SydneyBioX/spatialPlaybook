@@ -17,13 +17,13 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Cell type annotation is the process of assigning each cell a specific identity based on its marker expression profile. Identifying cell types is a key step in many spatial analysis workflows, as it shapes how we analyse tissue composition, measure cell-cell interactions, and track disease mechanisms. 
+Cell type annotation is the process of assigning each cell a specific identity based on its marker expression profile. Identifying cell types is a key step in many spatial analysis workflows, as it shapes how we analyse tissue composition, measure cell-cell interactions, and track disease mechanisms.
 
 But cell type annotation isn’t always clear-cut. Marker expression often varies along a continuum rather than forming distinct groups, and overlapping profiles combined with technical noise can blur boundaries, making it tricky to assign confident labels. These uncertainties can cascade through your analysis, affecting clustering, interpretation, and downstream results.
 
 There are two main ways to assign cell types: unsupervised clustering and supervised annotation. Clustering groups cells based on similarity in marker expression, which can uncover novel or unexpected populations—but biological expertise is often necessary to interpret and label those clusters. Annotation, on the other hand, leverages reference datasets from well-characterised samples to directly assign cell type labels, improving consistency and reproducibility, though it depends on having a relevant and high-quality reference.
 
-Both approaches come with trade-offs. Clustering can miss subtle or rare populations and is sensitive to parameter choices, such as the number of clusters, which can greatly influence results. Annotation risks misclassifying cells if the reference doesn’t capture all the diversity in the sample. This playbook focuses on unsupervised clustering—covering how to select appropriate parameters, determine the optimal number of clusters, and interpret results effectively. 
+Both approaches come with trade-offs. Clustering can miss subtle or rare populations and is sensitive to parameter choices, such as the number of clusters, which can greatly influence results. Annotation risks misclassifying cells if the reference doesn’t capture all the diversity in the sample. This playbook focuses on unsupervised clustering—covering how to select appropriate parameters, determine the optimal number of clusters, and interpret results effectively.
 
 <!-- Steps: -->
 
@@ -65,7 +65,7 @@ library(SingleCellExperiment)
 set.seed(51773)
 use_mc <- TRUE
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }
@@ -122,7 +122,7 @@ risomHeat <- FuseSOM::markerHeatmap(data = risom_dat, markers = risomMarkers,
 
 At this stage, we can evaluate whether our clustering makes biological sense. For example, `cluster_10` shows high expression of CD14, a marker for monocytes, so it’s reasonable to annotate cells in this cluster as monocytes. Similarly, `cluster_14`, with elevated Tryptase expression, could be annotated as mast cells.
 
-In some cases, the clusters cannot be clearly distinguished by a specific cell type marker. `cluster_9` shows high expression of CD20, CD45, CD8, and CD3, which are canonical markers for both B cell and T cell populations. Additionally, clusters like `cluster_3` and `cluster_4` exhibit **smearing**, meaning their marker expression profiles overlap substantially with multiple cell types. This can indicate mixed or transitional populations, technical noise, or insufficient resolution in clustering. 
+In some cases, the clusters cannot be clearly distinguished by a specific cell type marker. `cluster_9` shows high expression of CD20, CD45, CD8, and CD3, which are canonical markers for both B cell and T cell populations. Additionally, clusters like `cluster_3` and `cluster_4` exhibit **smearing**, meaning their marker expression profiles overlap substantially with multiple cell types. This can indicate mixed or transitional populations, technical noise, or insufficient resolution in clustering.
 
 ::: {.callout-tip title="Common problems with clustering"}
 **How do I identify imperfect clustering?**
@@ -147,9 +147,9 @@ Before clustering, it’s helpful to estimate how many clusters best represent t
 
 We can generate these plots using the `estimateNumCluster` function from the `FuseSOM` package, which supports both a discriminant-based method and a range of distance-based metrics:
 
--  Discriminant based method
+-   Discriminant based method
     -   This method attempts to find a projection of the data that maximizses the separation between clusters, helping to identify the most distinct groupings in the dataset.
--  Distance based methods
+-   Distance based methods
     -   Gap Statistic: compares the total within-cluster variation for different values of k with expected values under a null reference distribution.
     -   Jump Statistic: measures how much the data “jumps” or changes structure when moving from `k` to `k+1` clusters.
     -   Slope Statistic: looks at the rate of change (slope) in clustering quality metrics as `k` increases.
@@ -196,7 +196,7 @@ pSil
 
 </div>
 
-From the plots, we see that the Jump statistic almost perfectly identifies the expected number of clusters, showing a clear and sharp increase at `k = 24`. This suggests that the structure of the data changes meaningfully at that point, making it an effective indicator of the optimal number of clusters in this case. The Gap statistic also performs relatively well, selecting a lower value (15 clusters), which may still be reasonable depending on the biological context and the presence of closely related subpopulations. In contrast, the other distance-based methods—such as the Silhouette, Slope, and Within-Cluster Dissimilarity statistics—significantly underestimate the number of clusters. 
+From the plots, we see that the Jump statistic almost perfectly identifies the expected number of clusters, showing a clear and sharp increase at `k = 24`. This suggests that the structure of the data changes meaningfully at that point, making it an effective indicator of the optimal number of clusters in this case. The Gap statistic also performs relatively well, selecting a lower value (15 clusters), which may still be reasonable depending on the biological context and the presence of closely related subpopulations. In contrast, the other distance-based methods—such as the Silhouette, Slope, and Within-Cluster Dissimilarity statistics—significantly underestimate the number of clusters.
 
 Overall, these results highlight the importance of testing multiple metrics and not relying on a single method. It's also helpful to complement these quantitative results with biological interpretation—e.g., inspecting marker expression within clusters—to ensure that the chosen `k` aligns with known or expected cell types.
 

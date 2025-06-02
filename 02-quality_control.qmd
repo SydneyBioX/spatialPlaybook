@@ -54,7 +54,7 @@ library(ggplot2)
 set.seed(51773)
 use_mc <- TRUE
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }
@@ -77,9 +77,9 @@ fergusonSPE <- SpatialDatasets::spe_Ferguson_2022()
 
 Next, we assess whether the marker intensities require transformation or normalisation. This step is important for two main reasons:
 
-- **Skewed distributions**: Marker intensities are often right-skewed, which can distort downstream analyses such as clustering or dimensionality reduction.
+-   **Skewed distributions**: Marker intensities are often right-skewed, which can distort downstream analyses such as clustering or dimensionality reduction.
 
-- **Inconsistent scales across images**: Due to technical variation, the same marker may show very different intensity ranges across images. This can shift what’s considered "positive" or "negative" expression, making it difficult to label cells accurately.
+-   **Inconsistent scales across images**: Due to technical variation, the same marker may show very different intensity ranges across images. This can shift what’s considered "positive" or "negative" expression, making it difficult to label cells accurately.
 
 By applying transformation and normalisation, we aim to stabilise variance and bring the data onto a more comparable scale across images.
 
@@ -96,11 +96,9 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
-
 Here, we can see that the CD3 intensity distributions are highly skewed, making it difficult to distinguish CD3⁺ cells from CD3⁻ cells. Ideally, for a marker like CD3, we would expect to see a bimodal distribution—one peak corresponding to CD3⁻ cells (background or low expression) and another for CD3⁺ cells (true positive signal).
 
-In addition to skewness, we also observe clear image-level batch effects. For example, the position and shape of the intensity peaks vary substantially between images, suggesting that what counts as “positive” expression in one image might fall below detection in another. 
-
+In addition to skewness, we also observe clear image-level batch effects. For example, the position and shape of the intensity peaks vary substantially between images, suggesting that what counts as “positive” expression in one image might fall below detection in another.
 
 ::: callout-tip
 **What we're looking for**
@@ -166,15 +164,14 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 
 Not all datasets require the same transformation or normalisation strategy. Choosing the right one can depend on both the biological context and the source of technical variability.
 
-1. Do your marker intensities show strong skew or heavy tails? If so, applying a transformation (e.g., square root, log, or arcsinh) can help stabilise variance and separate low vs high signal populations.
+1.  Do your marker intensities show strong skew or heavy tails? If so, applying a transformation (e.g., square root, log, or arcsinh) can help stabilise variance and separate low vs high signal populations.
 
-2. Do images cluster separately in the UMAP plots? This often points to batch effects, which may require normalisation across images using approaches like centering on the mean, scaling by standard deviation, or regression-based adjustments (e.g., removing PC1, removing the highest 1% of values, etc.).
+2.  Do images cluster separately in the UMAP plots? This often points to batch effects, which may require normalisation across images using approaches like centering on the mean, scaling by standard deviation, or regression-based adjustments (e.g., removing PC1, removing the highest 1% of values, etc.).
 
-3. Are there markers you shouldn’t normalise? Nuclear markers like DNA1, DNA2, or HH3 often serve as internal references and typically aren’t normalised.
+3.  Are there markers you shouldn’t normalise? Nuclear markers like DNA1, DNA2, or HH3 often serve as internal references and typically aren’t normalised.
 
 There’s no universal solution—experiment with different approaches, carefully examine the results, and focus on methods that best preserve biological meaning and interpretability rather than just achieving perfect statistical uniformity.
 :::
-
 
 #### `method` Parameters
 
@@ -198,7 +195,7 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
-In the plot above, the normalised data appeas more bimodal. We can observe one clear CD3- peak at around 0.00, and a CD3+ peak at 1.00. Image-level batch effects also appear to have been mitigated, since most peaks occur at around the same CD3 intensity. 
+In the plot above, the normalised data appeas more bimodal. We can observe one clear CD3- peak at around 0.00, and a CD3+ peak at 1.00. Image-level batch effects also appear to have been mitigated, since most peaks occur at around the same CD3 intensity.
 
 ::: callout-tip
 **Questions revisited**

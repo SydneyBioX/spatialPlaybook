@@ -17,10 +17,9 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
+The typical first step in analysing spatial data is cell segmentation, which involves identifying and isolating individual cells in each image. This defines the basic units (cells) on which most downstream omics analysis is performed.
 
-The typical first step in analysing spatial data is cell segmentation, which involves identifying and isolating individual cells in each image. This defines the basic units (cells) on which most downstream omics analysis is performed. 
-
-There are multiple approaches to cell segmentation. One approach involves segmenting the nuclei using intensity-based thresholding of a nuclear marker (such as DAPI or Histone H3), followed by watershedding to separate touching cells. The segmented nuclei are then expanded by a fixed or adaptive radius to approximate the full cell body. While this method is straightforward and widely used, especially when only nuclear staining is available, it assumes uniform cell size and shape, which may not hold in heterogeneous tissues. 
+There are multiple approaches to cell segmentation. One approach involves segmenting the nuclei using intensity-based thresholding of a nuclear marker (such as DAPI or Histone H3), followed by watershedding to separate touching cells. The segmented nuclei are then expanded by a fixed or adaptive radius to approximate the full cell body. While this method is straightforward and widely used, especially when only nuclear staining is available, it assumes uniform cell size and shape, which may not hold in heterogeneous tissues.
 
 When membrane or cytoplasmic markers are present, they can be used to directly segment the full cell body. This provides a more accurate representation of cell shape and size, particularly in tissues where cells are irregular or closely packed.
 
@@ -50,7 +49,7 @@ We recommend setting the number of cores to enable running code in parallel. Ple
 set.seed(51773)
 use_mc <- TRUE
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }
@@ -163,7 +162,7 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-Now is a good time to check whether we are **over-** or **under-segmenting**. 
+Now is a good time to check whether we are **over-** or **under-segmenting**.
 
 Over-segmentation happens when one cell or nucleus gets split into multiple smaller segments. This can lead to inflated cell counts and fragmented masks, which might skew your downstream analyses. Visually, you’ll see lots of small, irregular segments clustered where there should be just one cell.
 
@@ -171,7 +170,7 @@ Under-segmentation is the opposite — when two or more neighboring cells or nuc
 
 If you spot over- or under-segmentation in your images, adjusting the `discSize` parameter in the `simpleSeg` function can help. This controls the size of the dilation applied after nuclei segmentation, and tuning it can improve how well the masks approximate the actual cell boundaries.
 
-It’s also useful to look at multiple markers at once — not just the nuclear marker (HH3) — to get a fuller picture of how well the segmentation masks fit the cells in your tissue. Below, we've visualised the same image with additional markers: HH3, CD31, FX111A. 
+It’s also useful to look at multiple markers at once — not just the nuclear marker (HH3) — to get a fuller picture of how well the segmentation masks fit the cells in your tissue. Below, we've visualised the same image with additional markers: HH3, CD31, FX111A.
 
 ```{r 01-plot markers}
 plotPixels(image = images["F3"], 
@@ -190,8 +189,7 @@ plotPixels(image = images["F3"],
            ))
 ```
 
-
-In the image above, our segmentation does a good job capturing the CD31 signal (red), but is less accurate for the FX111A signal (green). You can see areas where the FX111A signal extends beyond the boundaries of our segmentation masks. There are clear regions where the FX111A marker spills over the boundaries of our segmentation. We could rectify this by increasing the `discSize` to capture more of the cell body. 
+In the image above, our segmentation does a good job capturing the CD31 signal (red), but is less accurate for the FX111A signal (green). You can see areas where the FX111A signal extends beyond the boundaries of our segmentation masks. There are clear regions where the FX111A marker spills over the boundaries of our segmentation. We could rectify this by increasing the `discSize` to capture more of the cell body.
 
 However, it’s important to consider **lateral spillover** — a common challenge in spatial analysis. Lateral spillover occurs when signal from one cell spreads into neighboring cells, causing the marker intensity to be incorrectly assigned to adjacent cells. This can happen due to the natural diffusion of cytoplasmic or membrane-bound proteins, limitations in segmentation accuracy, or imaging resolution.
 

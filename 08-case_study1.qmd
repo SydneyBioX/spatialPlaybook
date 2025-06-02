@@ -59,7 +59,7 @@ library(SpatialDatasets)
 use_mc <- TRUE
 set.seed(51773)
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }

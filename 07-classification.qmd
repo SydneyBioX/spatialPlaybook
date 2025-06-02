@@ -62,7 +62,7 @@ library(scFeatures)
 set.seed(51773)
 use_mc <- TRUE
 if (use_mc) {
-  nCores <- max(parallel::detectCores()/2, 1)
+   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
 } else {
   nCores <- 1
 }
@@ -274,7 +274,7 @@ In the survival classification task, patient 35 stood out as a difficult case, w
 
 Samples identified as hard to classify offer valuable opportunities for further exploration:
 
-- **Feature enrichment**: Re-examine these samples to see if they possess atypical spatial structures or marker expression profiles that were not well captured by the current feature set. Incorporating additional spatial or morphological features () may improve model sensitivity.
+-   **Feature enrichment**: Re-examine these samples to see if they possess atypical spatial structures or marker expression profiles that were not well captured by the current feature set. Incorporating additional spatial or morphological features () may improve model sensitivity.
 
 Biological subgrouping: Difficult-to-classify samples may represent intermediate or mixed phenotypes. Cluster these cases separately to explore whether they define a distinct subgroup or transition state, especially relevant in diseases with high heterogeneity.
 
@@ -283,8 +283,6 @@ External validation: If another cohort is available, assess whether the same sam
 Manual annotation: Engage domain experts to manually review spatial images of ambiguous cases for insights into unmodeled variation, such as rare cell types, artefacts, or unexpected tissue features.
 
 Integrative modelling: Combine spatial features with other data modalities (e.g., genomics, transcriptomics, pathology annotations) to test whether multi-modal integration resolves classification uncertainty in these samples.
-
-
 
 ````{=html}
 <-- ## Maximising accuracy during classification
