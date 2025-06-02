@@ -17,15 +17,12 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Spatial co-localisation analysis helps identify whether certain cell types tend to appear near each other more or less often than would be expected by chance, offering insights into potential cellular interactions, microenvironmental organisation, or coordinated functional roles. This type of analysis is especially useful in understanding immune infiltration, tumour-stroma interactions, or the organisation of functional niches within healthy tissues.
+Spatial co-localisation analysis helps uncover whether specific cell types are found near each other more (or less) often than expected by chance. This can reveal insights into immune infiltration, tumour-stroma interactions, or the organisation of functional niches.
 
-To draw meaningful conclusions from co-localisation patterns, several key factors must be considered. One of the most critical is the choice of proximity radius, which defines what it means for two cells to be “near” one another. This radius should be informed by the expected biological scale of interaction—such as signalling range or cell-cell contact. If the radius is set too small, important associations may be missed due to measurement noise or slight spatial shifts. If it’s too large, spurious associations may be introduced simply due to regional density patterns, rather than true biological relationships.
+Before drawing conclusions from co-localisation patterns, it's important to recognise the potential confounding factors that can distort results. Tissue architecture is rarely random—cells are often organised into structured regions, influenced by development, disease states, or sampling. If this spatial inhomogeneity isn't accounted for, standard co-localisation methods can misinterpret natural density variations as meaningful interactions. Similarly, differences in cell abundance across images—due to biology or technical variability—can bias association metrics. And finally, variation between samples or replicates must be considered to ensure that observed patterns are consistent and not driven by a few outliers. Any robust co-localisation analysis must address all three of these challenges: local spatial structure, uneven cell-type frequencies, and replicate-level variability.
 
-Another important consideration is that many statistical methods for co-localisation assume complete spatial randomness as a baseline for comparison. However, this assumption often fails in real tissue environments, which are structured, heterogeneous, and shaped by development, disease, or sampling artefacts. Failing to account for this can lead to inflated false positives or underestimation of meaningful patterns. To address this, spatial co-localisation analysis should incorporate controls for spatial inhomogeneity—such as using spatial permutation tests that preserve local cell densities, or background models that account for variation in cell type abundance or tissue architecture.
+In this section, we demonstrate how to use the `spicyR` package to detect co-localisation patterns while accounting for tissue inhomogeneity, image-to-image variability, and cell abundance—ensuring results that are both statistically sound and biologically meaningful.
 
-Careful choice of parameters and appropriate null models are essential to ensure that observed spatial patterns reflect genuine biological organisation rather than technical artefacts or sampling biases.
-
-In this section, we demonstrate how to use our `spicyR` package to compute spatial association metrics that account for tissue inhomogeneity, replicate-level variability, and differences in cell abundance across images. We also show how to perform robust statistical tests that incorporate these factors to ensure more reliable and interpretable results.
 
 ```{r 04a-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -91,35 +88,24 @@ Eleven immune cell types were identified in this dataset by the original authors
 
 ### Linear modelling
 
-We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a variance-stabilised version of the K-function given by the equation
+We use the L-function to measure the degree of co-localisation between two cell types. The L-function is a statistical tool used to quantify spatial relationships between two cell types—specifically, whether they tend to be closer together (co-localised) or further apart (dispersed) than would be expected by chance. 
 
-$$
-\widehat{L_{ij}} (r) = \sqrt{\frac{\widehat{K_{ij}}(r)}{\pi}}
-$$
+For each cell of type A, we count how many cells of type B are found within a certain radius. This is done across all A–B cell pairs in the image, and for a range of radii (e.g., 10, 20, 30 pixels or microns). This gives us an observed pattern of how frequently B cells appear near A cells at different spatial scales.
 
-with $\widehat{K_{ij}}$ defined as
+We then compare this observed pattern to what we would expect if the B cells were distributed completely at random throughout the tissue—this is called the null model, usually based on a Poisson process. If there is no biological interaction between the two cell types, their spatial arrangement should look random.
 
-$$
-\widehat{K_{ij}} (r) = \frac{|W|}{n_i n_j} \sum_{n_i} \sum_{n_j} 1 \{d_{ij} \leq r \} e_{ij} (r)
-$$
-
-where $\widehat{K_{ij}}$ summarises the degree of co-localisation of cell type $j$ with cell type $i$, $n_i$ and $n_j$ are the number of cells of type $i$ and $j$, $|W|$ is the image area, $d_{ij}$ is the distance between two cells, $r$ is the chosen radius, and $e_{ij} (r)$ is an edge correcting factor.
-
-To assess whether the observed co-localisation deviates from what would be expected under random spatial distribution, the experimental L-function is compared to a theoretical L-function derived from a Poisson point process. The Poisson function assumes that cells are distributed completely at random within the image, meaning there are no underlying spatial patterns such as attraction or repulsion between cell types. This provides a baselineexpectation against which the observed clustering or segregation can be evaluated.
-
-Specifically, the mean difference between the experimental function and the theoretical function is used as a measure for the level of localisation, defined as
-
-$$
-u = \sum_{r' = r_{\text{min}}}^{r_{\text{max}}} \widehat L_{ij, \text{Experimental}} (r') - \widehat L_{ij, \text{Poisson}} (r')
-$$
-
-where $u$ is the sum is taken over a discrete range of $r$ between $r_{\text{min}}$ and $r_{\text{max}}$. Differences of the statistic $u$ between two conditions is modelled using a weighted linear model.
+If the observed number of B cells near A cells is consistently higher than expected under this null model, it suggests positive spatial association—that is, the two cell types are co-localised. If it's consistently lower, it indicates negative spatial association, or spatial dispersion. The L-function transforms and scales these comparisons in a way that accounts for variance and edge effects, making the differences easier to interpret across images and datasets.
 
 ### Test for changes in localisation for a specific pair of cells
 
 Firstly, we can test whether one cell type tends to be more localised with another cell type in one condition compared to the other. This can be done using the `spicy` function, where we specify the `condition` parameter.
 
-In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy` will also naturally coerce the `condition` column into a factor if it is not already a factor. The radius over which to calculate the L-function can be specified using the `Rs` argument. By default, `spicy` calculates the L-function over a range of radii.
+In this example, we want to see whether or not neutrophils (`to`) tend to be found around CD8 T cells (`from`) in compartmentalised tumours compared to cold tumours. Given that there are 3 conditions, we can specify the desired conditions by setting the order of our `condition` factor. `spicy` will choose the first level of the factor as the base condition and the second level as the comparison condition. `spicy` will also naturally coerce the `condition` column into a factor if it is not already a factor. 
+
+To draw meaningful conclusions from co-localisation patterns, it’s important to carefully choose the proximity radius `r` — the distance that defines when two cells are considered “near” each other. This radius should reflect the biological scale of interaction, such as the typical signaling range or physical cell contact. If the radius is too small, real associations might be missed due to slight spatial variability or measurement noise. On the other hand, if the radius is too large, the analysis may pick up false signals driven by overall regional cell density rather than genuine biological interactions. Selecting the right radius is therefore key to accurately capturing the spatial relationships of interest.
+
+By default, `spicy` calculates the L-function over a range of radii. In the example below, we calculate the L-function for three values of `r`: 20 pixels, 50 pixels, and 100 pixels to capture both local and global relationships.
+
 
 The column containing cell type annotations and image IDs can be specified using the `cellType` and `imageID` arguments respectively. By default, `spicy` uses the columns named `cellType` and `imageID`.
 
@@ -128,6 +114,7 @@ We obtain a `spicy` object which details the results of the modelling performed.
 ```{r 04a-spicy test pair, time_it = TRUE}
 spicyTestPair <- spicy(
   kerenSPE,
+  r = c(20, 50, 100),
   condition = "tumour_type",
   from = "CD8_T_cell",
   to = "Neutrophils",
@@ -140,9 +127,9 @@ topPairs(spicyTestPair)
 As the `coefficient` in `spicyTestPair` is positive, we find that neutrophils are significantly more likely to be found near CD8 T cells in the compartmentalised tumours group compared to the cold tumour group.
 
 ::: {.callout-tip title="Choosing parameters for spicy"}
-**How do we select an optimal value for `Rs?`**
+**How do we select an optimal value for `r`?`**
 
--   The choice of `Rs` will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of `Rs` is optimal for examining local spatial relationships, and larger values of `Rs` will reveal global spatial relationships.
+-   The choice of `r` will depend on the degree of co-localistion we expect to see and the biological context. Choosing a small value of `r` is optimal for examining local spatial relationships, and larger values of `r` will reveal global spatial relationships.
 
 -   When the degree of localistion is unknown, it is best to choose a range of radii to define the co-localisation statistic to capture both local and global relationships.
 :::
@@ -352,7 +339,7 @@ kerenSubset = kerenSPE[, colData(kerenSPE)$imageID == "24"]
 
 pairwiseAssoc = getPairwise(kerenSubset, 
                             sigma = NULL, 
-                            Rs = 100) |>
+                            r = 100) |>
   as.data.frame()
 
 pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
@@ -365,7 +352,7 @@ When we specify `sigma = 20` and re-calculate the L-function, it indicates that 
 ```{r 04a-sigma 20}
 pairwiseAssoc = getPairwise(kerenSubset, 
                             sigma = 20, 
-                            Rs = 100) |> as.data.frame()
+                            r = 100) |> as.data.frame()
 
 pairwiseAssoc[["Keratin_Tumour__Neutrophils"]]
 ```
@@ -449,7 +436,7 @@ As before, we can see that the number of `dn_T_CD3` cells is low, driving the L-
 ::: {.callout-tip title="Assessing image quality"}
 **How do we distinguish "good" images from "bad" ones?**
 
--   Typically, images with very few cells can skew the L-function, and make it appear as though there is localization or dispersion when, in reality, no significant spatial pattern exists. These images usually have very high or very low L-function values compared to other images in the same group.
+-   Typically, images with very few cells can skew the L-function, and make it appear as though there is localisation or dispersion when, in reality, no significant spatial pattern exists. These images usually have very high or very low L-function values compared to other images in the same group.
 
 -   Skewed images must be further examined to understand the reason behind the abnormal L-function values. Factors such as imaging artifacts, poor segmentation, or uneven cell distribution could contribute to this skew. In contrast, good quality images typically exhibit a more balanced ratio of cell types and a consistent number of cells across images.
 :::

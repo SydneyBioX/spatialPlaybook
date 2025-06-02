@@ -12,7 +12,7 @@ table {
 ```
 
 | Disease | Technology | Title | Segmentation | Alignment | Clustering | Localisation | Microenvironments | Patient Classification |   |
-|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | Head and neck squamous cutaneous cell carcinoma | IMC | Ferguson 2022 | X |  | X | X | X |  |  |
 | Breast cancer | MIBI-TOF | Risom 2022 | X | X | X | X | X | X |  |
 | Mouse embryogenesis | Slide-seq | Stickels 2021 | X | X | X | X |  |  |  |

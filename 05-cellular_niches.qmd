@@ -17,15 +17,15 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Beyond pairwise spatial relationships between cell types, imaging datasets offer another valuable layer of insight. Terms like niche, neighbourhood, microenvironment, and domain provide different lenses through which to describe this organisation. For instance, niches often refer to the immediate microenvironment surrounding a specific cell type, while spatial domains capture broader tissue compartments formed by coordinated cell arrangements. These concepts help interpret how tissue architecture varies across conditions or patient groups.
+Beyond pairwise spatial relationships between cell types, imaging datasets reveal richer layers of tissue organisation through concepts like niches, neighborhoods, microenvironments, and spatial domains. Niches typically describe the immediate surroundings of a specific cell, while spatial domains represent larger tissue compartments formed by coordinated cell arrangements. These frameworks help us understand how tissue architecture varies across conditions or patient groups.
 
-However, the interpretation of spatial domains is highly dependent on the biological context and research question. In cancer studies, spatial domain analysis might reveal how tumour and immune compartments are distributed or how domain composition correlates with disease progression. In metabolic diseases like diabetes, domains such as pancreatic islets become focal points for understanding changes in marker expression or immune infiltration.
+The interpretation of spatial domains is highly context-dependent. In cancer research, domain analysis might highlight the distribution of tumor and immune compartments or reveal how domain composition correlates with disease progression. In metabolic diseases like diabetes, domains such as pancreatic islets serve as key regions for studying changes in marker expression or immune infiltration.
 
 <img src="images/IMC_colon.png" align="right" style="height: 200px; border: 0px"/>
 
-One effective approach for identifying spatial domains is through clustering cells based on their local spatial association patterns, as implemented in the `lisaClust` package. This method groups regions with similar spatial signatures, uncovering emergent domains across tissue sections. A central challenge lies in selecting the number of clusters and interpreting them in terms of cell type composition and density. While tools like the Gap statistic or Silhouette score can guide cluster selection, biological interpretation remains essential for distinguishing meaningful structural variation from artefactual noise.
+One effective approach to identify spatial domains involves clustering cells based on their local spatial association patterns, as implemented in the `lisaClust` package. This method groups tissue regions with similar spatial signatures, uncovering emergent domains within complex tissue landscapes. Selecting the appropriate number of clusters and interpreting them based on cell type composition and density remains a key challenge. While statistical metrics like the Gap statistic or Silhouette score can help guide cluster selection, biological insight is crucial to distinguish meaningful structural patterns from noise.
 
-In this section, we demonstrate the use of `lisaClust` to identify spatial domains and explore their relevance to clinical outcomes.
+In this section, we demonstrate how to use `lisaClust` to identify spatial domains and examine their relevance to clinical outcomes.
 
 ```{r 05-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -60,11 +60,11 @@ theme_set(theme_classic())
 
 ## lisaClust
 
-Clustering Local Indicators of Spatial Association (LISA) functions is a methodology for identifying consistent spatial organisation of multiple cell-types in an unsupervised way. This can be used to enable the characterisation of interactions between multiple cell-types simultaneously and can complement traditional pairwise analysis. In our implementation our LISA curves are a localised summary of an L-function from a Poisson point process model. Our framework `lisaClust` can be used to provide a high-level summary of cell type co-localisation in high-parameter spatial cytometry data, facilitating the identification of distinct tissue compartments or complex cellular microenvironments.
+`lisaClust` is a method developed to identify and characterize tissue microenvironments from highly multiplexed imaging data by analyzing how different types of cells are arranged in space. It starts by treating each cell as a point on a 2D map, with each point labeled by its cell type. For every individual cell, lisaClust calculates how strongly it is surrounded by other specific cell types—more or less than would be expected by chance—using spatial statistics called the K-function or L-function. These calculations, called local indicators of spatial association (LISAs), capture detailed information about local cell–cell interactions across the tissue.
 
 <img src="images/lisaClust_fig1.jpg" align="center" style="height: 300px; border: 0px"/>
 
-The workflow that lisaClust uses to identify regions of tissue with similar localisation patterns of cells contains multiple key steps. First, cells are treated as objects and assigned coordinates in an x-y space. Second, distances between all cells are calculated and then, by modeling the cells as a multi-type Poisson point process, the distances are used to calculate local indicators of spatial association (LISA). These LISA curves summarize the spatial association between each cell and a specific cell type over a range of radii. The LISA curves are calculated for each cell and cell type and then clustered to assign a region label for each cell.
+`lisaClust` then uses these cell-level spatial profiles to group cells into clusters using standard clustering algorithms like k-means. Each cluster represents a tissue region, or microenvironment, where certain combinations of cell types tend to co-occur in space. This approach allows researchers to move beyond simple pairwise analyses and uncover more complex patterns of organization, like immune niches or tumour–stroma boundaries, that reflect how cells interact within the broader tissue context.
 
 ### Case study: Keren
 
@@ -82,7 +82,7 @@ For the purpose of this demonstration, we will be using only images 5 and 6 of t
 kerenSPE <- kerenSPE[,kerenSPE$imageID %in% c("5", "6")]
 ```
 
-This data comes with pre-annotated cell types, sowe can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the `lisaClust` function. The image ID, cell type column, and spatial coordinates can be specified using the `imageID`, `cellType`, and `spatialCoords` arguments respectively. We will identify 5 regions of co-localisation by setting `k = 5`.
+This data comes with pre-annotated cell types, so we can move directly to performing k-means clustering on the local indicators of spatial association (LISA) functions using the `lisaClust` function. The image ID, cell type column, and spatial coordinates can be specified using the `imageID`, `cellType`, and `spatialCoords` arguments respectively. We will identify 5 regions of co-localisation by setting `k = 5`.
 
 ```{r 05-lisaClust, message = FALSE, warning = FALSE}
 kerenSPE <- lisaClust(kerenSPE,
@@ -98,7 +98,7 @@ colData(kerenSPE)[, c("imageID", "region")] |>
 
 #### Examine cell type enrichment
 
-lisaClust also provides a convenient function, `regionMap`, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.
+`lisaClust` also provides a convenient function, `regionMap`, for examining which cell types are located in which regions. In this example, we use this to check which cell types appear more frequently in each region than expected by chance.
 
 ```{r 05-regionMap}
 regionMap(kerenSPE,
@@ -106,6 +106,8 @@ regionMap(kerenSPE,
 ```
 
 Above, we can see that tumour cells are concentrated in region 5, and immune cells are concentrated in region 1 and 4. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter `k =` in the `lisaClust` function.
+
+In addition to choosing an appropriate number of clusters, it is equally important to select a biologically meaningful radius over which spatial associations are calculated. The radius determines the scale at which local neighbourhoods are defined—essentially setting the window for detecting co-localisation patterns. A small radius focuses on immediate cellular environments and short-range interactions, making it ideal for identifying tightly organised niches or direct cell–cell contact. In contrast, a larger radius captures broader patterns, such as tissue compartmentalisation or gradient-based organisation. The optimal radius should reflect the biological scale of interest, such as known signalling distances or histological structures, and it can be helpful to explore multiple values to understand how spatial organisation changes across scales.
 
 ::: {.callout-tip title="Choosing the number of spatial domains"}
 **How do we choose an appropriate value for `k`?**

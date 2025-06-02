@@ -23,7 +23,6 @@ book:
     - part: "Cell annotation"
       contents:
         - 03a-cell_annotation.qmd
-        - 03b-cell_annotation.qmd
     - part: "Cell localisation"
       contents:
         - 04a-cell_localisation.qmd
@@ -40,9 +39,7 @@ book:
     - part: "Case studies"
       contents:
         - 08-case_study1.qmd
-    - part: "References"
-      contents:
-        - 09-references.qmd
+
   navbar:
     logo: images/USydLogo.svg
 

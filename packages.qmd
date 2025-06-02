@@ -179,7 +179,6 @@ citation {
 
 <a href="https://sydneybiox.github.io/MoleculeExperiment/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/MoleculeExperiment/MoleculeExperiment.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
 
-
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("MoleculeExperiment", fields = "Description")))
 ```
@@ -211,7 +210,6 @@ print(myCitation("simpleSeg"), style = "html")
 ## scMerge
 
 <a href="https://sydneybiox.github.io/scMerge/"><img src="https://github.com/SydneyBioX/SydneyBioXStickers/blob/main/scMerge/scMerge.png?raw=true" align="right" style="height: 100px; border: 0px"/></a>
-
 
 ```{r, results = 'asis', echo = FALSE}
 cat(gsub("\n", " ", utils::packageDescription("scMerge", fields = "Description")))

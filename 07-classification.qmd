@@ -17,15 +17,13 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-Classification models are key in spatial omics for identifying features that distinguish patient groups, aiding both clinical stratification and biological insight. These features can reflect tissue architecture, cell states, or local interactions relevant to disease outcomes. Analysis typically aims at either mechanistic understanding—uncovering biological processes behind condition differences—or translational application, such as using accessible spatial data (e.g., IMC) to predict clinical outcomes like progression or metastasis.
+Classification models play a central role in spatial omics by identifying features that distinguish between patient groups—advancing both mechanistic understanding and clinical stratification. These distinguishing features can capture a wide range of biological signals, from differences in tissue architecture and cell-cell interactions to variations in cell state or microenvironment composition. Depending on the aim, analyses may seek to explain the underlying biology of a condition or to build predictive models for clinical outcomes such as progression, metastasis, or therapeutic response.
 
-Because biological heterogeneity means not all features are informative for every individual, flexible modelling frameworks that capture subgroup-specific signals are essential. This improves the robustness and relevance of findings for both biological insight and clinical use. Developing reliable models requires more than choosing a classifier; it demands careful feature selection, cross-validation, and performance evaluation, especially when integrating spatial and non-spatial data. The `ClassifyR` package offers a structured framework for these tasks, including repeated validation, survival analysis, and multi-assay integration, enabling clearer, more robust assessments of which features predict clinical outcomes and for whom.
+However, due to biological heterogeneity, not all features are informative across all individuals. To address this, robust modelling frameworks must accommodate complex, subgroup-specific signals. This ensures that models not only perform well statistically but also yield biologically and clinically meaningful insights. `ClassifyR` provides such a framework, offering tools for feature selection, repeated cross-validation, performance evaluation, survival analysis, and integration across multiple data types. It is designed to rigorously assess which features predict outcomes, and for which subgroups, thereby enhancing both discovery and translational potential.
 
-However, to compare samples or link tissue organisation with clinical or experimental variables, we often need to summarise key characteristics of an image. Many of the methods in this playbook generate features that capture spatial structure, cell interactions, or microenvironment composition. These can be combined with features that reflect intrinsic biological variation, such as cell-type-specific expression, cell proportions, pathway activity, and expression variability. Our `scFeatures` package provides a flexible framework for generating a large and diverse set of features at the sample level, spanning both spatial and non-spatial information. Generating a wide range of features increases the chance of capturing meaningful biological signals and enables multi-view analyses that support outcome prediction, sample comparison, and discovery of clinically relevant patterns.
+To build these models, it is essential to first summarise each tissue sample in terms of meaningful, comparable features. This is where the `scFeatures` package plays a complementary role. `scFeatures` generates a rich and diverse set of sample-level features that capture both spatial and non-spatial characteristics—including spatial organisation, cell-type proportions, expression variability, pathway activity, and more. Many of these features are derived from the spatial metrics computed earlier in this playbook. By creating a comprehensive feature set, `scFeatures` increases the likelihood of identifying biologically relevant patterns and supports multi-view modelling strategies.
 
-In this section, we will demonstrate how `scFeatures` can be used in conjunction with our previously generated cell-level spatial metrics and with `ClassifyR` to predict patient outcomes. 
-
-
+In this section, we demonstrate how `scFeatures` can be used to generate interpretable, high-dimensional representations of spatial omics data, and how these can be combined with `ClassifyR` to construct and evaluate predictive models of patient outcome.
 
 <!-- Steps: -->
 
@@ -98,6 +96,8 @@ stateMat <- readRDS("data/stateMat.rds")
 
 [scFeatures](https://www.bioconductor.org/packages/release/bioc/html/scFeatures.html) allows us to generate up to 17 sample-level metrics, including cell type proportions, cell type-specific marker expressions, cell type-specific pathway expressions, cell type-specific cell-cell communications, and overall aggregated marker expressions.
 
+<img src="images/scFeatures_fig1.jpeg" align="center" style="height: 300px; border: 0px"/>
+
 Here, we will use `scFeatures` to generate two sample-level metrics: `proportion_raw`, the proportion of cell types within each sample or image, and `gene_mean_celltype`, which captures cell type-specific marker expression.
 
 ## Classification of patients by condition
@@ -124,7 +124,6 @@ We will build a list of feature matrices using the features we've generated in t
 6.  Cell type proportions (`scFeatures`)
 7.  Cell type-specific marker expression (`scFeatures`)
 
-
 ```{r 07-feature matrices, time_it = TRUE}
 # pre-generated spatial metrics
 data <- list()
@@ -149,7 +148,7 @@ data[["cellTypeMarkerMeans"]] <- getMarkerMeans(kerenSPE, imageID = "imageID",
 data[["SpatioMark"]] <- stateMat
 ```
 
-We will now use `scFeatures` to generate our two selected features. Below, we use the `scFeatures` function and specify `type = "spatial_p"` to indicate we are using spatial proteomics data. 
+We will now use `scFeatures` to generate our two selected features. Below, we use the `scFeatures` function and specify `type = "spatial_p"` to indicate we are using spatial proteomics data.
 
 ```{r 07-scFeatures}
 # generate assay matrix and add spatial features
@@ -173,7 +172,6 @@ scfeatures_result <- scFeatures(data = keren_mat,
 data[["proportions"]] = scfeatures_result$proportion_raw
 data[["cellTypeMarkerMeans"]] = scfeatures_result$gene_mean_celltype
 ```
-
 
 We will then generate a factor vector of our outcome variable.
 
@@ -251,7 +249,7 @@ From the graph, we can see that `lisaClust` appears to capture information that 
 
 ## Easy and hard to classify patients
 
-The `samplesMetricMap` function allows the visual comparison of sample-wise error rate or accuracy measures from the cross-validation process.
+The `samplesMetricMap` function allows visual comparison of sample-wise error rates or accuracy measures from the cross-validation process, helping to identify which samples are consistently well-classified and which are not.
 
 ### Predicting tumour type
 
@@ -262,7 +260,7 @@ samplesMetricMap(cv,
                                       c("#FFFFFF", "#E1BFC4", "#C37F8A", "#A53F4F", "#880015")))
 ```
 
-The benefit of this plot is that it allows the easy identification of samples which are hard to classify and could be explained by considering additional information about them. For example, we can see that patients 36 and 13 in particular were difficult to classify. Overall, both cell type proportions (FuseSOM) and cell type co-localisation (spicyR and Kontextual) performed comparitively well at classifying patients, and compartmentalised tumours were easier to classify compared to mixed tumours.
+This plot highlights samples that are challenging to classify, providing an opportunity to investigate sources of ambiguity. For instance, patients 36 and 13 were particularly difficult to classify. These cases might benefit from additional clinical review or closer inspection of spatial and molecular features not captured in the current feature set. Overall, both cell type proportions (`proportion_raw`) and spatial domains (`lisaClust`) performed well for tumour type classification. Interestingly, compartmentalised tumours were generally easier to classify than mixed tumours, suggesting a stronger or more consistent spatial signal.
 
 ### Predicting survival outcomes
 
@@ -272,7 +270,21 @@ We can also use `sampleMetricMap` to identify samples that were difficult to cla
 samplesMetricMap(surv_cv)
 ```
 
-We can see that there was some difficulty in classying patient 35, and that overall, features showed similar performance across samples. lisaClust shows the overall highest performance, especially for samples 31-20.
+In the survival classification task, patient 35 stood out as a difficult case, while samples 31 through 20 were better classified, particularly by `lisaClust`-derived features. This suggests that spatial domain organisation may carry prognostic value in this dataset.
+
+Samples identified as hard to classify offer valuable opportunities for further exploration:
+
+- **Feature enrichment**: Re-examine these samples to see if they possess atypical spatial structures or marker expression profiles that were not well captured by the current feature set. Incorporating additional spatial or morphological features () may improve model sensitivity.
+
+Biological subgrouping: Difficult-to-classify samples may represent intermediate or mixed phenotypes. Cluster these cases separately to explore whether they define a distinct subgroup or transition state, especially relevant in diseases with high heterogeneity.
+
+External validation: If another cohort is available, assess whether the same samples or subgroups remain difficult to classify, which may help distinguish model-specific from biologically meaningful ambiguity.
+
+Manual annotation: Engage domain experts to manually review spatial images of ambiguous cases for insights into unmodeled variation, such as rare cell types, artefacts, or unexpected tissue features.
+
+Integrative modelling: Combine spatial features with other data modalities (e.g., genomics, transcriptomics, pathology annotations) to test whether multi-modal integration resolves classification uncertainty in these samples.
+
+
 
 ````{=html}
 <-- ## Maximising accuracy during classification

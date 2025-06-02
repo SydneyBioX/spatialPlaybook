@@ -17,11 +17,11 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
-In some cases, functionally distinct cell subtypes cannot be reliably distinguished based on marker expression alone—especially when the differences in expression levels are subtle, overlapping, or influenced by dynamic biological states. For example, cells of the same general type may alter their functional behaviour depending on their local environment, such as immune cells becoming activated only when near infected or tumour cells. Additionally, technical limitations or noise can obscure small but meaningful variations in marker intensity, making it difficult to separate subpopulations purely through conventional clustering or supervised classification methods.
+Sometimes, cells that appear similar based on marker expression alone can behave very differently depending on their surroundings. Subtle shifts in marker levels—too faint or variable to be captured through clustering—may hold important clues about a cell's functional state. For example, immune cells may only become activated when positioned near tumour or infected cells, and these changes may not be detectable when cells are analysed in isolation. Technical noise and overlapping expression patterns further complicate efforts to distinguish such nuanced subpopulations using conventional approaches.
 
-In these scenarios, incorporating spatial context provides a powerful complementary perspective. By examining how marker expression changes as cells interact with specific neighbours or local tissue features, researchers can uncover functional variation that is otherwise hidden. Spatial context thus helps reveal how cells adapt, respond, or transition between states in situ, offering deeper insight into tissue organisation, cell function, and disease mechanisms.
+In these cases, spatial context becomes a critical lens. By analysing how marker expression varies in relation to a cell’s neighbourhood—such as its proximity to other cell types or tissue structures—we can uncover functional diversity that would otherwise remain hidden. This spatial perspective reveals how cells adapt to their microenvironment, transition between states, or participate in local interactions, offering a richer understanding of tissue dynamics and disease mechanisms.
 
-The `SpatioMark` method, part of the `Statial` package, identifies markers that vary within a given cell type based on proximity to other cell types. These spatially associated shifts in marker expression can reveal changes in cell state—such as activation, suppression, or environmental influence—that are not apparent through clustering or classification alone.
+The `SpatioMark` method, implemented in the `Statial` package, is designed for exactly this purpose. It detects markers whose expression levels change within a given cell type depending on their spatial context—highlighting activation, suppression, or other state changes that are missed by standard clustering. 
 
 ```{r 06-load libraries, echo=FALSE, results="hide", warning=FALSE}
 suppressPackageStartupMessages({
@@ -68,7 +68,9 @@ theme_set(theme_classic())
 
 ## Statial: Marker means
 
-One of the easiest things to quantify in terms of markers is a marker mean. For a given image, we assess the total marker mean across all cells within an image, and compare them across disease states. We can do this on an image level, a cell type level, a region level, and a cell type within regions level. For example, if your question is: "How does the expression of CD163 in infiltrating macrophages within the tumour spatial domain differ across my 2 treatment groups?", you'll want to look at the marker mean of macrophages within specifically the tumour domain.
+Before diving into spatially contextualised marker changes with `SpatioMark`, it's useful to understand how more conventional marker expression summaries—like marker means—can still offer valuable insight, especially when stratified by spatial features. A marker mean provides a simple but effective way to quantify expression: we calculate the average intensity of a marker across a set of cells, and then compare these averages across experimental conditions. While this can be done at the whole-image level, much more meaningful biological comparisons emerge when we stratify by cell type, spatial domain, or both.
+
+For example, if you're interested in understanding how CD163 expression changes in infiltrating macrophages located specifically within tumour regions across treatment groups, you would focus on the marker mean for macrophages confined to that domain. This allows you to ask precise questions about functional changes in well-defined spatial and cellular contexts.
 
 For this demonstration, we will use the [Keren 2018](datasets.qmd) dataset.
 
@@ -103,7 +105,7 @@ names(kerenSurv) <- survData$imageID
 kerenSurv <- kerenSurv[!is.na(kerenSurv)]
 ```
 
-Our `Statial` package provides functionality to identify the average marker expression of a given cell type in a given region, using the `getMarkerMeans` function. Similar to spicyR and lisaClust, these features can also be used for survival analysis.
+Our `Statial` package provides functionality to identify the average marker expression of a given cell type in a given region, using the `getMarkerMeans` function. Similar to `spicyR` and `lisaClust`, these features can also be used for survival analysis.
 
 ```{r 06-marker means in region}
 cellTypeRegionMeans <- getMarkerMeans(kerenSPE,
@@ -126,21 +128,21 @@ survivalResults <- colTest(df = cellTypeRegionMeans[names(kerenSurv), ],
 head(survivalResults)
 ```
 
-Our most significant relationship appears to be `CD209__CD4_T_cell__region_2`, which indicates that the expression of marker CD209 in CD4 T cells in region 2 is strongly associated with survival probability. We can examine this relationship in more detail by plotting a Kaplan-Meier curve.
+Our most significant relationship appears to be `B7H3__CD4_T_cell__region_1`, which represents the average expression of the B7H3 marker in CD4 T cells in region 1. The positive coefficient associated with this relationship indicates that higher expression of B7H3 in CD4 T cells in this region is associated with poorer survival outcomes for patients.
+
+We can examine this relationship in more detail by plotting a Kaplan-Meier curve.
 
 ```{r 06-KM curve for region, fig.width=5, fig.height=4}
 # Selecting the most significant relationship
-survRelationship <- cellTypeRegionMeans[["CD209__CD4_T_cell__region_2"]]
+survRelationship <- cellTypeRegionMeans[["B7H3__CD4_T_cell__region_1"]]
 survRelationship <- ifelse(survRelationship > median(survRelationship), "Higher expression", "Lower expression")
 
 # Plotting Kaplan-Meier curve
 survfit2(kerenSurv ~ survRelationship) |>
   ggsurvfit() +
   add_pvalue() +
-  ggtitle("CD209__CD4_T_cell__region_2")
+  ggtitle("B7H3__CD4_T_cell__region_1")
 ```
-
-The positive coefficient associated with `CD209__CD4_T_cell__region_2` indicates that higher expression is associated with poorer survival outcomes for patients, which is supported by the Kaplan-Meier curve.
 
 We can also look at cell types alone, without separating by region. To do this, we simply do not specify `region`.
 
@@ -166,19 +168,19 @@ survfit2(kerenSurv ~ survRelationship) |>
   ggtitle("CD56__Tregs")
 ```
 
-The coefficient associated with `CD56__Tregs` is positive, which indicates that higher expression is associated with poorer survival outcomes for patients.
+The coefficient associated with `CD56__Tregs` is positive, which indicates that higher expression is associated with poorer survival outcomes for patients, and this is also reflected in the KM curve. 
 
 ## SpatioMark: Identifying continuous changes in cell state
 
-Another approach we can take is to examine contiguous changes in abundance of a gene or protein within a particular cell type. Before, we were comparing changes in abundance across discrete groups or clinical outcomes. By examining contiguous changes in marker expression, we can identify cell-cell interactions that catalyse cell state changes.
+Marker means summarised per cell type or per spatial region can offer valuable insights into how expression levels vary across conditions or anatomical compartments. However, these summaries treat cells as independent units and often miss finer-grained, dynamic patterns that arise from cell-cell interactions. 
 
-The approach outlined below measures how marker expression in a cell changes with spatial proximity and abundance with respect to other cell types. The methods utilised here will thereby provide a framework to explore how the dynamic behaviour of cells are altered by the agents they are surrounded by.
+This is where `SpatioMark` becomes particularly powerful. Instead of averaging across broad groups, `SpatioMark` captures how marker expression in a given cell type changes in a continuous fashion based on proximity to other cell types. This allows us to detect context-dependent expression shifts—revealing, for instance, how the presence of neighbouring immune or tumour cells can influence a cell’s functional state. By focusing on these spatial gradients in marker expression, SpatioMark provides a framework for understanding how local microenvironments modulate cell behaviour in situ.
 
 <img src="images/spatiomark_fig1.jpg" align="center" style="height: 300px; border: 0px"/>
 
 ### Continuous cell state changes within a single image
 
-The first step in analysing these changes is to calculate the spatial proximity and abundance of each cell to every cell type. `getDistances` calculates the Euclidean distance from each cell to the nearest cell of each cell type. `getAbundances` calculates the K-function value for each cell with respect to each cell type. Both metrics are stored in the `reducedDims` slot of the SpatialExperiment object.
+The first step in analysing these changes is to calculate the spatial proximity and abundance of each cell to every cell type. `getDistances` calculates the Euclidean distance from each cell to the nearest cell of each cell type. `getAbundances` calculates the K-function value for each cell with respect to each cell type. Both metrics are stored in the `reducedDims` slot of the `SpatialExperiment` object.
 
 <!--fix spatial coordinates, assign spatial coords to spatial coords slot-->
 
@@ -199,7 +201,7 @@ kerenSPE <- getAbundances(kerenSPE,
 reducedDims(kerenSPE)
 ```
 
-First, let's examine the same effect observed earlier with Kontextual - the localisation between p53-positive keratin/tumour cells and macrophages in the context of total keratin/tumour cells for image 6 of the Keren 2018 dataset.
+First, let's examine the same effect observed earlier with `Kontextual` - the localisation between p53+ keratin/tumour cells and macrophages in the context of total keratin/tumour cells for image 6 of the Keren 2018 dataset.
 
 Statial provides two main functions to assess this relationship - `calcStateChanges` and `plotStateChanges`. We can use `calcStateChanges` to examine the relationship between two cell types for one marker in a specific image. In this case, we're examining the relationship between keratin/tumour cells (`from = Keratin_Tumour`) and macrophages (`to = "Macrophages"`) for the marker p53 (`marker = "p53"`) in `image = "6"`. We can appreciate that the `fdr` statistic for this relationship is significant, with a negative t-value, indicating that the expression of p53 in keratin/tumour cells decreases as distance from macrophages increases.
 
@@ -247,7 +249,7 @@ p$scatter
 
 ### Continuous cell state changes across all images
 
-Beyond looking at single cell-to-cell interactions for a single image, we can also look at all interactions across all images. The `calcStateChanges` function provided by Statial can be expanded for this exact purpose - by not specifying cell types, a marker, or an image, `calcStateChanges` will examine the most significant correlations between distance and marker expression across the entire dataset. Here, we've filtered out the most significant interactions to only include those found within image 6 of the Keren et al. dataset.
+Beyond looking at single cell-to-cell interactions for a single image, we can also look at all interactions across all images. The `calcStateChanges` function provided by Statial can be expanded for this exact purpose - by not specifying cell types, a marker, or an image, `calcStateChanges` will examine the most significant correlations between distance and marker expression across the entire dataset. Here, we've filtered out the most significant interactions to only include those found within image 6 of the Keren 2018 dataset.
 
 ```{r time_it = TRUE}
 stateChanges <- calcStateChanges(
@@ -285,7 +287,7 @@ p <- plotStateChanges(
 p$image
 ```
 
-```{r 06-scatter plot HLA}
+```{r 06-scatter plot HLA, warning = FALSE, message = FALSE}
 # plot the scatter plot
 p$scatter
 ```
@@ -388,7 +390,7 @@ ggplot(df, aes(x = TP, y = FP, colour = type)) +
 
 ### Associate continuous state changes with survival outcomes
 
-Similiar to `Kontextual`, we can run a similar survival analysis using our state change results. Here, `prepMatrix` extracts the coefficients, or the `coef` column of `stateChanges` by default. To use the t-values instead, specify `column = "tval"` in the `prepMatrix` function. As before, we use `colTest` to build the CoxPH model.
+Similiar to `Kontextual`, we can run a similar survival analysis using our `SpatioMark` results. Here, `prepMatrix` extracts the coefficients, or the `coef` column of `stateChanges` by default. To use the t-values instead, specify `column = "tval"` in the `prepMatrix` function. As before, we use `colTest` to build the CoxPH model.
 
 ```{r 06-survival with stateChanges, time_it = TRUE}
 # Preparing features for Statial
@@ -431,7 +433,6 @@ We conclude the section on spatial quantification metrics here. So far, we have 
 6.  Marker means in each cell type in each region (Statial)
 7.  Proximity-associated changes in marker expression using SpatioMark (Statial)
 
-In the next section, we will look into how each of these metrics can be used to predict clinical outcomes for patients.
 
 ## sessionInfo
 

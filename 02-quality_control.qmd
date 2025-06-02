@@ -17,12 +17,9 @@ knitr::knit_hooks$set(time_it = local({
 }))
 ```
 
+Variability in marker intensity across images is a common challenge in spatial imaging, often driven by technical factors like staining efficiency, imaging conditions, or sample preparation. For instance, a marker such as CD3 might appear overly bright in one sample and faint in another, even if the underlying biology is similar. These inconsistencies can blur the distinction between marker-positive and -negative cells, leading to misclassification and unreliable comparisons between and within samples.
 
-Variability in marker intensity across images is a common and often unavoidable challenge in spatial imaging. It can arise from technical factors such as staining efficiency, imaging conditions, or sample preparation. For example, a marker like CD3 may appear overly strong in one image and unusually weak in another, even when the underlying biology is similar. This kind of inconsistency can blur the distinction between marker-positive and marker-negative cells, leading to misclassification, poor clustering, and unreliable comparisons between samples.
-
-Because raw intensity values are often not directly comparable across images—or even across different regions of the same image—quality control checks are a crucial next step following cell segmentation. We recommend visually inspecting marker expression across images to detect unusual shifts in intensity that may indicate technical variation. Identifying such patterns early can reveal batch effects or artefacts that require transformation or normalisation before downstream analysis.
-
-Our  [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package provides tools to support these corrections, offering functions for visualising marker expression, detecting batch effects, and normalising expression data. These adjustments help harmonise marker distributions across samples, clarify cell populations, and improve the reliability and interpretability of downstream analyses such as clustering, co-localisation, and differential expression.
+Because raw intensities aren’t always directly comparable across or within images, quality control is an essential next step after segmentation. The [simpleSeg](https://www.bioconductor.org/packages/release/bioc/html/simpleSeg.html) package includes tools to support this process, with functions for visualising expression, detecting batch effects, and applying normalisation. These steps help harmonise marker distributions across samples, clarify cell populations, and improve the reliability of downstream analyses.
 
 <!-- Steps: -->
 
@@ -78,12 +75,17 @@ First, let's load in the images we previously segmented out in the last section.
 fergusonSPE <- SpatialDatasets::spe_Ferguson_2022()
 ```
 
-Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:
+Next, we assess whether the marker intensities require transformation or normalisation. This step is important for two main reasons:
 
-1.  The intensities of images are often highly skewed, preventing any meaningful downstream analysis.
-2.  The intensities across different images are often different, meaning that what is considered "positive" can be different across images.
+- **Skewed distributions**: Marker intensities are often right-skewed, which can distort downstream analyses such as clustering or dimensionality reduction.
 
-By transforming and normalising the data, we aim to reduce these two effects. Below, we extract the marker intensities from the `counts` assay and take a closer look at the CD3 marker, which should be expressed in the majority of T cells.
+- **Inconsistent scales across images**: Due to technical variation, the same marker may show very different intensity ranges across images. This can shift what’s considered "positive" or "negative" expression, making it difficult to label cells accurately.
+
+By applying transformation and normalisation, we aim to stabilise variance and bring the data onto a more comparable scale across images.
+
+Below, we extract marker intensities from the `counts` assay and take a closer look at the CD3 marker, which is typically expressed in T cells and is often used as a canonical marker to annotate T cell populations. This provides a useful starting point for assessing intensity distributions and spotting potential technical variation across samples.
+
+We use density plots here because they offer a straightforward way to visualise the distribution of expression values across cells in each image, making it easier to compare overall signal shifts and detect batch effects.
 
 ```{r 02-plot CD3 density, fig.width=5, fig.height=5}
 # plot densities of CD3 for each image
@@ -94,6 +96,12 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
+
+Here, we can see that the CD3 intensity distributions are highly skewed, making it difficult to distinguish CD3⁺ cells from CD3⁻ cells. Ideally, for a marker like CD3, we would expect to see a bimodal distribution—one peak corresponding to CD3⁻ cells (background or low expression) and another for CD3⁺ cells (true positive signal).
+
+In addition to skewness, we also observe clear image-level batch effects. For example, the position and shape of the intensity peaks vary substantially between images, suggesting that what counts as “positive” expression in one image might fall below detection in another. 
+
+
 ::: callout-tip
 **What we're looking for**
 
@@ -101,9 +109,7 @@ fergusonSPE |>
 2.  Are our CD3+ and CD3- peaks consistent across our images? We want to make sure that our density plots for CD3 are largely the same across images so that a CD3+ cell in one image is equivalent to a CD3+ cell in another image.
 :::
 
-Here, we can see that the intensities are very clearly skewed, and it is difficult to distinguish a CD3- cell from a CD3+ cell. Further, we can clearly see some image-level batch effects, where across images, the intensity peaks differ drastically.
-
-Another method of visualising batch effects is using a dimensionality reduction technique and visualising how the images separate out on a 2D plot. If no batch effect is expected, we should see the images largely overlap with each other.
+Another way to visualise batch effects is by applying dimensionality reduction techniques (like PCA or UMAP) to the marker expression data and plotting the cells in two dimensions. If there are no major batch effects, cells from different images should largely overlap or mix well in this reduced space. However, if strong batch effects are present, cells will tend to cluster by image rather than by biological similarity—indicating that technical variation is dominating the structure of the data.
 
 ```{r 02-plot UMAP, time_it = TRUE}
 set.seed(51773)
@@ -132,9 +138,9 @@ scater::plotReducedDim(
 )
 ```
 
-The UMAP also indicates that some level of batch effect exists in our dataset.
+In the UMAP plot, cells cluster by image rather than mixing uniformly, indicating the presence of batch effects. This suggests that technical variation between images is driving much of the separation, rather than true biological differences.
 
-We can use the `normalizeCells` function from the simpleSeg package to correct for image-level batch effects. We specify the following parameters:
+We can use the `normalizeCells` function from the `simpleSeg` package to correct for image-level batch effects. We specify the following parameters:
 
 -   `transformation` is an optional argument which specifies the function to be applied to the data. We do not apply an arcsinh transformation here, as we already apply a square root transform in the `simpleSeg` function.
 -   `method = c("trim99", "mean", PC1")` is an optional argument which specifies the normalisation method(s) to be performed. A comprehensive table of methods is provided below.
@@ -155,6 +161,21 @@ fergusonSPE <- normalizeCells(fergusonSPE,
 
 This modified data is then stored in the `norm` assay by default, but can be changed using the `assayOut` parameter.
 
+::: callout-tip
+**Choosing transformation and normalisation methods**
+
+Not all datasets require the same transformation or normalisation strategy. Choosing the right one can depend on both the biological context and the source of technical variability.
+
+1. Do your marker intensities show strong skew or heavy tails? If so, applying a transformation (e.g., square root, log, or arcsinh) can help stabilise variance and separate low vs high signal populations.
+
+2. Do images cluster separately in the UMAP plots? This often points to batch effects, which may require normalisation across images using approaches like centering on the mean, scaling by standard deviation, or regression-based adjustments (e.g., removing PC1, removing the highest 1% of values, etc.).
+
+3. Are there markers you shouldn’t normalise? Nuclear markers like DNA1, DNA2, or HH3 often serve as internal references and typically aren’t normalised.
+
+There’s no universal solution—experiment with different approaches, carefully examine the results, and focus on methods that best preserve biological meaning and interpretability rather than just achieving perfect statistical uniformity.
+:::
+
+
 #### `method` Parameters
 
 | Method | Description |
@@ -162,9 +183,11 @@ This modified data is then stored in the `norm` assay by default, but can be cha
 | ["mean"]{style="font-family: 'Courier New', monospace;"} | [Divides the marker cellular marker intensities by their mean.]{style="font-family: 'Courier New', monospace;"} |
 | ["minMax"]{style="font-family: 'Courier New', monospace;"} | [Subtracts the minimum value and scales markers between 0 and 1.]{style="font-family: 'Courier New', monospace;"} |
 | ["trim99"]{style="font-family: 'Courier New', monospace;"} | [Sets the highest 1% of values to the value of the 99th percentile.\`]{style="font-family: 'Courier New', monospace;"} |
-| ["PC1"]{style="font-family: 'Courier New', monospace;"} | [Removes the 1st principal component) can be performed with one call of the function, in the order specified by the user.]{style="font-family: 'Courier New', monospace;"} |
+| ["PC1"]{style="font-family: 'Courier New', monospace;"} | [Removes the 1st principal component.]{style="font-family: 'Courier New', monospace;"} |
 
-We can then plot the same density curve for the CD3 marker using the normalised data.
+Multiple normalisation techniques can be applied within one call of the function, in the order specified by the user.
+
+To check whether our transformation has worked, we can then plot the same density curve for the CD3 marker using the normalised data.
 
 ```{r 02-plot CD3 normalised}
 # plot densities of CD3 for each image
@@ -175,6 +198,8 @@ fergusonSPE |>
   theme(legend.position = "none")
 ```
 
+In the plot above, the normalised data appeas more bimodal. We can observe one clear CD3- peak at around 0.00, and a CD3+ peak at 1.00. Image-level batch effects also appear to have been mitigated, since most peaks occur at around the same CD3 intensity. 
+
 ::: callout-tip
 **Questions revisited**
 
@@ -182,9 +207,7 @@ fergusonSPE |>
 2.  Are our CD3+ and CD3- peaks consistent across our images? We can try to be more stringent in our normalisation, such as by removing the 1st PC (`method = c(..., "PC1")`) or scaling the values for all images between 0 and 1 (`method = c(..., "minMax")`).
 :::
 
-Here, we can see that the normalised data appears more bimodal, and we can clearly observe a CD3+ peak at 5.00, and a CD3- peak at around 3.00. Image-level batch effects also appear to have been mitigated.
-
-We can also visualise the effect of normalisation on the UMAP, which shows that the images now overlap with each other to a much greater extent.
+We can also visualise the effect of normalisation on the UMAP, which shows that the cells from different images now overlap with each other to a much greater extent.
 
 ```{r 02-norm UMAP, time_it = TRUE}
 set.seed(51773)
@@ -210,8 +233,6 @@ scater::plotReducedDim(
 <!-- ## scMerge: Combining multiple spatial datasets -->
 
 <!-- A common question that pops up when analysing spatial datasets is: can I combine multiple spatial datasets? -->
-
-Now that we have completed quality control checks and normalised the expression data to address variability and batch effects, we can proceed to the next step: clustering and cell annotation.
 
 ## sessionInfo
 
