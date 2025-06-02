@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./03b-cell_annotation.html" rel="next">
+<link href="./04a-cell_localisation.html" rel="next">
 <link href="./02-quality_control.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -198,12 +198,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span></a>
-  </div>
-</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -218,13 +212,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +235,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -258,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
   </div>
 </li>
       </ul>
@@ -275,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
   </div>
 </li>
       </ul>
@@ -292,24 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-case_study1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
-  </div>
-</li>
-      </ul>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
- <span class="menu-text">References</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./09-references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
   </div>
 </li>
       </ul>
@@ -352,9 +329,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Identifying cell types is a critical step in spatial analysis, as it shapes how we interpret tissue composition, uncover cell-cell interactions, and understand disease-associated changes at the cellular level. However, cell type annotation is not always straightforward—marker expression often varies continuously rather than forming clear-cut boundaries between populations. Overlapping marker profiles, technical noise, and tissue-specific expression patterns can make annotation uncertain and prone to error, which in turn affects the accuracy of all downstream analyses.</p>
-<p>There are two main strategies for assigning cell type labels: clustering and annotation. Clustering is an unsupervised approach that groups cells based on similarities in marker expression. While it can uncover novel or unexpected populations, the resulting clusters must be manually interpreted and labelled using biological expertise and known marker profiles. Annotation, on the other hand, is a supervised method that uses a reference dataset—often derived from well-characterised single-cell data—to directly assign cell type labels to each cell. This can improve consistency and reproducibility but depends heavily on the quality and relevance of the reference used.</p>
-<p>Both approaches have advantages and limitations. Clustering may miss subtle populations or be sensitive to parameter choices, while annotation can misclassify cells if the reference does not capture the diversity present in the tissue being analysed. In this playbook, we demonstrate how to use our packages to perform both clustering and annotation, and provide guidance on choosing between these methods based on your data and biological question. Throughout, we highlight common pitfalls and best practices to improve the reliability and interpretability of cell type identification.</p>
+</header><p>Cell type annotation is the process of assigning each cell a specific identity based on its marker expression profile. Identifying cell types is a key step in many spatial analysis workflows, as it shapes how we analyse tissue composition, measure cell-cell interactions, and track disease mechanisms.</p>
+<p>But cell type annotation isn’t always clear-cut. Marker expression often varies along a continuum rather than forming distinct groups, and overlapping profiles combined with technical noise can blur boundaries, making it tricky to assign confident labels. These uncertainties can cascade through your analysis, affecting clustering, interpretation, and downstream results.</p>
+<p>There are two main ways to assign cell types: unsupervised clustering and supervised annotation. Clustering groups cells based on similarity in marker expression, which can uncover novel or unexpected populations—but biological expertise is often necessary to interpret and label those clusters. Annotation, on the other hand, leverages reference datasets from well-characterised samples to directly assign cell type labels, improving consistency and reproducibility, though it depends on having a relevant and high-quality reference.</p>
+<p>Both approaches come with trade-offs. Clustering can miss subtle or rare populations and is sensitive to parameter choices, such as the number of clusters, which can greatly influence results. Annotation risks misclassifying cells if the reference doesn’t capture all the diversity in the sample. This playbook focuses on unsupervised clustering—covering how to select appropriate parameters, determine the optimal number of clusters, and interpret results effectively.</p>
 <!-- Steps: -->
 <!-- 1.  Clustering vs annotation -->
 <!-- 2.  Clustering with FuseSOM -->
@@ -385,16 +363,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="clustering-with-fusesom" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="clustering-with-fusesom">
 <span class="header-section-number">6.1</span> Clustering with FuseSOM</h2>
-<p><a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html">FuseSOM</a> is an unsupervised clustering tool for highly multiplexed in situ imaging cytometry assays. It combines a <code>Self Organising Map</code> architecture and a <code>MultiView</code> integration of correlation-based metrics for robustness and high accuracy. It has been streamlined to accept multiple data structures including <code>SingleCellExperiment</code> objects, <code>SpatialExperiment</code> objects, and <code>DataFrames</code>.</p>
+<p>Clustering of highly multiplexed in situ imaging cytometry data can be performed using tools like <a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html">FuseSOM</a>, an unsupervised method that combines a Self Organising Map architecture with MultiView integration of correlation-based metrics for enhanced robustness and accuracy. <code>FuseSOM</code> supports multiple data structures, including <code>SingleCellExperiment</code> and <code>SpatialExperiment</code> objects, as well as <code>DataFrames.</code></p>
 <p><img src="images/FuseSOM_fig1.jpeg" align="center" style="height:200px; border: 0px"></p>
 <section id="fusesom-matrix-input" class="level3" data-number="6.1.1"><h3 data-number="6.1.1" class="anchored" data-anchor-id="fusesom-matrix-input">
 <span class="header-section-number">6.1.1</span> FuseSOM Matrix Input</h3>
-<p>To demonstrate the functionality of <code>FuseSOM</code>, we will use the <a href="./datasets.html">Risom 2022</a> dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS). We will be using the markers used in the original study to perform clustering.</p>
+<p>To demonstrate the functionality of <code>FuseSOM</code>, we will use the <a href="./datasets.html">Risom 2022</a> dataset, which profiles the spatial landscape of ductal carcinoma in situ (DCIS), a precursor to invasive breast cancer (IBC). We will be using the markers used in the original study to perform clustering.</p>
+<p>We’ll start by running <code>FuseSOM</code> on a <code>DataFrame</code>, then demonstrate how to apply it to <code>SingleCellExperiment</code> and <code>SpatialExperiment</code> objects.</p>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load in the data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"risom_dat"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># define the markers of interest</span></span>
+<span><span class="co"># define the markers of interest (highlighted in the original study)</span></span>
 <span><span class="va">risomMarkers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'CD45'</span>,<span class="st">'SMA'</span>,<span class="st">'CK7'</span>,<span class="st">'CK5'</span>,<span class="st">'VIM'</span>,<span class="st">'CD31'</span>,<span class="st">'PanKRT'</span>,<span class="st">'ECAD'</span>,</span>
 <span>                   <span class="st">'Tryptase'</span>,<span class="st">'MPO'</span>,<span class="st">'CD20'</span>,<span class="st">'CD3'</span>,<span class="st">'CD8'</span>,<span class="st">'CD4'</span>,<span class="st">'CD14'</span>,<span class="st">'CD68'</span>,<span class="st">'FAP'</span>,</span>
 <span>                   <span class="st">'CD36'</span>,<span class="st">'CD11c'</span>,<span class="st">'HLADRDPDQ'</span>,<span class="st">'P63'</span>,<span class="st">'CD44'</span><span class="op">)</span></span>
@@ -403,12 +382,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co"># performance</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">risom_dat</span><span class="op">)</span> <span class="op">==</span> <span class="st">'manual_gating_phenotype'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">'CellType'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now that we have loaded the data and defined the markers of interest, we can run the FuseSOM algorithm using the <code>runFuseSOM</code> function. We specify the number of clusters to be 23 based on prior domain knowledge. The output contains the cluster labels as well as the <code>Self Organizing Map</code> model.</p>
+<p>Now that we have loaded the data and defined the markers of interest, we can run the <code>FuseSOM</code> algorithm using the <code>runFuseSOM</code> function. We specify the number of clusters (or cell types) to be 23 based on prior domain knowledge. The output contains the cluster labels as well as the <code>Self Organizing Map</code> model.</p>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">risomRes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FuseSOM/man/runFuseSOM.html">runFuseSOM</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">risom_dat</span>, markers <span class="op">=</span> <span class="va">risomMarkers</span>, </span>
 <span>                        numClusters <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Lets look at the distribution of the clusters.</p>
+<p>Let’s look at the distribution of the clusters.</p>
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get the distribution of the clusters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">risomRes</span><span class="op">$</span><span class="va">clusters</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">risomRes</span><span class="op">$</span><span class="va">clusters</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -430,11 +409,13 @@ cluster_22 cluster_23  cluster_3  cluster_4  cluster_5  cluster_6  cluster_7
 <span>                            clusters <span class="op">=</span> <span class="va">risomRes</span><span class="op">$</span><span class="va">clusters</span>, clusterMarkers <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-cluster heatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+<figure class="figure"><p><img src="03a-cell_annotation_files/figure-html/03a-cluster heatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="960"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>At this stage, we can evaluate whether our clustering makes biological sense. For example, <code>cluster_10</code> shows high expression of CD14, a marker for monocytes, so it’s reasonable to annotate cells in this cluster as monocytes. Similarly, <code>cluster_14</code>, with elevated Tryptase expression, could be annotated as mast cells.</p>
+<p>In some cases, the clusters cannot be clearly distinguished by a specific cell type marker. <code>cluster_9</code> shows high expression of CD20, CD45, CD8, and CD3, which are canonical markers for both B cell and T cell populations. Additionally, clusters like <code>cluster_3</code> and <code>cluster_4</code> exhibit <strong>smearing</strong>, meaning their marker expression profiles overlap substantially with multiple cell types. This can indicate mixed or transitional populations, technical noise, or insufficient resolution in clustering.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Common problems with clustering">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -469,30 +450,32 @@ Remedying imperfect clustering
 <li>
 <strong>Imperfect normalization</strong>: excessively variable intensities across images could cause issues in the normalization process. This can generally be diagnosed with density plots and box plots for specific markers across images and can be fixed by identifying the exact issue, e.g.&nbsp;extremely high values for a small subset of images, and choosing a normalization strategy to remove/reduce this effect.</li>
 <li>
-<strong>Imperfect clustering</strong>: choosing a <code>k</code> that’s too low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</li>
+<strong>Imperfect clustering</strong>: setting the number of clusters to be low or too high could lead to imperfect clustering. This is usually diagnosed by clusters which either express too many markers very highly or express too few markers, and is usually remedied by choosing an ideal <code>k</code> based on an elbow plot described below.</li>
 </ol>
 </div>
 </div>
+<p>In practice, clustering and annotation are rarely one-and-done. A common strategy is to start by identifying broad cell populations—like T cells, B cells, or monocytes—using a general set of markers. Once these groups are defined, you can isolate specific populations and re-cluster them using more focused markers to distinguish finer subtypes, such as CD4+ and CD8+ T cells. This stepwise approach helps improve resolution and leads to more accurate and informative cell type annotations.</p>
 </section><section id="using-fusesom-to-estimate-the-number-of-clusters" class="level3" data-number="6.1.2"><h3 data-number="6.1.2" class="anchored" data-anchor-id="using-fusesom-to-estimate-the-number-of-clusters">
 <span class="header-section-number">6.1.2</span> Using FuseSOM to estimate the number of clusters</h3>
-<p>When the number of expected cell types or clusters is not known beforehand, the <code>estimateNumCluster</code> function can be used to estimate the number of clusters. Two methods have been developed to calculate the number of clusters:</p>
-<ol type="1">
-<li>Discriminant based method:
+<p>Before clustering, it’s helpful to estimate how many clusters best represent the structure of your data. Elbow plots are a common way to guide this decision. On these plots, the x-axis shows the number of clusters (<code>k</code>), while the y-axis shows a clustering quality metric—such as within-cluster variation, silhouette width, or another distance-based score. As <code>k</code> increases, the metric usually improves, but only up to a point. The “elbow” refers to where this improvement begins to level off, suggesting that adding more clusters beyond this point gives diminishing returns. That inflection point is typically interpreted as the optimal number of clusters.</p>
+<p>We can generate these plots using the <code>estimateNumCluster</code> function from the <code>FuseSOM</code> package, which supports both a discriminant-based method and a range of distance-based metrics:</p>
 <ul>
-<li>A method developed in house based on discriminant based maximum clusterability projection pursuit</li>
+<li>Discriminant based method
+<ul>
+<li>This method attempts to find a projection of the data that maximizses the separation between clusters, helping to identify the most distinct groupings in the dataset.</li>
 </ul>
 </li>
-<li>Distance based methods which includes:
+<li>Distance based methods
 <ul>
-<li>The Gap Statistic</li>
-<li>The Jump Statistic</li>
-<li>The Slope Statistic</li>
-<li>The Within Cluster Dissimilarity Statistic</li>
-<li>The Silhouette Statistic</li>
+<li>Gap Statistic: compares the total within-cluster variation for different values of k with expected values under a null reference distribution.</li>
+<li>Jump Statistic: measures how much the data “jumps” or changes structure when moving from <code>k</code> to <code>k+1</code> clusters.</li>
+<li>Slope Statistic: looks at the rate of change (slope) in clustering quality metrics as <code>k</code> increases.</li>
+<li>Within Cluster Dissimilarity Statistic: quantifies how similar the data points are within each cluster.</li>
+<li>The Silhouette Statistic: combines measures of cohesion (how close points are within a cluster) and separation (how far apart clusters are).</li>
 </ul>
 </li>
-</ol>
-<p>We run <code>estimateNumCluster</code> and specify <code>method = c("Discriminant", "Distance")</code> to use both approaches.</p>
+</ul>
+<p>By setting <code>method = c("Discriminant", "Distance")</code>, we can run both approaches and compare their suggested number of clusters. This gives a more comprehensive view of the clustering landscape, especially when the true number of underlying cell types is unknown.</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># lets estimate the number of clusters using all the methods</span></span>
 <span><span class="co"># original clustering has 23 clusters so we will set kseq from 2:25</span></span>
@@ -555,7 +538,8 @@ Remedying imperfect clustering
 </div>
 </div>
 </div>
-<p>From the plots, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters. The <code>Gap</code> statistic is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
+<p>From the plots, we see that the Jump statistic almost perfectly identifies the expected number of clusters, showing a clear and sharp increase at <code>k = 24</code>. This suggests that the structure of the data changes meaningfully at that point, making it an effective indicator of the optimal number of clusters in this case. The Gap statistic also performs relatively well, selecting a lower value (15 clusters), which may still be reasonable depending on the biological context and the presence of closely related subpopulations. In contrast, the other distance-based methods—such as the Silhouette, Slope, and Within-Cluster Dissimilarity statistics—significantly underestimate the number of clusters.</p>
+<p>Overall, these results highlight the importance of testing multiple metrics and not relying on a single method. It’s also helpful to complement these quantitative results with biological interpretation—e.g., inspecting marker expression within clusters—to ensure that the chosen <code>k</code> aligns with known or expected cell types.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Estimating the value of k">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -574,7 +558,7 @@ Estimating the value of k
 </div>
 </section><section id="fusesom-with-singlecellexperiment-object-as-input" class="level3" data-number="6.1.3"><h3 data-number="6.1.3" class="anchored" data-anchor-id="fusesom-with-singlecellexperiment-object-as-input">
 <span class="header-section-number">6.1.3</span> FuseSOM with SingleCellExperiment object as input</h3>
-<p>The FuseSOM algorithm is also equipped to take in a <code>SingleCellExperiment</code> object as input. The results of the pipeline will be written to either the <code>metadata</code> or the <code>colData</code> fields.</p>
+<p>The FuseSOM algorithm is also equipped to take in a <code>SingleCellExperiment</code> or <code>SpatialExperiment</code> object as input. The results of the pipeline will be written to either the <code>metadata</code> or the <code>colData</code> fields.</p>
 <p>First, we create a <code>SingleCellExperiment</code> object using the Risom 2022 data.</p>
 <div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># create an SCE object using Risom 2022 data</span></span>
@@ -612,7 +596,7 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 <p>Notice how the there is now a <code>clusters</code> column in the <code>colData</code> and a SOM field in the metadata.</p>
-<p>If necessary, you can run <code>runFuseSOM</code> with a new cluster number and specify a new <code>clusterCol</code>. If <code>clusterCol</code> contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current <code>clusters</code> column. Running FuseSOM on the same object will overwrite the SOM field in the metadata.</p>
+<p>If necessary, you can run <code>runFuseSOM</code> with a new cluster number and specify a new <code>clusterCol</code>. If <code>clusterCol</code> contains a new name, the new clusters will be stored in the new column. Otherwise, it will overwrite the the current <code>clusters</code> column. Running <code>FuseSOM</code> on the same <code>SingleCellExperiment</code> object will overwrite the existing SOM field in the metadata.</p>
 <p>Just like before, we can plot a heatmap of the resulting clusters across all markers.</p>
 <div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">risom_dat</span><span class="op">[</span>, <span class="va">risomMarkers</span><span class="op">]</span> <span class="co"># get the original data used</span></span>
@@ -725,7 +709,6 @@ altExpNames(0):</code></pre>
 </div>
 </div>
 <p>Again, we see that the <code>Jump</code> statistic almost perfectly captures the correct number of clusters with 24 clusters. The <code>Gap</code> method is a close second with 15 clusters. All the other methods significantly underestimate the number of clusters.</p>
-<p>In the next section, we will demonstrate how packages can be used to perform supervised cell annotation, and then discuss how to choose between clustering and annotation approaches.</p>
 </section></section><section id="sessioninfo" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="sessioninfo">
 <span class="header-section-number">6.2</span> sessionInfo</h2>
 <div class="cell">
@@ -789,7 +772,7 @@ loaded via a namespace (and not attached):
  [70] R6_2.6.1                 mime_0.13                gridGraphics_0.5-1      
  [73] DataVisualizations_1.3.3 textshaping_1.0.1        colorspace_2.1-1        
  [76] spatstat.data_3.1-6      jpeg_0.1-11              dichromat_2.0-0.1       
- [79] RSQLite_2.3.11           diptest_0.77-1           h5mread_1.0.0           
+ [79] RSQLite_2.3.11           diptest_0.77-1           h5mread_1.0.1           
  [82] tidyr_1.3.1              robustbase_0.99-4-1      class_7.3-23            
  [85] httr_1.4.7               htmlwidgets_1.6.4        S4Arrays_1.8.0          
  [88] pkgconfig_2.0.3          gtable_0.3.6             modeltools_0.2-24       
@@ -797,7 +780,7 @@ loaded via a namespace (and not attached):
  [94] carData_3.0-5            fftwtools_0.9-11         scales_1.4.0            
  [97] png_0.1-8                spatstat.univar_3.1-3    knitr_1.50              
 [100] rstudioapi_0.17.1        rjson_0.2.23             nlme_3.1-168            
-[103] curl_6.2.2               proxy_0.4-27             cachem_1.1.0            
+[103] curl_6.2.3               proxy_0.4-27             cachem_1.1.0            
 [106] rhdf5_2.52.0             stringr_1.5.1            BiocVersion_3.21.1      
 [109] parallel_4.5.0           vipor_0.4.7              AnnotationDbi_1.70.0    
 [112] pillar_1.10.2            grid_4.5.0               vctrs_0.6.5             
@@ -812,7 +795,7 @@ loaded via a namespace (and not attached):
 [139] deldir_2.0-4             viridisLite_0.4.2        BiocParallel_1.42.0     
 [142] nnls_1.6                 FCPS_1.3.4               cytomapper_1.20.0       
 [145] Biostrings_2.76.0        tiff_0.1-12              coop_0.6-3              
-[148] profileModel_0.6.1       spatstat.geom_3.3-6      Matrix_1.7-3            
+[148] profileModel_0.6.1       spatstat.geom_3.4-1      Matrix_1.7-3            
 [151] bit64_4.6.0-1            Rhdf5lib_1.30.0          fpc_2.2-13              
 [154] KEGGREST_1.48.0          shiny_1.10.0             brglm_0.7.2             
 [157] kernlab_0.9-33           broom_1.0.8              memoise_2.0.1           
@@ -1246,8 +1229,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03b-cell_annotation.html" class="pagination-link" aria-label="Supervised cell annotation with a reference">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04a-cell_localisation.html" class="pagination-link" aria-label="Cell localisation between pairs of cell types">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

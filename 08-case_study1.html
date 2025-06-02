@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>13&nbsp; Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022) – Spatial analysis playbook</title>
+<title>12&nbsp; Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022) – Spatial analysis playbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,7 +60,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./09-references.html" rel="next">
 <link href="./07-classification.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -142,7 +141,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-case_study1.html">Case studies</a></li><li class="breadcrumb-item"><a href="./08-case_study1.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-case_study1.html">Case studies</a></li><li class="breadcrumb-item"><a href="./08-case_study1.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -223,12 +222,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Unsupervised clustering for cell annotation</span></span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./03b-cell_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Supervised cell annotation with a reference</span></span></a>
-  </div>
-</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -243,13 +236,13 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04a-cell_localisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cell localisation between pairs of cell types</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04b-cell_localisation_parent.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Cell relationships relative to expected behaviour</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,7 +259,7 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-cellular_niches.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Identifying spatial domains with unsupervised clustering</span></span></a>
   </div>
 </li>
       </ul>
@@ -283,7 +276,7 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-changes_in_marker_expression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Changes in marker expression</span></span></a>
   </div>
 </li>
       </ul>
@@ -300,7 +293,7 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span></a>
   </div>
 </li>
       </ul>
@@ -317,24 +310,7 @@ window.Quarto = {
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-case_study1.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
-  </div>
-</li>
-      </ul>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
- <span class="menu-text">References</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./09-references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></span></a>
   </div>
 </li>
       </ul>
@@ -347,54 +323,54 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#read-in-images" id="toc-read-in-images" class="nav-link active" data-scroll-target="#read-in-images"><span class="header-section-number">13.1</span> Read in images</a></li>
+<li><a href="#read-in-images" id="toc-read-in-images" class="nav-link active" data-scroll-target="#read-in-images"><span class="header-section-number">12.1</span> Read in images</a></li>
   <li>
-<a href="#simpleseg-segment-the-cells-in-the-images" id="toc-simpleseg-segment-the-cells-in-the-images" class="nav-link" data-scroll-target="#simpleseg-segment-the-cells-in-the-images"><span class="header-section-number">13.2</span> SimpleSeg: Segment the cells in the images</a>
+<a href="#simpleseg-segment-the-cells-in-the-images" id="toc-simpleseg-segment-the-cells-in-the-images" class="nav-link" data-scroll-target="#simpleseg-segment-the-cells-in-the-images"><span class="header-section-number">12.2</span> SimpleSeg: Segment the cells in the images</a>
   <ul class="collapse">
-<li><a href="#run-simpleseg" id="toc-run-simpleseg" class="nav-link" data-scroll-target="#run-simpleseg"><span class="header-section-number">13.2.1</span> Run simpleSeg</a></li>
-  <li><a href="#visualise-separation" id="toc-visualise-separation" class="nav-link" data-scroll-target="#visualise-separation"><span class="header-section-number">13.2.2</span> Visualise separation</a></li>
-  <li><a href="#visualise-outlines" id="toc-visualise-outlines" class="nav-link" data-scroll-target="#visualise-outlines"><span class="header-section-number">13.2.3</span> Visualise outlines</a></li>
+<li><a href="#run-simpleseg" id="toc-run-simpleseg" class="nav-link" data-scroll-target="#run-simpleseg"><span class="header-section-number">12.2.1</span> Run simpleSeg</a></li>
+  <li><a href="#visualise-separation" id="toc-visualise-separation" class="nav-link" data-scroll-target="#visualise-separation"><span class="header-section-number">12.2.2</span> Visualise separation</a></li>
+  <li><a href="#visualise-outlines" id="toc-visualise-outlines" class="nav-link" data-scroll-target="#visualise-outlines"><span class="header-section-number">12.2.3</span> Visualise outlines</a></li>
   </ul>
 </li>
-  <li><a href="#summarise-cell-features" id="toc-summarise-cell-features" class="nav-link" data-scroll-target="#summarise-cell-features"><span class="header-section-number">13.3</span> Summarise cell features</a></li>
-  <li><a href="#load-the-clinical-data" id="toc-load-the-clinical-data" class="nav-link" data-scroll-target="#load-the-clinical-data"><span class="header-section-number">13.4</span> Load the clinical data</a></li>
-  <li><a href="#normalise-the-data" id="toc-normalise-the-data" class="nav-link" data-scroll-target="#normalise-the-data"><span class="header-section-number">13.5</span> Normalise the data</a></li>
+  <li><a href="#summarise-cell-features" id="toc-summarise-cell-features" class="nav-link" data-scroll-target="#summarise-cell-features"><span class="header-section-number">12.3</span> Summarise cell features</a></li>
+  <li><a href="#load-the-clinical-data" id="toc-load-the-clinical-data" class="nav-link" data-scroll-target="#load-the-clinical-data"><span class="header-section-number">12.4</span> Load the clinical data</a></li>
+  <li><a href="#normalise-the-data" id="toc-normalise-the-data" class="nav-link" data-scroll-target="#normalise-the-data"><span class="header-section-number">12.5</span> Normalise the data</a></li>
   <li>
-<a href="#fusesom-cluster-cells-into-cell-types" id="toc-fusesom-cluster-cells-into-cell-types" class="nav-link" data-scroll-target="#fusesom-cluster-cells-into-cell-types"><span class="header-section-number">13.6</span> FuseSOM: Cluster cells into cell types</a>
+<a href="#fusesom-cluster-cells-into-cell-types" id="toc-fusesom-cluster-cells-into-cell-types" class="nav-link" data-scroll-target="#fusesom-cluster-cells-into-cell-types"><span class="header-section-number">12.6</span> FuseSOM: Cluster cells into cell types</a>
   <ul class="collapse">
-<li><a href="#interpreting-cluster-phenotype" id="toc-interpreting-cluster-phenotype" class="nav-link" data-scroll-target="#interpreting-cluster-phenotype"><span class="header-section-number">13.6.1</span> Interpreting cluster phenotype</a></li>
-  <li><a href="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" id="toc-testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="nav-link" data-scroll-target="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status"><span class="header-section-number">13.6.2</span> Testing for association between the proportion of each cell type and progressor status</a></li>
+<li><a href="#interpreting-cluster-phenotype" id="toc-interpreting-cluster-phenotype" class="nav-link" data-scroll-target="#interpreting-cluster-phenotype"><span class="header-section-number">12.6.1</span> Interpreting cluster phenotype</a></li>
+  <li><a href="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" id="toc-testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="nav-link" data-scroll-target="#testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status"><span class="header-section-number">12.6.2</span> Testing for association between the proportion of each cell type and progressor status</a></li>
   </ul>
 </li>
-  <li><a href="#spicyr-test-spatial-relationships" id="toc-spicyr-test-spatial-relationships" class="nav-link" data-scroll-target="#spicyr-test-spatial-relationships"><span class="header-section-number">13.7</span> spicyR: Test spatial relationships</a></li>
+  <li><a href="#spicyr-test-spatial-relationships" id="toc-spicyr-test-spatial-relationships" class="nav-link" data-scroll-target="#spicyr-test-spatial-relationships"><span class="header-section-number">12.7</span> spicyR: Test spatial relationships</a></li>
   <li>
-<a href="#lisaclust-find-cellular-neighbourhoods" id="toc-lisaclust-find-cellular-neighbourhoods" class="nav-link" data-scroll-target="#lisaclust-find-cellular-neighbourhoods"><span class="header-section-number">13.8</span> lisaClust: Find cellular neighbourhoods</a>
+<a href="#lisaclust-find-cellular-neighbourhoods" id="toc-lisaclust-find-cellular-neighbourhoods" class="nav-link" data-scroll-target="#lisaclust-find-cellular-neighbourhoods"><span class="header-section-number">12.8</span> lisaClust: Find cellular neighbourhoods</a>
   <ul class="collapse">
-<li><a href="#region-cell-type-enrichment-heatmap" id="toc-region-cell-type-enrichment-heatmap" class="nav-link" data-scroll-target="#region-cell-type-enrichment-heatmap"><span class="header-section-number">13.8.1</span> Region-cell type enrichment heatmap</a></li>
-  <li><a href="#visualise-regions" id="toc-visualise-regions" class="nav-link" data-scroll-target="#visualise-regions"><span class="header-section-number">13.8.2</span> Visualise regions</a></li>
-  <li><a href="#test-for-association-with-progression" id="toc-test-for-association-with-progression" class="nav-link" data-scroll-target="#test-for-association-with-progression"><span class="header-section-number">13.8.3</span> Test for association with progression</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#statial-identify-changes-in-cell-state" id="toc-statial-identify-changes-in-cell-state" class="nav-link" data-scroll-target="#statial-identify-changes-in-cell-state"><span class="header-section-number">13.9</span> Statial: Identify changes in cell state</a>
-  <ul class="collapse">
-<li><a href="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" id="toc-spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" class="nav-link" data-scroll-target="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation"><span class="header-section-number">13.9.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation</a></li>
-  <li><a href="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" id="toc-kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="nav-link" data-scroll-target="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure"><span class="header-section-number">13.9.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</a></li>
+<li><a href="#region-cell-type-enrichment-heatmap" id="toc-region-cell-type-enrichment-heatmap" class="nav-link" data-scroll-target="#region-cell-type-enrichment-heatmap"><span class="header-section-number">12.8.1</span> Region-cell type enrichment heatmap</a></li>
+  <li><a href="#visualise-regions" id="toc-visualise-regions" class="nav-link" data-scroll-target="#visualise-regions"><span class="header-section-number">12.8.2</span> Visualise regions</a></li>
+  <li><a href="#test-for-association-with-progression" id="toc-test-for-association-with-progression" class="nav-link" data-scroll-target="#test-for-association-with-progression"><span class="header-section-number">12.8.3</span> Test for association with progression</a></li>
   </ul>
 </li>
   <li>
-<a href="#classifyr-classification" id="toc-classifyr-classification" class="nav-link" data-scroll-target="#classifyr-classification"><span class="header-section-number">13.10</span> ClassifyR: Classification</a>
+<a href="#statial-identify-changes-in-cell-state" id="toc-statial-identify-changes-in-cell-state" class="nav-link" data-scroll-target="#statial-identify-changes-in-cell-state"><span class="header-section-number">12.9</span> Statial: Identify changes in cell state</a>
   <ul class="collapse">
-<li><a href="#visualise-cross-validated-prediction-performance" id="toc-visualise-cross-validated-prediction-performance" class="nav-link" data-scroll-target="#visualise-cross-validated-prediction-performance"><span class="header-section-number">13.10.1</span> Visualise cross-validated prediction performance</a></li>
+<li><a href="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" id="toc-spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" class="nav-link" data-scroll-target="#spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation"><span class="header-section-number">12.9.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation</a></li>
+  <li><a href="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" id="toc-kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="nav-link" data-scroll-target="#kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure"><span class="header-section-number">12.9.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</a></li>
   </ul>
 </li>
-  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">13.11</span> sessionInfo</a></li>
+  <li>
+<a href="#classifyr-classification" id="toc-classifyr-classification" class="nav-link" data-scroll-target="#classifyr-classification"><span class="header-section-number">12.10</span> ClassifyR: Classification</a>
+  <ul class="collapse">
+<li><a href="#visualise-cross-validated-prediction-performance" id="toc-visualise-cross-validated-prediction-performance" class="nav-link" data-scroll-target="#visualise-cross-validated-prediction-performance"><span class="header-section-number">12.10.1</span> Visualise cross-validated prediction performance</a></li>
+  </ul>
+</li>
+  <li><a href="#sessioninfo" id="toc-sessioninfo" class="nav-link" data-scroll-target="#sessioninfo"><span class="header-section-number">12.11</span> sessionInfo</a></li>
   </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-case_study1.html">Case studies</a></li><li class="breadcrumb-item"><a href="./08-case_study1.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-case_study1.html">Case studies</a></li><li class="breadcrumb-item"><a href="./08-case_study1.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span>
+<span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Head and Neck Squamous Cell Carcinoma (Ferguson et al., 2022)</span>
 </h1>
 </div>
 
@@ -438,8 +414,8 @@ window.Quarto = {
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="read-in-images" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="read-in-images">
-<span class="header-section-number">13.1</span> Read in images</h2>
+<section id="read-in-images" class="level2" data-number="12.1"><h2 data-number="12.1" class="anchored" data-anchor-id="read-in-images">
+<span class="header-section-number">12.1</span> Read in images</h2>
 <p>As before, we can load the Ferguson 2022 image data from the <code>SpatialDatasets</code> package into a <code>CytoImageList</code> and store them as h5 file-on-disk in a temporary directory. We will also assign the metadata columns of the <code>CytoImageList</code> object using the <code>mcols</code> function.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pathToImages</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SpatialDatasets/man/SpatialDatasets.html">Ferguson_Images</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -481,11 +457,11 @@ window.Quarto = {
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">split_names</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">mcols</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span>imageID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">images</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="simpleseg-segment-the-cells-in-the-images" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="simpleseg-segment-the-cells-in-the-images">
-<span class="header-section-number">13.2</span> SimpleSeg: Segment the cells in the images</h2>
+</section><section id="simpleseg-segment-the-cells-in-the-images" class="level2" data-number="12.2"><h2 data-number="12.2" class="anchored" data-anchor-id="simpleseg-segment-the-cells-in-the-images">
+<span class="header-section-number">12.2</span> SimpleSeg: Segment the cells in the images</h2>
 <p>Our <a href="https://master.bioconductor.org/packages/release/bioc/html/simpleSeg.html">simpleSeg</a> R package Bioconductor provides a series of functions to generate simple segmentation masks of images. A key strength of the simpleSeg package is that we have included multiple ways to perform some simple segmentation operations and incorporated multiple automatic procedures to optimise some key parameters when these aren’t specified. These functions leverage the functionality of the <a href="https://bioconductor.org/packages/release/bioc/html/EBImage.html">EBImage</a> package on Bioconductor. For more flexibility when performing your segmentation in R, we recommend learning to use the EBImage package.</p>
-<section id="run-simpleseg" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="run-simpleseg">
-<span class="header-section-number">13.2.1</span> Run simpleSeg</h3>
+<section id="run-simpleseg" class="level3" data-number="12.2.1"><h3 data-number="12.2.1" class="anchored" data-anchor-id="run-simpleseg">
+<span class="header-section-number">12.2.1</span> Run simpleSeg</h3>
 <p>If your images are stored in a <code>list</code> or <code>CytoImageList</code> they can be segmented with a simple call to <code>simpleSeg</code>. <code>simpleSeg</code> is an R implementation of a simple segmentation technique which traces out the nuclei using a specified channel (by setting <code>nucleus =</code>) and then dilates around the traced nuclei by a specified amount (controlled using <code>discSize</code>). The nucleus can be traced out using either one specified channel, or by using the principal components of all channels most correlated to the specified nuclear channel by setting <code>pca = TRUE</code>.</p>
 <p>In the example below, we used simpleSeg to trace the nuclei signal in the images based on the HH3 channel, expanding outward from the nucleus by 3 pixels. A more detailed explanation of each of the key parameters is available in the <a href="./01-processing.html">Processing</a> section.</p>
 <div class="cell" data-time_it="true">
@@ -504,8 +480,8 @@ window.Quarto = {
 </div>
 <p></p>
 </div>
-</section><section id="visualise-separation" class="level3" data-number="13.2.2"><h3 data-number="13.2.2" class="anchored" data-anchor-id="visualise-separation">
-<span class="header-section-number">13.2.2</span> Visualise separation</h3>
+</section><section id="visualise-separation" class="level3" data-number="12.2.2"><h3 data-number="12.2.2" class="anchored" data-anchor-id="visualise-separation">
+<span class="header-section-number">12.2.2</span> Visualise separation</h3>
 <p>We can then use the <code>display</code> and <code>colorLabels</code> functions from EBImage to examine the performance of the cell segmentation.</p>
 <div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">EBImage</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/display.html">display</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/EBImage/man/colorLabels.html">colorLabels</a></span><span class="op">(</span><span class="va">masks</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -516,8 +492,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section><section id="visualise-outlines" class="level3" data-number="13.2.3"><h3 data-number="13.2.3" class="anchored" data-anchor-id="visualise-outlines">
-<span class="header-section-number">13.2.3</span> Visualise outlines</h3>
+</section><section id="visualise-outlines" class="level3" data-number="12.2.3"><h3 data-number="12.2.3" class="anchored" data-anchor-id="visualise-outlines">
+<span class="header-section-number">12.2.3</span> Visualise outlines</h3>
 <p>The <code>plotPixels</code> function in <code>cytomapper</code> makes it easy to overlay the mask on top of the nucleus intensity marker to see how well our segmentation process has performed. Here, we can see that the segmentation appears to be performing reasonably. If you see over or under-segmentation of your images, <code>discSize</code> is a key parameter in <code>simpleSeg</code> for optimising the size of the dilation disc after segmenting out the nuclei.</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cytomapper/man/plotPixels.html">plotPixels</a></span><span class="op">(</span>image <span class="op">=</span> <span class="va">images</span><span class="op">[</span><span class="st">"F3"</span><span class="op">]</span>, </span>
@@ -561,8 +537,8 @@ window.Quarto = {
 </div>
 </div>
 <p>Here, we can see that our segmentation mask has done a good job of capturing the CD31 signal, but perhaps not such a good job of capturing the FXIIIA signal, which often lies outside of our dilated nuclear mask. This could suggest that we might need to increase the <code>discSize</code> of our dilation.</p>
-</section></section><section id="summarise-cell-features" class="level2" data-number="13.3"><h2 data-number="13.3" class="anchored" data-anchor-id="summarise-cell-features">
-<span class="header-section-number">13.3</span> Summarise cell features</h2>
+</section></section><section id="summarise-cell-features" class="level2" data-number="12.3"><h2 data-number="12.3" class="anchored" data-anchor-id="summarise-cell-features">
+<span class="header-section-number">12.3</span> Summarise cell features</h2>
 <p>We can then use the <code>measureObjects</code> function from the <code>cytomapper</code> package to characterise the phenotypes of each of the segmented cells. <code>measureObjects</code> will calculate the average intensity of each channel within each cell as well as a few morphological features. By default, <code>measureObjects</code> will return a <code>SingleCellExperiment</code> object, where the channel intensities are stored in the <code>counts</code> assay and the spatial location of each cell is stored in <code>colData</code> in the <code>m.cx</code> and <code>m.cy</code> columns. We can ask <code>measureObjects</code> to return a <code>SpatialExperiment</code> object instead by specifying <code>return_as = "spe"</code>, and the spatial coordinates of each cell will be stored in the <code>spatialCoords</code> slot.</p>
 <div class="cell" data-time_it="true">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarise the expression of each marker in each cell</span></span>
@@ -579,8 +555,8 @@ window.Quarto = {
 </div>
 <p></p>
 </div>
-</section><section id="load-the-clinical-data" class="level2" data-number="13.4"><h2 data-number="13.4" class="anchored" data-anchor-id="load-the-clinical-data">
-<span class="header-section-number">13.4</span> Load the clinical data</h2>
+</section><section id="load-the-clinical-data" class="level2" data-number="12.4"><h2 data-number="12.4" class="anchored" data-anchor-id="load-the-clinical-data">
+<span class="header-section-number">12.4</span> Load the clinical data</h2>
 <p>To associate features in our image with disease progression, it is important to read in information which links image identifiers to their progression status. The clinical data is available through the <code>SpatialDatasets</code> package.</p>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinical</span> <span class="op">&lt;-</span> <span class="fu">SpatialDatasets</span><span class="fu">::</span><span class="fu">fergusonClinical</span><span class="op">(</span><span class="op">)</span></span>
@@ -600,8 +576,8 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/cells.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="normalise-the-data" class="level2" data-number="13.5"><h2 data-number="13.5" class="anchored" data-anchor-id="normalise-the-data">
-<span class="header-section-number">13.5</span> Normalise the data</h2>
+</section><section id="normalise-the-data" class="level2" data-number="12.5"><h2 data-number="12.5" class="anchored" data-anchor-id="normalise-the-data">
+<span class="header-section-number">12.5</span> Normalise the data</h2>
 <p>Next, we can check if the marker intensities of each cell require some form of transformation or normalisation. The reason we do this is two-fold:</p>
 <ol type="1">
 <li>The intensities of images are often highly skewed, preventing any meaningful downstream analysis.</li>
@@ -710,8 +686,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section><section id="fusesom-cluster-cells-into-cell-types" class="level2" data-number="13.6"><h2 data-number="13.6" class="anchored" data-anchor-id="fusesom-cluster-cells-into-cell-types">
-<span class="header-section-number">13.6</span> FuseSOM: Cluster cells into cell types</h2>
+</section><section id="fusesom-cluster-cells-into-cell-types" class="level2" data-number="12.6"><h2 data-number="12.6" class="anchored" data-anchor-id="fusesom-cluster-cells-into-cell-types">
+<span class="header-section-number">12.6</span> FuseSOM: Cluster cells into cell types</h2>
 <p>We can also appreciate from the UMAP above that there is a division of clusters, most likely representing different cell types. We next aim to empirically distinguish each cluster using our <a href="https://www.bioconductor.org/packages/release/bioc/html/FuseSOM.html">FuseSOM</a> package for clustering. FuseSOM provides a pipeline for the clustering of highly multiplexed in situ imaging cytometry assays. This pipeline uses the Self Organising Map architecture coupled with Multiview hierarchical clustering and provides functions for the estimation of the number of clusters.</p>
 <p>Here, we cluster using the <code>runFuseSOM</code> function. We specify the number of clusters to identify to be <code>numClusters = 10</code>. We also specify a set of cell-type specific markers to use (<code>ct_markers</code>), as we want our clusters to be distinct based off cell type markers, rather than markers which might pick up a transitioning cell state.</p>
 <div class="cell">
@@ -733,8 +709,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="interpreting-cluster-phenotype" class="level3" data-number="13.6.1"><h3 data-number="13.6.1" class="anchored" data-anchor-id="interpreting-cluster-phenotype">
-<span class="header-section-number">13.6.1</span> Interpreting cluster phenotype</h3>
+<section id="interpreting-cluster-phenotype" class="level3" data-number="12.6.1"><h3 data-number="12.6.1" class="anchored" data-anchor-id="interpreting-cluster-phenotype">
+<span class="header-section-number">12.6.1</span> Interpreting cluster phenotype</h3>
 <p>We can begin the process of understanding what each of these cell clusters are by using the <code>plotGroupedHeatmap</code> function from <code>scater</code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise marker expression in each cluster.</span></span>
@@ -803,8 +779,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section><section id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="level3" data-number="13.6.2"><h3 data-number="13.6.2" class="anchored" data-anchor-id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status">
-<span class="header-section-number">13.6.2</span> Testing for association between the proportion of each cell type and progressor status</h3>
+</section><section id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status" class="level3" data-number="12.6.2"><h3 data-number="12.6.2" class="anchored" data-anchor-id="testing-for-association-between-the-proportion-of-each-cell-type-and-progressor-status">
+<span class="header-section-number">12.6.2</span> Testing for association between the proportion of each cell type and progressor status</h3>
 <p>We recommend using a package such as <code>diffcyt</code> for testing for changes in abundance of cell types. However, the <code>colTest</code> function from the spicyR package allows us to quickly test for associations between the proportions of the cell types and progression status using either Wilcoxon rank sum tests or t-tests.</p>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test for changes in cell type proportion across progression status with student's t-test</span></span>
@@ -878,8 +854,8 @@ A6 0.013875124 0.08572844 0.04063429 0.02824579  0.09464817</code></pre>
 <div class="cell">
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/computed_cells.rda"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="spicyr-test-spatial-relationships" class="level2" data-number="13.7"><h2 data-number="13.7" class="anchored" data-anchor-id="spicyr-test-spatial-relationships">
-<span class="header-section-number">13.7</span> spicyR: Test spatial relationships</h2>
+</section></section><section id="spicyr-test-spatial-relationships" class="level2" data-number="12.7"><h2 data-number="12.7" class="anchored" data-anchor-id="spicyr-test-spatial-relationships">
+<span class="header-section-number">12.7</span> spicyR: Test spatial relationships</h2>
 <p>Our <a href="https://www.bioconductor.org/packages/devel/bioc/html/spicyR.html">spicyR</a> package offers a range of functions to support the analysis of immunofluorescence, imaging mass cytometry data, and other assays that provide deep phenotyping of individual cells and their spatial distribution. In this example, we use the <code>spicy</code> function to assess changes in spatial relationships between pairwise combinations of cells.</p>
 <p>In simple terms, spicyR utilises the L-function to evaluate whether cell types are localized or dispersed. The L-function quantifies “closeness” between points, where higher values indicate increased localisation and lower values suggest dispersion.</p>
 <p>Here, we quantify spatial relationships and mildly account for some global tissue structure using <code>sigma = 50</code>. For a more detailed explanation of the key parameters, refer to the <a href="./04a-cell_localisation.html">Cell Localisation</a> section. Additional information on optimising the parameters can be found in the <a href="https://doi.org/10.1093/bioinformatics/btac268">spicyR paper</a>.</p>
@@ -957,8 +933,8 @@ CD4_T__dendritic         dendritic</code></pre>
 </div>
 </div>
 <p>Now that we have examined cellular localisation relationships, we will move on to identifying spatial domains, or regions of co-localisation.</p>
-</section><section id="lisaclust-find-cellular-neighbourhoods" class="level2" data-number="13.8"><h2 data-number="13.8" class="anchored" data-anchor-id="lisaclust-find-cellular-neighbourhoods">
-<span class="header-section-number">13.8</span> lisaClust: Find cellular neighbourhoods</h2>
+</section><section id="lisaclust-find-cellular-neighbourhoods" class="level2" data-number="12.8"><h2 data-number="12.8" class="anchored" data-anchor-id="lisaclust-find-cellular-neighbourhoods">
+<span class="header-section-number">12.8</span> lisaClust: Find cellular neighbourhoods</h2>
 <p>Our <a href="https://bioconductor.org/packages/release/bioc/html/lisaClust.html">lisaClust</a> package on Bioconductor provides a series of functions to identify and visualise regions of tissue where spatial associations between cell types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the <code>lisaClust</code> function to clusters cells into 4 regions with distinct spatial ordering. By default, these identified regions are stored in the <code>regions</code> column in the <code>colData</code> of our <code>SpatialExperiment</code> object.</p>
 <div class="cell">
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Cluster cells into spatial regions with similar composition.</span></span>
@@ -981,8 +957,8 @@ CD4_T__dendritic         dendritic</code></pre>
 </div>
 </div>
 <p>For more information on how to choose an appropriate value for <code>k</code> , refer to the section on <a href="./05-cellular_niches.html">Identifying spatial domains</a>.</p>
-<section id="region-cell-type-enrichment-heatmap" class="level3" data-number="13.8.1"><h3 data-number="13.8.1" class="anchored" data-anchor-id="region-cell-type-enrichment-heatmap">
-<span class="header-section-number">13.8.1</span> Region-cell type enrichment heatmap</h3>
+<section id="region-cell-type-enrichment-heatmap" class="level3" data-number="12.8.1"><h3 data-number="12.8.1" class="anchored" data-anchor-id="region-cell-type-enrichment-heatmap">
+<span class="header-section-number">12.8.1</span> Region-cell type enrichment heatmap</h3>
 <p>We can try to interpret which spatial orderings the regions are quantifying using the <code>regionMap</code> function. This plots the frequency of each cell type in a region relative to what you would expect by chance.</p>
 <div class="cell">
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Visualise the enrichment of each cell type in each region</span></span>
@@ -995,8 +971,8 @@ CD4_T__dendritic         dendritic</code></pre>
 </div>
 </div>
 <p>We can see here that our regions have neatly separated according to biological milieu, with region 1 and region 3 containing our immune cell types, region 4 containing our healthy epithelial and endothelial cells, and region 2 containing our tumour cells.</p>
-</section><section id="visualise-regions" class="level3" data-number="13.8.2"><h3 data-number="13.8.2" class="anchored" data-anchor-id="visualise-regions">
-<span class="header-section-number">13.8.2</span> Visualise regions</h3>
+</section><section id="visualise-regions" class="level3" data-number="12.8.2"><h3 data-number="12.8.2" class="anchored" data-anchor-id="visualise-regions">
+<span class="header-section-number">12.8.2</span> Visualise regions</h3>
 <p>We can quickly examine the spatial arrangement of these regions using <code>plotReducedDim</code> on image F3, where we can see the same division of immune, healthy, and tumour tissue that we identified in our <code>regionMap</code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span> <span class="op">|&gt;</span> </span>
@@ -1027,8 +1003,8 @@ CD4_T__dendritic         dendritic</code></pre>
 </div>
 </div>
 </div>
-</section><section id="test-for-association-with-progression" class="level3" data-number="13.8.3"><h3 data-number="13.8.3" class="anchored" data-anchor-id="test-for-association-with-progression">
-<span class="header-section-number">13.8.3</span> Test for association with progression</h3>
+</section><section id="test-for-association-with-progression" class="level3" data-number="12.8.3"><h3 data-number="12.8.3" class="anchored" data-anchor-id="test-for-association-with-progression">
+<span class="header-section-number">12.8.3</span> Test for association with progression</h3>
 <p>Similar to cell type proportions, we can quickly use the <code>colTest</code> function to test for associations between the proportions of cells in each region and progression status by specifying <code>feature = "region"</code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test if the proportion of each region is associated</span></span>
@@ -1049,11 +1025,11 @@ region_3            0.057            0.05   0.51 0.61    0.61 region_3</code></p
 </div>
 </div>
 <p>From the results above, it appears that none of the regions above are significantly associated with changes in progression status.</p>
-</section></section><section id="statial-identify-changes-in-cell-state" class="level2" data-number="13.9"><h2 data-number="13.9" class="anchored" data-anchor-id="statial-identify-changes-in-cell-state">
-<span class="header-section-number">13.9</span> Statial: Identify changes in cell state</h2>
+</section></section><section id="statial-identify-changes-in-cell-state" class="level2" data-number="12.9"><h2 data-number="12.9" class="anchored" data-anchor-id="statial-identify-changes-in-cell-state">
+<span class="header-section-number">12.9</span> Statial: Identify changes in cell state</h2>
 <p>Our <a href="https://www.bioconductor.org/packages/release/bioc/html/Statial.html">Statial</a> package provides a suite of functions (<code>Kontextual</code>) for robust quantification of cell type localisation which are invariant to changes in tissue structure. In addition, we provide a suite of functions (SpatioMark) for uncovering continuous changes in marker expression associated with varying levels of localisation.</p>
-<section id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" class="level3" data-number="13.9.1"><h3 data-number="13.9.1" class="anchored" data-anchor-id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation">
-<span class="header-section-number">13.9.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation</h3>
+<section id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation" class="level3" data-number="12.9.1"><h3 data-number="12.9.1" class="anchored" data-anchor-id="spatiomark-continuous-changes-in-marker-expression-associated-with-varying-levels-of-localisation">
+<span class="header-section-number">12.9.1</span> SpatioMark: Continuous changes in marker expression associated with varying levels of localisation</h3>
 <p>The first step in analysing these changes is to calculate the spatial proximity (<code>getDistances</code>) of each cell to every cell type. These values will then be stored in the <code>reducedDims</code> slot of the <code>SingleCellExperiment</code> object under the names <code>distances</code>. SpatioMark also provides functionality to look into proximal cell abundance using the <code>getAbundance</code> function, which is further explored in the <a href="./06-changes_in_marker_expression.html">Changes in marker expression</a> section.</p>
 <div class="cell">
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cells</span><span class="op">$</span><span class="va">m.cx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SpatialExperiment/man/SpatialExperiment-methods.html">spatialCoords</a></span><span class="op">(</span><span class="va">cells</span><span class="op">)</span><span class="op">[</span>,<span class="st">"x"</span><span class="op">]</span></span>
@@ -1216,12 +1192,12 @@ squamous__squamous__NFKBp65    0.19 squamous__squamous__NFKBp65</code></pre>
 </div>
 <p>When we compare changes in marker expression across outcomes, we can see that one of the most significant relationships is <code>squamous__CD4_T__OX40</code> , or the expression of marker OX40 in squamous cells and their localisation with CD4 T cells. Expression of the marker OX40 in MC is lower in progressors vs non-progressors. OX40 is a co-stimulatory receptor found on activated T cells, primarily CD4+ and CD8+ T cells. It belongs to the tumor necrosis factor receptor (TNFR) superfamily and plays a crucial role in regulating the immune response.</p>
 <p>Understanding the spatial relationships of cells within tissue is crucial for interpreting their roles within tissues. However, without defining appropriate contexts, these relationships can be misinterpreted due to confounding factors such as tissue stricture and the choice of region to image. <code>Kontextual</code> provides a framework to generate contexts to measure spatial relationships between cells.</p>
-</section><section id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="level3" data-number="13.9.2"><h3 data-number="13.9.2" class="anchored" data-anchor-id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure">
-<span class="header-section-number">13.9.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</h3>
+</section><section id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure" class="level3" data-number="12.9.2"><h3 data-number="12.9.2" class="anchored" data-anchor-id="kontextual-robust-quantification-of-cell-type-localisation-which-is-invariant-to-changes-in-tissue-structure">
+<span class="header-section-number">12.9.2</span> Kontextual: Robust quantification of cell type localisation which is invariant to changes in tissue structure</h3>
 <p><code>Kontextual</code> is a method to evaluate the localisation relationship between two cell types in an image. <code>Kontextual</code> builds on the L-function by contextualising the relationship between two cell types in reference to the typical spatial behaviour of a <span class="math inline">\(3^{rd}\)</span> cell type/population. By taking this approach, <code>Kontextual</code> is invariant to changes in the window of the image as well as tissue structures which may be present.</p>
 <p>The definitions of cell types and cell states are somewhat ambiguous, cell types imply well defined groups of cells that serve different roles from one another, on the other hand cell states imply that cells are a dynamic entity which cannot be discretised, and thus exist in a continuum. For the purposes of using <code>Kontextual</code> we treat cell states as identified clusters of cells, where larger clusters represent a “parent” cell population, and finer sub-clusters representing a “child” cell population. For example a CD4 T cell may be considered a child to a larger parent population of Immune cells. <code>Kontextual</code> thus aims to see how a child population of cells deviate from the spatial behaviour of their parent population, and how that influences the localisation between the child cell state and another cell state.</p>
-<section id="cell-type-hierarchy" class="level4" data-number="13.9.2.1"><h4 data-number="13.9.2.1" class="anchored" data-anchor-id="cell-type-hierarchy">
-<span class="header-section-number">13.9.2.1</span> Cell type hierarchy</h4>
+<section id="cell-type-hierarchy" class="level4" data-number="12.9.2.1"><h4 data-number="12.9.2.1" class="anchored" data-anchor-id="cell-type-hierarchy">
+<span class="header-section-number">12.9.2.1</span> Cell type hierarchy</h4>
 <p>A key input for Kontextual is an annotation of cell type hierarchies. We will need these to organise all the cells present into cell state populations or clusters, e.g.&nbsp;all the different B cell types are put in a vector called bcells.</p>
 <p>Here, we use the <a href="http://www.bioconductor.org/packages/release/bioc/html/treekoR.html">treekoR</a> package on Bioconductor to define these hierarchies in a data driven way.</p>
 <div class="cell">
@@ -1291,8 +1267,8 @@ B__squamous__parent4              0.43           B__squamous__parent4</code></pr
 </div>
 <p>One of the most significant relationships is <code>squamous__granulocyte__parent3</code> . When we compare the mean values for this relationship between progressors and non-progressors, we can see that squamous cells and granulocytes show increased co-localisation in progressors vs non-progressors with respect to the parent 3 broader population. When we refer to the cell type hierarchy we defined, we can see that parent 3 refers to the parent population of all immune cells.</p>
 <p>Now that we have identified and calculated several features that can be used to measure spatial associations across cell types and regions of localisation, we will see how these metrics can be used to predict clinical outcomes for patients.</p>
-</section></section></section><section id="classifyr-classification" class="level2" data-number="13.10"><h2 data-number="13.10" class="anchored" data-anchor-id="classifyr-classification">
-<span class="header-section-number">13.10</span> ClassifyR: Classification</h2>
+</section></section></section><section id="classifyr-classification" class="level2" data-number="12.10"><h2 data-number="12.10" class="anchored" data-anchor-id="classifyr-classification">
+<span class="header-section-number">12.10</span> ClassifyR: Classification</h2>
 <p>Our <a href="https://www.bioconductor.org/packages/release/bioc/html/ClassifyR.html">ClassifyR</a> package on Bioconductor provides a convenient framework for evaluating classification in R. We provide functionality to easily include four key modelling stages: data transformation, feature selection, classifier training and prediction, into a cross-validation loop. Here we use the <code>crossValidate</code> function to perform 100 repeats of 5-fold cross-validation to evaluate the performance of a random forest applied to five quantifications of our IMC data:</p>
 <ol type="1">
 <li><p>Cell type proportions (FuseSOM)</p></li>
@@ -1343,8 +1319,8 @@ B__squamous__parent4              0.43           B__squamous__parent4</code></pr
 <span>  nRepeats <span class="op">=</span> <span class="fl">50</span>,</span>
 <span>  nCores <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="visualise-cross-validated-prediction-performance" class="level3" data-number="13.10.1"><h3 data-number="13.10.1" class="anchored" data-anchor-id="visualise-cross-validated-prediction-performance">
-<span class="header-section-number">13.10.1</span> Visualise cross-validated prediction performance</h3>
+<section id="visualise-cross-validated-prediction-performance" class="level3" data-number="12.10.1"><h3 data-number="12.10.1" class="anchored" data-anchor-id="visualise-cross-validated-prediction-performance">
+<span class="header-section-number">12.10.1</span> Visualise cross-validated prediction performance</h3>
 <p>Here we use the <code>performancePlot</code> function to assess the AUC from each repeat of the 5-fold cross-validation.</p>
 <div class="cell">
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate AUC for each cross-validation repeat and plot.</span></span>
@@ -1379,8 +1355,8 @@ B__squamous__parent4              0.43           B__squamous__parent4</code></pr
 </div>
 <p>Overall, it appears that we were more easily able to identify non-progressors compared to progressors, and patients G6 and H2 within the progressor cohort were particularly difficult to classify.</p>
 <p>Here we have used a pipeline of our spatial analysis R packages to demonstrate an easy way to segment, cluster, normalise, quantify and classify high dimensional in situ cytometry data all within R.</p>
-</section></section><section id="sessioninfo" class="level2" data-number="13.11"><h2 data-number="13.11" class="anchored" data-anchor-id="sessioninfo">
-<span class="header-section-number">13.11</span> sessionInfo</h2>
+</section></section><section id="sessioninfo" class="level2" data-number="12.11"><h2 data-number="12.11" class="anchored" data-anchor-id="sessioninfo">
+<span class="header-section-number">12.11</span> sessionInfo</h2>
 <div class="cell">
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1965,13 +1941,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./07-classification.html" class="pagination-link" aria-label="Finding associations between clinical variables and spatial features">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Finding associations between clinical variables and spatial features</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./09-references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
