@@ -42,18 +42,32 @@ library(ggplot2)
 library(simpleSeg)
 ```
 
-We recommend setting the number of cores to enable running code in parallel. Please choose a number that is appropriate for your resources. A minimum of 2 cores is suggested since running this workflow can be computationally intensive.
+The code below automatically detects the number of available CPU cores on your system and configures parallel processing accordingly. If you're on a Windows machine, it uses a socket-based backend (`SnowParam`), while Unix-based systems (macOS/Linux) use a fork-based backend (`MulticoreParam`).
+
+If only one core is available or parallel execution is disabled, it defaults to serial processing. We recommend using at least 2 cores as parts of the workflow can be computationally intensive. If you do not wish to use multiple cores, you can set `use_mc = FALSE`.
 
 ```{r 01-set parameters}
 # set parameters
 set.seed(51773)
-use_mc <- TRUE
+
+# whether to use multiple cores (recommended)
+use_mc = TRUE
+is_windows = .Platform$OS.type == "windows"
+
 if (use_mc) {
-   nCores <- max(ceiling(parallel::detectCores() / 2), 1)
+  nCores = max(ceiling(parallel::detectCores() / 2), 1)
+  
+  if (nCores == 1) {
+    BPPARAM = SerialParam()
+  } else if (is_windows) {
+    BPPARAM = SnowParam(workers = nCores, type = "SOCK")
+  } else {
+    BPPARAM = MulticoreParam(workers = nCores)
+  }
 } else {
-  nCores <- 1
+  BPPARAM = SerialParam()
 }
-BPPARAM <- simpleSeg:::generateBPParam(nCores)
+
 theme_set(theme_classic())
 ```
 
