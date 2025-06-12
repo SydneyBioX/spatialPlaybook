@@ -54,14 +54,14 @@ if (use_mc) {
   nCores = max(ceiling(parallel::detectCores() / 2), 1)
   
   if (nCores == 1) {
-    BPPARAM = SerialParam()
+    BPPARAM = BiocParallel::SerialParam()
   } else if (is_windows) {
-    BPPARAM = SnowParam(workers = nCores, type = "SOCK")
+    BPPARAM = BiocParallel::SnowParam(workers = nCores, type = "SOCK")
   } else {
-    BPPARAM = MulticoreParam(workers = nCores)
+    BPPARAM = BiocParallel::MulticoreParam(workers = nCores)
   }
 } else {
-  BPPARAM = SerialParam()
+  BPPARAM = BiocParallel::SerialParam()
 }
 
 theme_set(theme_classic())
