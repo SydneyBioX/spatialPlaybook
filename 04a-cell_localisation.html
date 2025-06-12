@@ -378,13 +378,25 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
-<span><span class="va">use_mc</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span></span>
+<span><span class="co"># whether to use multiple cores (recommended)</span></span>
+<span><span class="va">use_mc</span> <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="va">is_windows</span> <span class="op">=</span> <span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span></span>
+<span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">nCores</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">nCores</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html">SerialParam</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">is_windows</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="va">nCores</span>, type <span class="op">=</span> <span class="st">"SOCK"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html">MulticoreParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span>  <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html">SerialParam</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="quantifying-cell-type-co-localisation-with-spicyr" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="quantifying-cell-type-co-localisation-with-spicyr">
@@ -437,7 +449,7 @@ CD8_T_cell__Neutrophils  -91.5703     94.5402 0.0006792206 0.0006792206
 CD8_T_cell__Neutrophils CD8_T_cell Neutrophils</code></pre>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 3.5 s
+<em>Time for this code chunk to run with 6 cores: 3.6 s
 </em>
 </div>
 <p></p>
@@ -496,7 +508,7 @@ dn_T_CD3__dn_T_CD3          dn_T_CD3    dn_T_CD3
 Macrophages__Macrophages Macrophages Macrophages</code></pre>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 24.67 s
+<em>Time for this code chunk to run with 6 cores: 25.98 s
 </em>
 </div>
 <p></p>
@@ -639,7 +651,7 @@ CD4_T_cell__DC                 CD4_T_cell          DC</code></pre>
 <span>  BPPARAM <span class="op">=</span> <span class="va">BPPARAM</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 116 s
+<em>Time for this code chunk to run with 6 cores: 117.54 s
 </em>
 </div>
 <p></p>
@@ -718,7 +730,7 @@ macrophage__unknown   macrophage    unknown</code></pre>
 10 DC__Other_Immune       -0.0288  0.0123  0.00105   </code></pre>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 24.42 s
+<em>Time for this code chunk to run with 6 cores: 24.8 s
 </em>
 </div>
 <p></p>
@@ -935,7 +947,7 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] spicyR_1.19.4               testthat_3.2.3             
+ [1] spicyR_1.21.1               testthat_3.2.3             
  [3] ggsurvfit_1.1.0             treekoR_1.16.0             
  [5] tibble_3.2.1                survival_3.8-3             
  [7] dplyr_1.1.4                 imcRtools_1.14.0           
@@ -992,7 +1004,7 @@ loaded via a namespace (and not attached):
  [77] XML_3.99-0.18               scuttle_1.18.0             
  [79] ggupset_0.4.1               class_7.3-23               
  [81] svgPanZoom_0.3.4            pillar_1.10.2              
- [83] simpleSeg_1.10.0            nlme_3.1-168               
+ [83] simpleSeg_1.9.2             nlme_3.1-168               
  [85] iterators_1.0.14            EBImage_4.50.0             
  [87] compiler_4.5.0              beachmat_2.24.0            
  [89] stringi_1.8.7               sf_1.0-21                  

@@ -348,13 +348,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set parameters</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">51773</span><span class="op">)</span></span>
-<span><span class="va">use_mc</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span></span>
+<span><span class="co"># whether to use multiple cores (recommended)</span></span>
+<span><span class="va">use_mc</span> <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="va">is_windows</span> <span class="op">=</span> <span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span></span>
+<span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">use_mc</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="va">nCores</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">ceiling</a></span><span class="op">(</span><span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">nCores</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html">SerialParam</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="va">is_windows</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SnowParam-class.html">SnowParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="va">nCores</span>, type <span class="op">=</span> <span class="st">"SOCK"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/MulticoreParam-class.html">MulticoreParam</a></span><span class="op">(</span>workers <span class="op">=</span> <span class="va">nCores</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">nCores</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span>  <span class="va">BPPARAM</span> <span class="op">=</span> <span class="fu">BiocParallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html">SerialParam</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="va">BPPARAM</span> <span class="op">&lt;-</span> <span class="fu">simpleSeg</span><span class="fu">:::</span><span class="fu"><a href="https://sydneybiox.github.io/simpleSeg/reference/generateBPParam.html">generateBPParam</a></span><span class="op">(</span><span class="va">nCores</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="load-datasets" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="load-datasets">
@@ -515,7 +527,7 @@ $parent_3
 6      14 Immune__p53_Tumour -14.671281  -4.287914 100  FALSE</code></pre>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 12.68 s
+<em>Time for this code chunk to run with 6 cores: 125.41 s
 </em>
 </div>
 <p></p>
@@ -542,7 +554,7 @@ $parent_3
 </div>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 17.26 s
+<em>Time for this code chunk to run with 6 cores: 279.03 s
 </em>
 </div>
 <p></p>
@@ -602,7 +614,7 @@ Note
 6      14 Keratin_Tumour__B_cell__immune         NA         NA 100  FALSE</code></pre>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 81.45 s
+<em>Time for this code chunk to run with 6 cores: 307.03 s
 </em>
 </div>
 <p></p>
@@ -662,7 +674,7 @@ Note
 10 Other_Immune__DC__immune             -0.0186 0.00669 0.0000652  </code></pre>
 </div>
 <div style="text-align: right;">
-<em>Time for this code chunk to run with 5.5 cores: 3.18 s
+<em>Time for this code chunk to run with 6 cores: 42.85 s
 </em>
 </div>
 <p></p>
@@ -756,7 +768,7 @@ other attached packages:
 [19] S4Vectors_0.46.0            BiocGenerics_0.54.0        
 [21] generics_0.1.4              MatrixGenerics_1.20.0      
 [23] matrixStats_1.5.0           ggplot2_3.5.2              
-[25] Statial_1.10.0              spicyR_1.21.1              
+[25] Statial_1.10.0              spicyR_1.20.1              
 
 loaded via a namespace (and not attached):
   [1] dichromat_2.0-0.1           vroom_1.6.5                
@@ -797,80 +809,79 @@ loaded via a namespace (and not attached):
  [71] spatstat.geom_3.4-1         XML_3.99-0.18              
  [73] scuttle_1.18.0              ggupset_0.4.1              
  [75] class_7.3-23                svgPanZoom_0.3.4           
- [77] pillar_1.10.2               simpleSeg_1.10.0           
- [79] nlme_3.1-168                iterators_1.0.14           
- [81] EBImage_4.50.0              compiler_4.5.0             
- [83] beachmat_2.24.0             stringi_1.8.7              
- [85] sf_1.0-21                   tensor_1.5                 
- [87] minqa_1.2.8                 ClassifyR_3.12.0           
- [89] plyr_1.8.9                  crayon_1.5.3               
- [91] abind_1.4-8                 gridGraphics_0.5-1         
- [93] locfit_1.5-9.12             sp_2.2-0                   
- [95] graphlayouts_1.2.2          bit_4.6.0                  
- [97] terra_1.8-50                sandwich_3.1-1             
- [99] codetools_0.2-20            multcomp_1.4-28            
-[101] textshaping_1.0.1           e1071_1.7-16               
-[103] GetoptLong_1.0.5            plotly_4.10.4              
-[105] mime_0.13                   MultiAssayExperiment_1.34.0
-[107] splines_4.5.0               circlize_0.4.16            
-[109] Rcpp_1.0.14                 utf8_1.2.5                 
-[111] knitr_1.50                  blob_1.2.4                 
-[113] clue_0.3-66                 BiocVersion_3.21.1         
-[115] lme4_1.1-37                 fs_1.6.6                   
-[117] nnls_1.6                    Rdpack_2.6.4               
-[119] ggplotify_0.1.2             ggsignif_0.6.4             
-[121] Matrix_1.7-3                scam_1.2-19                
-[123] statmod_1.5.0               tzdb_0.5.0                 
-[125] svglite_2.2.1               tweenr_2.0.3               
-[127] pkgconfig_2.0.3             pheatmap_1.0.12            
-[129] tools_4.5.0                 cachem_1.1.0               
-[131] rbibutils_2.3               RSQLite_2.3.11             
-[133] viridisLite_0.4.2           DBI_1.2.3                  
-[135] numDeriv_2016.8-1.1         fastmap_1.2.0              
-[137] rmarkdown_2.29              scales_1.4.0               
-[139] grid_4.5.0                  shinydashboard_0.7.3       
-[141] broom_1.0.8                 patchwork_1.3.0            
-[143] BiocManager_1.30.25         carData_3.0-5              
-[145] farver_2.1.2                reformulas_0.4.1           
-[147] tidygraph_1.3.1             mgcv_1.9-3                 
-[149] yaml_2.3.10                 ggthemes_5.1.0             
-[151] cli_3.6.5                   purrr_1.0.4                
-[153] hopach_2.68.0               lifecycle_1.0.4            
-[155] mvtnorm_1.3-3               backports_1.5.0            
-[157] BiocParallel_1.42.0         cytolib_2.20.0             
-[159] gtable_0.3.6                rjson_0.2.23               
-[161] parallel_4.5.0              ape_5.8-1                  
-[163] limma_3.64.1                jsonlite_2.0.0             
-[165] edgeR_4.6.2                 bitops_1.0-9               
-[167] bit64_4.6.0-1               Rtsne_0.17                 
-[169] yulab.utils_0.2.0           FlowSOM_2.16.0             
-[171] spatstat.utils_3.1-4        BiocNeighbors_2.2.0        
-[173] ranger_0.17.0               flowCore_2.20.0            
-[175] bdsmatrix_1.3-7             spatstat.univar_3.1-3      
-[177] lazyeval_0.2.2              shiny_1.10.0               
-[179] ConsensusClusterPlus_1.72.0 htmltools_0.5.8.1          
-[181] diffcyt_1.28.0              rappdirs_0.3.3             
-[183] distances_0.1.12            glue_1.8.0                 
-[185] XVector_0.48.0              RCurl_1.98-1.17            
-[187] treeio_1.32.0               classInt_0.4-11            
-[189] coxme_2.2-22                jpeg_0.1-11                
-[191] gridExtra_2.3               boot_1.3-31                
-[193] igraph_2.1.4                R6_2.6.1                   
-[195] tidyr_1.3.1                 ggiraph_0.8.13             
-[197] labeling_0.4.3              ggh4x_0.3.0                
-[199] cluster_2.1.8.1             rngtools_1.5.2             
-[201] Rhdf5lib_1.30.0             aplot_0.2.5                
-[203] nloptr_2.2.1                DelayedArray_0.34.1        
-[205] tidyselect_1.2.1            vipor_0.4.7                
-[207] ggforce_0.4.2               raster_3.6-32              
-[209] car_3.1-3                   AnnotationDbi_1.70.0       
-[211] KernSmooth_2.23-26          data.table_1.17.4          
-[213] htmlwidgets_1.6.4           ComplexHeatmap_2.24.0      
-[215] RColorBrewer_1.1-3          rlang_1.1.6                
-[217] spatstat.sparse_3.1-0       spatstat.explore_3.4-3     
-[219] lmerTest_3.1-3              uuid_1.2-1                 
-[221] colorRamps_2.3.4            ggnewscale_0.5.1           
-[223] beeswarm_0.4.0             </code></pre>
+ [77] pillar_1.10.2               nlme_3.1-168               
+ [79] iterators_1.0.14            EBImage_4.50.0             
+ [81] compiler_4.5.0              beachmat_2.24.0            
+ [83] stringi_1.8.7               sf_1.0-21                  
+ [85] tensor_1.5                  minqa_1.2.8                
+ [87] ClassifyR_3.12.0            plyr_1.8.9                 
+ [89] crayon_1.5.3                abind_1.4-8                
+ [91] gridGraphics_0.5-1          locfit_1.5-9.12            
+ [93] sp_2.2-0                    graphlayouts_1.2.2         
+ [95] bit_4.6.0                   terra_1.8-50               
+ [97] sandwich_3.1-1              codetools_0.2-20           
+ [99] multcomp_1.4-28             textshaping_1.0.1          
+[101] e1071_1.7-16                GetoptLong_1.0.5           
+[103] plotly_4.10.4               mime_0.13                  
+[105] MultiAssayExperiment_1.34.0 splines_4.5.0              
+[107] circlize_0.4.16             Rcpp_1.0.14                
+[109] utf8_1.2.5                  knitr_1.50                 
+[111] blob_1.2.4                  clue_0.3-66                
+[113] BiocVersion_3.21.1          lme4_1.1-37                
+[115] fs_1.6.6                    nnls_1.6                   
+[117] Rdpack_2.6.4                ggplotify_0.1.2            
+[119] ggsignif_0.6.4              Matrix_1.7-3               
+[121] scam_1.2-19                 statmod_1.5.0              
+[123] tzdb_0.5.0                  svglite_2.2.1              
+[125] tweenr_2.0.3                pkgconfig_2.0.3            
+[127] pheatmap_1.0.12             tools_4.5.0                
+[129] cachem_1.1.0                rbibutils_2.3              
+[131] RSQLite_2.3.11              viridisLite_0.4.2          
+[133] DBI_1.2.3                   numDeriv_2016.8-1.1        
+[135] fastmap_1.2.0               rmarkdown_2.29             
+[137] scales_1.4.0                grid_4.5.0                 
+[139] shinydashboard_0.7.3        broom_1.0.8                
+[141] patchwork_1.3.0             BiocManager_1.30.25        
+[143] carData_3.0-5               farver_2.1.2               
+[145] reformulas_0.4.1            tidygraph_1.3.1            
+[147] mgcv_1.9-3                  yaml_2.3.10                
+[149] ggthemes_5.1.0              cli_3.6.5                  
+[151] purrr_1.0.4                 hopach_2.68.0              
+[153] lifecycle_1.0.4             mvtnorm_1.3-3              
+[155] backports_1.5.0             BiocParallel_1.42.0        
+[157] cytolib_2.20.0              gtable_0.3.6               
+[159] rjson_0.2.23                parallel_4.5.0             
+[161] ape_5.8-1                   limma_3.64.1               
+[163] jsonlite_2.0.0              edgeR_4.6.2                
+[165] bitops_1.0-9                bit64_4.6.0-1              
+[167] Rtsne_0.17                  yulab.utils_0.2.0          
+[169] FlowSOM_2.16.0              spatstat.utils_3.1-4       
+[171] BiocNeighbors_2.2.0         ranger_0.17.0              
+[173] flowCore_2.20.0             bdsmatrix_1.3-7            
+[175] spatstat.univar_3.1-3       lazyeval_0.2.2             
+[177] shiny_1.10.0                ConsensusClusterPlus_1.72.0
+[179] htmltools_0.5.8.1           diffcyt_1.28.0             
+[181] rappdirs_0.3.3              distances_0.1.12           
+[183] glue_1.8.0                  XVector_0.48.0             
+[185] RCurl_1.98-1.17             treeio_1.32.0              
+[187] classInt_0.4-11             coxme_2.2-22               
+[189] jpeg_0.1-11                 gridExtra_2.3              
+[191] boot_1.3-31                 igraph_2.1.4               
+[193] R6_2.6.1                    tidyr_1.3.1                
+[195] ggiraph_0.8.13              labeling_0.4.3             
+[197] ggh4x_0.3.0                 cluster_2.1.8.1            
+[199] rngtools_1.5.2              Rhdf5lib_1.30.0            
+[201] aplot_0.2.5                 nloptr_2.2.1               
+[203] DelayedArray_0.34.1         tidyselect_1.2.1           
+[205] vipor_0.4.7                 ggforce_0.4.2              
+[207] raster_3.6-32               car_3.1-3                  
+[209] AnnotationDbi_1.70.0        KernSmooth_2.23-26         
+[211] data.table_1.17.4           htmlwidgets_1.6.4          
+[213] ComplexHeatmap_2.24.0       RColorBrewer_1.1-3         
+[215] rlang_1.1.6                 spatstat.sparse_3.1-0      
+[217] spatstat.explore_3.4-3      lmerTest_3.1-3             
+[219] uuid_1.2-1                  colorRamps_2.3.4           
+[221] ggnewscale_0.5.1            beeswarm_0.4.0             </code></pre>
 </div>
 </div>
 
