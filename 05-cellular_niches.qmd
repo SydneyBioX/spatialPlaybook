@@ -117,7 +117,17 @@ regionMap(kerenSPE,
   type = "bubble")
 ```
 
-Above, we can see that tumour cells are concentrated in region 5, and immune cells are concentrated in region 1 and 4. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter `k =` in the `lisaClust` function.
+```{r 05-name regions, include = FALSE}
+# which regions the tumour and immune cells are most enriched in, for the text below
+tab <- table(kerenSPE$cellType, kerenSPE$region)
+enrichment <- tab / outer(rowSums(tab), colSums(tab)) * sum(tab)
+tumourRegion <- colnames(enrichment)[which.max(enrichment["Keratin_Tumour", ])]
+immuneRegions <- sort(unique(colnames(enrichment)[apply(enrichment[c("CD8_T_cell", "CD4_T_cell", "B_cell", "Macrophages"), ], 1, which.max)]))
+immuneRegions <- setdiff(immuneRegions, tumourRegion)
+regionList <- function(r, and = "and") if (length(r) == 1) r else paste(paste(r[-length(r)], collapse = ", "), and, r[length(r)])
+```
+
+Above, we can see that tumour cells are concentrated in `r gsub("_", " ", tumourRegion)`, and immune cells are concentrated in `r gsub("_", " ", regionList(immuneRegions))`. We can further segregate these cells by increasing the number of clusters, i.e., increasing the parameter `k =` in the `lisaClust` function.
 
 In addition to choosing an appropriate number of clusters, it is equally important to select a biologically meaningful radius over which spatial associations are calculated. The radius determines the scale at which local neighbourhoods are defined—essentially setting the window for detecting co-localisation patterns. A small radius focuses on immediate cellular environments and short-range interactions, making it ideal for identifying tightly organised niches or direct cell–cell contact. In contrast, a larger radius captures broader patterns, such as tissue compartmentalisation or gradient-based organisation. The optimal radius should reflect the biological scale of interest, such as known signalling distances or histological structures, and it can be helpful to explore multiple values to understand how spatial organisation changes across scales.
 
@@ -133,18 +143,18 @@ In addition to choosing an appropriate number of clusters, it is equally importa
 
 #### Plot identified regions
 
-We can use the `hatchingPlot` function to visualise all 5 regions and 17 cell types simultaneously for a specific image or set of images. The output is a `ggplot` object where the regions are marked by different hatching patterns. The `nbp` argument can be used to tune the granularity of the grid used for defining regions.
+We can use the `hatchingPlot` function to visualise all 5 regions and 17 cell types simultaneously for a specific image or set of images. The output is a `ggplot` object where the regions are marked by different hatching patterns. Each region is outlined by the Voronoi tiles of its cells, so the outlines follow the cells themselves.
 
-```{r 05-hatchingPlot, fig.height=7, fig.width=9, time_it = TRUE}
-hatchingPlot(kerenSPE, useImages = 5, nbp = 300)
+```{r 05-hatchingPlot, fig.height=7, fig.width=9, time_it = TRUE, message = FALSE}
+hatchingPlot(kerenSPE, useImages = 5)
 ```
 
-In accordance with the `regionMap` output, we can see that region 5 is mostly made up of tumour cells, and region 2 and 4 both contain our immune cell populations.
+In accordance with the `regionMap` output, we can see that `r gsub("_", " ", tumourRegion)` is mostly made up of tumour cells, and `r gsub("_", " ", regionList(immuneRegions))` contain`r if (length(immuneRegions) == 1) "s" else ""` our immune cell populations.
 
 ::: {.callout-tip title="Combining localisation scores with spatial domains"}
 **How could results from lisaClust be used in conjunction with results from spicyR?**
 
-lisaClust provides a high-resolution view of the tissue architecture, while spicyR can quantify how these spatial relationships or features contribute to clinical outcomes. spicyR's L-function metric can be used to determine the degree of localisation or dispersion between different spatial domains. For instance, we can look at co-localisation between region 5 (our tumour cells) and regions 2 or 4 (our immune cells).
+lisaClust provides a high-resolution view of the tissue architecture, while spicyR can quantify how these spatial relationships or features contribute to clinical outcomes. spicyR's L-function metric can be used to determine the degree of localisation or dispersion between different spatial domains. For instance, we can look at co-localisation between `r gsub("_", " ", tumourRegion)` (our tumour cells) and `r gsub("_", " ", regionList(immuneRegions, "or"))` (our immune cells).
 :::
 
 ## sessionInfo

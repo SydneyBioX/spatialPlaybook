@@ -521,17 +521,17 @@ Now that we have examined cellular localisation relationships, we will move on t
 
 ## lisaClust: Find cellular neighbourhoods
 
-Our [lisaClust](https://bioconductor.org/packages/release/bioc/html/lisaClust.html) package on Bioconductor provides a series of functions to identify and visualise regions of tissue where spatial associations between cell types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the `lisaClust` function to clusters cells into 4 regions with distinct spatial ordering. By default, these identified regions are stored in the `regions` column in the `colData` of our `SpatialExperiment` object.
+Our [lisaClust](https://bioconductor.org/packages/release/bioc/html/lisaClust.html) package on Bioconductor provides a series of functions to identify and visualise regions of tissue where spatial associations between cell types is similar. This package can be used to provide a high-level summary of cell-type co-localisation in multiplexed imaging data that has been segmented at a single-cell resolution. Here we use the `lisaClust` function to cluster cells into 4 regions with distinct spatial ordering. By default, these identified regions are stored in the `region` column in the `colData` of our `SpatialExperiment` object.
 
 ```{r 08-lisaClust}
 # Cluster cells into spatial regions with similar composition.
 cells <- lisaClust(
   cells,
-  Rs = c(20, 50, 100),
+  r = c(20, 50, 100),
   k = 4,
   sigma = 20,
   cellType = "cellType",
-  BPPARAM = BPPARAM)
+  cores = nCores)
 ```
 
 For more information on how to choose an appropriate value for `k` , refer to the section on [Identifying spatial domains](05-cellular_niches.qmd).
@@ -557,15 +557,14 @@ cells |>
   plotReducedDim("spatialCoords", colour_by = "region")
 ```
 
-Although slower, we have also implemented a function called `hatchingPlot` that overlays region information using a hatching pattern, allowing it to be viewed alongside cell type classifications. The granularity of the region boundaries can be controlled using the `nbp` argument.
+We have also implemented a function called `hatchingPlot` that overlays region information using a hatching pattern, allowing it to be viewed alongside cell type classifications. Each region is outlined by the Voronoi tiles of its cells.
 
 ```{r 08-hatchingPlot}
 # Use hatching to visualise regions and cell types.
 hatchingPlot(
   cells,
   useImages = "F3",
-  cellType = "cellType",
-  nbp = 300)
+  cellType = "cellType")
 ```
 
 ### Test for association with progression
